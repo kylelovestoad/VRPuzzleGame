@@ -1,81 +1,144 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Chunk : MonoBehaviour
 {
-    private BoxCollider boxCollider;
+    private const float CollisionDistanceThreshold = 0.1f;
     
-    private float _min_x = float.MaxValue;
-    private float _max_x = float.MinValue;
-    
-    private float _min_y = float.MaxValue;
-    private float _max_y = float.MinValue;
-    
-    private float _min_z = float.MaxValue;
-    private float _max_z = float.MinValue;
+    private BoxCollider _boxCollider;
+    private Rigidbody _rigidbody;
 
-    private Piece _rep_piece;
+    private List<Piece> _pieces;
+    private bool _isCombined;
     
     public static Chunk CreateSinglePieceChunk(Piece piece)
     {
         Debug.Log("Creating Single Piece Chunk");
         
         GameObject chunkObject = new GameObject("Chunk");
-        chunkObject.tag = "Chunk";
         chunkObject.transform.position = piece.transform.position;
         
-        Rigidbody chunkRigidBody = chunkObject.AddComponent<Rigidbody>();
-        chunkRigidBody.isKinematic = true;
-        chunkRigidBody.useGravity = false;
-        
         Chunk chunk = chunkObject.AddComponent<Chunk>();
-        chunk.SetBounds(piece.Verticies());
-        chunk.CreateBoxCollider();
+        chunk.CreateBoxCollider(piece.Verticies());
+        chunk.CreateRigidBody();
+        chunk.InsertInitialPiece(piece);
 
         piece.transform.SetParent(chunkObject.transform);
         
         return chunk;
     }
 
-    private void SetBounds(Vector3[] vertices)
+    private void CreateBoxCollider(Vector3[] vertices)
     {
-        foreach (Vector3 vertex in vertices)
-        {
-            _min_x = Mathf.Min(_min_x, vertex.x);
-            _max_x = Mathf.Max(_max_x, vertex.x);
-    
-            _min_y = Mathf.Min(_min_y, vertex.y);
-            _max_y = Mathf.Max(_max_y, vertex.y);
-    
-            _min_z = Mathf.Min(_min_z, vertex.z);
-            _max_z = Mathf.Max(_max_z, vertex.z);
-        }
+        _boxCollider = gameObject.AddComponent<BoxCollider>();
+        _boxCollider.isTrigger = true;
         
-        Debug.Log("X: " + _min_x + " " + _max_x);
-        Debug.Log("Y: " + _min_y + " " + _max_y);
-        Debug.Log("Z: " + _min_z  + " " + _max_z);
+        Bounds tightBounds = VertexBounds(vertices);
+        
+        _boxCollider.center = transform.InverseTransformPoint(tightBounds.center);
+        _boxCollider.size = tightBounds.size + new Vector3(
+            CollisionDistanceThreshold * 2,
+            CollisionDistanceThreshold * 2, 
+            CollisionDistanceThreshold * 2
+        );
     }
 
-    private void CreateBoxCollider()
+    private void UpdateBoxCollider(Vector3[] vertices)
     {
-        boxCollider = gameObject.AddComponent<BoxCollider>();
-        boxCollider.isTrigger = true;
+        _boxCollider.size -= new Vector3(
+            CollisionDistanceThreshold * 2,
+            CollisionDistanceThreshold * 2,
+            CollisionDistanceThreshold * 2
+        );
+            
+        Bounds tempBounds = VertexBounds(vertices);
+        tempBounds.Encapsulate(_boxCollider.bounds);
         
-        // TODO: Add Threshold
-        float width = _max_x - _min_x;
-        float height = _max_y - _min_y;
-        float depth = _max_z - _min_z;
+        _boxCollider.center = transform.InverseTransformPoint(tempBounds.center);
+        _boxCollider.size = tempBounds.size + Vector3.one * (CollisionDistanceThreshold * 2);
+    }
+
+    private static Bounds VertexBounds(Vector3[] vertices)
+    {
+        Bounds bounds = new Bounds(vertices[0], Vector3.zero);
+    
+        foreach (Vector3 vertex in vertices)
+        {
+            bounds.Encapsulate(vertex);
+        }
+
+        return bounds;
+    }
+
+    private void CreateRigidBody()
+    {
+        _rigidbody = gameObject.AddComponent<Rigidbody>();
+        _rigidbody.isKinematic = true;
+        _rigidbody.useGravity = false;
+    }
+
+    private void InsertInitialPiece(Piece piece)
+    {
+        _pieces = new List<Piece> { piece };
+    }
+
+    private void Combine(Chunk other)
+    {
+        Piece repPiece = _pieces[0];
+        float offsetX = repPiece.SolutionOffsetX();
+        float offsetY = repPiece.SolutionOffsetY();
+        float offsetZ = repPiece.SolutionOffsetZ();
+
+        // avoid unity complaining about modifying piece during iteration, no foreach
+        int piecesCount = other._pieces.Count;
         
-        boxCollider.size = new Vector3(width, height, depth);
-        boxCollider.center = new Vector3(width / 2, height / 2, depth / 2);
+        for (int i = 0; i < piecesCount; i++)
+        {
+            Piece otherPiece = other._pieces[i];
+            
+            float otherOffsetX = otherPiece.SolutionOffsetX();
+            float otherOffsetY = otherPiece.SolutionOffsetY();
+            float otherOffsetZ = otherPiece.SolutionOffsetZ();
+            
+            otherPiece.transform.position += new Vector3(
+                offsetX - otherOffsetX, 
+                offsetY - otherOffsetY, 
+                offsetZ - otherOffsetZ
+            );
+            
+            otherPiece.transform.SetParent(transform);
+            _pieces.Add(otherPiece);
+        }
+
+        foreach (Piece piece in other._pieces)
+        {
+            UpdateBoxCollider(piece.Verticies());
+        }
+
+        other._isCombined = true;
+        Destroy(other.gameObject);
         
-        Debug.Log("Box Collider: " + boxCollider.transform.position);
+        Debug.Log(transform.position);
     }
     
     void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Chunk"))
+        Chunk otherChunk = other.GetComponent<Chunk>();
+        
+        if (otherChunk != null)
         {
             Debug.Log("Collided with Other Chunk");
+            
+            // avoid duplicate merging
+            if (otherChunk._isCombined || GetInstanceID() >= otherChunk.GetInstanceID()) return;
+        
+            Piece rep = _pieces[0];
+            Piece otherRep = otherChunk._pieces[0];
+
+            if (rep.IsRelativelyClose(otherRep))
+            {
+                Combine(otherChunk);
+            }
         }
     }
 }
