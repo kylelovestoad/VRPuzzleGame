@@ -1,30 +1,33 @@
-using System;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(MeshFilter))]
 public class Piece : MonoBehaviour
 {
-    
-    public List<Vector3> connectionPoints = new();
-    
-    private BoxCollider _collider;
-    
-    private void Awake()
-    {
-        _collider = GetComponent<BoxCollider>();
-    }
+    private Vector3 solutionLocation;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Start()
+    public static Piece Create(Vector3 initialPosition, Mesh mesh)
     {
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
+        GameObject pieceObject = new GameObject("Piece");
         
+        MeshFilter meshFilter = pieceObject.AddComponent<MeshFilter>();
+        pieceObject.AddComponent<MeshRenderer>();
+        meshFilter.mesh = mesh;
+        
+        pieceObject.transform.position = initialPosition;
+        
+        Piece piece = pieceObject.AddComponent<Piece>();
+        
+        return piece;
     }
-    
-    
+
+    public Vector3[] Verticies()
+    {
+        return gameObject
+            .GetComponent<MeshFilter>()
+            .mesh
+            .vertices
+            .Select(vertex => transform.TransformPoint(vertex))
+            .ToArray();
+    }
 }

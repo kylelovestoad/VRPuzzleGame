@@ -3,26 +3,11 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 public class PieceMeshGenerator : MonoBehaviour
 {
-    Mesh mesh;
-    
-    Vector3[] vertices;
-    int[] triangles;
-    
-    void Start()
-    {
-        mesh = new Mesh();
-        GetComponent<MeshFilter>().mesh = mesh;
-
-        CreateSquarePiece(1, 0.1f);
-    }
-
-    // TODO: make more general location
-    void CreateSquarePiece(
+    public static Mesh CreateSquarePieceMesh(
         float size,
         float thickness
     ) {
-        vertices = new Vector3[]
-        {
+        Vector3[] vertices = {
             // Front face
             new Vector3(0, 0, 0),
             new Vector3(size, 0, 0),
@@ -36,8 +21,7 @@ public class PieceMeshGenerator : MonoBehaviour
             new Vector3(size, size, thickness)
         };
 
-        triangles = new int[]
-        {
+        int[] triangles = {
             // Front face
             0, 2, 1,
             1, 2, 3,
@@ -63,10 +47,10 @@ public class PieceMeshGenerator : MonoBehaviour
             3, 6, 7
         };
         
-        mesh.Clear();
+        Mesh mesh = new Mesh();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         
-        print("Created Rectangle Puzzle Piece");
+        return mesh;
     }
 }
