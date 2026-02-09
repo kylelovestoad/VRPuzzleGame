@@ -4,10 +4,8 @@ using UnityEngine;
 // For Testing
 public class PuzzleSeeder : MonoBehaviour
 {
-    [SerializeField] 
-    private PieceFactory pieceFactory;
-    [SerializeField] 
-    private Puzzle puzzle;
+    [SerializeField] private ChunkFactory chunkFactory;
+    [SerializeField] private Puzzle puzzle;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,7 +21,7 @@ public class PuzzleSeeder : MonoBehaviour
         Material mat0 = new Material(Shader.Find("Unlit/Color"));
         mat0.color = Color.red;
         
-        Piece piece0  = pieceFactory.CreatePiece(
+        Chunk piece0  = chunkFactory.CreateChunk(
             piece0Pos, 
             rotation, 
             piece0Sol, 
@@ -36,7 +34,7 @@ public class PuzzleSeeder : MonoBehaviour
         Material mat1 = new Material(Shader.Find("Unlit/Color"));
         mat1.color = Color.blue;
         
-        Piece piece1 = pieceFactory.CreatePiece(
+        Chunk piece1 = chunkFactory.CreateChunk(
             piece1Pos, 
             rotation, 
             piece1Sol, 
@@ -49,7 +47,7 @@ public class PuzzleSeeder : MonoBehaviour
         Material mat2 = new Material(Shader.Find("Unlit/Color"));
         mat0.color = Color.darkGreen;
         
-        Piece piece2  = pieceFactory.CreatePiece(
+        Chunk piece2  = chunkFactory.CreateChunk(
             piece2Pos, 
             rotation, 
             piece2Sol, 
@@ -62,7 +60,7 @@ public class PuzzleSeeder : MonoBehaviour
         Material mat3 = new Material(Shader.Find("Unlit/Color"));
         mat1.color = Color.purple;
         
-        Piece piece3 = pieceFactory.CreatePiece(
+        Chunk piece3 = chunkFactory.CreateChunk(
             piece3Pos, 
             rotation, 
             piece3Sol,
@@ -70,7 +68,7 @@ public class PuzzleSeeder : MonoBehaviour
             mat3
         );
         
-        puzzle.InitializeChunks(new List<Piece> { piece0, piece1, piece2, piece3 });
+        puzzle.InitializeChunks(new List<Chunk> { piece0, piece1, piece2, piece3 });
         
         Debug.Log("Generated Puzzle");
     }

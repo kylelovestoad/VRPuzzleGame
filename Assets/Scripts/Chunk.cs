@@ -17,9 +17,16 @@ public class Chunk : MonoBehaviour
         _boxCollider = GetComponent<BoxCollider>();
     }
 
-    public void InitializeVariant(Piece piece)
-    {
+    public void InitializeVariant(
+        Vector3 solutionLocation,
+        Mesh mesh,
+        Material material
+    ) {
         Debug.Log("Initializing Single Piece Chunk");
+        
+        Piece piece = GetComponentInChildren<Piece>();
+        
+        piece.InitializeVariant(solutionLocation, mesh, material);
 
         InitializeBoxCollider(piece.Verticies());
         InsertInitialPiece(piece);

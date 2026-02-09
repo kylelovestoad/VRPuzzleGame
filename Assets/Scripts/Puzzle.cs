@@ -7,13 +7,13 @@ public class Puzzle: MonoBehaviour
     private ChunkFactory chunkFactory;
     private List<Chunk> chunks;
 
-    public void InitializeChunks(List<Piece> pieces)
+    public void InitializeChunks(List<Chunk> pieces)
     {
         chunks = new List<Chunk>();
 
-        foreach (Piece piece in pieces)
+        foreach (Chunk chunk in pieces)
         {
-            chunks.Add(chunkFactory.CreateChunk(piece));
+            chunks.Add(chunk);
         }
     }
 }

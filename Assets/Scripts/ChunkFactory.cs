@@ -2,13 +2,18 @@ using UnityEngine;
 
 public class ChunkFactory : MonoBehaviour
 {
-    [SerializeField] 
+    [SerializeField]
     private Chunk chunkPrefab;
     
-    public Chunk CreateChunk(Piece piece) 
-    {
-        Chunk chunk = Instantiate(chunkPrefab, piece.transform.position, piece.transform.rotation);
-        chunk.InitializeVariant(piece);
+    public Chunk CreateChunk(
+        Vector3 initialPosition,
+        Quaternion initialRotation,
+        Vector3 solutionLocation,
+        Mesh mesh,
+        Material material
+    ) {
+        Chunk chunk = Instantiate(chunkPrefab, initialPosition, initialRotation);
+        chunk.InitializeVariant(solutionLocation,  mesh, material);
         
         return chunk;
     }
