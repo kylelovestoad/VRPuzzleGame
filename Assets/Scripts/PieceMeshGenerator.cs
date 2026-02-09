@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(MeshFilter))]
 public class PieceMeshGenerator : MonoBehaviour
 {
     public static Mesh CreateSquarePieceMesh(

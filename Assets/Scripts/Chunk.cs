@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(BoxCollider))]
 public class Chunk : MonoBehaviour
 {
     private const float CollisionDistanceThreshold = 0.1f;
@@ -10,37 +13,32 @@ public class Chunk : MonoBehaviour
 
     private List<Piece> _pieces;
     private bool _isCombined;
-    
-    public static Chunk CreateSinglePieceChunk(Piece piece)
-    {
-        Debug.Log("Creating Single Piece Chunk");
-        
-        GameObject chunkObject = new GameObject("Chunk");
-        chunkObject.transform.position = piece.transform.position;
-        
-        Chunk chunk = chunkObject.AddComponent<Chunk>();
-        chunk.CreateBoxCollider(piece.Verticies());
-        chunk.CreateRigidBody();
-        chunk.InsertInitialPiece(piece);
 
-        piece.transform.SetParent(chunkObject.transform);
-        
-        return chunk;
+    void Awake()
+    {
+        _boxCollider = GetComponent<BoxCollider>();
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
-    private void CreateBoxCollider(Vector3[] vertices)
+    public void InitializeVariant(Piece piece)
     {
-        _boxCollider = gameObject.AddComponent<BoxCollider>();
-        _boxCollider.isTrigger = true;
+        Debug.Log("Initializing Single Piece Chunk");
+
+        InitializeBoxCollider(piece.Verticies());
+        InsertInitialPiece(piece);
+
+        piece.transform.SetParent(transform);
+    }
+
+    private void InitializeBoxCollider(Vector3[] vertices)
+    {
+        // _boxCollider = gameObject.AddComponent<BoxCollider>();
+        // _boxCollider.isTrigger = true;
         
         Bounds tightBounds = VertexBounds(vertices);
         
         _boxCollider.center = transform.InverseTransformPoint(tightBounds.center);
-        _boxCollider.size = tightBounds.size + new Vector3(
-            CollisionDistanceThreshold * 2,
-            CollisionDistanceThreshold * 2, 
-            CollisionDistanceThreshold * 2
-        );
+        _boxCollider.size = tightBounds.size + Vector3.one * (CollisionDistanceThreshold * 2);
     }
 
     private void UpdateBoxCollider(Vector3[] vertices)
@@ -70,12 +68,12 @@ public class Chunk : MonoBehaviour
         return bounds;
     }
 
-    private void CreateRigidBody()
-    {
-        _rigidbody = gameObject.AddComponent<Rigidbody>();
-        _rigidbody.isKinematic = true;
-        _rigidbody.useGravity = false;
-    }
+    // private void CreateRigidBody()
+    // {
+    //     _rigidbody = gameObject.AddComponent<Rigidbody>();
+    //     _rigidbody.isKinematic = true;
+    //     _rigidbody.useGravity = false;
+    // }
 
     private void InsertInitialPiece(Piece piece)
     {

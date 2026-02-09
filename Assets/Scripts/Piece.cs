@@ -3,40 +3,33 @@ using Unity.Mathematics;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(BoxCollider))]
 public class Piece : MonoBehaviour
 {
     private const float ConnectionDistanceThreshold = 0.1f;
     
-    private Vector3 solutionLocation;
+    private Vector3 _solutionLocation;
     
-    public static Piece Create(
-        Vector3 initialPosition, 
+    public void InitializeVariant(
         Vector3 solutionLocation, 
-        Mesh mesh, 
+        Mesh mesh,
         Material material
-    )
-    {
-        GameObject pieceObject = new GameObject("Piece");
-        
-        MeshFilter meshFilter = pieceObject.AddComponent<MeshFilter>();
+    ) {
+        MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
         meshFilter.mesh = mesh;
         
-        MeshRenderer renderer = pieceObject.AddComponent<MeshRenderer>();
-        renderer.material = material;
+        MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
+        meshRenderer.material = material;
         
         Debug.Log(material);
         
         Bounds bounds = mesh.bounds;
-        BoxCollider collider =  pieceObject.AddComponent<BoxCollider>();
-        collider.center = bounds.center;
-        collider.size = bounds.size;
+        BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
+        boxCollider.center = bounds.center;
+        boxCollider.size = bounds.size;
         
-        pieceObject.transform.position = initialPosition;
-        
-        Piece piece = pieceObject.AddComponent<Piece>();
-        piece.solutionLocation = solutionLocation;
-        
-        return piece;
+        _solutionLocation = solutionLocation;
     }
 
     public Vector3[] Verticies()
@@ -51,17 +44,17 @@ public class Piece : MonoBehaviour
 
     public float SolutionOffsetX()
     {
-        return transform.position.x - solutionLocation.x;
+        return transform.position.x - _solutionLocation.x;
     }
     
     public float SolutionOffsetY()
     {
-        return transform.position.y - solutionLocation.y;
+        return transform.position.y - _solutionLocation.y;
     }
     
     public float SolutionOffsetZ()
     {
-        return transform.position.z - solutionLocation.z;
+        return transform.position.z - _solutionLocation.z;
     }
 
     public bool IsRelativelyClose(Piece other)

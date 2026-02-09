@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Puzzle
+public class Puzzle: MonoBehaviour
 {
-    List<Chunk> chunks;
+    [SerializeField]
+    private ChunkFactory chunkFactory;
+    private List<Chunk> chunks;
 
-    public Puzzle(List<Piece> pieces)
+    public void InitializeChunks(List<Piece> pieces)
     {
         chunks = new List<Chunk>();
 
         foreach (Piece piece in pieces)
         {
-            chunks.Add(Chunk.CreateSinglePieceChunk(piece));
+            chunks.Add(chunkFactory.CreateChunk(piece));
         }
     }
-    
-    
 }
