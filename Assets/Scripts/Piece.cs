@@ -8,6 +8,7 @@ using UnityEngine;
 public class Piece : MonoBehaviour
 {
     private const float ConnectionDistanceThreshold = 0.01f;
+    private const float ConnectionRotationThreshold = 45f;
     
     private Vector3 _solutionLocation;
     
@@ -20,7 +21,7 @@ public class Piece : MonoBehaviour
         meshFilter.mesh = mesh;
         
         MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
-        meshRenderer.material = material;
+        meshRenderer.materials[0] = material;
         
         Debug.Log(material);
         
@@ -41,42 +42,29 @@ public class Piece : MonoBehaviour
             .Select(vertex => transform.TransformPoint(vertex))
             .ToArray();
     }
-
-    public float SolutionOffsetX()
+    
+    private Vector3 SolutionOffset(Piece other)
     {
-        return transform.position.x - _solutionLocation.x;
+        return _solutionLocation - other._solutionLocation;
     }
     
-    public float SolutionOffsetY()
+    private Vector3 ExpectedPosition(Piece other)
     {
-        return transform.position.y - _solutionLocation.y;
+        return other.transform.position + other.transform.rotation * SolutionOffset(other);
     }
     
-    public float SolutionOffsetZ()
-    {
-        return transform.position.z - _solutionLocation.z;
-    }
-
     public bool IsRelativelyClose(Piece other)
     {
-        float xOffset = SolutionOffsetX();
-        float yOffset = SolutionOffsetY();
-        float zOffset = SolutionOffsetZ();
+        Vector3 expectedPosition = ExpectedPosition(other);
+        Vector3 actualPosition = transform.position;
         
-        float xOffsetOther = other.SolutionOffsetX();
-        float yOffsetOther = other.SolutionOffsetY();
-        float zOffsetOther = other.SolutionOffsetZ();
+        return Vector3.Distance(expectedPosition, actualPosition) < ConnectionDistanceThreshold 
+               && Quaternion.Angle(transform.rotation, other.transform.rotation) < ConnectionRotationThreshold;
+    }
 
-        float xDiff = math.abs(xOffset - xOffsetOther);
-        float yDiff = math.abs(yOffset - yOffsetOther);
-        float zDiff = math.abs(zOffset - zOffsetOther);
-        
-        Debug.Log("XDiff: " + xDiff);
-        Debug.Log("YDiff: " + yDiff);
-        Debug.Log("ZDiff: " + zDiff);
-        
-        return xDiff < ConnectionDistanceThreshold 
-               && yDiff < ConnectionDistanceThreshold 
-               && zDiff < ConnectionDistanceThreshold;
+    public void SnapIntoPlace(Piece other)
+    {
+        transform.position = ExpectedPosition(other);
+        transform.rotation = other.transform.rotation;
     }
 }

@@ -19,7 +19,8 @@ public class PuzzleSeeder : MonoBehaviour
         
         Vector3 piece0Pos = new Vector3(0f, 0f, 0f);
         Vector3 piece0Sol = new Vector3(0f, 0f, 0f);
-        Material mat0 = new Material(Shader.Find("Standard"));
+        
+        Material mat0 = new Material(Shader.Find("Unlit/Color"));
         mat0.color = Color.red;
         
         Piece piece0  = pieceFactory.CreatePiece(
@@ -32,7 +33,7 @@ public class PuzzleSeeder : MonoBehaviour
         
         Vector3 piece1Pos = new Vector3(-0.4f, 0f, 0f);
         Vector3 piece1Sol = new Vector3(0f, 0.1f, 0f);
-        Material mat1 = new Material(Shader.Find("Standard"));
+        Material mat1 = new Material(Shader.Find("Unlit/Color"));
         mat1.color = Color.blue;
         
         Piece piece1 = pieceFactory.CreatePiece(
@@ -45,7 +46,7 @@ public class PuzzleSeeder : MonoBehaviour
         
         Vector3 piece2Pos = new Vector3(0.4f, 0.2f, 0f);
         Vector3 piece2Sol = new Vector3(0.1f, 0f, 0f);
-        Material mat2 = new Material(Shader.Find("Standard"));
+        Material mat2 = new Material(Shader.Find("Unlit/Color"));
         mat0.color = Color.darkGreen;
         
         Piece piece2  = pieceFactory.CreatePiece(
@@ -58,7 +59,7 @@ public class PuzzleSeeder : MonoBehaviour
         
         Vector3 piece3Pos = new Vector3(-0.4f, 0.2f, 0f);
         Vector3 piece3Sol = new Vector3(0.1f, 0.1f, 0f);
-        Material mat3 = new Material(Shader.Find("Standard"));
+        Material mat3 = new Material(Shader.Find("Unlit/Color"));
         mat1.color = Color.purple;
         
         Piece piece3 = pieceFactory.CreatePiece(

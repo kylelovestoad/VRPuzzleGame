@@ -9,7 +9,6 @@ public class Chunk : MonoBehaviour
     private const float CollisionDistanceThreshold = 0.01f;
     
     private BoxCollider _boxCollider;
-    private Rigidbody _rigidbody;
 
     private List<Piece> _pieces;
     private bool _isCombined;
@@ -17,7 +16,6 @@ public class Chunk : MonoBehaviour
     void Awake()
     {
         _boxCollider = GetComponent<BoxCollider>();
-        _rigidbody = GetComponent<Rigidbody>();
     }
 
     public void InitializeVariant(Piece piece)
@@ -38,13 +36,16 @@ public class Chunk : MonoBehaviour
         _boxCollider.size = tightBounds.size + Vector3.one * (CollisionDistanceThreshold * 2);
     }
 
-    private void UpdateBoxCollider(Vector3[] vertices)
+    private void UpdateBoxCollider(List<Piece> pieces)
     {
         _boxCollider.size -= Vector3.one * (CollisionDistanceThreshold * 2);
-            
-        Bounds tempBounds = VertexBounds(vertices);
-        tempBounds.Encapsulate(_boxCollider.bounds);
+        Bounds tempBounds = _boxCollider.bounds;
         
+        foreach (Piece piece in pieces)
+        {
+            tempBounds.Encapsulate(VertexBounds(piece.Verticies()));
+        }
+
         _boxCollider.center = transform.InverseTransformPoint(tempBounds.center);
         _boxCollider.size = tempBounds.size + Vector3.one * (CollisionDistanceThreshold * 2);
     }
@@ -68,10 +69,9 @@ public class Chunk : MonoBehaviour
 
     private void Combine(Chunk other)
     {
+        UpdateBoxCollider(other._pieces);
+            
         Piece repPiece = _pieces[0];
-        float offsetX = repPiece.SolutionOffsetX();
-        float offsetY = repPiece.SolutionOffsetY();
-        float offsetZ = repPiece.SolutionOffsetZ();
 
         // avoid unity complaining about modifying piece during iteration, no foreach
         int piecesCount = other._pieces.Count;
@@ -79,24 +79,11 @@ public class Chunk : MonoBehaviour
         for (int i = 0; i < piecesCount; i++)
         {
             Piece otherPiece = other._pieces[i];
-            
-            float otherOffsetX = otherPiece.SolutionOffsetX();
-            float otherOffsetY = otherPiece.SolutionOffsetY();
-            float otherOffsetZ = otherPiece.SolutionOffsetZ();
-            
-            otherPiece.transform.position += new Vector3(
-                offsetX - otherOffsetX, 
-                offsetY - otherOffsetY, 
-                offsetZ - otherOffsetZ
-            );
-            
-            otherPiece.transform.SetParent(transform);
-            _pieces.Add(otherPiece);
-        }
 
-        foreach (Piece piece in other._pieces)
-        {
-            UpdateBoxCollider(piece.Verticies());
+            otherPiece.SnapIntoPlace(repPiece);
+            otherPiece.transform.SetParent(transform);
+            
+            _pieces.Add(otherPiece);
         }
 
         other._isCombined = true;
