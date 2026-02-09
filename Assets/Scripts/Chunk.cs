@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class Chunk : MonoBehaviour
 {
-    private const float CollisionDistanceThreshold = 0.1f;
+    private const float CollisionDistanceThreshold = 0.01f;
     
     private BoxCollider _boxCollider;
     private Rigidbody _rigidbody;

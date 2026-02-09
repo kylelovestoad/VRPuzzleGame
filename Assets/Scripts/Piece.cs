@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class Piece : MonoBehaviour
 {
-    private const float ConnectionDistanceThreshold = 0.1f;
+    private const float ConnectionDistanceThreshold = 0.01f;
     
     private Vector3 _solutionLocation;
     
