@@ -5,7 +5,7 @@ using System.Collections;
 
 public class FileUploader : MonoBehaviour
 {
-    public Button uploadButton; // Assign in Inspector
+    public Button uploadButton;
     
     void Start()
     {
@@ -48,7 +48,6 @@ public class FileUploader : MonoBehaviour
     {
         try
         {
-            // Get all files in the directory
             string[] files = Directory.GetFiles(path);
             
             Debug.Log($"Found {files.Length} files:");
@@ -56,7 +55,6 @@ public class FileUploader : MonoBehaviour
             {
                 Debug.Log($"File: {file}");
                 
-                // Example: Load a specific file type
                 if (file.EndsWith(".txt"))
                 {
                     string content = File.ReadAllText(file);
