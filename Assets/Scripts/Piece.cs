@@ -1,5 +1,4 @@
 using System.Linq;
-using Unity.Mathematics;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
@@ -18,10 +17,10 @@ public class Piece : MonoBehaviour
         Material material
     ) {
         MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
-        meshFilter.mesh = mesh;
+        meshFilter.sharedMesh = mesh;
         
         MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
-        meshRenderer.materials[0] = material;
+        meshRenderer.sharedMaterial = material;
         
         Debug.Log(material);
         
