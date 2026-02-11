@@ -76,11 +76,11 @@ Finally, click the "Play" button at the top of the screen to start the game!
 
 # Project Structure
 
-## Scenes
+### Scenes
 Navigate to `Assets/Scenes` to find our game scenes.
 
-## Scripts
+### Scripts
 Navigate to `Assets/Scripts` to find the game scripts.
 
-## Unit Tests
+### Unit Tests
 Navigate to `Assets/Tests` to find the unit tests.
