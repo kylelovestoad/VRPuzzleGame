@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoverageReport scope="Summary">
+  <Summary>
+    <Generatedon>2/10/2026 - 10:55:04 PM</Generatedon>
+    <Parser>MultiReportParser (2x OpenCoverParser)</Parser>
+    <Assemblies>3</Assemblies>
+    <Classes>11</Classes>
+    <Files>11</Files>
+    <Coveredlines>437</Coveredlines>
+    <Uncoveredlines>188</Uncoveredlines>
+    <Coverablelines>625</Coverablelines>
+    <Totallines>1253</Totallines>
+    <Linecoverage>69.9</Linecoverage>
+    <Coveredbranches>0</Coveredbranches>
+    <Totalbranches>0</Totalbranches>
+    <Coveredmethods>41</Coveredmethods>
+    <Totalmethods>58</Totalmethods>
+    <Methodcoverage>70.6</Methodcoverage>
+  </Summary>
+  <Coverage>
+    <Assembly name="Assembly-CSharp-Editor" classes="1" coverage="0" coveredlines="0" coverablelines="140" totallines="242" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="14" methodcoverage="0">
+      <Class name="ReadmeEditor" coverage="0" coveredlines="0" coverablelines="140" totallines="242" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="14" methodcoverage="0" />
+    </Assembly>
+    <Assembly name="PuzzleGameScripts" classes="6" coverage="67.7" coveredlines="101" coverablelines="149" totallines="374" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="15" totalmethods="18" methodcoverage="83.3">
+      <Class name="Chunk" coverage="78.2" coveredlines="54" coverablelines="69" totallines="130" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="7" totalmethods="8" methodcoverage="87.5" />
+      <Class name="ChunkFactory" coverage="100" coveredlines="5" coverablelines="5" totallines="20" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="1" totalmethods="1" methodcoverage="100" />
+      <Class name="Piece" coverage="100" coveredlines="34" coverablelines="34" totallines="75" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="6" totalmethods="6" methodcoverage="100" />
+      <Class name="PieceMeshGenerator" coverage="100" coveredlines="8" coverablelines="8" totallines="55" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="1" totalmethods="1" methodcoverage="100" />
+      <Class name="Puzzle" coverage="0" coveredlines="0" coverablelines="7" totallines="19" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="1" methodcoverage="0" />
+      <Class name="PuzzleSeeder" coverage="0" coveredlines="0" coverablelines="26" totallines="75" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="1" methodcoverage="0" />
+    </Assembly>
+    <Assembly name="PuzzleGameTests" classes="4" coverage="100" coveredlines="336" coverablelines="336" totallines="637" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="26" totalmethods="26" methodcoverage="100">
+      <Class name="ChunkFactoryTests" coverage="100" coveredlines="18" coverablelines="18" totallines="40" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="3" totalmethods="3" methodcoverage="100" />
+      <Class name="ChunkTests" coverage="100" coveredlines="76" coverablelines="76" totallines="161" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="6" totalmethods="6" methodcoverage="100" />
+      <Class name="PieceMeshGeneratorTests" coverage="100" coveredlines="8" coverablelines="8" totallines="21" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="1" totalmethods="1" methodcoverage="100" />
+      <Class name="PieceTests" coverage="100" coveredlines="234" coverablelines="234" totallines="415" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="16" totalmethods="16" methodcoverage="100" />
+    </Assembly>
+  </Coverage>
+</CoverageReport>

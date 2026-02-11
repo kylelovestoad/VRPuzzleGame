@@ -1,0 +1,36 @@
+{
+  "summary": {
+    "generatedon": "2026-02-11T03:55:04Z",
+    "parser": "MultiReportParser (2x OpenCoverParser)",
+    "assemblies": 3,
+    "classes": 11,
+    "files": 11,
+    "coveredlines": 437,
+    "uncoveredlines": 188,
+    "coverablelines": 625,
+    "totallines": 1253,
+    "linecoverage": 69.9,
+    "coveredbranches": 0,
+    "totalbranches": 0,
+    "coveredmethods": 41,
+    "totalmethods": 58,
+    "methodcoverage": 70.6
+ },
+  "coverage": {
+    "assemblies": [
+      { "name": "Assembly-CSharp-Editor", "classes": 1, "coverage": 0, "coveredlines": 0, "coverablelines": 140, "totallines": 242, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 0, "coveredmethods": 0, "totalmethods": 14, "classesinassembly": [
+        { "name": "ReadmeEditor", "coverage": 0, "coveredlines": 0, "coverablelines": 140, "totallines": 242, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 0, "coveredmethods": 0, "totalmethods": 14 } ] },
+      { "name": "PuzzleGameScripts", "classes": 6, "coverage": 67.7, "coveredlines": 101, "coverablelines": 149, "totallines": 374, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 83.3, "coveredmethods": 15, "totalmethods": 18, "classesinassembly": [
+        { "name": "Chunk", "coverage": 78.2, "coveredlines": 54, "coverablelines": 69, "totallines": 130, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 87.5, "coveredmethods": 7, "totalmethods": 8 },
+        { "name": "ChunkFactory", "coverage": 100, "coveredlines": 5, "coverablelines": 5, "totallines": 20, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 1, "totalmethods": 1 },
+        { "name": "Piece", "coverage": 100, "coveredlines": 34, "coverablelines": 34, "totallines": 75, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 6, "totalmethods": 6 },
+        { "name": "PieceMeshGenerator", "coverage": 100, "coveredlines": 8, "coverablelines": 8, "totallines": 55, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 1, "totalmethods": 1 },
+        { "name": "Puzzle", "coverage": 0, "coveredlines": 0, "coverablelines": 7, "totallines": 19, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 0, "coveredmethods": 0, "totalmethods": 1 },
+        { "name": "PuzzleSeeder", "coverage": 0, "coveredlines": 0, "coverablelines": 26, "totallines": 75, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 0, "coveredmethods": 0, "totalmethods": 1 } ] },
+      { "name": "PuzzleGameTests", "classes": 4, "coverage": 100, "coveredlines": 336, "coverablelines": 336, "totallines": 637, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 26, "totalmethods": 26, "classesinassembly": [
+        { "name": "ChunkFactoryTests", "coverage": 100, "coveredlines": 18, "coverablelines": 18, "totallines": 40, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 3, "totalmethods": 3 },
+        { "name": "ChunkTests", "coverage": 100, "coveredlines": 76, "coverablelines": 76, "totallines": 161, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 6, "totalmethods": 6 },
+        { "name": "PieceMeshGeneratorTests", "coverage": 100, "coveredlines": 8, "coverablelines": 8, "totallines": 21, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 1, "totalmethods": 1 },
+        { "name": "PieceTests", "coverage": 100, "coveredlines": 234, "coverablelines": 234, "totallines": 415, "branchcoverage": null, "coveredbranches": 0, "totalbranches": 0, "methodcoverage": 100, "coveredmethods": 16, "totalmethods": 16 } ] } ]
+  }
+}
