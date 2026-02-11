@@ -22,6 +22,7 @@ public class Chunk : MonoBehaviour
         Mesh mesh,
         Material material
     ) {
+        _boxCollider = GetComponent<BoxCollider>();
         Debug.Log("Initializing Single Piece Chunk");
         
         Piece piece = GetComponentInChildren<Piece>();
@@ -93,7 +94,15 @@ public class Chunk : MonoBehaviour
         }
 
         other._isCombined = true;
-        Destroy(other.gameObject);
+        
+        #if UNITY_EDITOR
+        if (Application.isPlaying)
+            Destroy(other.gameObject);
+        else
+            DestroyImmediate(other.gameObject);
+        #else
+            Destroy(other.gameObject);
+        #endif
         
         Debug.Log(transform.position);
     }

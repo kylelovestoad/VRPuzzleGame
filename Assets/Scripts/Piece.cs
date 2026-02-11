@@ -16,6 +16,8 @@ public class Piece : MonoBehaviour
         Mesh mesh,
         Material material
     ) {
+        Debug.Log("Initialize Piece Variant");
+        
         MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
         meshFilter.sharedMesh = mesh;
         
@@ -34,9 +36,13 @@ public class Piece : MonoBehaviour
 
     public Vector3[] Verticies()
     {
+        Debug.Log("Verticies " + gameObject.GetComponent<MeshFilter>()
+            .sharedMesh
+            .vertices.Select(vertex => transform.TransformPoint(vertex)).ToArray());
+        
         return gameObject
             .GetComponent<MeshFilter>()
-            .mesh
+            .sharedMesh
             .vertices
             .Select(vertex => transform.TransformPoint(vertex))
             .ToArray();

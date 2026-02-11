@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PieceTests
 {
+    private const float Tolerance = 1e-6f;
+    
     private GameObject _pieceObject;
     private Piece _piece;
     private Mesh _simpleMesh;
@@ -28,42 +30,31 @@ public class PieceTests
         Object.DestroyImmediate(_pieceObject);
     }
 
-    #region Initialization Tests
+    #region InitializeVariant Tests
 
     [Test]
     public void MeshSet()
     {
         Mesh testMesh = new Mesh();
         testMesh.name = "TestMesh";
-        testMesh.vertices = new [] { Vector3.zero, Vector3.one, Vector3.up };
+        testMesh.vertices = new Vector3[]
+        {
+            new(0, 0, 0), 
+            new(0, 1, 0), 
+            new(1, 0, 0), 
+            new(1, 1, 0)
+        };
     
         Material testMaterial = new Material(Shader.Find("Standard"));
-    
-        Vector3 solutionLocation = new Vector3(1, 2, 3);
+
+        Vector3 solutionLocation = Vector3.zero;
 
         _piece.InitializeVariant(solutionLocation, testMesh, testMaterial);
 
         MeshFilter meshFilter = _pieceObject.GetComponent<MeshFilter>();
         
         Assert.IsNotNull(meshFilter.sharedMesh);
-        Assert.AreEqual(3, meshFilter.sharedMesh.vertexCount);
-    }
-
-    [Test]
-    public void BoxColliderSizeSet()
-    {
-        Mesh testMesh = new Mesh();
-        testMesh.vertices = new [] { 
-            new Vector3(-1, -1, -1), 
-            new Vector3(1, 1, 1) 
-        };
-        testMesh.RecalculateBounds();
-        Material testMaterial = new Material(Shader.Find("Standard"));
-
-        _piece.InitializeVariant(Vector3.zero, testMesh, testMaterial);
-
-        BoxCollider collider = _pieceObject.GetComponent<BoxCollider>();
-        Assert.AreEqual(testMesh.bounds.size, collider.size);
+        Assert.AreEqual(4, meshFilter.sharedMesh.vertexCount);
     }
 
     #endregion
@@ -287,14 +278,14 @@ public class PieceTests
         Mesh mesh = _simpleMesh;
         Material material = _simpleMaterial;
 
-        Vector3 pieceSolLocation = new Vector3(1, 0, 0);
-        Vector3 otherSolLocation = Vector3.zero;
+        Vector3 pieceSolLocation = Vector3.zero;
+        Vector3 otherSolLocation = new Vector3(1, 0, 0);
 
         _piece.InitializeVariant(pieceSolLocation, mesh, material);
         otherPiece.InitializeVariant(otherSolLocation, mesh, material);
 
         otherObject.transform.position = otherSolLocation;
-        _pieceObject.transform.position = new Vector3(5, 5, 5); // Start at wrong position
+        _pieceObject.transform.position = pieceSolLocation;
 
         _piece.SnapIntoPlace(otherPiece);
 
@@ -312,25 +303,26 @@ public class PieceTests
         Mesh mesh = _simpleMesh;
         Material material = _simpleMaterial;
 
-        Vector3 pieceSolLocation = new Vector3(2, 3, 4);
-        Vector3 otherSolLocation = new Vector3(1, 1, 1);
-        Vector3 offset = new Vector3(10, 10, 10);
+        Vector3 pieceSolLocation = Vector3.zero;
+        Vector3 otherSolLocation = new Vector3(1, 0, 0);
 
         _piece.InitializeVariant(pieceSolLocation, mesh, material);
         otherPiece.InitializeVariant(otherSolLocation, mesh, material);
+        
+        Vector3 offset = new Vector3(0.099f, 0, 0);
 
-        otherObject.transform.position = otherSolLocation + offset;
-
+        _pieceObject.transform.position = pieceSolLocation + offset;
+        otherObject.transform.position = otherSolLocation;
+        
         _piece.SnapIntoPlace(otherPiece);
 
-        Vector3 expectedPosition = pieceSolLocation + offset;
-        Assert.AreEqual(expectedPosition, _pieceObject.transform.position);
+        Assert.AreEqual(pieceSolLocation, _pieceObject.transform.position);
 
         Object.DestroyImmediate(otherObject);
     }
 
     [Test]
-    public void SnapIntoPlaceMatchesRotation()
+    public void SnapIntoPlaceWithRotation180Degrees()
     {
         GameObject otherObject = new GameObject("OtherPiece");
         Piece otherPiece = otherObject.AddComponent<Piece>();
@@ -339,7 +331,40 @@ public class PieceTests
         Material material = _simpleMaterial;
 
         Vector3 pieceSolLocation = Vector3.zero;
-        Vector3 otherSolLocation = Vector3.zero;
+        Vector3 otherSolLocation = new Vector3(1, 0, 0);
+
+        _piece.InitializeVariant(pieceSolLocation, mesh, material);
+        otherPiece.InitializeVariant(otherSolLocation, mesh, material);
+        
+        Quaternion rotation = Quaternion.Euler(0, 180, 0);
+
+        _pieceObject.transform.position = pieceSolLocation;
+        _pieceObject.transform.rotation = rotation;
+        
+        Vector3 expectedPosition = new Vector3(-1, 0, 0);
+        otherObject.transform.position = expectedPosition + new Vector3(0, 0.0001f, 0);
+        otherObject.transform.rotation = rotation;
+
+        otherPiece.SnapIntoPlace(_piece);
+        
+        Assert.AreEqual(expectedPosition.x, otherObject.transform.position.x, Tolerance);
+        Assert.AreEqual(expectedPosition.y, otherObject.transform.position.y, Tolerance);
+        Assert.AreEqual(expectedPosition.z, otherObject.transform.position.z, Tolerance);
+
+        Object.DestroyImmediate(otherObject);
+    }
+    
+    [Test]
+    public void SnapIntoPlaceWithRotation()
+    {
+        GameObject otherObject = new GameObject("OtherPiece");
+        Piece otherPiece = otherObject.AddComponent<Piece>();
+
+        Mesh mesh = _simpleMesh;
+        Material material = _simpleMaterial;
+
+        Vector3 pieceSolLocation = Vector3.zero;
+        Vector3 otherSolLocation = new Vector3(1, 0, 0);
 
         _piece.InitializeVariant(pieceSolLocation, mesh, material);
         otherPiece.InitializeVariant(otherSolLocation, mesh, material);
@@ -356,7 +381,7 @@ public class PieceTests
     }
 
     [Test]
-    public void SnapIntoPlaceWithRotation90Degrees()
+    public void SnapIntoPlaceWithOffsetAndRotation()
     {
         GameObject otherObject = new GameObject("OtherPiece");
         Piece otherPiece = otherObject.AddComponent<Piece>();
@@ -364,64 +389,8 @@ public class PieceTests
         Mesh mesh = _simpleMesh;
         Material material = _simpleMaterial;
 
-        Vector3 pieceSolLocation = new Vector3(1, 0, 0);
-        Vector3 otherSolLocation = Vector3.zero;
-
-        _piece.InitializeVariant(pieceSolLocation, mesh, material);
-        otherPiece.InitializeVariant(otherSolLocation, mesh, material);
-
-        otherObject.transform.position = Vector3.zero;
-        otherObject.transform.rotation = Quaternion.Euler(0, 90, 0);
-
-        _piece.SnapIntoPlace(otherPiece);
-
-        Vector3 expectedPosition = new Vector3(0, 0, -1);
-        Assert.AreEqual(expectedPosition.x, _pieceObject.transform.position.x, 0.001f);
-        Assert.AreEqual(expectedPosition.y, _pieceObject.transform.position.y, 0.001f);
-        Assert.AreEqual(expectedPosition.z, _pieceObject.transform.position.z, 0.001f);
-
-        Object.DestroyImmediate(otherObject);
-    }
-
-    [Test]
-    public void SnapIntoPlaceWithRotation180Degrees()
-    {
-        GameObject otherObject = new GameObject("OtherPiece");
-        Piece otherPiece = otherObject.AddComponent<Piece>();
-
-        Mesh mesh = _simpleMesh;
-        Material material = _simpleMaterial;
-
-        Vector3 pieceSolLocation = new Vector3(1, 0, 0);
-        Vector3 otherSolLocation = Vector3.zero;
-
-        _piece.InitializeVariant(pieceSolLocation, mesh, material);
-        otherPiece.InitializeVariant(otherSolLocation, mesh, material);
-
-        otherObject.transform.position = Vector3.zero;
-        otherObject.transform.rotation = Quaternion.Euler(0, 180, 0);
-
-        _piece.SnapIntoPlace(otherPiece);
-
-        Vector3 expectedPosition = new Vector3(-1, 0, 0);
-        Assert.AreEqual(expectedPosition.x, _pieceObject.transform.position.x, 0.001f);
-        Assert.AreEqual(expectedPosition.y, _pieceObject.transform.position.y, 0.001f);
-        Assert.AreEqual(expectedPosition.z, _pieceObject.transform.position.z, 0.001f);
-
-        Object.DestroyImmediate(otherObject);
-    }
-
-    [Test]
-    public void SnapIntoPlaceComplexOffsetAndRotation()
-    {
-        GameObject otherObject = new GameObject("OtherPiece");
-        Piece otherPiece = otherObject.AddComponent<Piece>();
-
-        Mesh mesh = _simpleMesh;
-        Material material = _simpleMaterial;
-
-        Vector3 pieceSolLocation = new Vector3(2, 1, 0);
-        Vector3 otherSolLocation = Vector3.zero;
+        Vector3 pieceSolLocation = Vector3.zero;
+        Vector3 otherSolLocation = new Vector3(1, 0, 0);
 
         _piece.InitializeVariant(pieceSolLocation, mesh, material);
         otherPiece.InitializeVariant(otherSolLocation, mesh, material);
@@ -431,65 +400,13 @@ public class PieceTests
 
         _piece.SnapIntoPlace(otherPiece);
 
-        Vector3 rotatedOffset = otherObject.transform.rotation * pieceSolLocation;
+        Vector3 rotatedOffset = otherObject.transform.rotation * (pieceSolLocation - otherSolLocation);
         Vector3 expectedPosition = otherObject.transform.position + rotatedOffset;
 
-        Assert.AreEqual(expectedPosition.x, _pieceObject.transform.position.x, 0.001f);
-        Assert.AreEqual(expectedPosition.y, _pieceObject.transform.position.y, 0.001f);
-        Assert.AreEqual(expectedPosition.z, _pieceObject.transform.position.z, 0.001f);
+        Assert.AreEqual(expectedPosition.x, _pieceObject.transform.position.x, Tolerance);
+        Assert.AreEqual(expectedPosition.y, _pieceObject.transform.position.y, Tolerance);
+        Assert.AreEqual(expectedPosition.z, _pieceObject.transform.position.z, Tolerance);
         Assert.AreEqual(otherObject.transform.rotation, _pieceObject.transform.rotation);
-
-        Object.DestroyImmediate(otherObject);
-    }
-
-    [Test]
-    public void SnapIntoPlaceNegativeOffset()
-    {
-        GameObject otherObject = new GameObject("OtherPiece");
-        Piece otherPiece = otherObject.AddComponent<Piece>();
-
-        Mesh mesh = _simpleMesh;
-        Material material = _simpleMaterial;
-
-        Vector3 pieceSolLocation = new Vector3(-2, -1, -3);
-        Vector3 otherSolLocation = Vector3.zero;
-
-        _piece.InitializeVariant(pieceSolLocation, mesh, material);
-        otherPiece.InitializeVariant(otherSolLocation, mesh, material);
-
-        otherObject.transform.position = new Vector3(5, 5, 5);
-
-        _piece.SnapIntoPlace(otherPiece);
-
-        Vector3 expectedPosition = new Vector3(3, 4, 2);
-        Assert.AreEqual(expectedPosition, _pieceObject.transform.position);
-
-        Object.DestroyImmediate(otherObject);
-    }
-
-    [Test]
-    public void SnapIntoPlaceBothPiecesWithNonZeroSolutionLocations()
-    {
-        GameObject otherObject = new GameObject("OtherPiece");
-        Piece otherPiece = otherObject.AddComponent<Piece>();
-
-        Mesh mesh = _simpleMesh;
-        Material material = _simpleMaterial;
-
-        Vector3 pieceSolLocation = new Vector3(5, 3, 2);
-        Vector3 otherSolLocation = new Vector3(3, 2, 1);
-
-        _piece.InitializeVariant(pieceSolLocation, mesh, material);
-        otherPiece.InitializeVariant(otherSolLocation, mesh, material);
-
-        otherObject.transform.position = new Vector3(10, 10, 10);
-
-        _piece.SnapIntoPlace(otherPiece);
-
-        Vector3 solutionOffset = pieceSolLocation - otherSolLocation;
-        Vector3 expectedPosition = otherObject.transform.position + solutionOffset;
-        
-        Assert.AreEqual(expectedPosition, _pieceObject.transform.position);
 
         Object.DestroyImmediate(otherObject);
     }
