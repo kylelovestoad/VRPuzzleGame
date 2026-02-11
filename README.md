@@ -84,3 +84,15 @@ Navigate to `Assets/Scripts` to find the game scripts.
 
 ### Unit Tests
 Navigate to `Assets/Tests` to find the unit tests.
+
+The Coverage report is located in the repo root under the folder CoverageReport
+
+#### To Run the Unit Tests with Coverage:
+
+First enable coverage:
+* In the Unity Editor, go to Window -> Analysis -> Code Coverage.
+* Then Click the check box to enable Code Coverage
+
+Next Run the tests:
+* In the Unity Editor, go to Window -> General -> Test Runner.
+* Then it should show a list of all the Unit tests which you can click to run them all or run specific ones
