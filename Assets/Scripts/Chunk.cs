@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,17 +16,15 @@ public class Chunk : MonoBehaviour
         _boxCollider = GetComponent<BoxCollider>();
     }
 
-    public void InitializeVariant(
-        Vector3 solutionLocation,
-        Mesh mesh,
-        Material material
+    public void InitializeSinglePieceChunk(
+        PieceInfo pieceInfo
     ) {
         _boxCollider = GetComponent<BoxCollider>();
         Debug.Log("Initializing Single Piece Chunk");
         
         Piece piece = GetComponentInChildren<Piece>();
         
-        piece.InitializeVariant(solutionLocation, mesh, material);
+        piece.InitializePiece(pieceInfo);
 
         InitializeBoxCollider(piece.Verticies());
         InsertInitialPiece(piece);

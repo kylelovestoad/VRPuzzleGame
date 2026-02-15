@@ -182,6 +182,128 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1890215679}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &22132674
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Universal Render Pipeline/Lit
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 1207320353}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 1207320353}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _BumpScale: 1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DetailAlbedoMapScale: 1
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
+    - _EnvironmentReflections: 1
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.005
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _Surface: 0
+    - _WorkflowMode: 1
+    - _XRMotionVectorsPass: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &36881317
 GameObject:
   m_ObjectHideFlags: 0
@@ -2948,6 +3070,128 @@ Transform:
   m_Children: []
   m_Father: {fileID: 956630068}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &535266428
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Universal Render Pipeline/Lit
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _BumpScale: 1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DetailAlbedoMapScale: 1
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
+    - _EnvironmentReflections: 1
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.005
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _Surface: 0
+    - _WorkflowMode: 1
+    - _XRMotionVectorsPass: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &537520375
 GameObject:
   m_ObjectHideFlags: 0
@@ -3278,6 +3522,128 @@ Transform:
   - {fileID: 823620688}
   m_Father: {fileID: 1795095294}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &632056224
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Universal Render Pipeline/Lit
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _BumpScale: 1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DetailAlbedoMapScale: 1
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
+    - _EnvironmentReflections: 1
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.005
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _Surface: 0
+    - _WorkflowMode: 1
+    - _XRMotionVectorsPass: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &667753429
 GameObject:
   m_ObjectHideFlags: 0
@@ -3828,6 +4194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   chunkFactory: {fileID: 1177480481}
+  puzzleImage: {fileID: 2800000, guid: 418dc4b7eea547a49bda27edacab2c9c, type: 3}
   puzzle: {fileID: 1944371571}
 --- !u!4 &754472342
 Transform:
@@ -4510,6 +4877,7 @@ GameObject:
   - component: {fileID: 885217568}
   - component: {fileID: 885217567}
   - component: {fileID: 885217566}
+  - component: {fileID: 885217570}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -4602,7 +4970,12 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 1095949117}
+  - {fileID: 1647667043}
+  - {fileID: 22132674}
+  - {fileID: 535266428}
+  - {fileID: 911369866}
+  - {fileID: 632056224}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4634,6 +5007,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 885217564}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &885217570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 885217564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5ea824a1f784b37873b44e4f9f79813, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PuzzleGameScripts::ImageCropper
+  sourceImage: {fileID: 2800000, guid: 418dc4b7eea547a49bda27edacab2c9c, type: 3}
+  cropX: 100
+  cropY: 100
+  cropWidth: 100
+  cropHeight: 100
+  faceIndex: 2
 --- !u!1 &898648727
 GameObject:
   m_ObjectHideFlags: 0
@@ -4826,6 +5217,128 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.008180305, y: -0.0053694975, z: -0.020344593}
     m_Extent: {x: 0.046097815, y: 0.067293465, z: 0.0557265}
   m_DirtyAABB: 0
+--- !u!21 &911369866
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Universal Render Pipeline/Lit
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _BumpScale: 1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DetailAlbedoMapScale: 1
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
+    - _EnvironmentReflections: 1
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.005
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _Surface: 0
+    - _WorkflowMode: 1
+    - _XRMotionVectorsPass: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &919082773
 GameObject:
   m_ObjectHideFlags: 0
@@ -6066,6 +6579,128 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.03454852, y: 0.0005114786, z: 0.00007304177}
     m_Extent: {x: 0.0009967163, y: 0.0020704702, z: 0.004453361}
   m_DirtyAABB: 0
+--- !u!21 &1095949117
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Universal Render Pipeline/Lit
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _BumpScale: 1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DetailAlbedoMapScale: 1
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
+    - _EnvironmentReflections: 1
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.005
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _Surface: 0
+    - _WorkflowMode: 1
+    - _XRMotionVectorsPass: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1118838191
 GameObject:
   m_ObjectHideFlags: 0
@@ -6216,6 +6851,55 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &1169885152
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1169885153}
+  - component: {fileID: 1169885154}
+  m_Layer: 0
+  m_Name: PuzzleGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1169885153
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1169885152}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1169885154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1169885152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e8bef52f72a4ab4d96cf96391cc2380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  puzzleImage: {fileID: 2800000, guid: 418dc4b7eea547a49bda27edacab2c9c, type: 3}
+  piecePrefab: {fileID: 5975620559889957584, guid: 8ea969ab1fee79d4580465a84f3bb306, type: 3}
+  rows: 3
+  columns: 4
+  pieceSpacing: 1.1
 --- !u!1 &1170712102
 GameObject:
   m_ObjectHideFlags: 0
@@ -6531,6 +7215,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 742391228}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!28 &1207320353
+Texture2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 4
+  m_Width: 100
+  m_Height: 100
+  m_CompleteImageSize: 40000
+  m_MipsStripped: 0
+  m_TextureFormat: 4
+  m_MipCount: 1
+  m_IsReadable: 1
+  m_IsPreProcessed: 0
+  m_IgnoreMipmapLimit: 1
+  m_MipmapLimitGroupName: 
+  m_StreamingMipmaps: 0
+  m_StreamingMipmapsPriority: 0
+  m_VTOnly: 0
+  m_AlphaIsTransparency: 0
+  m_ImageCount: 1
+  m_TextureDimension: 2
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 0
+    m_WrapV: 0
+    m_WrapW: 0
+  m_LightmapFormat: 0
+  m_ColorSpace: 1
+  m_PlatformBlob: 
+  image data: 40000
+  _typelessdata: 4c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c697100814e393d8d5d471d814e393d814e393d814e393d814e393d814e393d814e393d814e393d814e393d814e393d814e393d8d5d471d8d5d471d8d5d471d8d5d471d8d5d471d8d5d471d814e393d4c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971007d4935607d493560d8ad82647d48338674635dffce9c6effac7a50ffb98457ffbe8c61ffbe8c61ffbe8c61ffbe8c61ffbe8c61ffbe8c61ffbe8c61ffbe8c61ffbe8c61ffbe8c61ffbe8c61ffc99264ffc99264ffc99264ffd5955effdda977abd8ad8264d8ad82647d4833868d5d471d4c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c697100d8ad8264dda977ab915137bcac7a50ffac7a50ffac7a50ffb18056ffb98457ffac7a50ffb18056ffb98457ffb98457ffb98457ffb18056ffb98457ffb98457ffbe8c61ffbe8c61ffbe8c61ffb98457ffbe8c61ffbe8c61ffbe8c61ffbe8c61ffc99264ffd19767ffd19767ffd19767ffd99a64ffb98457ffb18056ffdda977abdda977ab814e393d4c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971008d5d471d4c6971006f3e2ca9a7774effb18056ffac7a50ffa7774effa7774effa7774effac7a50ffac7a50ffac7a50ffb18056ffb18056ffb18056ffb18056ffb18056ffb98457ffb98457ffb98457ffb98457ffb98457ffc08759ffc08759ffc08759ffc08759ffc08759ffc68c5effc68c5effbe8c61ffc99264ffc99264ffc99264ffd89d6bffd89d6bffd99a64ffd89d6bffce9c6effe0a875ffcfc4bfff4c6971008d5d471d4c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c697100814e393d7d4833866b4a35fdac7a50ff9f6e46ffa4724affa4724affa4724affa7774effa7774effa7774effa7774effa7774effa7774effac7a50ffac7a50ffb18056ffac7a50ffb18056ffb18056ffb18056ffb18056ffb18056ffb18056ffbe8c61ffbe8c61ffbe8c61ffbe8c61ffc08759ffbe8c61ffbe8c61ffbe8c61ffbe8c61ffc99264ffc99264ffce9361ffd19767ffd19767ffd99a64ffd99a64ffd99a64ffd89d6bfffca969ff946845ff7d4935608d5d471d4c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c6971004c697100
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
 --- !u!1 &1235284078
 GameObject:
   m_ObjectHideFlags: 0
@@ -6718,7 +7448,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 29a8f111aea87b24482fab32c5527188, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9699,6 +10429,128 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2097514213}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &1647667043
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Universal Render Pipeline/Lit
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _BumpScale: 1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DetailAlbedoMapScale: 1
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
+    - _EnvironmentReflections: 1
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.005
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _Surface: 0
+    - _WorkflowMode: 1
+    - _XRMotionVectorsPass: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1652661893
 GameObject:
   m_ObjectHideFlags: 0
@@ -10845,7 +11697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74858d5f6b53c954eb6483ed6cd30d73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Puzzle
-  chunkFactory: {fileID: 1177480481}
+  chunkFactory: {fileID: 0}
 --- !u!4 &1944371572
 Transform:
   m_ObjectHideFlags: 0
@@ -12193,3 +13045,4 @@ SceneRoots:
   - {fileID: 1177480482}
   - {fileID: 1944371572}
   - {fileID: 1248238918}
+  - {fileID: 1169885153}

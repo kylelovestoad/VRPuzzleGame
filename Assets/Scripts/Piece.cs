@@ -11,27 +11,33 @@ public class Piece : MonoBehaviour
     
     private Vector3 _solutionLocation;
     
-    public void InitializeVariant(
-        Vector3 solutionLocation, 
-        Mesh mesh,
-        Material material
+    public void InitializePiece(
+        PieceInfo pieceInfo
     ) {
         Debug.Log("Initialize Piece Variant");
         
         MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
-        meshFilter.sharedMesh = mesh;
+        meshFilter.sharedMesh = pieceInfo.Mesh;
         
         MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
-        meshRenderer.sharedMaterial = material;
         
-        Debug.Log(material);
+        Material puzzleImageMaterial = new Material(Shader.Find("Unlit/Texture"));
+        puzzleImageMaterial.mainTexture = pieceInfo.PuzzleInfo.PuzzleImage;
         
-        Bounds bounds = mesh.bounds;
+        Vector2 uvScale = new Vector2(1f / 2, 1f / 2);
+        Vector2 uvOffset = new Vector2(pieceInfo.SolutionLocation.x / 0.2f, pieceInfo.SolutionLocation.y / 0.2f);
+        
+        puzzleImageMaterial.mainTextureOffset = uvOffset;
+        puzzleImageMaterial.mainTextureScale = uvScale;
+    
+        meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, pieceInfo.PuzzleInfo.BackMaterial };
+        
+        Bounds bounds = pieceInfo.Mesh.bounds;
         BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
         boxCollider.center = bounds.center;
         boxCollider.size = bounds.size;
         
-        _solutionLocation = solutionLocation;
+        _solutionLocation = pieceInfo.SolutionLocation;
     }
 
     public Vector3[] Verticies()

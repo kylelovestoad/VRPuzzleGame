@@ -125,3 +125,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbc500645362b3469582ba7868d0791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Piece
+  fullPuzzleImage: {fileID: 2800000, guid: 418dc4b7eea547a49bda27edacab2c9c, type: 3}
