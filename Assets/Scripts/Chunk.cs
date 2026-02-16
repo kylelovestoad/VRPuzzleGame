@@ -80,47 +80,52 @@ public class Chunk : MonoBehaviour
     private void Combine(Chunk other)
     {
         UpdateBoxCollider(other.pieces);
-            
-        var repPiece = pieces[0];
+
+        Piece repPiece = pieces[0];
 
         // avoid unity complaining about modifying piece during iteration, no foreach
-        var piecesCount = other.pieces.Count;
-        
-        for (var i = 0; i < piecesCount; i++)
+        int piecesCount = other.pieces.Count;
+
+        for (int i = 0; i < piecesCount; i++)
         {
-            var otherPiece = other.pieces[i];
+            Piece otherPiece = other.pieces[i];
 
             otherPiece.SnapIntoPlace(repPiece);
             otherPiece.transform.SetParent(transform);
-            
+
             pieces.Add(otherPiece);
         }
-        
-        #if UNITY_EDITOR
+
+#if UNITY_EDITOR
         if (Application.isPlaying)
             Destroy(other.gameObject);
         else
             DestroyImmediate(other.gameObject);
-        #else
+#else
             Destroy(other.gameObject);
-        #endif
-        
+#endif
+
         Debug.Log(transform.position);
     }
-    
+
     void OnTriggerStay(Collider other)
     {
-        var otherChunk = other.GetComponent<Chunk>();
+        Chunk otherChunk = other.GetComponent<Chunk>();
 
-        if (otherChunk == null) return;
-        Debug.Log("Collided with Other Chunk");
-        
-        var rep = pieces[0];
-        var otherRep = otherChunk.pieces[0];
-
-        if (rep.IsRelativelyClose(otherRep))
+        if (otherChunk != null)
         {
-            Combine(otherChunk);
+            Debug.Log("Collided with Other Chunk");
+
+            // avoid duplicate merging
+            if (GetInstanceID() >= otherChunk.GetInstanceID()) return;
+
+            Piece rep = pieces[0];
+            Piece otherRep = otherChunk.pieces[0];
+
+            if (rep.IsRelativelyClose(otherRep))
+            {
+                Combine(otherChunk);
+            }
         }
     }
     
