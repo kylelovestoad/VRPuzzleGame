@@ -33,10 +33,10 @@ namespace PuzzleGeneration
                 for (int c = 0; c < currCols; c++)
                 {
                     float rightBoundary = currAvgWidth * (c + 1);
-                    if (c < currCols - 1)
-                    {
-                        rightBoundary += Random.Range(-fuzzRange, fuzzRange);
-                    }
+                    // if (c < currCols - 1)
+                    // {
+                    //     rightBoundary += Random.Range(-fuzzRange, fuzzRange);
+                    // }
                 
                     Vector3 solutionLocation = new Vector3(leftBoundary, pieceHeight * r, 0);
                     Mesh pieceMesh = PieceMeshGenerator.CreateRectanglePieceMesh(
@@ -57,7 +57,7 @@ namespace PuzzleGeneration
 
         private static int CalculatePuzzleRows(int numPieces, float widthHeightRatio)
         {
-            int rows = (int) Math.Round(Mathf.Sqrt(numPieces * widthHeightRatio));
+            int rows = (int) Math.Round(Mathf.Sqrt(numPieces / widthHeightRatio));
             return rows == 0 ? 1  : rows;
         }
 
