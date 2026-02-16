@@ -8,10 +8,10 @@ public class ChunkFactory : MonoBehaviour
     public Chunk CreateSinglePieceChunk(
         Vector3 initialPosition,
         Quaternion initialRotation,
-        PieceInfo pieceInfo
+        PieceRenderData pieceRenderData
     ) {
         Chunk chunk = Instantiate(chunkPrefab, initialPosition, initialRotation);
-        chunk.InitializeSinglePieceChunk(pieceInfo);
+        chunk.InitializeSinglePieceChunk(pieceRenderData);
         
         return chunk;
     }

@@ -1,32 +1,38 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Persistence;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
+[Serializable]
 public class Chunk : MonoBehaviour
 {
     private const float CollisionDistanceThreshold = 0.01f;
     
     private BoxCollider _boxCollider;
+    
+    [SerializeField]
+    private List<Piece> pieces;
+    
+    public long PieceCount => pieces.Count; 
 
-    private List<Piece> _pieces;
-    private bool _isCombined;
-
-    void Awake()
+    public void Awake()
     {
         _boxCollider = GetComponent<BoxCollider>();
     }
 
     public void InitializeSinglePieceChunk(
-        PieceInfo pieceInfo
+        PieceRenderData pieceRenderData
     ) {
         _boxCollider = GetComponent<BoxCollider>();
         Debug.Log("Initializing Single Piece Chunk");
         
-        Piece piece = GetComponentInChildren<Piece>();
+        var piece = GetComponentInChildren<Piece>();
         
-        piece.InitializePiece(pieceInfo);
+        piece.InitializePiece(pieceRenderData);
 
-        InitializeBoxCollider(piece.Verticies());
+        InitializeBoxCollider(piece.Vertices());
         InsertInitialPiece(piece);
 
         piece.transform.SetParent(transform);
@@ -34,7 +40,7 @@ public class Chunk : MonoBehaviour
 
     private void InitializeBoxCollider(Vector3[] vertices)
     {
-        Bounds tightBounds = VertexBounds(vertices);
+        var tightBounds = VertexBounds(vertices);
         
         _boxCollider.center = transform.InverseTransformPoint(tightBounds.center);
         _boxCollider.size = tightBounds.size + Vector3.one * (CollisionDistanceThreshold * 2);
@@ -43,11 +49,11 @@ public class Chunk : MonoBehaviour
     private void UpdateBoxCollider(List<Piece> pieces)
     {
         _boxCollider.size -= Vector3.one * (CollisionDistanceThreshold * 2);
-        Bounds tempBounds = _boxCollider.bounds;
+        var tempBounds = _boxCollider.bounds;
         
-        foreach (Piece piece in pieces)
+        foreach (var piece in pieces)
         {
-            tempBounds.Encapsulate(VertexBounds(piece.Verticies()));
+            tempBounds.Encapsulate(VertexBounds(piece.Vertices()));
         }
 
         _boxCollider.center = transform.InverseTransformPoint(tempBounds.center);
@@ -56,9 +62,9 @@ public class Chunk : MonoBehaviour
 
     private static Bounds VertexBounds(Vector3[] vertices)
     {
-        Bounds bounds = new Bounds(vertices[0], Vector3.zero);
+        var bounds = new Bounds(vertices[0], Vector3.zero);
     
-        foreach (Vector3 vertex in vertices)
+        foreach (var vertex in vertices)
         {
             bounds.Encapsulate(vertex);
         }
@@ -68,29 +74,27 @@ public class Chunk : MonoBehaviour
 
     private void InsertInitialPiece(Piece piece)
     {
-        _pieces = new List<Piece> { piece };
+        pieces = new List<Piece> { piece };
     }
 
     private void Combine(Chunk other)
     {
-        UpdateBoxCollider(other._pieces);
+        UpdateBoxCollider(other.pieces);
             
-        Piece repPiece = _pieces[0];
+        var repPiece = pieces[0];
 
         // avoid unity complaining about modifying piece during iteration, no foreach
-        int piecesCount = other._pieces.Count;
+        var piecesCount = other.pieces.Count;
         
-        for (int i = 0; i < piecesCount; i++)
+        for (var i = 0; i < piecesCount; i++)
         {
-            Piece otherPiece = other._pieces[i];
+            var otherPiece = other.pieces[i];
 
             otherPiece.SnapIntoPlace(repPiece);
             otherPiece.transform.SetParent(transform);
             
-            _pieces.Add(otherPiece);
+            pieces.Add(otherPiece);
         }
-
-        other._isCombined = true;
         
         #if UNITY_EDITOR
         if (Application.isPlaying)
@@ -106,22 +110,27 @@ public class Chunk : MonoBehaviour
     
     void OnTriggerStay(Collider other)
     {
-        Chunk otherChunk = other.GetComponent<Chunk>();
-        
-        if (otherChunk != null)
-        {
-            Debug.Log("Collided with Other Chunk");
-            
-            // avoid duplicate merging
-            if (otherChunk._isCombined || GetInstanceID() >= otherChunk.GetInstanceID()) return;
-        
-            Piece rep = _pieces[0];
-            Piece otherRep = otherChunk._pieces[0];
+        var otherChunk = other.GetComponent<Chunk>();
 
-            if (rep.IsRelativelyClose(otherRep))
-            {
-                Combine(otherChunk);
-            }
+        if (otherChunk == null) return;
+        Debug.Log("Collided with Other Chunk");
+        
+        var rep = pieces[0];
+        var otherRep = otherChunk.pieces[0];
+
+        if (rep.IsRelativelyClose(otherRep))
+        {
+            Combine(otherChunk);
         }
+    }
+    
+    public ChunkSaveData ToData()
+    {
+        return new ChunkSaveData
+        {
+            position = transform.position,
+            rotation = transform.rotation,
+            pieces = this.pieces.Select(p => p.ToData()).ToList()
+        };
     }
 }

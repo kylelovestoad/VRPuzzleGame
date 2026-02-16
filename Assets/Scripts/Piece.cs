@@ -1,9 +1,13 @@
+using System;
 using System.Linq;
+using Persistence;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(BoxCollider))]
+[Serializable]
 public class Piece : MonoBehaviour
 {
     private const float ConnectionDistanceThreshold = 0.01f;
@@ -12,40 +16,36 @@ public class Piece : MonoBehaviour
     private Vector3 _solutionLocation;
     
     public void InitializePiece(
-        PieceInfo pieceInfo
+        PieceRenderData pieceRenderData
     ) {
         Debug.Log("Initialize Piece Variant");
         
         MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
-        meshFilter.sharedMesh = pieceInfo.Mesh;
+        meshFilter.sharedMesh = pieceRenderData.Mesh;
         
         MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
         
         Material puzzleImageMaterial = new Material(Shader.Find("Unlit/Texture"));
-        puzzleImageMaterial.mainTexture = pieceInfo.PuzzleInfo.PuzzleImage;
+        puzzleImageMaterial.mainTexture = pieceRenderData.PuzzleRenderData.PuzzleImage;
         
         Vector2 uvScale = new Vector2(1f / 2, 1f / 2);
-        Vector2 uvOffset = new Vector2(pieceInfo.SolutionLocation.x / 0.2f, pieceInfo.SolutionLocation.y / 0.2f);
+        Vector2 uvOffset = new Vector2(pieceRenderData.SolutionLocation.x / 0.2f, pieceRenderData.SolutionLocation.y / 0.2f);
         
         puzzleImageMaterial.mainTextureOffset = uvOffset;
         puzzleImageMaterial.mainTextureScale = uvScale;
     
-        meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, pieceInfo.PuzzleInfo.BackMaterial };
+        meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, pieceRenderData.PuzzleRenderData.BackMaterial };
         
-        Bounds bounds = pieceInfo.Mesh.bounds;
+        Bounds bounds = pieceRenderData.Mesh.bounds;
         BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
         boxCollider.center = bounds.center;
         boxCollider.size = bounds.size;
         
-        _solutionLocation = pieceInfo.SolutionLocation;
+        _solutionLocation = pieceRenderData.SolutionLocation;
     }
 
-    public Vector3[] Verticies()
+    public Vector3[] Vertices()
     {
-        Debug.Log("Verticies " + gameObject.GetComponent<MeshFilter>()
-            .sharedMesh
-            .vertices.Select(vertex => transform.TransformPoint(vertex)).ToArray());
-        
         return gameObject
             .GetComponent<MeshFilter>()
             .sharedMesh
@@ -66,8 +66,8 @@ public class Piece : MonoBehaviour
     
     public bool IsRelativelyClose(Piece other)
     {
-        Vector3 expectedPosition = ExpectedPosition(other);
-        Vector3 actualPosition = transform.position;
+        var expectedPosition = ExpectedPosition(other);
+        var actualPosition = transform.position;
         
         return Vector3.Distance(expectedPosition, actualPosition) < ConnectionDistanceThreshold 
                && Quaternion.Angle(transform.rotation, other.transform.rotation) < ConnectionRotationThreshold;
@@ -77,5 +77,15 @@ public class Piece : MonoBehaviour
     {
         transform.position = ExpectedPosition(other);
         transform.rotation = other.transform.rotation;
+    }
+
+    public PieceSaveData ToData()
+    {
+        return new PieceSaveData
+        {
+            solutionLocation = _solutionLocation,
+            position = transform.position,
+            rotation = transform.rotation
+        };
     }
 }
