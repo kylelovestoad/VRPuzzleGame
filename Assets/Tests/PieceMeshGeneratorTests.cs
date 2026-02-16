@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using PuzzleGeneration;
 using UnityEngine;
 
 public class PieceMeshGeneratorTests

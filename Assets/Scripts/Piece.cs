@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
 using Persistence;
+using PuzzleGeneration;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
@@ -16,32 +16,36 @@ public class Piece : MonoBehaviour
     private Vector3 _solutionLocation;
     
     public void InitializePiece(
-        PieceRenderData pieceRenderData
+        PieceCut pieceCut,
+        PuzzleRenderData puzzleRenderData
     ) {
         Debug.Log("Initialize Piece Variant");
         
         MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
-        meshFilter.sharedMesh = pieceRenderData.Mesh;
+        meshFilter.sharedMesh = pieceCut.Mesh;
         
         MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
         
         Material puzzleImageMaterial = new Material(Shader.Find("Unlit/Texture"));
-        puzzleImageMaterial.mainTexture = pieceRenderData.PuzzleRenderData.PuzzleImage;
+        puzzleImageMaterial.mainTexture = puzzleRenderData.PuzzleImage;
+
+        var pieceSolutionLocation = pieceCut.SolutionLocation;
+        var cut = puzzleRenderData.Layout;
         
-        Vector2 uvScale = new Vector2(1f / 2, 1f / 2);
-        Vector2 uvOffset = new Vector2(pieceRenderData.SolutionLocation.x / 0.2f, pieceRenderData.SolutionLocation.y / 0.2f);
+        Vector2 uvScale = new Vector2(pieceCut.Width / cut.Width, pieceCut.Height / cut.Height);
+        Vector2 uvOffset = new Vector2(pieceSolutionLocation.x / cut.Width, pieceSolutionLocation.y / cut.Height);
         
         puzzleImageMaterial.mainTextureOffset = uvOffset;
         puzzleImageMaterial.mainTextureScale = uvScale;
     
-        meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, pieceRenderData.PuzzleRenderData.BackMaterial };
+        meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, puzzleRenderData.BackMaterial };
         
-        Bounds bounds = pieceRenderData.Mesh.bounds;
+        Bounds bounds = pieceCut.Mesh.bounds;
         BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
         boxCollider.center = bounds.center;
         boxCollider.size = bounds.size;
         
-        _solutionLocation = pieceRenderData.SolutionLocation;
+        _solutionLocation = pieceCut.SolutionLocation;
     }
 
     public Vector3[] Vertices()

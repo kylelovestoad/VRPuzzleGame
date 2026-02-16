@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Persistence;
+using PuzzleGeneration;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
@@ -23,14 +24,15 @@ public class Chunk : MonoBehaviour
     }
 
     public void InitializeSinglePieceChunk(
-        PieceRenderData pieceRenderData
+        PieceCut pieceCut,
+        PuzzleRenderData puzzleRenderData
     ) {
         _boxCollider = GetComponent<BoxCollider>();
         Debug.Log("Initializing Single Piece Chunk");
         
         var piece = GetComponentInChildren<Piece>();
         
-        piece.InitializePiece(pieceRenderData);
+        piece.InitializePiece(pieceCut, puzzleRenderData);
 
         InitializeBoxCollider(piece.Vertices());
         InsertInitialPiece(piece);

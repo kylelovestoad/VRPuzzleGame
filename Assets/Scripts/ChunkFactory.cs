@@ -1,3 +1,4 @@
+using PuzzleGeneration;
 using UnityEngine;
 
 public class ChunkFactory : MonoBehaviour
@@ -8,10 +9,11 @@ public class ChunkFactory : MonoBehaviour
     public Chunk CreateSinglePieceChunk(
         Vector3 initialPosition,
         Quaternion initialRotation,
-        PieceRenderData pieceRenderData
+        PieceCut pieceCut,
+        PuzzleRenderData puzzleRenderData
     ) {
         Chunk chunk = Instantiate(chunkPrefab, initialPosition, initialRotation);
-        chunk.InitializeSinglePieceChunk(pieceRenderData);
+        chunk.InitializeSinglePieceChunk(pieceCut, puzzleRenderData);
         
         return chunk;
     }
