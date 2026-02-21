@@ -19,8 +19,6 @@ public class Piece : MonoBehaviour
         PieceCut pieceCut,
         PuzzleRenderData puzzleRenderData
     ) {
-        Debug.Log("Initialize Piece Variant");
-        
         MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
         meshFilter.sharedMesh = pieceCut.Mesh;
         
@@ -36,7 +34,10 @@ public class Piece : MonoBehaviour
         var puzzleLayout = puzzleRenderData.Layout;
         
         Vector2 uvScale = new Vector2(pieceWidth / puzzleLayout.Width, pieceHeight / puzzleLayout.Height);
-        Vector2 uvOffset = new Vector2(pieceSolutionLocation.x / puzzleLayout.Width, pieceSolutionLocation.y / puzzleLayout.Height);
+        Vector2 uvOffset = new Vector2(
+            (pieceSolutionLocation.x + pieceBounds.min.x) / puzzleLayout.Width,
+            (pieceSolutionLocation.y + pieceBounds.min.y) / puzzleLayout.Height
+        );
         
         puzzleImageMaterial.mainTextureOffset = uvOffset;
         puzzleImageMaterial.mainTextureScale = uvScale;

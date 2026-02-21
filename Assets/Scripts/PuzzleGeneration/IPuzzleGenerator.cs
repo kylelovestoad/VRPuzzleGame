@@ -4,6 +4,6 @@ namespace PuzzleGeneration
 {
     public interface IPuzzleGenerator
     {
-        public PuzzleLayout Generate(Texture2D image, int numPieces, float puzzleHeight);
+        public PuzzleLayout Generate(Texture2D image, int rows, int cols, float puzzleHeight);
     }
 }

@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace PuzzleGeneration
 {
     public class JigsawPuzzleGenerator : IPuzzleGenerator
     {
         private const float Thickness = 0.01f;
-        private const float FuzzRatio = 0.25f;
         
         private static readonly Vector2[] SocketUp = {
             new(0f, 0f),
@@ -32,134 +29,110 @@ namespace PuzzleGeneration
             new(1f, 0f),
         };
 
-        private static readonly Vector2[] SocketDown = ReflectSocketControlPoints(SocketUp);
+        private static readonly Vector2[] SocketDown = ReflectSocketControlPointsY(SocketUp);
+        
         private static readonly Vector2[] SocketLeft = SwappedSocketControlPoints(SocketUp);
-        private static readonly Vector2[] SocketRight = ReflectSocketControlPoints(SocketLeft);
+        
+        private static readonly Vector2[] SocketRight = ReflectSocketControlPointsX(SocketLeft);
 
         private static Vector2[] SwappedSocketControlPoints(Vector2[] controlPoints)
         {
             return controlPoints.Select(point => new Vector2(point.y, point.x)).ToArray();
         }
         
-        private static Vector2[] ReflectSocketControlPoints(Vector2[] controlPoints)
+        private static Vector2[] ReflectSocketControlPointsX(Vector2[] controlPoints)
         {
-            return controlPoints.Select(point => -point).ToArray();
+            return controlPoints.Select(point => new Vector2(-point.x, point.y)).ToArray();
+        }
+        
+        private static Vector2[] ReflectSocketControlPointsY(Vector2[] controlPoints)
+        {
+            return controlPoints.Select(point => new Vector2(point.x, -point.y)).ToArray();
         }
     
-        public PuzzleLayout Generate(Texture2D image, int numPieces, float puzzleHeight)
+        public PuzzleLayout Generate(Texture2D image, int rows, int cols, float puzzleHeight)
         {
             float widthHeightRatio = (float) image.width / image.height;
-
-            int rows = CalculatePuzzleRows(numPieces, widthHeightRatio);
-            int minCols = numPieces / rows;
-            bool[] extraCol = RandomizeExtraCols(numPieces, rows, minCols);
-
-            float pieceHeight = puzzleHeight / rows;
             float puzzleWidth = puzzleHeight * widthHeightRatio;
+            
+            float pieceWidth = puzzleWidth / cols;
+            float pieceHeight = puzzleHeight / rows;
 
             List<PieceCut> pieceCuts = new List<PieceCut>();
+            List<JigsawPieceBorder> prevRowBorders = null;
         
             for (int r = 0; r < rows; r++)
             {
-                int currCols = minCols + Convert.ToInt32(extraCol[r]);
-                float currAvgWidth = puzzleWidth / currCols;
-                float fuzzRange = currAvgWidth * FuzzRatio;
                 float leftBoundary = 0;
+                var currRowBorders = new List<JigsawPieceBorder>();
 
-                for (int c = 0; c < currCols; c++)
+                for (int c = 0; c < cols; c++)
                 {
-                    float rightBoundary = currAvgWidth * (c + 1);
-                    if (c < currCols - 1)
-                    {
-                        rightBoundary += Random.Range(-fuzzRange, fuzzRange);
-                    }
-                
+                    float rightBoundary = pieceWidth * (c + 1);
                     Vector3 solutionLocation = new Vector3(leftBoundary, pieceHeight * r, 0);
 
-                    JigsawPieceBorder boarder = new JigsawPieceBorder(
-                        JigsawPieceEdge.SocketOut,
-                        JigsawPieceEdge.Straight,
-                        JigsawPieceEdge.Straight,
-                        JigsawPieceEdge.Straight
+                    JigsawPieceBorder border = new JigsawPieceBorder(
+                        r == rows - 1 ? JigsawPieceEdge.Straight : JigsawPieceEdgeUtil.RandomSocket(),
+                        prevRowBorders == null ? JigsawPieceEdge.Straight : prevRowBorders[c].Top.Match(),
+                        c == 0 ? JigsawPieceEdge.Straight : currRowBorders[c - 1].Right.Match(),
+                        c == cols - 1 ? JigsawPieceEdge.Straight : JigsawPieceEdgeUtil.RandomSocket()
                     );
                     
-                    var mesh = JigsawPieceMesh(rightBoundary - leftBoundary, pieceHeight, boarder);
+                    currRowBorders.Add(border);
+                    
+                    var mesh = JigsawPieceMesh(pieceWidth, pieceHeight, border);
                     
                     PieceCut cut = new PieceCut(solutionLocation, mesh);
                     pieceCuts.Add(cut);
                     
                     leftBoundary = rightBoundary;
                 }
+
+                prevRowBorders = currRowBorders;
             }
         
             return new PuzzleLayout(puzzleWidth, puzzleHeight, pieceCuts);
         }
 
-        private static int CalculatePuzzleRows(int numPieces, float widthHeightRatio)
-        {
-            int rows = (int) Math.Round(Mathf.Sqrt(numPieces / widthHeightRatio));
-            return rows == 0 ? 1 : rows;
-        }
-
-        private static bool[] RandomizeExtraCols(int numPieces, int rows, int minCols)
-        {
-            int extraColsRemaining = numPieces - rows * minCols;
-        
-            bool[] extraCol = new bool[rows];
-
-            for (int r = 0; r < rows; r++)
-            {
-                int rand = Random.Range(0, rows - r);
-
-                if (rand < extraColsRemaining)
-                {
-                    extraCol[r] = true;
-                    extraColsRemaining--;
-                }
-            }
-        
-            return extraCol;
-        }
-
-        private static Mesh JigsawPieceMesh(float width, float height, JigsawPieceBorder border)
+        private static Mesh JigsawPieceMesh(float boxWidth, float boxHeight, JigsawPieceBorder border)
         {
             var edgePoints = new List<Vector2>();
 
             if (border.Top == JigsawPieceEdge.Straight)
             {
-                edgePoints.Add(new Vector2(0, height));
+                edgePoints.Add(new Vector2(0, boxHeight));
             }
             else
             {
                 Vector2[] baseControlPoints = border.Top == JigsawPieceEdge.SocketOut ? SocketUp : SocketDown;
-                var controlPoints = JigsawEdgeControlPoints(baseControlPoints, new(0, height), width);
-                edgePoints.AddRange(CalculateJigsawEdgePoints(controlPoints).SkipLast(1));
+                var controlPoints = JigsawEdgeControlPoints(baseControlPoints, new(0, boxHeight), boxWidth);
+                edgePoints.AddRange(CalculateJigsawEdgePoints(controlPoints));
             }
 
             if (border.Right == JigsawPieceEdge.Straight)
             {
-                edgePoints.Add(new Vector2(width, height));
+                edgePoints.Add(new Vector2(boxWidth, boxHeight));
             }
             else
             {
                 Vector2[] baseControlPoints = border.Right == JigsawPieceEdge.SocketOut ? SocketRight : SocketLeft;
-                var controlPoints = JigsawEdgeControlPoints(baseControlPoints, new(width, 0), height)
+                var controlPoints = JigsawEdgeControlPoints(baseControlPoints, new(boxWidth, 0), boxHeight)
                     .Reverse()
                     .ToArray();
-                edgePoints.AddRange(CalculateJigsawEdgePoints(controlPoints).SkipLast(1));
+                edgePoints.AddRange(CalculateJigsawEdgePoints(controlPoints));
             }
 
             if (border.Bottom == JigsawPieceEdge.Straight)
             {
-                edgePoints.Add(new Vector2(width, 0));
+                edgePoints.Add(new Vector2(boxWidth, 0));
             }
             else
             {
                 Vector2[] baseControlPoints = border.Bottom == JigsawPieceEdge.SocketOut ? SocketDown : SocketUp;
-                var controlPoints = JigsawEdgeControlPoints(baseControlPoints, new(0, 0), width)
+                var controlPoints = JigsawEdgeControlPoints(baseControlPoints, new(0, 0), boxWidth)
                     .Reverse()
                     .ToArray();
-                edgePoints.AddRange(CalculateJigsawEdgePoints(controlPoints).SkipLast(1));
+                edgePoints.AddRange(CalculateJigsawEdgePoints(controlPoints));
             }
 
             if (border.Left == JigsawPieceEdge.Straight)
@@ -169,8 +142,8 @@ namespace PuzzleGeneration
             else
             {
                 Vector2[] baseControlPoints = border.Left == JigsawPieceEdge.SocketOut ? SocketLeft : SocketRight;
-                var controlPoints = JigsawEdgeControlPoints(baseControlPoints, new(0, 0), height);
-                edgePoints.AddRange(CalculateJigsawEdgePoints(controlPoints).SkipLast(1));
+                var controlPoints = JigsawEdgeControlPoints(baseControlPoints, new(0, 0), boxHeight);
+                edgePoints.AddRange(CalculateJigsawEdgePoints(controlPoints));
             }
 
             var vertices = edgePoints.ToArray();
@@ -180,12 +153,14 @@ namespace PuzzleGeneration
             mesh.vertices = vertices.Select(v => new Vector3(v.x, v.y, 0)).ToArray();
             mesh.subMeshCount = 1;
             mesh.SetTriangles(triangles, 0);
-            SetUVMapping(mesh);
+            ConfigureUVMapping(mesh);
+            
+            Debug.Log("Piece Border " + string.Join(", ", edgePoints.Select(p => $"({p.x:F10}, {p.y:F10})")));
 
             return mesh;
         }
 
-        private static void SetUVMapping(Mesh mesh)
+        private static void ConfigureUVMapping(Mesh mesh)
         {
             Vector3 min = mesh.bounds.min;
             Vector3 size = mesh.bounds.size;
@@ -208,7 +183,7 @@ namespace PuzzleGeneration
 
         private static List<Vector2> CalculateJigsawEdgePoints(Vector2[] controlPoints)
         {
-            const int pointsPerSegment = 8;
+            const int pointsPerSegment = 10;
             const int segments = 6;
             
             List<Vector2> edgePoints = new List<Vector2>();
@@ -224,6 +199,9 @@ namespace PuzzleGeneration
                 }
             }
             
+            Debug.Log("Controls " + string.Join(", ", controlPoints.Select(p => $"({p.x:F10}, {p.y:F10})")));
+            Debug.Log("Piece Border " + string.Join(", ", edgePoints.Select(p => $"({p.x:F10}, {p.y:F10})")));
+            
             return edgePoints;
         }
 
@@ -238,69 +216,63 @@ namespace PuzzleGeneration
 
             Vector2 newP0 = Vector2.Lerp(p0, p1, t);
             Vector2 newP1 = Vector2.Lerp(p1, p2, t);
-
+            
             return Vector2.Lerp(newP0, newP1, t);
         }
-
-        private static int[] Triangulate(Vector2[] pieceBoarder)
+        
+        private static int[] Triangulate(Vector2[] pieceBorder)
         {
-            Debug.Log("Border Length " + pieceBoarder.Length);
-            
-            var verticesRemaining = Enumerable.Range(0, pieceBoarder.Length).ToList();
-            int[] triangles = new int[(pieceBoarder.Length - 2) * 3];
+            var verticesRemaining = Enumerable.Range(0, pieceBorder.Length).ToList();
+            int[] triangles = new int[(pieceBorder.Length - 2) * 3];
             int currTriangleIndex = 0;
-            
-            int i0 = 0;
-            int i1 = 1;
-            int i2 = 2;
 
             while (verticesRemaining.Count > 3)
             {
-                Debug.Log("Border Length " + pieceBoarder.Length);
-                
-                Vector2 p0 = pieceBoarder[verticesRemaining[i0]];
-                Vector2 p1 = pieceBoarder[verticesRemaining[i1]];
-                Vector2 p2 = pieceBoarder[verticesRemaining[i2]];
-                
-                if (IsConvex(p0, p1, p2))
-                {
-                    int j = 0;
-                    bool makeTriangle = true;
-                    
-                    while (j < verticesRemaining.Count)
-                    {
-                        if (j == i0) {
-                            j += 3;
-                            continue;
-                        }
-                        
-                        Vector2 currPoint = pieceBoarder[verticesRemaining[j]];
+                bool madeTriangle = false;
 
+                for (int i0 = 0; i0 < verticesRemaining.Count; i0++)
+                {
+                    int i1 = (i0 + 1) % verticesRemaining.Count;
+                    int i2 = (i0 + 2) % verticesRemaining.Count;
+
+                    Vector2 p0 = pieceBorder[verticesRemaining[i0]];
+                    Vector2 p1 = pieceBorder[verticesRemaining[i1]];
+                    Vector2 p2 = pieceBorder[verticesRemaining[i2]];
+
+                    if (!IsConvex(p0, p1, p2)) continue;
+
+                    bool noneInside = true;
+                    
+                    for (int j = 0; j < verticesRemaining.Count; j++)
+                    {
+                        if (j == i0 || j == i1 || j == i2) continue;
+
+                        Vector2 currPoint = pieceBorder[verticesRemaining[j]];
+                        
                         if (InsideTriangle(currPoint, p0, p1, p2))
                         {
-                            makeTriangle = false;
+                            noneInside = false;
                             break;
                         }
-                        
-                        j++;
                     }
 
-                    if (makeTriangle)
+                    if (noneInside)
                     {
                         triangles[currTriangleIndex++] = verticesRemaining[i0];
                         triangles[currTriangleIndex++] = verticesRemaining[i1];
                         triangles[currTriangleIndex++] = verticesRemaining[i2];
                         
                         verticesRemaining.RemoveAt(i1);
-                        continue;
+                        
+                        madeTriangle = true;
+                        
+                        break;
                     }
                 }
-
-                i0 = i1;
-                i1 = i2;
-                i2 = (i2 + 1) % verticesRemaining.Count;
+                
+                Debug.Assert(madeTriangle, "Failed to triangulate jigsaw puzzle piece");
             }
-            
+
             foreach (var vertex in verticesRemaining)
             {
                 triangles[currTriangleIndex++] = vertex;
@@ -309,26 +281,25 @@ namespace PuzzleGeneration
             return triangles;
         }
         
-        private static bool IsConvex(Vector2 p0, Vector2 p1, Vector2 p2)
-        {
-            return Cross(p0, p1, p2) < 0f;
-        }
-        
-        private static float Cross(Vector2 p0, Vector2 p1, Vector2 p2)
+        private static float CrossProduct(Vector2 p0, Vector2 p1, Vector2 p2)
         {
             return (p1.x - p0.x) * (p2.y - p1.y) - (p1.y - p0.y) * (p2.x - p1.x);
+        }
+
+        
+        private static bool IsConvex(Vector2 p0, Vector2 p1, Vector2 p2)
+        {
+            return CrossProduct(p0, p1, p2) < 0f;
         }
         
         private static bool InsideTriangle(Vector2 point, Vector2 t0, Vector2 t1, Vector2 t2)
         {
-            float d1 = Cross(t0, t1, point);
-            float d2 = Cross(t1, t2, point);
-            float d3 = Cross(t2, t0, point);
-
-            bool hasNeg = (d1 < 0) || (d2 < 0) || (d3 < 0);
-            bool hasPos = (d1 > 0) || (d2 > 0) || (d3 > 0);
-
-            return !(hasNeg && hasPos);
+            float dir0 = CrossProduct(t0, t1, point);
+            float dir1 = CrossProduct(t1, t2, point);
+            float dir2 = CrossProduct(t2, t0, point);
+            
+            return (dir0 < 0 && dir1 < 0 && dir2 < 0) 
+                   || (dir0 > 0 && dir1 > 0 && dir2 > 0);
         }
     }
 }

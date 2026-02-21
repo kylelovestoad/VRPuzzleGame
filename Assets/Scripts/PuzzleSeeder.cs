@@ -21,7 +21,7 @@ public class PuzzleSeeder : MonoBehaviour
         Material backMaterial = new Material(Shader.Find("Unlit/Color"));
         backMaterial.color = Color.gray;
         
-        var puzzleLayout = generator.Generate(puzzleImage, 9, 1);
+        var puzzleLayout = generator.Generate(puzzleImage, 4, 4, 1f);
         var puzzleRenderData = new PuzzleRenderData(puzzleImage, backMaterial, puzzleLayout);
         
         foreach (var cut in puzzleLayout.PieceCuts)

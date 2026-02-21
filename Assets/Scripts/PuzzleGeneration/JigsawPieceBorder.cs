@@ -4,8 +4,8 @@
         JigsawPieceEdge Top,
         JigsawPieceEdge Bottom,
         JigsawPieceEdge Left,
-        JigsawPieceEdge Right)
-    {
+        JigsawPieceEdge Right
+    ) {
         public JigsawPieceEdge Top { get; } = Top;
         public JigsawPieceEdge Bottom { get; } = Bottom;
         public JigsawPieceEdge Left { get; } = Left;
