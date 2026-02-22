@@ -10,6 +10,7 @@ using UnityEngine;
 [Serializable]
 public class Piece : MonoBehaviour
 {
+    // TODO: make better thresholds
     private const float ConnectionDistanceThreshold = 0.01f;
     private const float ConnectionRotationThreshold = 45f;
     
@@ -42,7 +43,7 @@ public class Piece : MonoBehaviour
         puzzleImageMaterial.mainTextureOffset = uvOffset;
         puzzleImageMaterial.mainTextureScale = uvScale;
     
-        meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, puzzleRenderData.BackMaterial };
+        meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, puzzleRenderData.BackAndSidesMaterial };
         
         Bounds bounds = pieceCut.Mesh.bounds;
         BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();

@@ -1,5 +1,5 @@
-using System.Collections.Generic;
-using PuzzleGeneration;
+using PuzzleGeneration.Jigsaw;
+using PuzzleGeneration.Rectangle;
 using UnityEngine;
 
 // For Testing
