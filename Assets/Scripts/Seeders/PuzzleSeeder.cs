@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
 
@@ -22,17 +24,32 @@ public class PuzzleSeeder : MonoBehaviour
         var puzzleLayout = JigsawPuzzleGenerator.Generate(puzzleImage, 4, .2f);
         var puzzleRenderData = new PuzzleRenderData(puzzleImage, backMaterial, puzzleLayout);
         
+        var chunks = new List<Chunk>();
+        
         foreach (var cut in puzzleLayout.PieceCuts)
         {
             Debug.Log(cut.SolutionLocation);
-            
-            chunkFactory.CreateSinglePieceChunk(
-                cut.SolutionLocation + 
-                new Vector3(cut.SolutionLocation.x * 1.5f, cut.SolutionLocation.y * 1.5f, 0), 
-                Quaternion.identity, 
+
+            chunks.Add(chunkFactory.CreateSinglePieceChunk(
+                cut.SolutionLocation +
+                new Vector3(cut.SolutionLocation.x * 1.5f, cut.SolutionLocation.y * 1.5f, 0),
+                Quaternion.identity,
                 cut,
                 puzzleRenderData
-            );
+            ));
         }
+        
+        // TODO puzzle object creation needs to be done better most likely
+        var puzzleData = new PuzzleSaveData(
+            0,
+            null,
+            "Donkey Kong",
+            "DK's puzzle is optimal",
+            "Donkey Kong",
+            0,
+            PieceShape.Square,
+            chunks.Select(chunk => chunk.ToData()).ToList()
+        );
+        
     }
 }

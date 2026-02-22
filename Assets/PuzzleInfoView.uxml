@@ -1,0 +1,14 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap-reverse;">
+        <ui:VisualElement name="TopBar" style="flex-grow: 1; flex-direction: row; width: auto; height: auto; min-height: 0%; max-height: 10%;">
+            <ui:Button text="Button"/>
+            <ui:Label text="Name Of Puzzle" style="align-content: auto; font-size: 24px; -unity-text-align: middle-center;"/>
+            <ui:Button text="Button" style="right: auto; margin-left: auto;"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1;"/>
+        <ui:VisualElement style="flex-grow: 1; min-height: 0%; max-height: 40%;">
+            <ui:Button text="Save"/>
+            <ui:Button text="Load"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
