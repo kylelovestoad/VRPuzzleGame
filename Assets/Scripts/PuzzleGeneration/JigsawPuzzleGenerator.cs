@@ -146,18 +146,37 @@ namespace PuzzleGeneration
                 edgePoints.AddRange(CalculateJigsawEdgePoints(controlPoints));
             }
 
-            var vertices = edgePoints.ToArray();
-            var triangles = Triangulate(vertices);
-
             Mesh mesh = new Mesh();
-            mesh.vertices = vertices.Select(v => new Vector3(v.x, v.y, 0)).ToArray();
-            mesh.subMeshCount = 1;
-            mesh.SetTriangles(triangles, 0);
+            mesh.vertices = Vertices(edgePoints);
+            
+            var frontTriangles = TriangulateFront(edgePoints);
+            var backTriangles = TriangulateBackAndSides(edgePoints, frontTriangles);
+            
+            mesh.subMeshCount = 2;
+            mesh.SetTriangles(frontTriangles, 0);
+            mesh.SetTriangles(backTriangles, 1);
+            
             ConfigureUVMapping(mesh);
             
-            Debug.Log("Piece Border " + string.Join(", ", edgePoints.Select(p => $"({p.x:F10}, {p.y:F10})")));
-
             return mesh;
+        }
+
+        private static Vector3[] Vertices(List<Vector2> edgePoints)
+        {
+            var edgePointsCount = edgePoints.Count;
+            var vertices = new Vector3[edgePoints.Count << 1];
+            
+            for (int i = 0; i < edgePoints.Count; i++)
+            {
+                var point =  edgePoints[i];
+                var x = point.x;
+                var y = point.y;
+                
+                vertices[i] = new Vector3(x, y, 0);
+                vertices[i + edgePointsCount] = new Vector3(x, y, Thickness);
+            }
+
+            return vertices;
         }
 
         private static void ConfigureUVMapping(Mesh mesh)
@@ -220,57 +239,27 @@ namespace PuzzleGeneration
             return Vector2.Lerp(newP0, newP1, t);
         }
         
-        private static int[] Triangulate(Vector2[] pieceBorder)
+        private static int[] TriangulateFront(List<Vector2> edgePieces)
         {
-            var verticesRemaining = Enumerable.Range(0, pieceBorder.Length).ToList();
-            int[] triangles = new int[(pieceBorder.Length - 2) * 3];
+            var edgePointsCounts =  edgePieces.Count;
+            
+            var verticesRemaining = Enumerable.Range(0, edgePointsCounts).ToList();
+            int[] triangles = new int[(edgePointsCounts - 2) * 3];
             int currTriangleIndex = 0;
 
             while (verticesRemaining.Count > 3)
             {
-                bool madeTriangle = false;
-
-                for (int i0 = 0; i0 < verticesRemaining.Count; i0++)
-                {
-                    int i1 = (i0 + 1) % verticesRemaining.Count;
-                    int i2 = (i0 + 2) % verticesRemaining.Count;
-
-                    Vector2 p0 = pieceBorder[verticesRemaining[i0]];
-                    Vector2 p1 = pieceBorder[verticesRemaining[i1]];
-                    Vector2 p2 = pieceBorder[verticesRemaining[i2]];
-
-                    if (!IsConvex(p0, p1, p2)) continue;
-
-                    bool noneInside = true;
-                    
-                    for (int j = 0; j < verticesRemaining.Count; j++)
-                    {
-                        if (j == i0 || j == i1 || j == i2) continue;
-
-                        Vector2 currPoint = pieceBorder[verticesRemaining[j]];
-                        
-                        if (InsideTriangle(currPoint, p0, p1, p2))
-                        {
-                            noneInside = false;
-                            break;
-                        }
-                    }
-
-                    if (noneInside)
-                    {
-                        triangles[currTriangleIndex++] = verticesRemaining[i0];
-                        triangles[currTriangleIndex++] = verticesRemaining[i1];
-                        triangles[currTriangleIndex++] = verticesRemaining[i2];
-                        
-                        verticesRemaining.RemoveAt(i1);
-                        
-                        madeTriangle = true;
-                        
-                        break;
-                    }
-                }
+                int i0 = MakeTriangle(edgePieces, verticesRemaining);
+                Debug.Assert(i0 >= 0, "Failed to triangulate jigsaw puzzle piece");
                 
-                Debug.Assert(madeTriangle, "Failed to triangulate jigsaw puzzle piece");
+                int i1 = (i0 + 1) % verticesRemaining.Count;
+                int i2 = (i0 + 2) % verticesRemaining.Count;
+                
+                triangles[currTriangleIndex++] = verticesRemaining[i0];
+                triangles[currTriangleIndex++] = verticesRemaining[i1];
+                triangles[currTriangleIndex++] = verticesRemaining[i2];
+                    
+                verticesRemaining.RemoveAt(i1);
             }
 
             foreach (var vertex in verticesRemaining)
@@ -280,6 +269,49 @@ namespace PuzzleGeneration
 
             return triangles;
         }
+
+        private static int MakeTriangle(List<Vector2> pieceBorder, List<int> verticesRemaining)
+        {
+            var verticesRemainingCount =  verticesRemaining.Count;
+            
+            for (int i0 = 0; i0 < verticesRemainingCount; i0++)
+            {
+                int i1 = (i0 + 1) % verticesRemainingCount;
+                int i2 = (i0 + 2) % verticesRemainingCount;
+                
+                bool noneInside = ValidTriangle(i0, i1, i2, pieceBorder, verticesRemaining);
+
+                if (noneInside)
+                {
+                    return i0;
+                }
+            }
+
+            return -1;
+        }
+
+        private static bool ValidTriangle(int i0, int i1, int i2, List<Vector2> pieceBorder, List<int> verticesRemaining)
+        {
+            Vector2 p0 = pieceBorder[verticesRemaining[i0]];
+            Vector2 p1 = pieceBorder[verticesRemaining[i1]];
+            Vector2 p2 = pieceBorder[verticesRemaining[i2]];
+
+            if (IsConcave(p0, p1, p2)) return false;
+            
+            for (int j = 0; j < verticesRemaining.Count; j++)
+            {
+                if (j == i0 || j == i1 || j == i2) continue;
+
+                Vector2 currPoint = pieceBorder[verticesRemaining[j]];
+                        
+                if (InsideTriangle(currPoint, p0, p1, p2))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
         
         private static float CrossProduct(Vector2 p0, Vector2 p1, Vector2 p2)
         {
@@ -287,19 +319,63 @@ namespace PuzzleGeneration
         }
 
         
-        private static bool IsConvex(Vector2 p0, Vector2 p1, Vector2 p2)
+        private static bool IsConcave(Vector2 p0, Vector2 p1, Vector2 p2)
         {
-            return CrossProduct(p0, p1, p2) < 0f;
+            return CrossProduct(p0, p1, p2) > 0f;
         }
         
-        private static bool InsideTriangle(Vector2 point, Vector2 t0, Vector2 t1, Vector2 t2)
+        private static bool InsideTriangle(Vector2 point, Vector2 p0, Vector2 p1, Vector2 p2)
         {
-            float dir0 = CrossProduct(t0, t1, point);
-            float dir1 = CrossProduct(t1, t2, point);
-            float dir2 = CrossProduct(t2, t0, point);
+            float dir0 = CrossProduct(p0, p1, point);
+            float dir1 = CrossProduct(p1, p2, point);
+            float dir2 = CrossProduct(p2, p0, point);
             
             return (dir0 < 0 && dir1 < 0 && dir2 < 0) 
                    || (dir0 > 0 && dir1 > 0 && dir2 > 0);
+        }
+
+        private static int[] TriangulateBackAndSides(List<Vector2> edgePieces, int[] frontTriangles)
+        {
+            var edgePiecesCount = edgePieces.Count;
+            var frontTrianglesLen = frontTriangles.Length;
+            
+            var triangles = new int[frontTrianglesLen + edgePiecesCount * 6];
+
+            TriangulateBack(triangles, edgePieces, frontTriangles);
+            TriangulateSides(triangles, edgePieces, frontTrianglesLen);
+            
+            return triangles;
+        }
+
+        private static void TriangulateBack(int[] triangles, List<Vector2> edgePieces, int[] frontTriangles)
+        {
+            var edgePiecesCount = edgePieces.Count;
+            var frontTrianglesLen = frontTriangles.Length;
+            
+            for (int i = 0; i < frontTrianglesLen; i += 3)
+            {
+                triangles[i] = frontTriangles[i + 2] + edgePiecesCount;
+                triangles[i + 1] = frontTriangles[i + 1] + edgePiecesCount;
+                triangles[i + 2] = frontTriangles[i] + edgePiecesCount;
+            }
+        }
+        
+        private static void TriangulateSides(int[] triangles, List<Vector2> edgePieces, int startOffset)
+        {
+            var edgePiecesCount = edgePieces.Count;
+            
+            for (int i = 0; i < edgePiecesCount; i++)
+            {
+                int offset = i * 6 + startOffset;
+                
+                triangles[offset] = i;
+                triangles[offset + 1] = i + edgePiecesCount;
+                triangles[offset + 2] = (i + 1) % edgePiecesCount;
+                
+                triangles[offset + 3] = i + edgePiecesCount;
+                triangles[offset + 4] = (i + 1) % edgePiecesCount + edgePiecesCount;
+                triangles[offset + 5] = (i + 1) % edgePiecesCount;
+            }
         }
     }
 }

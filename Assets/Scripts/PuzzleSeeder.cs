@@ -16,7 +16,7 @@ public class PuzzleSeeder : MonoBehaviour
 
     void RandomPuzzle()
     {
-        JigsawPuzzleGenerator generator =  new JigsawPuzzleGenerator();
+        var generator =  new JigsawPuzzleGenerator();
             
         Material backMaterial = new Material(Shader.Find("Unlit/Color"));
         backMaterial.color = Color.gray;

@@ -42,7 +42,7 @@ public class Piece : MonoBehaviour
         puzzleImageMaterial.mainTextureOffset = uvOffset;
         puzzleImageMaterial.mainTextureScale = uvScale;
     
-        meshRenderer.sharedMaterials = new[] { puzzleImageMaterial };
+        meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, puzzleRenderData.BackMaterial };
         
         Bounds bounds = pieceCut.Mesh.bounds;
         BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
