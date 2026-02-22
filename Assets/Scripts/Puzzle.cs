@@ -34,16 +34,15 @@ public class Puzzle
     
     public PuzzleSaveData ToData()
     {
-        return new PuzzleSaveData
-        {
-            localID = LocalID,
-            OnlineID = OnlineID,
-            name = Name,
-            description = Description,
-            author = Author,
-            seed = Seed,
-            shape = Shape,
-            chunks = chunks.Select(c => c.ToData()).ToList()
-        };
+        return new PuzzleSaveData(
+            localID: LocalID,
+            onlineID: OnlineID,
+            name: Name,
+            description: Description,
+            author: Author,
+            seed: Seed,
+            shape: Shape,
+            chunks: chunks.Select(c => c.ToData()).ToList()
+        );
     }
 }
