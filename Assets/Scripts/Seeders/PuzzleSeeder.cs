@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Persistence;
 using PuzzleGeneration;
+using PuzzleGeneration.Jigsaw;
 using UnityEngine;
 
 // For Testing
@@ -18,10 +19,12 @@ public class PuzzleSeeder : MonoBehaviour
 
     void RandomPuzzle()
     {
+        IPuzzleGenerator generator = new JigsawPuzzleGenerator();
+        
         Material backMaterial = new Material(Shader.Find("Unlit/Color"));
         backMaterial.color = Color.gray;
         
-        var puzzleLayout = JigsawPuzzleGenerator.Generate(puzzleImage, 4, .2f);
+        var puzzleLayout = generator.Generate(puzzleImage, 4, 4, 1);
         var puzzleRenderData = new PuzzleRenderData(puzzleImage, backMaterial, puzzleLayout);
         
         var chunks = new List<Chunk>();

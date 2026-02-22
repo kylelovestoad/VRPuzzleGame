@@ -10,6 +10,7 @@ using UnityEngine;
 [Serializable]
 public class Piece : MonoBehaviour
 {
+    // TODO: make better thresholds
     private const float ConnectionDistanceThreshold = 0.01f;
     private const float ConnectionRotationThreshold = 45f;
     
@@ -19,8 +20,6 @@ public class Piece : MonoBehaviour
         PieceCut pieceCut,
         PuzzleRenderData puzzleRenderData
     ) {
-        Debug.Log("Initialize Piece Variant");
-        
         MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
         meshFilter.sharedMesh = pieceCut.Mesh;
         
@@ -30,15 +29,21 @@ public class Piece : MonoBehaviour
         puzzleImageMaterial.mainTexture = puzzleRenderData.PuzzleImage;
 
         var pieceSolutionLocation = pieceCut.SolutionLocation;
-        var cut = puzzleRenderData.Layout;
+        var pieceBounds = pieceCut.Mesh.bounds;
+        var pieceWidth = pieceBounds.max.x - pieceBounds.min.x;
+        var pieceHeight = pieceBounds.max.y - pieceBounds.min.y;
+        var puzzleLayout = puzzleRenderData.Layout;
         
-        Vector2 uvScale = new Vector2(pieceCut.Width / cut.Width, pieceCut.Height / cut.Height);
-        Vector2 uvOffset = new Vector2(pieceSolutionLocation.x / cut.Width, pieceSolutionLocation.y / cut.Height);
+        Vector2 uvScale = new Vector2(pieceWidth / puzzleLayout.Width, pieceHeight / puzzleLayout.Height);
+        Vector2 uvOffset = new Vector2(
+            (pieceSolutionLocation.x + pieceBounds.min.x) / puzzleLayout.Width,
+            (pieceSolutionLocation.y + pieceBounds.min.y) / puzzleLayout.Height
+        );
         
         puzzleImageMaterial.mainTextureOffset = uvOffset;
         puzzleImageMaterial.mainTextureScale = uvScale;
     
-        meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, puzzleRenderData.BackMaterial };
+        meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, puzzleRenderData.BackAndSidesMaterial };
         
         Bounds bounds = pieceCut.Mesh.bounds;
         BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
