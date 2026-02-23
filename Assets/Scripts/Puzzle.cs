@@ -23,6 +23,12 @@ public class Puzzle
     private List<Chunk> _chunks;
     // private PuzzleLayout _puzzleLayout;
     public PuzzleRenderData RenderData { get; }
+
+    public Puzzle(PuzzleRenderData r)
+    {
+        _chunks = new List<Chunk>();
+        RenderData = r;
+    }
     
     public Puzzle(PuzzleSaveData saveData, PuzzleRenderData renderData)
     {
@@ -33,9 +39,8 @@ public class Puzzle
         Author = saveData.author;
         Seed = saveData.seed;
         Shape = saveData.shape;
-        
         RenderData = renderData;
-        
+        _chunks = new List<Chunk>();
     }
 
     public Puzzle(
