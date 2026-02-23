@@ -15,8 +15,9 @@ public class Chunk : MonoBehaviour
     
     [SerializeField]
     private List<Piece> pieces;
-    
-    public long PieceCount => pieces.Count; 
+    public long PieceCount => pieces.Count;
+
+    private Puzzle _puzzle;
 
     public void Awake()
     {
@@ -25,14 +26,14 @@ public class Chunk : MonoBehaviour
 
     public void InitializeSinglePieceChunk(
         PieceCut pieceCut,
-        PuzzleRenderData puzzleRenderData
+        Puzzle puzzle
     ) {
         _boxCollider = GetComponent<BoxCollider>();
-        Debug.Log("Initializing Single Piece Chunk");
+        _puzzle = puzzle;
         
         var piece = GetComponentInChildren<Piece>();
         
-        piece.InitializePiece(pieceCut, puzzleRenderData);
+        piece.InitializePiece(pieceCut, puzzle.RenderData);
 
         InitializeBoxCollider(piece.Vertices());
         InsertInitialPiece(piece);
@@ -79,7 +80,7 @@ public class Chunk : MonoBehaviour
         pieces = new List<Piece> { piece };
     }
 
-    private void Combine(Chunk other)
+    private void Merge(Chunk other)
     {
         UpdateBoxCollider(other.pieces);
 
@@ -97,6 +98,8 @@ public class Chunk : MonoBehaviour
 
             pieces.Add(otherPiece);
         }
+
+        _puzzle.RemoveChunk(other);
 
 #if UNITY_EDITOR
         if (Application.isPlaying)
@@ -126,7 +129,7 @@ public class Chunk : MonoBehaviour
 
             if (rep.IsRelativelyClose(otherRep))
             {
-                Combine(otherChunk);
+                Merge(otherChunk);
             }
         }
     }

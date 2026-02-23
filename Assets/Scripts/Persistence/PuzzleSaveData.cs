@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine.Serialization;
 
 namespace Persistence
 {
@@ -24,8 +23,8 @@ namespace Persistence
             string author,
             long seed,
             PieceShape shape,
-            List<ChunkSaveData> chunks)
-        {
+            List<ChunkSaveData> chunks
+        ) {
             this.localID = localID;
             this.OnlineID = onlineID;
             this.name = name;

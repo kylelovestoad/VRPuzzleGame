@@ -50,7 +50,7 @@ namespace PuzzleGeneration.Jigsaw
                 prevRowBorders = currRowBorders;
             }
         
-            return new PuzzleLayout(puzzleWidth, puzzleHeight, pieceCuts);
+            return new PuzzleLayout(puzzleWidth, puzzleHeight, PieceShape.Jigsaw, pieceCuts);
         }
 
         private static Mesh JigsawPieceMesh(JigsawPieceBorder border)

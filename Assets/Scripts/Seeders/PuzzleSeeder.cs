@@ -1,58 +1,36 @@
-using System.Collections.Generic;
-using System.Linq;
-using Persistence;
 using PuzzleGeneration;
 using PuzzleGeneration.Jigsaw;
 using UnityEngine;
 
-// For Testing
-public class PuzzleSeeder : MonoBehaviour
+namespace Seeders
 {
-    [SerializeField] private ChunkFactory chunkFactory;
-    [SerializeField] private Texture2D puzzleImage;
+    public class PuzzleSeeder : MonoBehaviour
+    {
+        [SerializeField] private Texture2D puzzleImage;
     
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        RandomPuzzle();
-    }
-
-    void RandomPuzzle()
-    {
-        IPuzzleGenerator generator = new JigsawPuzzleGenerator();
-        
-        Material backMaterial = new Material(Shader.Find("Unlit/Color"));
-        backMaterial.color = Color.gray;
-        
-        var puzzleLayout = generator.Generate(puzzleImage, 4, 4, 1);
-        var puzzleRenderData = new PuzzleRenderData(puzzleImage, backMaterial, puzzleLayout);
-        
-        var chunks = new List<Chunk>();
-        
-        foreach (var cut in puzzleLayout.PieceCuts)
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        void Start()
         {
-            Debug.Log(cut.SolutionLocation);
-
-            chunks.Add(chunkFactory.CreateSinglePieceChunk(
-                cut.SolutionLocation +
-                new Vector3(cut.SolutionLocation.x * 1.5f, cut.SolutionLocation.y * 1.5f, 0),
-                Quaternion.identity,
-                cut,
-                puzzleRenderData
-            ));
+            RandomPuzzle();
         }
+
+        void RandomPuzzle()
+        {
+            IPuzzleGenerator generator = new JigsawPuzzleGenerator();
         
-        // TODO puzzle object creation needs to be done better most likely
-        var puzzleData = new PuzzleSaveData(
-            0,
-            null,
-            "Donkey Kong",
-            "DK's puzzle is optimal",
-            "Donkey Kong",
-            0,
-            PieceShape.Square,
-            chunks.Select(chunk => chunk.ToData()).ToList()
-        );
+            Material backMaterial = new Material(Shader.Find("Unlit/Color"));
+            backMaterial.color = Color.gray;
         
+            var puzzleLayout = generator.Generate(puzzleImage, 4, 4, 1);
+            var puzzleRenderData = new PuzzleRenderData(puzzleImage, backMaterial, puzzleLayout);
+
+            new Puzzle(
+                "Donkey Kong", 
+                "DK's puzzle is optimal", 
+                "Donkey Kong", 
+                puzzleLayout, 
+                puzzleRenderData
+            );
+        }
     }
 }

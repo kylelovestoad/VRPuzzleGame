@@ -14,7 +14,9 @@ public class Piece : MonoBehaviour
     private const float ConnectionDistanceThreshold = 0.01f;
     private const float ConnectionRotationThreshold = 45f;
     
-    private Vector3 _solutionLocation;
+    private PieceCut _cut;
+    private Vector2 SolutionLocation => _cut.SolutionLocation;
+    private Mesh Mesh => _cut.Mesh;
     
     public void InitializePiece(
         PieceCut pieceCut,
@@ -50,7 +52,7 @@ public class Piece : MonoBehaviour
         boxCollider.center = bounds.center;
         boxCollider.size = bounds.size;
         
-        _solutionLocation = pieceCut.SolutionLocation;
+        _cut = pieceCut;
     }
 
     public Vector3[] Vertices()
@@ -65,7 +67,7 @@ public class Piece : MonoBehaviour
     
     private Vector3 SolutionOffset(Piece other)
     {
-        return _solutionLocation - other._solutionLocation;
+        return SolutionLocation - other.SolutionLocation;
     }
     
     private Vector3 ExpectedPosition(Piece other)
@@ -92,7 +94,9 @@ public class Piece : MonoBehaviour
     {
         return new PieceSaveData
         {
-            solutionLocation = _solutionLocation,
+            vertices = Mesh.vertices,
+            triangles = Mesh.triangles, // might be better to derive
+            solutionLocation = SolutionLocation,
             position = transform.position,
             rotation = transform.rotation
         };

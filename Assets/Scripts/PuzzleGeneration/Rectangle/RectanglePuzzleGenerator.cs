@@ -49,7 +49,7 @@ namespace PuzzleGeneration.Rectangle
                 }
             }
         
-            return new PuzzleLayout(puzzleWidth, puzzleHeight, pieceCuts);
+            return new PuzzleLayout(puzzleWidth, puzzleHeight, PieceShape.Rectangle, pieceCuts);
         }
         
         private static Mesh RectanglePieceMesh(
