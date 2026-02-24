@@ -39,37 +39,50 @@ public class Puzzle
         Layout = saveData.layout;
         RenderData = renderData;
         _chunks = new List<Chunk>();
+        
+        InitializeChunks(saveData);
+    }
+    
+    private void InitializeChunks(PuzzleSaveData saveData)
+    {
+        if (saveData.chunks == null || saveData.chunks.Count == 0)
+        {
+            InitializeChunks();
+        }
+        else
+        {
+            InitializeSavedChunkStates(saveData.chunks);
+        }
     }
 
-    public Puzzle(
-        string name,
-        string description,
-        string author,
-        PuzzleLayout puzzleLayout, 
-        PuzzleRenderData renderData
-    ) {
-        Name = name;
-        Description = description;
-        Author = author;
-        Layout = puzzleLayout;
-        RenderData = renderData;
-        _chunks = new List<Chunk>();
-    }
-
-    public void InitializeChunks()
+    private void InitializeChunks()
     {
         foreach (var cut in Layout.initialPieceCuts)
         {
             Debug.Log(cut.solutionLocation);
 
             // TODO: randomize placement
+            var offset = new Vector3(cut.solutionLocation.x * 1.5f, cut.solutionLocation.y * 1.5f, 0);
+            
             _chunks.Add(ChunkFactory.Instance.CreateSinglePieceChunk(
-                cut.solutionLocation +
-                new Vector3(cut.solutionLocation.x * 1.5f, cut.solutionLocation.y * 1.5f, 0),
+                cut.solutionLocation + offset,
                 Quaternion.identity,
                 cut,
                 this
             ));
+        }
+    }
+    
+    private void InitializeSavedChunkStates(List<ChunkSaveData> chunks)
+    {
+        foreach (var chunkSaveData in chunks)
+        {
+            var chunk = ChunkFactory.Instance.CreateMultiplePieceChunk(
+                chunkSaveData,
+                this
+            );
+            
+            _chunks.Add(chunk);
         }
     }
 

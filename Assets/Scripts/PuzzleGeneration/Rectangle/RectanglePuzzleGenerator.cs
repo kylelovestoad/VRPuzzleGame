@@ -40,8 +40,9 @@ namespace PuzzleGeneration.Rectangle
                     );
                 
                     Vector3 solutionLocation = new Vector3(leftBoundary, pieceHeight * r, 0);
-                    
-                    PieceCut cut = new PieceCut(solutionLocation, borderPoints);
+
+                    int nextIndex = pieceCuts.Count;
+                    PieceCut cut = new PieceCut(nextIndex, solutionLocation, borderPoints);
                     pieceCuts.Add(cut);
                 
                     leftBoundary = rightBoundary;

@@ -6,14 +6,15 @@ using PuzzleGeneration;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
-[Serializable]
 public class Chunk : MonoBehaviour
 {
     private const float CollisionDistanceThreshold = 0.01f;
+
+    [SerializeField] 
+    private Piece piecePrefab;
     
     private BoxCollider _boxCollider;
-    
-    [SerializeField]
+
     private List<Piece> pieces;
     public long PieceCount => pieces.Count;
 
@@ -24,26 +25,57 @@ public class Chunk : MonoBehaviour
         _boxCollider = GetComponent<BoxCollider>();
     }
 
-    public void InitializeSinglePieceChunk(
-        PieceCut pieceCut,
+    public void InitializeSinglePieceChunk(PieceCut cut, Puzzle puzzle)
+    {
+        _boxCollider = GetComponent<BoxCollider>();
+        _puzzle = puzzle;
+        
+        var piece = GetComponentInChildren<Piece>();
+        piece.InitializePiece(cut, puzzle.RenderData);
+        
+        InitializeBoxCollider();
+    }
+    
+    public void InitializeMultiplePieceChunk(
+        ChunkSaveData chunkStateData,
         Puzzle puzzle
     ) {
         _boxCollider = GetComponent<BoxCollider>();
         _puzzle = puzzle;
         
-        var piece = GetComponentInChildren<Piece>();
+        var piecesSaveDataList = chunkStateData.pieces;
         
-        piece.InitializePiece(pieceCut, puzzle.RenderData);
+        var firstPiece = GetComponentInChildren<Piece>();
+        var firstPieceSaveData = piecesSaveDataList[0];
+        var initialPieceCuts = puzzle.Layout.initialPieceCuts;
+        
+        firstPiece.transform.position = firstPieceSaveData.position;
+        firstPiece.transform.rotation = firstPieceSaveData.rotation;
+        firstPiece.InitializePiece(initialPieceCuts[firstPieceSaveData.pieceIndex], puzzle.RenderData);
+        
+        for (int i = 1; i < piecesSaveDataList.Count; i++)
+        {
+            PieceSaveData currPiece = piecesSaveDataList[i];
+            PieceCut currCut = initialPieceCuts[currPiece.pieceIndex];
+                
+            Piece piece = Instantiate(piecePrefab, currPiece.position, currPiece.rotation);
+            piece.InitializePiece(currCut, puzzle.RenderData);
+        }
 
-        InitializeBoxCollider(piece.Vertices());
-        InsertInitialPiece(piece);
-
-        piece.transform.SetParent(transform);
+        InitializeBoxCollider();
     }
 
-    private void InitializeBoxCollider(Vector3[] vertices)
+    private void InitializeBoxCollider()
     {
-        var tightBounds = VertexBounds(vertices);
+        var initialPieces = GetComponentsInChildren<Piece>();
+        
+        var tightBounds = VertexBounds(initialPieces[0].Vertices());
+
+        for (int i = 1; i < initialPieces.Length; i++)
+        {
+            var currBounds = VertexBounds(initialPieces[i].Vertices());
+            tightBounds.Encapsulate(currBounds);
+        }
         
         _boxCollider.center = transform.InverseTransformPoint(tightBounds.center);
         _boxCollider.size = tightBounds.size + Vector3.one * (CollisionDistanceThreshold * 2);
@@ -56,7 +88,8 @@ public class Chunk : MonoBehaviour
         
         foreach (var piece in pieces)
         {
-            tempBounds.Encapsulate(VertexBounds(piece.Vertices()));
+            var currBounds = VertexBounds(piece.Vertices());
+            tempBounds.Encapsulate(currBounds);
         }
 
         _boxCollider.center = transform.InverseTransformPoint(tempBounds.center);

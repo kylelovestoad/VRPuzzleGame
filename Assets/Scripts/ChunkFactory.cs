@@ -1,4 +1,5 @@
 using System;
+using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
 
@@ -21,7 +22,19 @@ public class ChunkFactory : MonoBehaviour
         Puzzle puzzle
     ) {
         Chunk chunk = Instantiate(chunkPrefab, initialPosition, initialRotation);
+        
         chunk.InitializeSinglePieceChunk(pieceCut, puzzle);
+        
+        return chunk;
+    }
+    
+    public Chunk CreateMultiplePieceChunk(
+        ChunkSaveData chunkStateData,
+        Puzzle puzzle
+    ) {
+        Chunk chunk = Instantiate(chunkPrefab, chunkStateData.position, chunkStateData.rotation);
+        
+        chunk.InitializeMultiplePieceChunk(chunkStateData, puzzle);
         
         return chunk;
     }

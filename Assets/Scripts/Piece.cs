@@ -95,9 +95,7 @@ public class Piece : MonoBehaviour
     {
         return new PieceSaveData
         {
-            vertices = null,
-            triangles = null, // might be better to derive
-            solutionLocation = SolutionLocation,
+            pieceIndex = _cut.pieceIndex,
             position = transform.position,
             rotation = transform.rotation
         };

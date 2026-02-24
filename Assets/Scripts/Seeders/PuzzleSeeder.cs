@@ -72,16 +72,20 @@ namespace Seeders
 
             var puzzleLayout = generator.Generate(puzzleImage, 4, 4, 1);
             var puzzleRenderData = new PuzzleRenderData(puzzleImage, backMaterial, puzzleLayout);
+
+            PuzzleSaveData saveData = new(
+                -1,
+                "Donkey Kong",
+                "DK's puzzle is optimal",
+                "Donkey Kong",
+                puzzleLayout,
+                null
+            );
             
-            var puzzle = new Puzzle(
-                "Donkey Kong", 
-                "DK's puzzle is optimal", 
-                "Donkey Kong", 
-                puzzleLayout, 
+            new Puzzle(
+                saveData,
                 puzzleRenderData
             );
-
-            puzzle.InitializeChunks();
         }
     }
 }

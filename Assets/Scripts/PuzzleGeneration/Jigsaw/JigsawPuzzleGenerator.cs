@@ -42,7 +42,8 @@ namespace PuzzleGeneration.Jigsaw
                     
                     var borderPoints = JigsawPieceBorderPoints(border);
                     
-                    PieceCut cut = new PieceCut(solutionLocation, borderPoints);
+                    int nextIndex = pieceCuts.Count;
+                    PieceCut cut = new PieceCut(nextIndex, solutionLocation, borderPoints);
                     pieceCuts.Add(cut);
                     
                     leftBoundary = rightBoundary;
