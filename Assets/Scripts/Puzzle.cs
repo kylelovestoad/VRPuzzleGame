@@ -56,6 +56,23 @@ public class Puzzle
         _chunks = new List<Chunk>();
     }
 
+    public void InitializeChunks()
+    {
+        foreach (var cut in Layout.initialPieceCuts)
+        {
+            Debug.Log(cut.solutionLocation);
+
+            // TODO: randomize placement
+            _chunks.Add(ChunkFactory.Instance.CreateSinglePieceChunk(
+                cut.solutionLocation +
+                new Vector3(cut.solutionLocation.x * 1.5f, cut.solutionLocation.y * 1.5f, 0),
+                Quaternion.identity,
+                cut,
+                this
+            ));
+        }
+    }
+
     public void RemoveChunk(Chunk chunk)
     {
         _chunks.Remove(chunk);

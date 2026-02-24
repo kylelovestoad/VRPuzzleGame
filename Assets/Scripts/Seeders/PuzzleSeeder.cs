@@ -63,7 +63,7 @@ namespace Seeders
 
         void RandomPuzzle()
         {
-            IPuzzleGenerator generator = new JigsawPuzzleGenerator();
+            IPuzzleGenerator generator = new RectanglePuzzleGenerator();
         
             var backMaterial = new Material(Shader.Find("Unlit/Color"))
             {
@@ -73,13 +73,15 @@ namespace Seeders
             var puzzleLayout = generator.Generate(puzzleImage, 4, 4, 1);
             var puzzleRenderData = new PuzzleRenderData(puzzleImage, backMaterial, puzzleLayout);
             
-            new Puzzle(
+            var puzzle = new Puzzle(
                 "Donkey Kong", 
                 "DK's puzzle is optimal", 
                 "Donkey Kong", 
                 puzzleLayout, 
                 puzzleRenderData
             );
+
+            puzzle.InitializeChunks();
         }
     }
 }

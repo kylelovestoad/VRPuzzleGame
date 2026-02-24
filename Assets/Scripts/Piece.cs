@@ -7,7 +7,6 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(BoxCollider))]
-[Serializable]
 public class Piece : MonoBehaviour
 {
     // TODO: make better thresholds
@@ -16,14 +15,16 @@ public class Piece : MonoBehaviour
     
     private PieceCut _cut;
     private Vector2 SolutionLocation => _cut.solutionLocation;
-    private Mesh Mesh => _cut.mesh;
     
     public void InitializePiece(
         PieceCut pieceCut,
         PuzzleRenderData puzzleRenderData
-    ) {
+    )
+    {
+        Mesh pieceMesh = PieceMeshGenerator.PieceMesh(pieceCut.borderPoints);
+        
         MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
-        meshFilter.sharedMesh = pieceCut.mesh;
+        meshFilter.sharedMesh = pieceMesh;
         
         MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
         
@@ -31,7 +32,7 @@ public class Piece : MonoBehaviour
         puzzleImageMaterial.mainTexture = puzzleRenderData.PuzzleImage;
 
         var pieceSolutionLocation = pieceCut.solutionLocation;
-        var pieceBounds = pieceCut.mesh.bounds;
+        var pieceBounds = pieceMesh.bounds;
         var pieceWidth = pieceBounds.max.x - pieceBounds.min.x;
         var pieceHeight = pieceBounds.max.y - pieceBounds.min.y;
         var puzzleLayout = puzzleRenderData.Layout;
@@ -47,7 +48,7 @@ public class Piece : MonoBehaviour
     
         meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, puzzleRenderData.BackAndSidesMaterial };
         
-        Bounds bounds = pieceCut.mesh.bounds;
+        Bounds bounds = pieceMesh.bounds;
         BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
         boxCollider.center = bounds.center;
         boxCollider.size = bounds.size;
@@ -94,8 +95,8 @@ public class Piece : MonoBehaviour
     {
         return new PieceSaveData
         {
-            vertices = Mesh.vertices,
-            triangles = Mesh.triangles, // might be better to derive
+            vertices = null,
+            triangles = null, // might be better to derive
             solutionLocation = SolutionLocation,
             position = transform.position,
             rotation = transform.rotation
