@@ -15,31 +15,31 @@ public class Piece : MonoBehaviour
     private const float ConnectionRotationThreshold = 45f;
     
     private PieceCut _cut;
-    private Vector2 SolutionLocation => _cut.SolutionLocation;
-    private Mesh Mesh => _cut.Mesh;
+    private Vector2 SolutionLocation => _cut.solutionLocation;
+    private Mesh Mesh => _cut.mesh;
     
     public void InitializePiece(
         PieceCut pieceCut,
         PuzzleRenderData puzzleRenderData
     ) {
         MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
-        meshFilter.sharedMesh = pieceCut.Mesh;
+        meshFilter.sharedMesh = pieceCut.mesh;
         
         MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
         
         Material puzzleImageMaterial = new Material(Shader.Find("Unlit/Texture"));
         puzzleImageMaterial.mainTexture = puzzleRenderData.PuzzleImage;
 
-        var pieceSolutionLocation = pieceCut.SolutionLocation;
-        var pieceBounds = pieceCut.Mesh.bounds;
+        var pieceSolutionLocation = pieceCut.solutionLocation;
+        var pieceBounds = pieceCut.mesh.bounds;
         var pieceWidth = pieceBounds.max.x - pieceBounds.min.x;
         var pieceHeight = pieceBounds.max.y - pieceBounds.min.y;
         var puzzleLayout = puzzleRenderData.Layout;
         
-        Vector2 uvScale = new Vector2(pieceWidth / puzzleLayout.Width, pieceHeight / puzzleLayout.Height);
+        Vector2 uvScale = new Vector2(pieceWidth / puzzleLayout.width, pieceHeight / puzzleLayout.height);
         Vector2 uvOffset = new Vector2(
-            (pieceSolutionLocation.x + pieceBounds.min.x) / puzzleLayout.Width,
-            (pieceSolutionLocation.y + pieceBounds.min.y) / puzzleLayout.Height
+            (pieceSolutionLocation.x + pieceBounds.min.x) / puzzleLayout.width,
+            (pieceSolutionLocation.y + pieceBounds.min.y) / puzzleLayout.height
         );
         
         puzzleImageMaterial.mainTextureOffset = uvOffset;
@@ -47,7 +47,7 @@ public class Piece : MonoBehaviour
     
         meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, puzzleRenderData.BackAndSidesMaterial };
         
-        Bounds bounds = pieceCut.Mesh.bounds;
+        Bounds bounds = pieceCut.mesh.bounds;
         BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
         boxCollider.center = bounds.center;
         boxCollider.size = bounds.size;

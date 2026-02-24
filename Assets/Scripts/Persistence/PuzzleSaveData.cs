@@ -1,38 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
+using LiteDB;
+using PuzzleGeneration;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Persistence
 {
     [Serializable]
     public record PuzzleSaveData
     {
-        public long localID;
-        public long? OnlineID;
+        public long localID = -1;
+        public long onlineID = -1;
         public string name;
         public string description;
         public string author;
-        public long seed;
-        public PieceShape shape;
-        public List<ChunkSaveData> chunks;
+        public PuzzleLayout layout;
+        [CanBeNull] public List<ChunkSaveData> chunks;
 
         public PuzzleSaveData(
-            long localID,
-            long? onlineID,
+            long onlineID,
             string name,
             string description,
             string author,
-            long seed,
-            PieceShape shape,
+            PuzzleLayout layout,
             List<ChunkSaveData> chunks
         ) {
-            this.localID = localID;
-            this.OnlineID = onlineID;
+            this.onlineID = onlineID;
             this.name = name;
             this.description = description;
             this.author = author;
-            this.seed = seed;
-            this.shape = shape;
+            this.layout = layout;
             this.chunks = chunks;
         }
+
+       
     }
 }

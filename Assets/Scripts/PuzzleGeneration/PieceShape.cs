@@ -1,5 +1,8 @@
-﻿public enum PieceShape
+﻿namespace PuzzleGeneration
 {
-    Rectangle,
-    Jigsaw
+    public enum PieceShape
+    {
+        Rectangle,
+        Jigsaw
+    }
 }

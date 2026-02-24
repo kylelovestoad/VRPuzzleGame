@@ -1,10 +1,20 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace PuzzleGeneration
 {
-    public record PieceCut(Vector3 SolutionLocation, Mesh Mesh)
+    
+    [Serializable]
+    public record PieceCut
     {
-        public Vector3 SolutionLocation { get; } = SolutionLocation;
-        public Mesh Mesh { get; } = Mesh;
+        public Vector3 solutionLocation;
+        public Mesh mesh;
+
+        public PieceCut(Vector3 solutionLocation, Mesh mesh)
+        {
+            this.solutionLocation = solutionLocation;
+            this.mesh = mesh;   
+        }
     }
 }

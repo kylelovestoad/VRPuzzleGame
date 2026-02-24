@@ -28,6 +28,7 @@ namespace PuzzleGeneration.Jigsaw
                     float rightBoundary = pieceWidth * (c + 1);
                     Vector3 solutionLocation = new Vector3(leftBoundary, pieceHeight * r, 0);
 
+                    System.Diagnostics.Debug.Assert(prevRowBorders != null, nameof(prevRowBorders) + " != null");
                     JigsawPieceBorder border = new JigsawPieceBorder(
                         pieceWidth,
                         pieceHeight,
@@ -263,9 +264,9 @@ namespace PuzzleGeneration.Jigsaw
                 int i1 = (i0 + 1) % verticesRemainingCount;
                 int i2 = (i0 + 2) % verticesRemainingCount;
                 
-                bool noneInside = ValidTriangle(i0, i1, i2, pieceBorder, verticesRemaining);
+                bool isValid = ValidTriangle(i0, i1, i2, pieceBorder, verticesRemaining);
 
-                if (noneInside)
+                if (isValid)
                 {
                     return i0;
                 }

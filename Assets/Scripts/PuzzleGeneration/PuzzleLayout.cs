@@ -1,12 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 namespace PuzzleGeneration
 {
-    public record PuzzleLayout(float Width, float Height, PieceShape Shape, List<PieceCut> PieceCuts)
+    [Serializable]
+    public class PuzzleLayout
     {
-        public float Width { get; } = Width;
-        public float Height { get; } = Height;
-        public PieceShape Shape { get; } =  Shape;
-        public List<PieceCut> PieceCuts { get; } = PieceCuts;
+        public float width;
+        public float height;
+        public PieceShape shape;
+        public List<PieceCut> initialPieceCuts;
+
+        public PuzzleLayout(float width, float height, PieceShape shape, List<PieceCut> initialPieceCuts)
+        {
+            this.width = width;
+            this.height = height;
+            this.shape = shape;
+            this.initialPieceCuts = initialPieceCuts;
+        }
     }
 }
