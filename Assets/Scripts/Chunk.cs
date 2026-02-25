@@ -15,8 +15,8 @@ public class Chunk : MonoBehaviour
     
     private BoxCollider _boxCollider;
 
-    private List<Piece> pieces;
-    public long PieceCount => pieces.Count;
+    private Piece[] pieces => GetComponentsInChildren<Piece>();
+    public int PieceCount => pieces.Length;
 
     private Puzzle _puzzle;
 
@@ -81,7 +81,7 @@ public class Chunk : MonoBehaviour
         _boxCollider.size = tightBounds.size + Vector3.one * (CollisionDistanceThreshold * 2);
     }
 
-    private void UpdateBoxCollider(List<Piece> pieces)
+    private void UpdateBoxCollider(Piece[] pieces)
     {
         _boxCollider.size -= Vector3.one * (CollisionDistanceThreshold * 2);
         var tempBounds = _boxCollider.bounds;
@@ -108,11 +108,6 @@ public class Chunk : MonoBehaviour
         return bounds;
     }
 
-    private void InsertInitialPiece(Piece piece)
-    {
-        pieces = new List<Piece> { piece };
-    }
-
     private void Merge(Chunk other)
     {
         UpdateBoxCollider(other.pieces);
@@ -120,7 +115,7 @@ public class Chunk : MonoBehaviour
         Piece repPiece = pieces[0];
 
         // avoid unity complaining about modifying piece during iteration, no foreach
-        int piecesCount = other.pieces.Count;
+        int piecesCount = other.PieceCount;
 
         for (int i = 0; i < piecesCount; i++)
         {
@@ -128,8 +123,6 @@ public class Chunk : MonoBehaviour
 
             otherPiece.SnapIntoPlace(repPiece);
             otherPiece.transform.SetParent(transform);
-
-            pieces.Add(otherPiece);
         }
 
         _puzzle.RemoveChunk(other);
