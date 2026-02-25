@@ -141,6 +141,8 @@ public class Chunk : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
+        Debug.Log("OnTriggerStay");
+        
         Chunk otherChunk = other.GetComponent<Chunk>();
 
         if (otherChunk != null)
@@ -155,7 +157,12 @@ public class Chunk : MonoBehaviour
 
             if (rep.IsRelativelyClose(otherRep))
             {
+                Debug.Log("rel close");
                 Merge(otherChunk);
+            }
+            else
+            {
+                Debug.Log("Not rel close");
             }
         }
     }
