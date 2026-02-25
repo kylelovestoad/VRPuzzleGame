@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CoverageReport scope="Summary">
   <Summary>
-    <Generatedon>2/24/2026 - 11:14:02 PM</Generatedon>
+    <Generatedon>2/25/2026 - 2:20:39 PM</Generatedon>
     <Parser>MultiReportParser (2x OpenCoverParser)</Parser>
     <Assemblies>4</Assemblies>
     <Classes>57</Classes>
     <Files>57</Files>
-    <Coveredlines>1006</Coveredlines>
-    <Uncoveredlines>2547</Uncoveredlines>
-    <Coverablelines>3553</Coverablelines>
-    <Totallines>7665</Totallines>
-    <Linecoverage>28.3</Linecoverage>
+    <Coveredlines>896</Coveredlines>
+    <Uncoveredlines>2650</Uncoveredlines>
+    <Coverablelines>3546</Coverablelines>
+    <Totallines>7663</Totallines>
+    <Linecoverage>25.2</Linecoverage>
     <Coveredbranches>0</Coveredbranches>
     <Totalbranches>0</Totalbranches>
-    <Coveredmethods>124</Coveredmethods>
-    <Totalmethods>339</Totalmethods>
-    <Methodcoverage>36.5</Methodcoverage>
+    <Coveredmethods>115</Coveredmethods>
+    <Totalmethods>346</Totalmethods>
+    <Methodcoverage>33.2</Methodcoverage>
   </Summary>
   <Coverage>
     <Assembly name="Assembly-CSharp" classes="34" coverage="0" coveredlines="0" coverablelines="2248" totallines="4946" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="165" methodcoverage="0">
@@ -57,29 +57,29 @@
     <Assembly name="Assembly-CSharp-Editor" classes="1" coverage="0" coveredlines="0" coverablelines="140" totallines="242" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="14" methodcoverage="0">
       <Class name="ReadmeEditor" coverage="0" coveredlines="0" coverablelines="140" totallines="242" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="14" methodcoverage="0" />
     </Assembly>
-    <Assembly name="PuzzleGameScripts" classes="17" coverage="74.7" coveredlines="466" coverablelines="623" totallines="1341" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="76" totalmethods="112" methodcoverage="67.8">
-      <Class name="Chunk" coverage="67.7" coveredlines="65" coverablelines="96" totallines="174" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="8" totalmethods="11" methodcoverage="72.7" />
-      <Class name="ChunkFactory" coverage="35.7" coveredlines="5" coverablelines="14" totallines="41" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="1" totalmethods="5" methodcoverage="20" />
+    <Assembly name="PuzzleGameScripts" classes="17" coverage="64.4" coveredlines="397" coverablelines="616" totallines="1338" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="67" totalmethods="119" methodcoverage="56.3">
+      <Class name="Chunk" coverage="3.4" coveredlines="3" coverablelines="88" totallines="155" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="1" totalmethods="12" methodcoverage="8.3" />
+      <Class name="ChunkFactory" coverage="21.4" coveredlines="3" coverablelines="14" totallines="41" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="1" totalmethods="5" methodcoverage="20" />
       <Class name="Events.PlayButtonBehaviour" coverage="0" coveredlines="0" coverablelines="8" totallines="25" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="3" methodcoverage="0" />
-      <Class name="Persistence.LocalSave" coverage="86.4" coveredlines="51" coverablelines="59" totallines="101" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="11" totalmethods="12" methodcoverage="91.6" />
+      <Class name="Persistence.LocalSave" coverage="87.6" coveredlines="57" coverablelines="65" totallines="110" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="11" totalmethods="12" methodcoverage="91.6" />
       <Class name="Persistence.LocalSaveInitializer" coverage="0" coveredlines="0" coverablelines="8" totallines="20" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="2" methodcoverage="0" />
-      <Class name="Persistence.PuzzleSaveData" coverage="100" coveredlines="10" coverablelines="10" totallines="42" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="2" totalmethods="2" methodcoverage="100" />
-      <Class name="Piece" coverage="93.4" coveredlines="43" coverablelines="46" totallines="103" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="7" totalmethods="8" methodcoverage="87.5" />
-      <Class name="Puzzle" coverage="15.2" coveredlines="9" coverablelines="59" totallines="105" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="3" totalmethods="19" methodcoverage="15.7" />
+      <Class name="Persistence.PuzzleSaveData" coverage="100" coveredlines="11" coverablelines="11" totallines="44" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="2" totalmethods="2" methodcoverage="100" />
+      <Class name="Piece" coverage="84.7" coveredlines="39" coverablelines="46" totallines="103" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="6" totalmethods="8" methodcoverage="75" />
+      <Class name="Puzzle" coverage="2" coveredlines="1" coverablelines="49" totallines="98" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="2" totalmethods="25" methodcoverage="8" />
       <Class name="PuzzleGeneration.Jigsaw.JigsawPieceBorder" coverage="100" coveredlines="7" coverablelines="7" totallines="18" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="7" totalmethods="7" methodcoverage="100" />
       <Class name="PuzzleGeneration.Jigsaw.JigsawPieceEdgeUtil" coverage="96" coveredlines="24" coverablelines="25" totallines="81" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="7" totalmethods="7" methodcoverage="100" />
-      <Class name="PuzzleGeneration.Jigsaw.JigsawPuzzleGenerator" coverage="100" coveredlines="85" coverablelines="85" totallines="182" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="10" totalmethods="10" methodcoverage="100" />
+      <Class name="PuzzleGeneration.Jigsaw.JigsawPuzzleGenerator" coverage="100" coveredlines="85" coverablelines="85" totallines="183" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="10" totalmethods="10" methodcoverage="100" />
       <Class name="PuzzleGeneration.PieceCut" coverage="100" coveredlines="6" coverablelines="6" totallines="22" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="1" totalmethods="1" methodcoverage="100" />
       <Class name="PuzzleGeneration.PieceMeshGenerator" coverage="96.7" coveredlines="118" coverablelines="122" totallines="198" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="12" totalmethods="12" methodcoverage="100" />
       <Class name="PuzzleGeneration.PuzzleLayout" coverage="100" coveredlines="7" coverablelines="7" totallines="23" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="1" totalmethods="1" methodcoverage="100" />
       <Class name="PuzzleGeneration.Rectangle.RectanglePuzzleGenerator" coverage="100" coveredlines="32" coverablelines="32" totallines="71" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="2" totalmethods="2" methodcoverage="100" />
       <Class name="PuzzleRenderData" coverage="100" coveredlines="4" coverablelines="4" totallines="9" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="4" totalmethods="4" methodcoverage="100" />
-      <Class name="Seeders.PuzzleSeeder" coverage="0" coveredlines="0" coverablelines="35" totallines="126" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="6" methodcoverage="0" />
+      <Class name="Seeders.PuzzleSeeder" coverage="0" coveredlines="0" coverablelines="39" totallines="137" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="6" methodcoverage="0" />
     </Assembly>
-    <Assembly name="PuzzleGameTests" classes="5" coverage="99.6" coveredlines="540" coverablelines="542" totallines="1136" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="48" totalmethods="48" methodcoverage="100">
-      <Class name="Tests.ChunkTests" coverage="97.3" coveredlines="74" coverablelines="76" totallines="197" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="8" totalmethods="8" methodcoverage="100" />
+    <Assembly name="PuzzleGameTests" classes="5" coverage="92" coveredlines="499" coverablelines="542" totallines="1137" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="48" totalmethods="48" methodcoverage="100">
+      <Class name="Tests.ChunkTests" coverage="43.4" coveredlines="33" coverablelines="76" totallines="197" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="8" totalmethods="8" methodcoverage="100" />
       <Class name="Tests.JigsawPuzzleGeneratorTests" coverage="100" coveredlines="84" coverablelines="84" totallines="151" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="8" totalmethods="8" methodcoverage="100" />
-      <Class name="Tests.LocalSaveTests" coverage="100" coveredlines="48" coverablelines="48" totallines="109" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="9" totalmethods="9" methodcoverage="100" />
+      <Class name="Tests.LocalSaveTests" coverage="100" coveredlines="48" coverablelines="48" totallines="110" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="9" totalmethods="9" methodcoverage="100" />
       <Class name="Tests.PieceTests" coverage="100" coveredlines="286" coverablelines="286" totallines="575" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="16" totalmethods="16" methodcoverage="100" />
       <Class name="Tests.RectanglePuzzleGeneratorTests" coverage="100" coveredlines="48" coverablelines="48" totallines="104" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="7" totalmethods="7" methodcoverage="100" />
     </Assembly>

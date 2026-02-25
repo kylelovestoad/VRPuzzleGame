@@ -5,31 +5,25 @@ using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
 
-public class Puzzle
+public class Puzzle: MonoBehaviour
 {
-    public string LocalID { get; }
-    public string OnlineID { get; }
-    public string Name { get; }
-    public string Description { get; }
-    public string Author { get; }
+    public string LocalID { get; set; }
+    public string OnlineID { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public string Author { get; set; }
     
-    public PuzzleLayout Layout { get; }
+    public PuzzleLayout Layout { get; set; }
     public long SolvedPieces { get; private set; }
     
-    public long TotalPieces => _chunks.Sum(chunk => chunk.PieceCount);
+    private Chunk[] Chunks => GetComponentsInChildren<Chunk>();
+    public long TotalPieces => Chunks.Sum(chunk => chunk.PieceCount);
     public bool IsOnline => OnlineID != null;
     public double PercentComplete => (double) SolvedPieces / TotalPieces;
-    
-    private List<Chunk> _chunks;
-    public PuzzleRenderData RenderData { get; }
 
-    public Puzzle(PuzzleRenderData r)
-    {
-        _chunks = new List<Chunk>();
-        RenderData = r;
-    }
+    public PuzzleRenderData RenderData { get; set; }
     
-    public Puzzle(PuzzleSaveData saveData, PuzzleRenderData renderData)
+    public void InitializePuzzle(PuzzleSaveData saveData, PuzzleRenderData renderData)
     {
         LocalID = saveData.localID;
         OnlineID = saveData.onlineID;
@@ -38,7 +32,6 @@ public class Puzzle
         Author = saveData.author;
         Layout = saveData.layout;
         RenderData = renderData;
-        _chunks = new List<Chunk>();
         
         InitializeChunks(saveData);
     }
@@ -64,12 +57,12 @@ public class Puzzle
             // TODO: randomize placement
             var offset = new Vector3(cut.solutionLocation.x * 1.5f, cut.solutionLocation.y * 1.5f, 0);
             
-            _chunks.Add(ChunkFactory.Instance.CreateSinglePieceChunk(
+            ChunkFactory.Instance.CreateSinglePieceChunk(
                 cut.solutionLocation + offset,
                 Quaternion.identity,
                 cut,
                 this
-            ));
+            );
         }
     }
     
@@ -77,29 +70,23 @@ public class Puzzle
     {
         foreach (var chunkSaveData in chunks)
         {
-            var chunk = ChunkFactory.Instance.CreateMultiplePieceChunk(
+            ChunkFactory.Instance.CreateMultiplePieceChunk(
                 chunkSaveData,
                 this
             );
-            
-            _chunks.Add(chunk);
         }
-    }
-
-    public void RemoveChunk(Chunk chunk)
-    {
-        _chunks.Remove(chunk);
     }
     
     public PuzzleSaveData ToData()
     {
         return new PuzzleSaveData(
+            localID: LocalID,
             onlineID: OnlineID,
             name: Name,
             description: Description,
             author: Author,
             layout: Layout,
-            chunks: _chunks.Select(c => c.ToData()).ToList()
+            chunks: Chunks.Select(c => c.ToData()).ToList()
         );
     }
 }

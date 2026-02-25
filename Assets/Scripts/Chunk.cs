@@ -13,23 +13,12 @@ public class Chunk : MonoBehaviour
     [SerializeField] 
     private Piece piecePrefab;
     
-    private BoxCollider _boxCollider;
-
-    private Piece[] pieces => GetComponentsInChildren<Piece>();
-    public int PieceCount => pieces.Length;
-
-    private Puzzle _puzzle;
-
-    public void Awake()
-    {
-        _boxCollider = GetComponent<BoxCollider>();
-    }
+    private BoxCollider BoxCollider => GetComponent<BoxCollider>();
+    private Piece[] Pieces => GetComponentsInChildren<Piece>();
+    public int PieceCount => Pieces.Length;
 
     public void InitializeSinglePieceChunk(PieceCut cut, Puzzle puzzle)
     {
-        _boxCollider = GetComponent<BoxCollider>();
-        _puzzle = puzzle;
-        
         var piece = GetComponentInChildren<Piece>();
         piece.InitializePiece(cut, puzzle.RenderData);
         
@@ -40,9 +29,6 @@ public class Chunk : MonoBehaviour
         ChunkSaveData chunkStateData,
         Puzzle puzzle
     ) {
-        _boxCollider = GetComponent<BoxCollider>();
-        _puzzle = puzzle;
-        
         var piecesSaveDataList = chunkStateData.pieces;
         
         var firstPiece = GetComponentInChildren<Piece>();
@@ -58,7 +44,7 @@ public class Chunk : MonoBehaviour
             PieceSaveData currPiece = piecesSaveDataList[i];
             PieceCut currCut = initialPieceCuts[currPiece.pieceIndex];
                 
-            Piece piece = Instantiate(piecePrefab, currPiece.position, currPiece.rotation);
+            Piece piece = Instantiate(piecePrefab, currPiece.position, currPiece.rotation, transform);
             piece.InitializePiece(currCut, puzzle.RenderData);
         }
 
@@ -68,32 +54,29 @@ public class Chunk : MonoBehaviour
     private void InitializeBoxCollider()
     {
         var initialPieces = GetComponentsInChildren<Piece>();
-        
-        var tightBounds = VertexBounds(initialPieces[0].Vertices());
+        var initialBounds = VertexBounds(initialPieces[0].Vertices());;
 
-        for (int i = 1; i < initialPieces.Length; i++)
-        {
-            var currBounds = VertexBounds(initialPieces[i].Vertices());
-            tightBounds.Encapsulate(currBounds);
-        }
-        
-        _boxCollider.center = transform.InverseTransformPoint(tightBounds.center);
-        _boxCollider.size = tightBounds.size + Vector3.one * (CollisionDistanceThreshold * 2);
+        SetBoxColliderBounds(initialBounds, initialPieces[1..]);
     }
 
-    private void UpdateBoxCollider(Piece[] pieces)
+    private void UpdateBoxCollider(Piece[] newPieces)
     {
-        _boxCollider.size -= Vector3.one * (CollisionDistanceThreshold * 2);
-        var tempBounds = _boxCollider.bounds;
+        BoxCollider.size -= Vector3.one * (CollisionDistanceThreshold * 2);
+        var currBounds = BoxCollider.bounds;
         
-        foreach (var piece in pieces)
-        {
-            var currBounds = VertexBounds(piece.Vertices());
-            tempBounds.Encapsulate(currBounds);
-        }
+        SetBoxColliderBounds(currBounds, newPieces);
+    }
 
-        _boxCollider.center = transform.InverseTransformPoint(tempBounds.center);
-        _boxCollider.size = tempBounds.size + Vector3.one * (CollisionDistanceThreshold * 2);
+    private void SetBoxColliderBounds(Bounds currBounds, Piece[] newPieces)
+    {
+        foreach (var piece in newPieces)
+        {
+            var pieceBounds = VertexBounds(piece.Vertices());
+            currBounds.Encapsulate(pieceBounds);
+        }
+        
+        BoxCollider.center = transform.InverseTransformPoint(currBounds.center);
+        BoxCollider.size = currBounds.size + Vector3.one * (CollisionDistanceThreshold * 2);
     }
 
     private static Bounds VertexBounds(Vector3[] vertices)
@@ -110,52 +93,44 @@ public class Chunk : MonoBehaviour
 
     private void Merge(Chunk other)
     {
-        UpdateBoxCollider(other.pieces);
+        UpdateBoxCollider(other.Pieces);
 
-        Piece repPiece = pieces[0];
+        Piece repPiece = Pieces[0];
 
         // avoid unity complaining about modifying piece during iteration, no foreach
         int piecesCount = other.PieceCount;
 
         for (int i = 0; i < piecesCount; i++)
         {
-            Piece otherPiece = other.pieces[i];
+            Piece otherPiece = other.Pieces[i];
 
             otherPiece.SnapIntoPlace(repPiece);
             otherPiece.transform.SetParent(transform);
         }
 
-        _puzzle.RemoveChunk(other);
-
-#if UNITY_EDITOR
         if (Application.isPlaying)
+        {
             Destroy(other.gameObject);
+        }
         else
+        {
             DestroyImmediate(other.gameObject);
-#else
-            Destroy(other.gameObject);
-#endif
-
-        Debug.Log(transform.position);
+        }
     }
 
     void OnTriggerStay(Collider other)
     {
-        Debug.Log("OnTriggerStay");
-        
         Chunk otherChunk = other.GetComponent<Chunk>();
 
-        if (otherChunk != null)
-        {
-            Debug.Log("Collided with Other Chunk");
+        if (otherChunk != null 
+            && GetInstanceID() < otherChunk.GetInstanceID()
+            && Pieces.Length > 0 
+            && otherChunk.Pieces.Length > 0
+        ) {
+            Piece repPiece = Pieces[0];
+            Piece otherRepPiece = otherChunk.Pieces[0];
 
-            // avoid duplicate merging
-            if (GetInstanceID() >= otherChunk.GetInstanceID()) return;
-
-            Piece rep = pieces[0];
-            Piece otherRep = otherChunk.pieces[0];
-
-            if (rep.IsRelativelyClose(otherRep))
+            if (repPiece.IsRelativelyClose(otherRepPiece))
             {
                 Merge(otherChunk);
             }
@@ -168,7 +143,7 @@ public class Chunk : MonoBehaviour
         {
             position = transform.position,
             rotation = transform.rotation,
-            pieces = this.pieces.Select(p => p.ToData()).ToList()
+            pieces = Pieces.Select(piece => piece.ToData()).ToList()
         };
     }
 }

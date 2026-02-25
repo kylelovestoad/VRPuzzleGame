@@ -22,6 +22,7 @@ namespace Persistence
         public bool HasLocalID => localID != null;
 
         public PuzzleSaveData(
+            string localID,
             string onlineID,
             string name,
             string description,
@@ -29,6 +30,7 @@ namespace Persistence
             PuzzleLayout layout,
             List<ChunkSaveData> chunks
         ) {
+            this.localID = localID;
             this.onlineID = onlineID;
             this.name = name;
             this.description = description;

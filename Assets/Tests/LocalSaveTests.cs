@@ -29,6 +29,7 @@ namespace Tests
 
         private PuzzleSaveData MakePuzzle(string name = "Test Puzzle") =>
             new(
+                null,
                 null, 
                 name, 
                 "A description", 

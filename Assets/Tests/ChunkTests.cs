@@ -47,7 +47,8 @@ namespace Tests
 
             _mockLayout = new PuzzleLayout(2, 1, PieceShape.Rectangle, pieceCuts);
             _mockRenderData = new PuzzleRenderData(null, null, _mockLayout);
-            _puzzle = new Puzzle(_mockRenderData);
+            _puzzle = new GameObject("Puzzle").AddComponent<Puzzle>();
+            _puzzle.RenderData = _mockRenderData;
         }
 
         [TearDown]

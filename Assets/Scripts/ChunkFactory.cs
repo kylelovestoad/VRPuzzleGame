@@ -21,7 +21,7 @@ public class ChunkFactory : MonoBehaviour
         PieceCut pieceCut,
         Puzzle puzzle
     ) {
-        Chunk chunk = Instantiate(chunkPrefab, initialPosition, initialRotation);
+        Chunk chunk = Instantiate(chunkPrefab, initialPosition, initialRotation, puzzle.transform);
         
         chunk.InitializeSinglePieceChunk(pieceCut, puzzle);
         
@@ -32,7 +32,7 @@ public class ChunkFactory : MonoBehaviour
         ChunkSaveData chunkStateData,
         Puzzle puzzle
     ) {
-        Chunk chunk = Instantiate(chunkPrefab, chunkStateData.position, chunkStateData.rotation);
+        Chunk chunk = Instantiate(chunkPrefab, chunkStateData.position, chunkStateData.rotation, puzzle.transform);
         
         chunk.InitializeMultiplePieceChunk(chunkStateData, puzzle);
         

@@ -33,8 +33,14 @@ namespace Seeders
             };
 
             var puzzleRenderData = new PuzzleRenderData(puzzleImage, backMaterial, saveData.layout);
-
-            new Puzzle(saveData, puzzleRenderData);
+            
+            var puzzleObject = new GameObject("Puzzle");
+            puzzle = puzzleObject.AddComponent<Puzzle>();
+            
+            puzzle.InitializePuzzle(
+                saveData,
+                puzzleRenderData
+            );
         }
 
         void LoadPuzzleSaveData()
@@ -55,6 +61,7 @@ namespace Seeders
             var puzzleSaves = new List<PuzzleSaveData>
             {
                 new(
+                    null,
                     null, 
                     "Mountain Sunset", 
                     "A serene mountain landscape at dusk.", 
@@ -63,6 +70,7 @@ namespace Seeders
                     null
                 ),
                 new(
+                    null,
                     null, 
                     "Ocean Waves", 
                     "Crashing waves on a rocky shore.", 
@@ -71,6 +79,7 @@ namespace Seeders
                     null
                     ),
                 new(
+                    null,
                     null, 
                     "City Lights", 
                     "A sprawling city at night.", 
@@ -99,6 +108,7 @@ namespace Seeders
 
             PuzzleSaveData saveData = new(
                 null,
+                null,
                 "Donkey Kong",
                 "DK's puzzle is optimal",
                 "Donkey Kong",
@@ -106,7 +116,10 @@ namespace Seeders
                 null
             );
             
-            puzzle = new Puzzle(
+            var puzzleObject = new GameObject("Puzzle");
+            puzzle = puzzleObject.AddComponent<Puzzle>();
+            
+            puzzle.InitializePuzzle(
                 saveData,
                 puzzleRenderData
             );

@@ -29,6 +29,7 @@ namespace PuzzleGeneration.Jigsaw
                     Vector3 solutionLocation = new Vector3(leftBoundary, pieceHeight * r, 0);
 
                     System.Diagnostics.Debug.Assert(prevRowBorders != null, nameof(prevRowBorders) + " != null");
+                    
                     JigsawPieceBorder border = new JigsawPieceBorder(
                         pieceWidth,
                         pieceHeight,

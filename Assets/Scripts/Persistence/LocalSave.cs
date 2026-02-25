@@ -21,8 +21,17 @@ namespace Persistence
             var json = JsonUtility.ToJson(saveData);
             var doc  = JsonSerializer.Deserialize(json).AsDocument;
             doc.Remove("localID");
+            
             if (saveData.HasLocalID)
+            {
+                Debug.Log("Has Local ID");
                 doc["_id"] = new ObjectId(saveData.localID);
+            }
+            else
+            {
+                Debug.Log("No Local ID");
+            }
+                
             return doc;
         }
 
