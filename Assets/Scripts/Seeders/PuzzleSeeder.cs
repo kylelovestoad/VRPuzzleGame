@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Persistence;
 using PuzzleGeneration;
@@ -15,8 +16,17 @@ namespace Seeders
         void Start()
         {
             RandomPuzzle();
-            Debug.Log("dk won");
             SeedPuzzleSaveData();
+            // LoadPuzzleSaveData();
+        }
+
+        void LoadPuzzleSaveData()
+        {
+            var saves = LocalSave.Instance.LoadAll();
+            foreach (var puzzle in saves)
+            {
+                Debug.Log("Puzzle: " + puzzle);
+            }
         }
         
         void SeedPuzzleSaveData()
@@ -28,7 +38,7 @@ namespace Seeders
             var puzzleSaves = new List<PuzzleSaveData>
             {
                 new(
-                    -1, 
+                    null, 
                     "Mountain Sunset", 
                     "A serene mountain landscape at dusk.", 
                     "Alice",
@@ -36,7 +46,7 @@ namespace Seeders
                     null
                 ),
                 new(
-                    -1, 
+                    null, 
                     "Ocean Waves", 
                     "Crashing waves on a rocky shore.", 
                     "Bob", 
@@ -44,7 +54,7 @@ namespace Seeders
                     null
                     ),
                 new(
-                    -1, 
+                    null, 
                     "City Lights", 
                     "A sprawling city at night.", 
                     "Carol", 
@@ -53,12 +63,9 @@ namespace Seeders
                     ),
             };   
             
-            Debug.Log("dk won 1");
+            // LocalSave.Instance.Create(puzzleSaves[1]);
 
-            
-            LocalSave.Instance.Create(puzzleSaves[1]);
-            Debug.Log("dk won 2");
-
+            LocalSave.Instance.Delete("699e3b61c937df123c3c08af");
         }
 
         void RandomPuzzle()
@@ -74,7 +81,7 @@ namespace Seeders
             var puzzleRenderData = new PuzzleRenderData(puzzleImage, backMaterial, puzzleLayout);
 
             PuzzleSaveData saveData = new(
-                -1,
+                null,
                 "Donkey Kong",
                 "DK's puzzle is optimal",
                 "Donkey Kong",

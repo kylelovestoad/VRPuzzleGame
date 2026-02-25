@@ -11,16 +11,18 @@ namespace Persistence
     [Serializable]
     public record PuzzleSaveData
     {
-        public long localID = -1;
-        public long onlineID = -1;
+        public string localID;
+        public string onlineID;
         public string name;
         public string description;
         public string author;
         public PuzzleLayout layout;
         [CanBeNull] public List<ChunkSaveData> chunks;
+        
+        public bool HasLocalID => localID != null;
 
         public PuzzleSaveData(
-            long onlineID,
+            string onlineID,
             string name,
             string description,
             string author,

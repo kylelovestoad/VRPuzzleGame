@@ -33,7 +33,6 @@ namespace Persistence
             var path = Path.Combine(Application.persistentDataPath, "puzzles.db");
             _db = new LiteDatabase(path);
             _puzzles = _db.GetCollection("puzzles");
-            _puzzles.EnsureIndex("localID", unique: true);
         }
 
         private void OnDestroy()
@@ -45,20 +44,25 @@ namespace Persistence
         {
             var json = JsonUtility.ToJson(saveData);
             var doc  = JsonSerializer.Deserialize(json).AsDocument;
-            doc["_id"] = saveData.localID;
+            doc.Remove("localID");
+            if (saveData.HasLocalID)
+                doc["_id"] = new ObjectId(saveData.localID);
             return doc;
         }
-
+        
         public static PuzzleSaveData FromDocument(BsonDocument doc)
         {
             var json = JsonSerializer.Serialize(doc);
-            return JsonUtility.FromJson<PuzzleSaveData>(json);
+            var saveData = JsonUtility.FromJson<PuzzleSaveData>(json);
+            saveData.localID = doc["_id"].AsObjectId.ToString();
+            Debug.Assert(saveData.localID != null, "local ID must not be null"); 
+            return saveData;
         }
 
         public void Create(PuzzleSaveData saveData)
         {
             var id = _puzzles.Insert(ToDocument(saveData));
-            saveData.localID = id.AsInt64;
+            saveData.localID = id.ToString();
         }
 
         public void Save(PuzzleSaveData saveData)
@@ -72,7 +76,10 @@ namespace Persistence
             try
             {
                 foreach (var saveData in saveDataList)
+                {
                     _puzzles.Upsert(ToDocument(saveData));
+                }
+
                 _db.Commit();
             }
             catch
@@ -93,9 +100,9 @@ namespace Persistence
             return _puzzles.FindAll().Select(FromDocument);
         }
 
-        public void Delete(long localId)
+        public void Delete(string localId)
         {
-            _puzzles.DeleteMany(x => x["_id"] == localId);
+            _puzzles.Delete(new ObjectId(localId));
         }
     }
 }
