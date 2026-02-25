@@ -7,40 +7,16 @@ using UnityEngine;
 
 namespace Persistence
 {
-    public sealed class LocalSave : MonoBehaviour
+    public sealed class LocalSave
     {
         private static LocalSave _instance;
 
-        public static LocalSave Instance => _instance == null ?
-            throw new NullReferenceException("There must be one instance of LocalSave") : _instance;
-
-        private LiteDatabase _db;
+        public static LocalSave Instance => _instance ?? throw new NullReferenceException("There must be one instance of LocalSave");
+        
+        public LiteDatabase DB;
         private ILiteCollection<BsonDocument> _puzzles;
 
-        private void Awake()
-        {
-            if (_instance != null && _instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-    
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-
-            Debug.Log(Application.persistentDataPath);
-            
-            var path = Path.Combine(Application.persistentDataPath, "puzzles.db");
-            _db = new LiteDatabase(path);
-            _puzzles = _db.GetCollection("puzzles");
-        }
-
-        private void OnDestroy()
-        {
-            _db?.Dispose();
-        }
-
-        public static BsonDocument ToDocument(PuzzleSaveData saveData)
+        private static BsonDocument ToDocument(PuzzleSaveData saveData)
         {
             var json = JsonUtility.ToJson(saveData);
             var doc  = JsonSerializer.Deserialize(json).AsDocument;
@@ -49,8 +25,8 @@ namespace Persistence
                 doc["_id"] = new ObjectId(saveData.localID);
             return doc;
         }
-        
-        public static PuzzleSaveData FromDocument(BsonDocument doc)
+
+        private static PuzzleSaveData FromDocument(BsonDocument doc)
         {
             var json = JsonSerializer.Serialize(doc);
             var saveData = JsonUtility.FromJson<PuzzleSaveData>(json);
@@ -58,11 +34,28 @@ namespace Persistence
             Debug.Assert(saveData.localID != null, "local ID must not be null"); 
             return saveData;
         }
+        
+        private LocalSave(string dbPath)
+        {
+            DB = new LiteDatabase(dbPath);
+            _puzzles = DB.GetCollection("puzzles");
+        }
+        
+        public static void Initialize(string dbPath)
+        {
+            _instance = new LocalSave(dbPath);
+        }
 
+        public static void Shutdown()
+        {
+            _instance?.DB.Dispose();
+            _instance = null;
+        }
+        
         public void Create(PuzzleSaveData saveData)
         {
             var id = _puzzles.Insert(ToDocument(saveData));
-            saveData.localID = id.ToString();
+            saveData.localID = id.AsObjectId.ToString();
         }
 
         public void Save(PuzzleSaveData saveData)
@@ -72,7 +65,7 @@ namespace Persistence
 
         public void SaveAll(IEnumerable<PuzzleSaveData> saveDataList)
         {
-            _db.BeginTrans();
+            DB.BeginTrans();
             try
             {
                 foreach (var saveData in saveDataList)
@@ -80,16 +73,16 @@ namespace Persistence
                     _puzzles.Upsert(ToDocument(saveData));
                 }
 
-                _db.Commit();
+                DB.Commit();
             }
             catch
             {
-                _db.Rollback();
+                DB.Rollback();
                 throw;
             }
         }
 
-        public PuzzleSaveData Load(long localId)
+        public PuzzleSaveData Load(string localId)
         {
             var doc = _puzzles.FindById(localId);
             return doc == null ? null : FromDocument(doc);
