@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using Persistence;
 using PuzzleGeneration;
 using PuzzleGeneration.Jigsaw;
@@ -11,13 +11,30 @@ namespace Seeders
     public class PuzzleSeeder : MonoBehaviour
     {
         [SerializeField] private Texture2D puzzleImage;
+
+        private Puzzle puzzle;
     
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            RandomPuzzle();
-            SeedPuzzleSaveData();
+            // RandomPuzzle();
+            // SeedPuzzleSaveData();
             // LoadPuzzleSaveData();
+            LoadSavedPuzzle();
+        }
+
+        void LoadSavedPuzzle()
+        {
+            var saveData = LocalSave.Instance.LoadAll().ToList()[0];
+            
+            var backMaterial = new Material(Shader.Find("Unlit/Color"))
+            {
+                color = Color.gray
+            };
+
+            var puzzleRenderData = new PuzzleRenderData(puzzleImage, backMaterial, saveData.layout);
+
+            new Puzzle(saveData, puzzleRenderData);
         }
 
         void LoadPuzzleSaveData()
@@ -89,10 +106,19 @@ namespace Seeders
                 null
             );
             
-            new Puzzle(
+            puzzle = new Puzzle(
                 saveData,
                 puzzleRenderData
             );
+        }
+        
+        [ContextMenu("Save Puzzle")]
+        private void SavePuzzle()
+        {
+            Debug.Log("Saving Puzzle");
+            var saveData = puzzle.ToData();
+            
+            LocalSave.Instance.Save(saveData);
         }
     }
 }

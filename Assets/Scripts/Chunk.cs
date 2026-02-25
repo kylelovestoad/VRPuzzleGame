@@ -157,12 +157,7 @@ public class Chunk : MonoBehaviour
 
             if (rep.IsRelativelyClose(otherRep))
             {
-                Debug.Log("rel close");
                 Merge(otherChunk);
-            }
-            else
-            {
-                Debug.Log("Not rel close");
             }
         }
     }
