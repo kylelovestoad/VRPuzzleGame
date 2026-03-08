@@ -11,6 +11,11 @@ ANCHOR_DIFF_CANDIDATES = np.linspace(-1/16, 1/16, 4)
 
 
 class PieceConnectionCandidate:
+    socket_out_piece: Piece
+    socket_in_piece: Piece
+    transformation: Transformation
+    score: float
+
     def __init__(
         self,
         socket_out_piece: Piece,
@@ -127,7 +132,6 @@ def _single_piece_chunks(puzzle):
         chunks.append([piece])
 
     return chunks
-
 
 
 def solve(puzzle):

@@ -3,14 +3,21 @@ from dataclasses import dataclass
 
 import cv2
 import numpy as np
-from scipy.interpolate import make_splprep
+from numpy import ndarray
+from scipy.interpolate import make_splprep, BSpline
 
+from transformation import Transformation
 
 NUM_PIECE_POINTS = 1024
 MIN_CAVE_DEPTH = 10
 
 
 class PieceSpline:
+    spline: BSpline
+    smooth_params: ndarray
+    noisy_params: ndarray
+    arc_length: float
+
     def __init__(self, spline, smooth_params, noisy_params, arc_length):
         self.spline = spline
         self.smooth_params = smooth_params
@@ -45,6 +52,14 @@ class CaveSection:
 
 
 class Piece:
+    spline: PieceSpline
+    piece_hull_sections: list[HullSection]
+    piece_caves: list[CaveSection]
+
+    # only added later when computing solution
+    chunk_idx: int
+    transformation: Transformation
+
     def __init__(self, spline: PieceSpline, piece_hull_sections: list[HullSection], piece_caves: list[CaveSection]):
         self.spline = spline
         self.piece_hull_sections = piece_hull_sections

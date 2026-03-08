@@ -2,6 +2,10 @@ import numpy as np
 
 
 class Transformation:
+    from_point: complex
+    to_point: complex
+    rotation: complex
+
     def __init__(self, from_point: complex, to_point: complex, rotation: complex):
         self.from_point = from_point
         self.to_point = to_point

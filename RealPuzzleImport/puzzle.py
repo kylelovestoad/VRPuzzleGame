@@ -1,7 +1,9 @@
 import cv2
 import numpy as np
 
-from piece import piece_from_contour
+from numpy import ndarray
+
+from piece import piece_from_contour, Piece
 
 # have to just tune these params for now
 # seems good for now with black background and light puzzle
@@ -15,6 +17,10 @@ PIECE_LABEL_START = 1
 
 
 class Puzzle:
+    image: ndarray
+    piece_mask: ndarray
+    pieces: list[Piece]
+
     def __init__(self, image, piece_mask, pieces):
         self.image = image
         self.piece_mask = piece_mask
