@@ -1,4 +1,5 @@
 from puzzle import puzzle_from_image_path
+from puzzle_solver import _best_fit_inside, solve
 
 path = "images/moon.png"
 puzzle = puzzle_from_image_path(path)
@@ -9,8 +10,7 @@ puzzle.debug_segmentation()
 #         piece.best_fit(p1)
 
 pieces = puzzle.pieces
-pieces[0].best_fit_inside(pieces[1])
+# _best_fit_inside(pieces[0], pieces[1])
 
-print(pieces[0].piece_caves)
-print(pieces[0].piece_hull_sections)
+print(solve(puzzle))
 

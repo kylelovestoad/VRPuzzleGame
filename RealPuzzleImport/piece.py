@@ -8,125 +8,6 @@ from scipy.interpolate import make_splprep
 
 NUM_PIECE_POINTS = 1024
 MIN_CAVE_DEPTH = 10
-SEGMENT_COMPARISON_POINTS = 256
-ANCHOR_SEGMENT_EXTENSION = 1/12
-ANCHOR_DIFF_CANDIDATES = np.linspace(-1/16, 1/16, 4)
-
-
-class Piece:
-    def __init__(self, spline, piece_hull_sections, piece_caves):
-        self.spline = spline
-        self.piece_hull_sections = piece_hull_sections
-        self.piece_caves = piece_caves
-
-    def best_fit_inside(self, other_piece):
-        arc_length = self.spline.arc_length
-        other_arc_length = other_piece.spline.arc_length
-        arc_length_ratio = arc_length / other_arc_length
-
-        min_distance_diff_sum = float("inf")
-        best_transformation = None
-
-        for hull_section in self.piece_hull_sections:
-
-            for cave in other_piece.piece_caves:
-                start_idx = hull_section.start_idx
-                end_idx = hull_section.end_idx + 1
-                end_idx += NUM_PIECE_POINTS * (start_idx > end_idx)
-
-                for point_idx in range(hull_section.start_idx, end_idx):
-                    point_idx %= NUM_PIECE_POINTS
-                    from_anchor_start_param = point_idx / NUM_PIECE_POINTS
-                    to_anchor_start_param = cave.deepest_idx / NUM_PIECE_POINTS
-
-                    for anchor_diff in ANCHOR_DIFF_CANDIDATES:
-                        from_anchor_start_point = self.spline(from_anchor_start_param)
-                        to_anchor_start_point = other_piece.spline(to_anchor_start_param)
-
-                        from_anchor_end_param = from_anchor_start_param + anchor_diff
-                        to_anchor_end_param = to_anchor_start_param - anchor_diff * arc_length_ratio
-                        from_anchor_end_point = self.spline(from_anchor_end_param)
-                        to_anchor_end_point = other_piece.spline(to_anchor_end_param)
-
-                        from_min_param = from_anchor_start_param - ANCHOR_SEGMENT_EXTENSION
-                        from_max_param = from_anchor_start_param + ANCHOR_SEGMENT_EXTENSION
-                        from_param = np.linspace(from_min_param, from_max_param, SEGMENT_COMPARISON_POINTS)
-
-                        to_min_param = to_anchor_start_param + ANCHOR_SEGMENT_EXTENSION * arc_length_ratio
-                        to_max_param = to_anchor_start_param - ANCHOR_SEGMENT_EXTENSION * arc_length_ratio
-                        to_param = np.linspace(to_min_param, to_max_param, SEGMENT_COMPARISON_POINTS)
-
-                        transformation = _get_transformation(
-                            from_anchor_start_point,
-                            from_anchor_end_point,
-                            to_anchor_start_point,
-                            to_anchor_end_point
-                        )
-
-                        from_points = self.transform_segment(
-                            from_param,
-                            transformation
-                        )
-                        to_points = other_piece.spline(to_param)
-
-                        diff = from_points - to_points
-                        curr_distance_diff_sum = np.sum(np.linalg.norm(diff, axis=0))
-
-                        if curr_distance_diff_sum < min_distance_diff_sum:
-                            min_distance_diff_sum = curr_distance_diff_sum
-                            best_transformation = transformation
-
-        assert best_transformation is not None
-        print(best_transformation)
-        print(min_distance_diff_sum)
-
-        return PieceConnection(self, other_piece, best_transformation)
-
-
-    def transform_segment(self, param, transformation):
-        segment = self.spline(param)
-
-        segment_complex = segment[0] + 1j * segment[1]
-        from_offset = segment_complex - transformation.from_point
-        transformed_complex = transformation.to_point + transformation.rotation * from_offset
-        transformed = np.array([transformed_complex.real, transformed_complex.imag])
-
-        return transformed
-
-    def to_contour(self):
-        return self.spline.to_contour()
-
-
-@dataclass
-class Transformation:
-    from_point: complex
-    to_point: complex
-    rotation: complex
-
-
-def _get_transformation(from_start, from_end, to_start, to_end):
-    to_vec = to_end - to_start
-
-    from_len = np.linalg.norm(from_end - from_start)
-    to_len = np.linalg.norm(to_vec)
-
-    to_end = to_start + (from_len / to_len) * to_vec
-
-    from_start_complex = complex(*from_start)
-    from_end_complex = complex(*from_end)
-    to_start_complex = complex(*to_start)
-    to_end_complex = complex(*to_end)
-
-    rotation = (to_end_complex - to_start_complex) / (from_end_complex - from_start_complex)
-
-    return Transformation(from_start_complex, to_start_complex, rotation)
-
-
-@dataclass
-class PieceConnection:
-    socket_out_piece: Piece
-    socket_in_piece: Piece
-    transformation: Transformation
 
 
 class PieceSpline:
@@ -161,6 +42,25 @@ class CaveSection:
     start_idx: int
     end_idx: int
     deepest_idx: int
+
+
+class Piece:
+    def __init__(self, spline: PieceSpline, piece_hull_sections: list[HullSection], piece_caves: list[CaveSection]):
+        self.spline = spline
+        self.piece_hull_sections = piece_hull_sections
+        self.piece_caves = piece_caves
+
+    def transform_segment(self, segment_param, transformation):
+        segment = self.spline(segment_param)
+
+        segment_complex = segment[0] + 1j * segment[1]
+        transformed_complex = transformation(segment_complex)
+        transformed = np.array([transformed_complex.real, transformed_complex.imag])
+
+        return transformed
+
+    def to_contour(self):
+        return self.spline.to_contour()
 
 
 def _smooth_parameter_mapping(spline, noisy_params):

@@ -15,10 +15,16 @@ PIECE_LABEL_START = 1
 
 
 class Puzzle:
-    def __init__(self, image, piece_mask, piece_contours):
+    def __init__(self, image, piece_mask, pieces):
         self.image = image
         self.piece_mask = piece_mask
-        self.pieces = piece_contours
+        self.pieces = pieces
+
+    def __iter__(self):
+        return iter(self.pieces)
+
+    def piece_count(self):
+        return len(self.pieces)
 
     def debug_segmentation(self):
         image = self.image
@@ -34,10 +40,22 @@ class Puzzle:
         output = np.zeros_like(image)
         output[piece_mask == 1] = image[piece_mask == 1]
 
-        points_purple = [np.array([1373.881970724489, 2369.2405644428554]), np.array([599.7894544311248, 1920.563699312606])]
+        points_from = [
+            [978, 1041],
+            [549, 1476],
+            [1373, 2369]
+        ]
+        points_to = [
+            [1605, 1125],
+            [1596, 939],
+            [599, 1920]
+        ]
 
-        for p in points_purple:
-            cv2.circle(output, tuple(p.astype(int)), radius=16, color=(255, 0, 255), thickness=-1)
+        colors = [red, green, purple]
+
+        for p_from, p_to, color in zip(points_from, points_to, colors):
+            cv2.circle(output, tuple(np.array(p_from).astype(int)), radius=16, color=color, thickness=-1)
+            cv2.circle(output, tuple(np.array(p_to).astype(int)), radius=16, color=color, thickness=-1)
 
         convex_hulls = []
 
