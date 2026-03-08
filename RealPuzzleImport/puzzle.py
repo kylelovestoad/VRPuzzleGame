@@ -23,15 +23,21 @@ class Puzzle:
     def debug_segmentation(self):
         image = self.image
         piece_mask = self.piece_mask
-        contours = [*map(lambda piece: piece.as_contour(), self.pieces)]
+        contours = [*map(lambda piece: piece.to_contour(), self.pieces)]
 
         red = (0, 0, 255)
         green = (0, 255, 0)
         blue = (255, 0, 0)
+        purple = (255, 0, 255)
         all_contours = -1
 
         output = np.zeros_like(image)
         output[piece_mask == 1] = image[piece_mask == 1]
+
+        points_purple = [np.array([1373.881970724489, 2369.2405644428554]), np.array([599.7894544311248, 1920.563699312606])]
+
+        for p in points_purple:
+            cv2.circle(output, tuple(p.astype(int)), radius=16, color=(255, 0, 255), thickness=-1)
 
         convex_hulls = []
 
