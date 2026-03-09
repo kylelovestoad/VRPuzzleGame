@@ -8,13 +8,8 @@ from piece import Piece, piece_from_contour
 
 # have to just tune these params for now
 # seems good for now with black background and light puzzle
-BORDER_SAMPLE_MARGIN = 25
-BACKGROUND_DISTANCE_THRESHOLD = 39
-NOISY_BACKGROUND_MARKER = 1
-CLEANED_BACKGROUND_MARKER = 2
+CLEANED_BACKGROUND_MARKER = 1
 CONNECTED_NEIGHBORS = 8
-PIECE_MIN_AREA = 128
-PIECE_LABEL_START = 1
 GAUSSIAN_BLUR_KERNEL_SIZE = (7, 7)
 GAUSSIAN_BLUR_SIGMA_X = 0
 SEGMENTATION_GRAYSCALE_THRESHOLD = 127
@@ -123,6 +118,22 @@ class Puzzle:
         print(f"Debug image path: {output_path}")
 
 
+def _flood_fill_piece_interiors(piece_mask):
+    rows, cols = piece_mask.shape
+
+    flood_fill_mask = np.zeros((rows + 2, cols + 2), np.uint8)
+
+    cv2.floodFill(
+        piece_mask,
+        flood_fill_mask,
+        (0, 0),
+        CLEANED_BACKGROUND_MARKER,
+        flags=CONNECTED_NEIGHBORS
+    )
+
+    piece_mask[:] = np.where(piece_mask == 1, 0, 255)
+
+
 def _get_piece_mask(image):
     noisy_background_removed = remove(image, only_mask=True)
 
@@ -136,6 +147,8 @@ def _get_piece_mask(image):
         255,
         cv2.THRESH_BINARY
     )
+
+    _flood_fill_piece_interiors(clean_piece_mask)
 
     return clean_piece_mask
 
