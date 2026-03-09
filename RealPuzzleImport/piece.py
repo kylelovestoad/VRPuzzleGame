@@ -60,7 +60,12 @@ class Piece:
     chunk_idx: int
     transformation: Transformation
 
-    def __init__(self, spline: PieceSpline, piece_hull_sections: list[HullSection], piece_caves: list[CaveSection]):
+    def __init__(
+        self,
+        spline: PieceSpline,
+        piece_hull_sections: list[HullSection],
+        piece_caves: list[CaveSection]
+    ):
         self.spline = spline
         self.piece_hull_sections = piece_hull_sections
         self.piece_caves = piece_caves
@@ -78,14 +83,20 @@ class Piece:
         return self.spline.to_contour()
 
 
-def _smooth_parameter_mapping(spline, noisy_params):
-    x, y = spline(noisy_params)
-
+def _get_cumulative_smooth_distances(x, y):
     diffs_x = np.diff(x)
     diffs_y = np.diff(y)
     smooth_distances = np.hypot(diffs_x, diffs_y)
 
     cumulative_smooth_distances = np.concatenate([[0], np.cumsum(smooth_distances)])
+
+    return cumulative_smooth_distances
+
+
+def _smooth_parameter_mapping(spline, noisy_params):
+    x, y = spline(noisy_params)
+
+    cumulative_smooth_distances = _get_cumulative_smooth_distances(x, y)
     smooth_arc_length = cumulative_smooth_distances[-1]
 
     smoothed_params = cumulative_smooth_distances / smooth_arc_length

@@ -139,7 +139,7 @@ def solve(puzzle):
     chunks = _single_piece_chunks(puzzle)
     piece_count = puzzle.piece_count()
 
-    while 1:
+    while len(connections_heap):
         cand_conn = heappop(connections_heap)
 
         out_chunk_idx = cand_conn.socket_out_piece.chunk_idx
@@ -166,3 +166,5 @@ def solve(puzzle):
         if len(big_chunk) == piece_count:
             print("Solved")
             return
+
+    raise RuntimeError("Failed to Solve Puzzle")

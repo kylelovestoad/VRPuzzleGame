@@ -1,19 +1,23 @@
 import cv2
 import numpy as np
+from rembg import remove
 
 from numpy import ndarray
 
-from piece import piece_from_contour, Piece
+from piece import Piece, piece_from_contour
 
 # have to just tune these params for now
 # seems good for now with black background and light puzzle
-BORDER_SAMPLE_MARGIN = 1
-BACKGROUND_DISTANCE_THRESHOLD = 32
+BORDER_SAMPLE_MARGIN = 25
+BACKGROUND_DISTANCE_THRESHOLD = 39
 NOISY_BACKGROUND_MARKER = 1
 CLEANED_BACKGROUND_MARKER = 2
 CONNECTED_NEIGHBORS = 8
 PIECE_MIN_AREA = 128
 PIECE_LABEL_START = 1
+GAUSSIAN_BLUR_KERNEL_SIZE = (7, 7)
+GAUSSIAN_BLUR_SIGMA_X = 0
+SEGMENTATION_GRAYSCALE_THRESHOLD = 127
 
 
 class Puzzle:
@@ -21,7 +25,12 @@ class Puzzle:
     piece_mask: ndarray
     pieces: list[Piece]
 
-    def __init__(self, image, piece_mask, pieces):
+    def __init__(
+        self,
+        image: ndarray,
+        piece_mask: ndarray,
+        pieces: list[Piece]
+    ):
         self.image = image
         self.piece_mask = piece_mask
         self.pieces = pieces
@@ -44,17 +53,17 @@ class Puzzle:
         all_contours = -1
 
         output = np.zeros_like(image)
-        output[piece_mask == 1] = image[piece_mask == 1]
+        output[piece_mask == 255] = image[piece_mask == 255]
 
         points_from = [
-            [978, 1041],
-            [549, 1476],
-            [1373, 2369]
+            [551, 1478],
+            [986, 1032],
+            [1369, 2366]
         ]
         points_to = [
-            [1605, 1125],
-            [1596, 939],
-            [599, 1920]
+            [1597, 941],
+            [1599, 1117],
+            [598, 1918]
         ]
 
         colors = [red, green, purple]
@@ -114,91 +123,36 @@ class Puzzle:
         print(f"Debug image path: {output_path}")
 
 
-def _get_background_color(image):
-    border_pixels = np.concatenate([
-        image[:BORDER_SAMPLE_MARGIN, :].reshape(-1, 3),
-        image[-BORDER_SAMPLE_MARGIN:, :].reshape(-1, 3),
-        image[:, :BORDER_SAMPLE_MARGIN].reshape(-1, 3),
-        image[:, -BORDER_SAMPLE_MARGIN:].reshape(-1, 3),
-    ])
+def _get_piece_mask(image):
+    noisy_background_removed = remove(image, only_mask=True)
 
-    return np.median(border_pixels, axis=0)
+    noisy_piece_mask = np.array(noisy_background_removed)
 
+    blurred_piece_mask = cv2.GaussianBlur(noisy_piece_mask, GAUSSIAN_BLUR_KERNEL_SIZE, GAUSSIAN_BLUR_SIGMA_X)
 
-def _pixel_background_difference(image):
-    background_color = _get_background_color(image)
-
-    diff = np.abs(image - background_color)
-    squared_diff = np.sum(diff ** 2, axis=2)
-    difference_distance = np.sqrt(squared_diff)
-
-    return difference_distance
-
-
-def _flood_fill_piece_interiors(initial_background, rows, cols):
-    flood_fill_mask = np.zeros((rows + 2, cols + 2), np.uint8)
-    background_mask = np.zeros((rows, cols), np.uint8)
-
-    initial_background[0, 0] = NOISY_BACKGROUND_MARKER
-    cv2.floodFill(
-        initial_background,
-        flood_fill_mask,
-        (0, 0),
-        CLEANED_BACKGROUND_MARKER,
-        flags=CONNECTED_NEIGHBORS
+    _, clean_piece_mask = cv2.threshold(
+        blurred_piece_mask,
+        SEGMENTATION_GRAYSCALE_THRESHOLD,
+        255,
+        cv2.THRESH_BINARY
     )
 
-    initial_piece_mask = np.zeros_like(background_mask)
-    initial_piece_mask[initial_background != CLEANED_BACKGROUND_MARKER] = 1
-
-
-def _get_background_mask(image):
-    rows, cols = image.shape[:2]
-
-    background_distance = _pixel_background_difference(image)
-
-    background_mask = np.zeros((rows, cols), np.uint8)
-    background_mask[background_distance <= BACKGROUND_DISTANCE_THRESHOLD] = NOISY_BACKGROUND_MARKER
-    _flood_fill_piece_interiors(background_mask, rows, cols)
-
-    return background_mask
-
-
-def _clean_piece_mask(noisy_piece_mask):
-    num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(noisy_piece_mask, connectivity=CONNECTED_NEIGHBORS)
-
-    cleaned_piece_mask = np.zeros_like(noisy_piece_mask)
-
-    for i in range(PIECE_LABEL_START, num_labels):
-        if stats[i, cv2.CC_STAT_AREA] > PIECE_MIN_AREA:
-            cleaned_piece_mask[labels == i] = 1
-
-    return cleaned_piece_mask
-
-
-def _get_piece_mask(image):
-    background_mask = _get_background_mask(image)
-
-    noisy_piece_mask = np.zeros_like(background_mask)
-    noisy_piece_mask[background_mask != CLEANED_BACKGROUND_MARKER] = 1
-    cleaned_mask = _clean_piece_mask(noisy_piece_mask)
-
-    return cleaned_mask
+    return clean_piece_mask
 
 
 def _get_pieces(piece_mask):
-    noisy_contours, _ = cv2.findContours(
+    initial_contours, _ = cv2.findContours(
         piece_mask,
         cv2.RETR_EXTERNAL,
-        cv2.CHAIN_APPROX_NONE
+        cv2.CHAIN_APPROX_SIMPLE
     )
 
-    pieces = [*map(piece_from_contour, noisy_contours)]
+    pieces = [*map(piece_from_contour, initial_contours)]
 
     return pieces
 
 
-def puzzle_from_image_path(image_path):
+def puzzle_from_image(image_path):
     image = cv2.imread(image_path)
 
     piece_mask = _get_piece_mask(image)
