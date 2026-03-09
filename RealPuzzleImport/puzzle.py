@@ -4,7 +4,7 @@ from rembg import remove
 
 from numpy import ndarray
 
-from piece import Piece, piece_from_contour
+from piece import Piece, piece_from_contour, NUM_PIECE_POINTS
 
 # have to just tune these params for now
 # seems good for now with black background and light puzzle
@@ -35,6 +35,32 @@ class Puzzle:
 
     def piece_count(self):
         return len(self.pieces)
+
+    def generate_solved_image(self):
+        rows, cols = self.image.shape[:2]
+
+        output = np.zeros((rows << 1, cols << 1, 3), dtype=self.image.dtype)
+
+        param = np.linspace(0, 1, NUM_PIECE_POINTS)
+        contours = []
+
+        for piece in self:
+            x, y = piece.get_placement(param)
+            res_array = [[[int(xi), int(yi)]] for xi, yi in zip(x, y)]
+            contour = np.asarray(res_array, dtype=np.int32)
+            contours.append(contour)
+
+        cv2.drawContours(
+            output,
+            contours,
+            -1,
+            (0, 0, 255),
+            thickness=2
+        )
+
+        output_path = "debug_images/solved.png"
+        cv2.imwrite(output_path, output)
+
 
     def debug_segmentation(self):
         image = self.image

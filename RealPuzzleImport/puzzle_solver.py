@@ -3,6 +3,7 @@ from heapq import heapify, heappop
 import numpy as np
 
 from piece import NUM_PIECE_POINTS, Piece
+from puzzle import Puzzle
 from transformation import get_transformation, IDENTITY_TRANSFORMATION, Transformation
 
 SEGMENT_COMPARISON_POINTS = 128
@@ -119,51 +120,48 @@ def _connections_heap(puzzle):
     return heap
 
 
-def _attach_piece_state(piece, chunk_idx):
-    piece.chunk_idx = chunk_idx
-    piece.transformation = IDENTITY_TRANSFORMATION
-
-
 def _single_piece_chunks(puzzle):
     chunks = []
 
     for i, piece in enumerate(puzzle):
-        _attach_piece_state(piece, i)
+        piece.attach_state(i)
         chunks.append([piece])
 
     return chunks
 
 
-def solve(puzzle):
+def solve(puzzle: Puzzle):
     connections_heap = _connections_heap(puzzle)
     chunks = _single_piece_chunks(puzzle)
     piece_count = puzzle.piece_count()
+    connect = 0
 
     while len(connections_heap):
         cand_conn = heappop(connections_heap)
 
+        in_piece = cand_conn.socket_in_piece
+
         out_chunk_idx = cand_conn.socket_out_piece.chunk_idx
-        in_chunk_idx = cand_conn.socket_in_piece.chunk_idx
+        in_chunk_idx = in_piece.chunk_idx
 
         if out_chunk_idx == in_chunk_idx:
             continue
 
-        big_chunk_idx = out_chunk_idx
-        small_chunk_idx = in_chunk_idx
-        big_chunk = chunks[out_chunk_idx]
-        small_chunk = chunks[in_chunk_idx]
+        connect += 1
+        print("Candidate", cand_conn.transformation.from_point, cand_conn.transformation.to_point)
 
-        if len(big_chunk) < len(small_chunk):
-            big_chunk_idx, small_chunk_idx = small_chunk_idx, big_chunk_idx
-            big_chunk, small_chunk = small_chunk, big_chunk
+        out_chunk = chunks[out_chunk_idx]
+        in_chunk = chunks[in_chunk_idx]
 
-        for piece in small_chunk:
-            piece.chunk_idx = big_chunk_idx
-            big_chunk.append(piece)
+        for piece in out_chunk:
+            piece.chunk_idx = in_chunk_idx
+            piece.transformation = in_piece.transformation(cand_conn.transformation)
+
+            in_chunk.append(piece)
 
         print(cand_conn)
 
-        if len(big_chunk) == piece_count:
+        if len(in_chunk) == piece_count:
             print("Solved")
             return
 

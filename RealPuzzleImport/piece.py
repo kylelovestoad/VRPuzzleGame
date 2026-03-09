@@ -6,7 +6,7 @@ import numpy as np
 from numpy import ndarray
 from scipy.interpolate import make_splprep, BSpline
 
-from transformation import Transformation
+from transformation import Transformation, IDENTITY_TRANSFORMATION
 
 NUM_PIECE_POINTS = 1024
 MIN_CAVE_DEPTH = 10
@@ -70,17 +70,21 @@ class Piece:
         self.piece_hull_sections = piece_hull_sections
         self.piece_caves = piece_caves
 
-    def transform_segment(self, segment_param, transformation):
-        segment = self.spline(segment_param)
+    def get_placement(self, param):
+        return self.transform_segment(param, self.transformation)
 
-        segment_complex = segment[0] + 1j * segment[1]
-        transformed_complex = transformation(segment_complex)
-        transformed = np.array([transformed_complex.real, transformed_complex.imag])
+    def transform_segment(self, segment_param, transformation):
+        points = self.spline(segment_param)
+        transformed = transformation(points)
 
         return transformed
 
     def to_contour(self):
         return self.spline.to_contour()
+
+    def attach_state(self, chunk_idx):
+        self.chunk_idx = chunk_idx
+        self.transformation = IDENTITY_TRANSFORMATION
 
 
 def _get_cumulative_smooth_distances(x, y):
