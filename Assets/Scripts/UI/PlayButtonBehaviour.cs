@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Events
+namespace UI
 {
     public class PlayButtonBehaviour : MonoBehaviour
     {

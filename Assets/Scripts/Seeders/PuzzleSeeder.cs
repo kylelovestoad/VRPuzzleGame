@@ -64,7 +64,6 @@ namespace Seeders
                     null,
                     null, 
                     "Mountain Sunset", 
-                    "A serene mountain landscape at dusk.", 
                     "Alice",
                     jigsawGenerator.Generate(puzzleImage, 4, 4, 1),
                     null
@@ -73,7 +72,6 @@ namespace Seeders
                     null,
                     null, 
                     "Ocean Waves", 
-                    "Crashing waves on a rocky shore.", 
                     "Bob", 
                     rectangleGenerator.Generate(puzzleImage, 1, 2, 2), 
                     null
@@ -82,7 +80,6 @@ namespace Seeders
                     null,
                     null, 
                     "City Lights", 
-                    "A sprawling city at night.", 
                     "Carol", 
                     rectangleGenerator.Generate(puzzleImage, 2, 10, 1), 
                     null
@@ -110,7 +107,6 @@ namespace Seeders
                 null,
                 null,
                 "Donkey Kong",
-                "DK's puzzle is optimal",
                 "Donkey Kong",
                 puzzleLayout,
                 null

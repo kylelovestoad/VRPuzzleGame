@@ -32,7 +32,6 @@ namespace Tests
                 null,
                 null, 
                 name, 
-                "A description", 
                 "Author", 
                 new PuzzleLayout(2, 2, PieceShape.Rectangle, new List<PieceCut>()), 
                 null

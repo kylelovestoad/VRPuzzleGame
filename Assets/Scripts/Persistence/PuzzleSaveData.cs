@@ -14,7 +14,6 @@ namespace Persistence
         public string localID;
         public string onlineID;
         public string name;
-        public string description;
         public string author;
         public PuzzleLayout layout;
         [CanBeNull] public List<ChunkSaveData> chunks;
@@ -25,7 +24,6 @@ namespace Persistence
             string localID,
             string onlineID,
             string name,
-            string description,
             string author,
             PuzzleLayout layout,
             List<ChunkSaveData> chunks
@@ -33,7 +31,6 @@ namespace Persistence
             this.localID = localID;
             this.onlineID = onlineID;
             this.name = name;
-            this.description = description;
             this.author = author;
             this.layout = layout;
             this.chunks = chunks;

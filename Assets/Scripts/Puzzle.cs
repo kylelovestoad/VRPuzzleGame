@@ -10,7 +10,6 @@ public class Puzzle: MonoBehaviour
     public string LocalID { get; set; }
     public string OnlineID { get; set; }
     public string Name { get; set; }
-    public string Description { get; set; }
     public string Author { get; set; }
     
     public PuzzleLayout Layout { get; set; }
@@ -28,7 +27,6 @@ public class Puzzle: MonoBehaviour
         LocalID = saveData.localID;
         OnlineID = saveData.onlineID;
         Name = saveData.name;
-        Description = saveData.description;
         Author = saveData.author;
         Layout = saveData.layout;
         RenderData = renderData;
@@ -83,7 +81,6 @@ public class Puzzle: MonoBehaviour
             localID: LocalID,
             onlineID: OnlineID,
             name: Name,
-            description: Description,
             author: Author,
             layout: Layout,
             chunks: Chunks.Select(c => c.ToData()).ToList()
