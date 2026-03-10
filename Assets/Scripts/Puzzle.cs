@@ -15,6 +15,8 @@ public class Puzzle: MonoBehaviour
     public PuzzleLayout Layout { get; set; }
     public long SolvedPieces { get; private set; }
     
+    public Texture2D puzzleImage;
+    
     private Chunk[] Chunks => GetComponentsInChildren<Chunk>();
     public long TotalPieces => Chunks.Sum(chunk => chunk.PieceCount);
     public bool IsOnline => OnlineID != null;
@@ -83,6 +85,7 @@ public class Puzzle: MonoBehaviour
             name: Name,
             author: Author,
             layout: Layout,
+            puzzleImage: puzzleImage,
             chunks: Chunks.Select(c => c.ToData()).ToList()
         );
     }

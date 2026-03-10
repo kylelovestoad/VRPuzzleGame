@@ -34,6 +34,7 @@ namespace Tests
                 name, 
                 "Author", 
                 new PuzzleLayout(2, 2, PieceShape.Rectangle, new List<PieceCut>()), 
+                null,
                 null
                 );
 

@@ -46,7 +46,7 @@ namespace Tests
             var pieceCuts = new List<PieceCut> { _piece0Cut, _piece1Cut };
 
             _mockLayout = new PuzzleLayout(2, 1, PieceShape.Rectangle, pieceCuts);
-            _mockRenderData = new PuzzleRenderData(null, null, _mockLayout);
+            _mockRenderData = new PuzzleRenderData(null, _mockLayout);
             _puzzle = new GameObject("Puzzle").AddComponent<Puzzle>();
             _puzzle.RenderData = _mockRenderData;
         }

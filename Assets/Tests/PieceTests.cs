@@ -50,7 +50,7 @@ namespace Tests
             var pieceCuts = new List<PieceCut> { pieceCut };
         
             PuzzleLayout mockLayout = new PuzzleLayout(1, 1, PieceShape.Rectangle, pieceCuts);
-            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, null, mockLayout);
+            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, mockLayout);
 
             _piece.InitializePiece(pieceCut, mockRenderData);
 
@@ -86,7 +86,7 @@ namespace Tests
             var pieceCuts = new List<PieceCut> { pieceCut };
         
             PuzzleLayout mockLayout = new PuzzleLayout(2, 1, PieceShape.Rectangle, pieceCuts);
-            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, null, mockLayout);
+            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, mockLayout);
 
             _piece.InitializePiece(pieceCut, mockRenderData);
             otherPiece.InitializePiece(otherPieceCut, mockRenderData);
@@ -124,7 +124,7 @@ namespace Tests
             var pieceCuts = new List<PieceCut> { pieceCut };
         
             PuzzleLayout mockLayout = new PuzzleLayout(2, 1, PieceShape.Rectangle, pieceCuts);
-            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, null, mockLayout);
+            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, mockLayout);
 
             _piece.InitializePiece(pieceCut, mockRenderData);
             otherPiece.InitializePiece(otherPieceCut, mockRenderData);
@@ -162,7 +162,7 @@ namespace Tests
             var pieceCuts = new List<PieceCut> { pieceCut };
         
             PuzzleLayout mockLayout = new PuzzleLayout(2, 1, PieceShape.Rectangle, pieceCuts);
-            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, null, mockLayout);
+            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, mockLayout);
 
             _piece.InitializePiece(pieceCut, mockRenderData);
             otherPiece.InitializePiece(otherPieceCut, mockRenderData);
@@ -199,7 +199,7 @@ namespace Tests
             var pieceCuts = new List<PieceCut> { pieceCut };
         
             PuzzleLayout mockLayout = new PuzzleLayout(2, 1, PieceShape.Rectangle, pieceCuts);
-            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, null, mockLayout);
+            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, mockLayout);
 
             _piece.InitializePiece(pieceCut, mockRenderData);
             otherPiece.InitializePiece(otherPieceCut, mockRenderData);
@@ -236,7 +236,7 @@ namespace Tests
             var pieceCuts = new List<PieceCut> { pieceCut };
         
             PuzzleLayout mockLayout = new PuzzleLayout(2, 1, PieceShape.Rectangle, pieceCuts);
-            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, null, mockLayout);
+            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, mockLayout);
 
             _piece.InitializePiece(pieceCut, mockRenderData);
             otherPiece.InitializePiece(otherPieceCut, mockRenderData);
@@ -273,7 +273,7 @@ namespace Tests
             var pieceCuts = new List<PieceCut> { pieceCut };
         
             PuzzleLayout mockLayout = new PuzzleLayout(2, 1, PieceShape.Rectangle, pieceCuts);
-            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, null, mockLayout);
+            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, mockLayout);
 
             _piece.InitializePiece(pieceCut, mockRenderData);
             otherPiece.InitializePiece(otherPieceCut, mockRenderData);
@@ -310,7 +310,7 @@ namespace Tests
             var pieceCuts = new List<PieceCut> { pieceCut };
         
             PuzzleLayout mockLayout = new PuzzleLayout(2, 1, PieceShape.Rectangle, pieceCuts);
-            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, null, mockLayout);
+            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, mockLayout);
 
             _piece.InitializePiece(pieceCut, mockRenderData);
             otherPiece.InitializePiece(otherPieceCut, mockRenderData);
@@ -348,7 +348,7 @@ namespace Tests
             var pieceCuts = new List<PieceCut> { pieceCut };
         
             PuzzleLayout mockLayout = new PuzzleLayout(2, 1, PieceShape.Rectangle, pieceCuts);
-            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, null, mockLayout);
+            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, mockLayout);
 
             _piece.InitializePiece(pieceCut, mockRenderData);
             otherPiece.InitializePiece(otherPieceCut, mockRenderData);
@@ -390,7 +390,7 @@ namespace Tests
             var pieceCuts = new List<PieceCut> { pieceCut };
         
             PuzzleLayout mockLayout = new PuzzleLayout(2, 1, PieceShape.Rectangle, pieceCuts);
-            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, null, mockLayout);
+            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, mockLayout);
 
             _piece.InitializePiece(pieceCut, mockRenderData);
             otherPiece.InitializePiece(otherPieceCut, mockRenderData);
@@ -427,7 +427,7 @@ namespace Tests
             var pieceCuts = new List<PieceCut> { pieceCut };
         
             PuzzleLayout mockLayout = new PuzzleLayout(2, 1, PieceShape.Rectangle, pieceCuts);
-            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, null, mockLayout);
+            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, mockLayout);
 
             _piece.InitializePiece(pieceCut, mockRenderData);
             otherPiece.InitializePiece(otherPieceCut, mockRenderData);
@@ -466,7 +466,7 @@ namespace Tests
             var pieceCuts = new List<PieceCut> { pieceCut };
         
             PuzzleLayout mockLayout = new PuzzleLayout(2, 1, PieceShape.Rectangle, pieceCuts);
-            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, null, mockLayout);
+            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, mockLayout);
 
             _piece.InitializePiece(pieceCut, mockRenderData);
             otherPiece.InitializePiece(otherPieceCut, mockRenderData);
@@ -511,7 +511,7 @@ namespace Tests
             var pieceCuts = new List<PieceCut> { pieceCut };
         
             PuzzleLayout mockLayout = new PuzzleLayout(2, 1, PieceShape.Rectangle, pieceCuts);
-            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, null, mockLayout);
+            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, mockLayout);
 
             _piece.InitializePiece(pieceCut, mockRenderData);
             otherPiece.InitializePiece(otherPieceCut, mockRenderData);
@@ -549,7 +549,7 @@ namespace Tests
             var pieceCuts = new List<PieceCut> { pieceCut };
         
             PuzzleLayout mockLayout = new PuzzleLayout(2, 1, PieceShape.Rectangle, pieceCuts);
-            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, null, mockLayout);
+            PuzzleRenderData mockRenderData = new PuzzleRenderData(null, mockLayout);
 
             _piece.InitializePiece(pieceCut, mockRenderData);
             otherPiece.InitializePiece(otherPieceCut, mockRenderData);

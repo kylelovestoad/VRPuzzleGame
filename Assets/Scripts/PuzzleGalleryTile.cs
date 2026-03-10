@@ -1,18 +1,29 @@
 using Persistence;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PuzzleGalleryTile : MonoBehaviour
 {
     [SerializeField]
-    private GameObject puzzleNameLabel;
+    private TextMeshProUGUI puzzleNameLabel;
+    
+    [SerializeField]
+    private Image puzzleImage;
 
     private PuzzleSaveData _puzzleSaveData;
 
-    public void SetName(PuzzleSaveData puzzleSaveData)
+    public void SetFields(PuzzleSaveData puzzleSaveData)
     {
-        var text = puzzleNameLabel.GetComponent<TextMeshProUGUI>();
-        text.text = puzzleSaveData.name;
+        puzzleNameLabel.text = puzzleSaveData.name;
+        
+        var puzzleImageTexture = puzzleSaveData.PuzzleImage;
+        var puzzleImageSprite = Sprite.Create(
+            puzzleImageTexture,
+            new Rect(0, 0, puzzleImageTexture.width, puzzleImageTexture.height), 
+            Vector2.zero
+        );
+        puzzleImage.sprite = puzzleImageSprite;
         
         _puzzleSaveData = puzzleSaveData;
     }
@@ -20,6 +31,16 @@ public class PuzzleGalleryTile : MonoBehaviour
     [ContextMenu("Test Click")]
     public void OnClick()
     {
-        Debug.Log("Clicked Puzzle Tile ");
+        var puzzleRenderData = new PuzzleRenderData(
+            _puzzleSaveData.PuzzleImage, 
+            _puzzleSaveData.layout
+        );
+            
+        var puzzle = new GameObject("Puzzle").AddComponent<Puzzle>();
+        
+        puzzle.InitializePuzzle(
+            _puzzleSaveData,
+            puzzleRenderData
+        );
     }
 }

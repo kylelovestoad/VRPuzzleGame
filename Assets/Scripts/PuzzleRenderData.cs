@@ -1,9 +1,21 @@
 ﻿using PuzzleGeneration;
 using UnityEngine;
 
-public record PuzzleRenderData(Texture2D PuzzleImage, Material BackAndSidesMaterial, PuzzleLayout Layout)
+public class PuzzleRenderData
 {
-    public Texture2D PuzzleImage { get; } = PuzzleImage;
-    public Material BackAndSidesMaterial { get; } = BackAndSidesMaterial;
-    public PuzzleLayout Layout { get; } = Layout;
-};
+    private static readonly Material DefaultBackMaterial = new(Shader.Find("Unlit/Color"))
+    {
+        color = Color.gray
+    };
+
+    public Texture2D PuzzleImage { get; }
+    public Material BackAndSidesMaterial { get; }
+    public PuzzleLayout Layout { get; }
+
+    public PuzzleRenderData(Texture2D puzzleImage, PuzzleLayout layout, Material backAndSidesMaterial = null)
+    {
+        PuzzleImage = puzzleImage;
+        Layout = layout;
+        BackAndSidesMaterial = backAndSidesMaterial ?? DefaultBackMaterial;
+    }
+}

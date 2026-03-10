@@ -18,6 +18,9 @@ namespace Persistence
         public PuzzleLayout layout;
         [CanBeNull] public List<ChunkSaveData> chunks;
         
+        [NonSerialized]
+        public Texture2D PuzzleImage;
+        
         public bool HasLocalID => localID != null;
 
         public PuzzleSaveData(
@@ -26,7 +29,8 @@ namespace Persistence
             string name,
             string author,
             PuzzleLayout layout,
-            List<ChunkSaveData> chunks
+            List<ChunkSaveData> chunks,
+            Texture2D puzzleImage
         ) {
             this.localID = localID;
             this.onlineID = onlineID;
@@ -34,6 +38,7 @@ namespace Persistence
             this.author = author;
             this.layout = layout;
             this.chunks = chunks;
+            this.PuzzleImage = puzzleImage;
         }
 
        

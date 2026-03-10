@@ -34,7 +34,7 @@ namespace Seeders
                 color = Color.gray
             };
 
-            var puzzleRenderData = new PuzzleRenderData(puzzleImage, backMaterial, saveData.layout);
+            var puzzleRenderData = new PuzzleRenderData(puzzleImage, saveData.layout);
             
             var puzzleObject = new GameObject("Puzzle");
             puzzle = puzzleObject.AddComponent<Puzzle>();
@@ -68,7 +68,8 @@ namespace Seeders
                     "Mountain Sunset", 
                     "Alice",
                     jigsawGenerator.Generate(puzzleImage, 4, 4, 1),
-                    null
+                    null,
+                    puzzleImage
                 ),
                 new(
                     null,
@@ -76,7 +77,8 @@ namespace Seeders
                     "Ocean Waves", 
                     "Bob", 
                     rectangleGenerator.Generate(puzzleImage, 1, 2, 2), 
-                    null
+                    null,
+                    puzzleImage
                     ),
                 new(
                     null,
@@ -84,7 +86,8 @@ namespace Seeders
                     "City Lights", 
                     "Carol", 
                     rectangleGenerator.Generate(puzzleImage, 2, 10, 1), 
-                    null
+                    null,
+                    puzzleImage
                     ),
             };
 
@@ -106,7 +109,7 @@ namespace Seeders
             };
 
             var puzzleLayout = generator.Generate(puzzleImage, 4, 4, 1);
-            var puzzleRenderData = new PuzzleRenderData(puzzleImage, backMaterial, puzzleLayout);
+            var puzzleRenderData = new PuzzleRenderData(puzzleImage, puzzleLayout);
 
             PuzzleSaveData saveData = new(
                 null,
@@ -114,7 +117,8 @@ namespace Seeders
                 "Donkey Kong",
                 "Donkey Kong",
                 puzzleLayout,
-                null
+                null,
+                puzzleImage
             );
             
             var puzzleObject = new GameObject("Puzzle");

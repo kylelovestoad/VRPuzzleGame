@@ -39,9 +39,36 @@ namespace Persistence
         {
             var json = JsonSerializer.Serialize(doc);
             var saveData = JsonUtility.FromJson<PuzzleSaveData>(json);
+            
             saveData.localID = doc["_id"].AsObjectId.ToString();
             Debug.Assert(saveData.localID != null, "local ID must not be null"); 
+            
+            LoadImage(saveData);
+            
             return saveData;
+        }
+        
+        private static void SaveImage(PuzzleSaveData saveData)
+        {
+            var image = saveData.PuzzleImage;
+            var imageBytes = image.EncodeToPNG();
+            
+            var filename = saveData.localID + ".png";
+            var path = Path.Combine(Application.persistentDataPath, filename);
+
+            File.WriteAllBytes(path, imageBytes);
+        }
+        
+        private static void LoadImage(PuzzleSaveData saveData)
+        {
+            var filename = saveData.localID + ".png";
+            var path = Path.Combine(Application.persistentDataPath, filename);
+            
+            var imageBytes = File.ReadAllBytes(path);
+            var image = new Texture2D(1, 1);
+            image.LoadImage(imageBytes);
+            
+            saveData.PuzzleImage = image;
         }
         
         private LocalSave(string dbPath)
@@ -65,11 +92,13 @@ namespace Persistence
         {
             var id = _puzzles.Insert(ToDocument(saveData));
             saveData.localID = id.AsObjectId.ToString();
+            SaveImage(saveData);
         }
 
         public void Save(PuzzleSaveData saveData)
         {
             _puzzles.Upsert(ToDocument(saveData));
+            SaveImage(saveData);
         }
 
         public void SaveAll(IEnumerable<PuzzleSaveData> saveDataList)
@@ -79,7 +108,7 @@ namespace Persistence
             {
                 foreach (var saveData in saveDataList)
                 {
-                    _puzzles.Upsert(ToDocument(saveData));
+                    Save(saveData);
                 }
 
                 DB.Commit();

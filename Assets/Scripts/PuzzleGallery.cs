@@ -22,11 +22,10 @@ public class PuzzleGallery : MonoBehaviour
 
         foreach (var puzzleSaveData in puzzles)
         {
-            var galleryTile = Instantiate(puzzleGalleryItemPrefab);
-            galleryTile.transform.SetParent(transform, false);
-            galleryTile.gameObject.SetActive(true);
+            var galleryTile = Instantiate(puzzleGalleryItemPrefab, transform, false);
             
-            galleryTile.SetName(puzzleSaveData);
+            galleryTile.gameObject.SetActive(true);
+            galleryTile.SetFields(puzzleSaveData);
         }
     }
 }
