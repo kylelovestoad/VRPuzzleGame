@@ -13,9 +13,11 @@ namespace Persistence
 
         public static LocalSave Instance => _instance ?? throw new NullReferenceException("There must be one instance of LocalSave");
         
-        public LiteDatabase DB;
-        private ILiteCollection<BsonDocument> _puzzles;
-
+        public readonly LiteDatabase DB;
+        private readonly ILiteCollection<BsonDocument> _puzzles;
+        
+        public event Action<List<PuzzleSaveData>> OnSaved;
+        
         private static BsonDocument ToDocument(PuzzleSaveData saveData)
         {
             var json = JsonUtility.ToJson(saveData);
@@ -93,22 +95,26 @@ namespace Persistence
             var id = _puzzles.Insert(ToDocument(saveData));
             saveData.localID = id.AsObjectId.ToString();
             SaveImage(saveData);
+            OnSaved?.Invoke(new List<PuzzleSaveData> { saveData });
+            
         }
 
         public void Save(PuzzleSaveData saveData)
         {
             _puzzles.Upsert(ToDocument(saveData));
             SaveImage(saveData);
+            OnSaved?.Invoke(new List<PuzzleSaveData> { saveData });
         }
 
-        public void SaveAll(IEnumerable<PuzzleSaveData> saveDataList)
+        public void SaveAll(List<PuzzleSaveData> saveDataList)
         {
             DB.BeginTrans();
             try
             {
                 foreach (var saveData in saveDataList)
                 {
-                    Save(saveData);
+                    _puzzles.Upsert(ToDocument(saveData));
+                    SaveImage(saveData);
                 }
 
                 DB.Commit();
@@ -118,6 +124,7 @@ namespace Persistence
                 DB.Rollback();
                 throw;
             }
+            OnSaved?.Invoke(saveDataList);
         }
 
         public PuzzleSaveData Load(string localId)

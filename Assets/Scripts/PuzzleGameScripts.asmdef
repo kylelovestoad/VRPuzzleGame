@@ -2,7 +2,8 @@
 	"name": "PuzzleGameScripts",
 	"rootNamespace": "",
 	"references": [
-		"Unity.TextMeshPro"
+		"Unity.TextMeshPro",
+		"Oculus.Interaction.Samples"
 	],
 	"includePlatforms": [],
 	"excludePlatforms": [],

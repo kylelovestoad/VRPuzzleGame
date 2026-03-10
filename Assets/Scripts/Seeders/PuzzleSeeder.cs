@@ -20,7 +20,7 @@ namespace Seeders
         void Start()
         {
             // RandomPuzzle();
-            SeedPuzzleSaveData();
+            // SeedPuzzleSaveData();
             // LoadPuzzleSaveData();
             // LoadSavedPuzzle();
         }

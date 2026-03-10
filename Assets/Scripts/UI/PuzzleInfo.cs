@@ -3,7 +3,8 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class PlayButtonBehaviour : MonoBehaviour
+    // TODO add logic from gallery tile to this since tile click brings you to this UI
+    public class PuzzleInfo : MonoBehaviour
     {
         public Button button;
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Oculus.Interaction.Samples;
 using Persistence;
 using PuzzleGeneration;
 using PuzzleGeneration.Jigsaw;
@@ -15,10 +16,9 @@ namespace UI
         public TMP_InputField nameInputField;
         public TMP_InputField rowsInputField;
         public TMP_InputField columnsInputField;
-        public TMP_Dropdown dropdown;
+        public DropDownGroup dropdown;
         public Button createButton;
         public Texture2D puzzleImage;
-
 
         public void Start()
         {
@@ -30,17 +30,19 @@ namespace UI
             createButton.onClick.RemoveListener(OnCreate);
         }
 
+        [ContextMenu("Test Click")]
         private void OnCreate()
         {
             var puzzleName = nameInputField.text;
+            var selected = dropdown.SelectedIndex;
             
-            if (!Enum.IsDefined(typeof(PieceShape), 1))
+            if (!Enum.IsDefined(typeof(PieceShape), selected))
             {
                 Debug.LogWarning("Invalid shape");
                 return;
             }
             
-            var selectedShape = (PieceShape) 1;
+            var selectedShape = (PieceShape) selected;
             
             if (string.IsNullOrWhiteSpace(puzzleName))
             {
@@ -69,8 +71,9 @@ namespace UI
                 null,
                 puzzleName,
                 "DK", // TODO author will be handled with meta quest account
-                generator.Generate(puzzleImage, rows, columns, 0.1f),
-                new List<ChunkSaveData>()
+                generator.Generate(puzzleImage, rows, columns, 0.3f),
+                new List<ChunkSaveData>(),
+                puzzleImage // TODO this will be uploaded
             ));
         }
     }
