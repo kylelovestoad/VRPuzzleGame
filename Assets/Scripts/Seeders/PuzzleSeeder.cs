@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Persistence;
 using PuzzleGeneration;
@@ -10,7 +11,8 @@ namespace Seeders
 {
     public class PuzzleSeeder : MonoBehaviour
     {
-        [SerializeField] private Texture2D puzzleImage;
+        [SerializeField] 
+        private Texture2D puzzleImage;
 
         private Puzzle puzzle;
     
@@ -18,9 +20,9 @@ namespace Seeders
         void Start()
         {
             // RandomPuzzle();
-            // SeedPuzzleSaveData();
+            SeedPuzzleSaveData();
             // LoadPuzzleSaveData();
-            LoadSavedPuzzle();
+            // LoadSavedPuzzle();
         }
 
         void LoadSavedPuzzle()
@@ -84,11 +86,14 @@ namespace Seeders
                     rectangleGenerator.Generate(puzzleImage, 2, 10, 1), 
                     null
                     ),
-            };   
-            
-            // LocalSave.Instance.Create(puzzleSaves[1]);
+            };
 
-            LocalSave.Instance.Delete("699e3b61c937df123c3c08af");
+            foreach (var puzzleSave in puzzleSaves)
+            {
+                LocalSave.Instance.Create(puzzleSave);
+            }
+
+            Debug.Log("Saving Puzzle...");
         }
 
         void RandomPuzzle()
