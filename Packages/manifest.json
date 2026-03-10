@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "com.github-glitchenzo.nugetforunity": "4.5.0",
     "com.meta.xr.sdk.all": "83.0.3",
+    "com.unity.2d.sprite": "1.0.0",
     "com.unity.ai.navigation": "2.0.9",
     "com.unity.collab-proxy": "2.11.2",
     "com.unity.ide.rider": "3.0.38",
@@ -48,8 +50,7 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0",
-    "com.github-glitchenzo.nugetforunity": "4.5.0"
+    "com.unity.modules.xr": "1.0.0"
   },
   "scopedRegistries": [
     {
