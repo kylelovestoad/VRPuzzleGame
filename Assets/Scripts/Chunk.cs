@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
@@ -16,6 +17,10 @@ public class Chunk : MonoBehaviour
     private BoxCollider BoxCollider => GetComponent<BoxCollider>();
     private Piece[] Pieces => GetComponentsInChildren<Piece>();
     public int PieceCount => Pieces.Length;
+
+    public bool IsMerged { set; get; }
+
+    public bool IsCollisionProcedureRunning { set; get; } = false;
 
     public void InitializeSinglePieceChunk(PieceCut cut, Puzzle puzzle)
     {
@@ -93,53 +98,53 @@ public class Chunk : MonoBehaviour
 
         Piece repPiece = Pieces[0];
 
-        // avoid unity complaining about modifying piece during iteration, no foreach
-        int piecesCount = other.PieceCount;
+        Debug.LogError($"Thread ID: {Thread.CurrentThread.ManagedThreadId}");
+        Debug.LogError($"Count: this: {PieceCount}, other: {other.PieceCount}");
 
-        for (int i = 0; i < piecesCount; i++)
+        foreach (var otherPiece in other.Pieces.ToArray())
         {
-            Piece otherPiece = other.Pieces[i];
-
             otherPiece.SnapIntoPlace(repPiece);
             otherPiece.transform.SetParent(transform);
         }
 
-        if (Application.isPlaying)
-        {
-            Destroy(other.gameObject);
-        }
-        else
-        {
-            DestroyImmediate(other.gameObject);
-        }
+        other.IsMerged = true;
+        Destroy(other.gameObject);
     }
 
     void OnTriggerStay(Collider other)
     {
         Chunk otherChunk = other.GetComponent<Chunk>();
-
-        if (otherChunk != null 
-            && GetInstanceID() < otherChunk.GetInstanceID()
-            && Pieces.Length > 0 
-            && otherChunk.Pieces.Length > 0
-        ) {
-            foreach (var piece in Pieces)
+        
+        if (otherChunk == null
+            || GetInstanceID() >= otherChunk.GetInstanceID()
+            || otherChunk.IsMerged
+            || IsCollisionProcedureRunning
+            || Pieces.Length <= 0
+            || otherChunk.Pieces.Length <= 0) return;
+        
+        // TODO this needs to be atomic
+        IsCollisionProcedureRunning = true;
+        
+        foreach (var piece in Pieces)
+        {
+            foreach (var otherPiece in otherChunk.Pieces)
             {
-                foreach (var otherPiece in otherChunk.Pieces)
+                if (piece.IsCloseEnough(otherPiece))
                 {
-                    if (piece.IsCloseEnough(otherPiece))
-                    {
-                        Debug.Log("Close Enough");
-                        Merge(otherChunk);
-                        return;
-                    }
-                    else
-                    {
-                        Debug.Log("Not Close Enough");
-                    }
+                    Debug.Log("Close Enough");
+                    Debug.LogError($"this: {GetInstanceID()}, other: {otherChunk.GetInstanceID()}");
+                    Merge(otherChunk);  
+                    goto end; 
+                }
+                else
+                {
+                    Debug.Log("Not Close Enough");
                 }
             }
         }
+        
+        end:
+        IsCollisionProcedureRunning = false;
     }
     
     public ChunkSaveData ToData()

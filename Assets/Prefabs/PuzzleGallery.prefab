@@ -4616,7 +4616,7 @@ Transform:
   m_GameObject: {fileID: 5515437907243875799}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.40892, y: -0, z: 22.20779}
+  m_LocalPosition: {x: 0.40892, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5359,9 +5359,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7066039285716946123}
-        m_TargetAssemblyTypeName: UIManager, PuzzleGameScripts
-        m_MethodName: 
+      - m_Target: {fileID: 4648767731415452789}
+        m_TargetAssemblyTypeName: UI.PuzzleGalleryTile, PuzzleGameScripts
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
