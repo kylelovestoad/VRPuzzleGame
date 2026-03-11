@@ -39,10 +39,19 @@ namespace PuzzleGeneration.Rectangle
                         pieceHeight
                     );
                 
-                    Vector3 solutionLocation = new Vector3(leftBoundary, pieceHeight * r, 0);
+                    var solutionLocation = new Vector3(leftBoundary, pieceHeight * r, 0);
 
-                    int nextIndex = pieceCuts.Count;
-                    PieceCut cut = new PieceCut(nextIndex, solutionLocation, borderPoints);
+                    var pieceIndex = pieceCuts.Count;
+
+                    var neighbors = new List<int>();
+                    
+                    // TODO, probably dont want this neighborhood due to not all same size
+                    if (r > 0) neighbors.Add(pieceIndex - cols);
+                    if (r < rows - 1) neighbors.Add(pieceIndex + cols);
+                    if (c > 0) neighbors.Add(pieceIndex - 1);
+                    if (c < cols - 1) neighbors.Add(pieceIndex + 1);
+                    
+                    PieceCut cut = new PieceCut(pieceIndex, neighbors, solutionLocation, borderPoints);
                     pieceCuts.Add(cut);
                 
                     leftBoundary = rightBoundary;

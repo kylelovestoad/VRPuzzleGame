@@ -67,6 +67,11 @@ public class Piece : MonoBehaviour
             .Select(vertex => transform.TransformPoint(vertex))
             .ToArray();
     }
+
+    private bool IsNeighbor(Piece other)
+    {
+        return _cut.neighborIndices.Contains(other._cut.pieceIndex);
+    }
     
     private Vector3 SolutionOffset(Piece other)
     {
@@ -78,8 +83,10 @@ public class Piece : MonoBehaviour
         return other.transform.position + other.transform.rotation * SolutionOffset(other);
     }
     
-    public bool IsRelativelyClose(Piece other)
+    public bool IsCloseEnough(Piece other)
     {
+        if (!IsNeighbor(other)) return false;
+        
         var expectedPosition = ExpectedPosition(other);
         var actualPosition = transform.position;
         

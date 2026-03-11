@@ -123,12 +123,21 @@ public class Chunk : MonoBehaviour
             && Pieces.Length > 0 
             && otherChunk.Pieces.Length > 0
         ) {
-            Piece repPiece = Pieces[0];
-            Piece otherRepPiece = otherChunk.Pieces[0];
-
-            if (repPiece.IsRelativelyClose(otherRepPiece))
+            foreach (var piece in Pieces)
             {
-                Merge(otherChunk);
+                foreach (var otherPiece in otherChunk.Pieces)
+                {
+                    if (piece.IsCloseEnough(otherPiece))
+                    {
+                        Debug.Log("Close Enough");
+                        Merge(otherChunk);
+                        return;
+                    }
+                    else
+                    {
+                        Debug.Log("Not Close Enough");
+                    }
+                }
             }
         }
     }
