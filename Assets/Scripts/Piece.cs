@@ -21,6 +21,8 @@ public class Piece : MonoBehaviour
         PuzzleRenderData puzzleRenderData
     )
     {
+        gameObject.SetActive(true);
+        
         Mesh pieceMesh = PieceMeshGenerator.PieceMesh(pieceCut.borderPoints);
         
         MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();

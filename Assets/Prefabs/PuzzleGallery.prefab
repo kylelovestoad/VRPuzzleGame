@@ -4520,7 +4520,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5515437907001179531}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d56f637dee1e39f43be3931eb91a6b38, type: 3}
+  m_Script: {fileID: 11500000, guid: 566010867d5729e46aba099528206ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PuzzleGameScripts::PuzzleGalleryManager
   puzzleGalleryItemPrefab: {fileID: 4648767731415452789}
@@ -5380,7 +5380,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7066039285716946123}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec848f85090ff8e489c574af4b7dd9be, type: 3}
+  m_Script: {fileID: 11500000, guid: ec5a73b55b625c34db1d5b97bc6af2c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
   puzzleNameLabel: {fileID: 7136138629130104456}

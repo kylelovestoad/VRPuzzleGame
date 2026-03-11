@@ -73,6 +73,14 @@ namespace Persistence
             saveData.PuzzleImage = image;
         }
         
+        private static void DeleteImage(string localID)
+        {
+            var filename = localID + ".png";
+            var path = Path.Combine(Application.persistentDataPath, filename);
+            
+            File.Delete(path);
+        }
+        
         private LocalSave(string dbPath)
         {
             DB = new LiteDatabase(dbPath);
@@ -103,6 +111,12 @@ namespace Persistence
         {
             _puzzles.Upsert(ToDocument(saveData));
             SaveImage(saveData);
+            OnSaved?.Invoke(new List<PuzzleSaveData> { saveData });
+        }
+        
+        public void SaveSkipImage(PuzzleSaveData saveData)
+        {
+            _puzzles.Upsert(ToDocument(saveData));
             OnSaved?.Invoke(new List<PuzzleSaveData> { saveData });
         }
 
@@ -141,6 +155,7 @@ namespace Persistence
         public void Delete(string localId)
         {
             _puzzles.Delete(new ObjectId(localId));
+            DeleteImage(localId);
         }
     }
 }

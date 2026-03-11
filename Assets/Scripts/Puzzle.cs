@@ -7,6 +7,9 @@ using UnityEngine;
 
 public class Puzzle: MonoBehaviour
 {
+    [SerializeField]
+    private Chunk chunkPrefab;
+    
     public string LocalID { get; set; }
     public string OnlineID { get; set; }
     public string Name { get; set; }
@@ -15,7 +18,7 @@ public class Puzzle: MonoBehaviour
     public PuzzleLayout Layout { get; set; }
     public long SolvedPieces { get; private set; }
     
-    public Texture2D puzzleImage;
+    public Texture2D PuzzleImage { get; set; }
     
     private Chunk[] Chunks => GetComponentsInChildren<Chunk>();
     public long TotalPieces => Chunks.Sum(chunk => chunk.PieceCount);
@@ -32,6 +35,7 @@ public class Puzzle: MonoBehaviour
         Author = saveData.author;
         Layout = saveData.layout;
         RenderData = renderData;
+        PuzzleImage = saveData.PuzzleImage;
         
         InitializeChunks(saveData);
     }
@@ -40,7 +44,7 @@ public class Puzzle: MonoBehaviour
     {
         if (saveData.chunks == null || saveData.chunks.Count == 0)
         {
-            InitializeChunks();
+            InitializeSinglePieceChunks();
         }
         else
         {
@@ -48,7 +52,7 @@ public class Puzzle: MonoBehaviour
         }
     }
 
-    private void InitializeChunks()
+    private void InitializeSinglePieceChunks()
     {
         foreach (var cut in Layout.initialPieceCuts)
         {
@@ -56,13 +60,15 @@ public class Puzzle: MonoBehaviour
 
             // TODO: randomize placement
             var offset = new Vector3(cut.solutionLocation.x * 1.5f, cut.solutionLocation.y * 1.5f, 0);
-            
-            ChunkFactory.Instance.CreateSinglePieceChunk(
-                cut.solutionLocation + offset,
-                Quaternion.identity,
-                cut,
-                this
+
+            Chunk chunk = Instantiate(
+                chunkPrefab, 
+                cut.solutionLocation + offset, 
+                Quaternion.identity, 
+                transform
             );
+        
+            chunk.InitializeSinglePieceChunk(cut, this);
         }
     }
     
@@ -70,10 +76,14 @@ public class Puzzle: MonoBehaviour
     {
         foreach (var chunkSaveData in chunks)
         {
-            ChunkFactory.Instance.CreateMultiplePieceChunk(
-                chunkSaveData,
-                this
+            Chunk chunk = Instantiate(
+                chunkPrefab, 
+                chunkSaveData.position, 
+                chunkSaveData.rotation, 
+                transform
             );
+        
+            chunk.InitializeMultiplePieceChunk(chunkSaveData, this);
         }
     }
     
@@ -85,7 +95,7 @@ public class Puzzle: MonoBehaviour
             name: Name,
             author: Author,
             layout: Layout,
-            puzzleImage: puzzleImage,
+            puzzleImage: PuzzleImage,
             chunks: Chunks.Select(c => c.ToData()).ToList()
         );
     }

@@ -19,7 +19,9 @@ public class Chunk : MonoBehaviour
 
     public void InitializeSinglePieceChunk(PieceCut cut, Puzzle puzzle)
     {
-        var piece = GetComponentInChildren<Piece>();
+        gameObject.SetActive(true);
+        
+        Piece piece = Instantiate(piecePrefab, transform);
         piece.InitializePiece(cut, puzzle.RenderData);
         
         InitializeBoxCollider();
@@ -29,19 +31,13 @@ public class Chunk : MonoBehaviour
         ChunkSaveData chunkStateData,
         Puzzle puzzle
     ) {
-        var piecesSaveDataList = chunkStateData.pieces;
+        gameObject.SetActive(true);
         
-        var firstPiece = GetComponentInChildren<Piece>();
-        var firstPieceSaveData = piecesSaveDataList[0];
+        var piecesSaveDataList = chunkStateData.pieces;
         var initialPieceCuts = puzzle.Layout.initialPieceCuts;
         
-        firstPiece.transform.position = firstPieceSaveData.position;
-        firstPiece.transform.rotation = firstPieceSaveData.rotation;
-        firstPiece.InitializePiece(initialPieceCuts[firstPieceSaveData.pieceIndex], puzzle.RenderData);
-        
-        for (int i = 1; i < piecesSaveDataList.Count; i++)
+        foreach (var currPiece in piecesSaveDataList)
         {
-            PieceSaveData currPiece = piecesSaveDataList[i];
             PieceCut currCut = initialPieceCuts[currPiece.pieceIndex];
                 
             Piece piece = Instantiate(piecePrefab, currPiece.position, currPiece.rotation, transform);

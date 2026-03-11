@@ -30,20 +30,10 @@ namespace UI
             _puzzleSaveData = puzzleSaveData;
         }
     
-        [ContextMenu("Test Click")]
+        [ContextMenu("Open Puzzle")]
         public void OnClick()
         {
-            var puzzleRenderData = new PuzzleRenderData(
-                _puzzleSaveData.PuzzleImage, 
-                _puzzleSaveData.layout
-            );
-            
-            var puzzle = new GameObject("Puzzle").AddComponent<Puzzle>();
-        
-            puzzle.InitializePuzzle(
-                _puzzleSaveData,
-                puzzleRenderData
-            );
+            PuzzleManager.Instance.OpenPuzzle(_puzzleSaveData);
         }
     }
 }

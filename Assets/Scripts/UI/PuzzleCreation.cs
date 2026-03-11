@@ -30,7 +30,7 @@ namespace UI
             createButton.onClick.RemoveListener(OnCreate);
         }
 
-        [ContextMenu("Test Click")]
+        [ContextMenu("Create Puzzle")]
         private void OnCreate()
         {
             var puzzleName = nameInputField.text;

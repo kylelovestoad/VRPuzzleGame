@@ -6,8 +6,9 @@ namespace UI
 {
     public class HUD : MonoBehaviour
     {
-        
         public Button exitButton;
+
+        private Puzzle _puzzle;
         
         public void Start()
         {
@@ -19,14 +20,10 @@ namespace UI
             exitButton.onClick.RemoveListener(OnExit);
         }
 
+        [ContextMenu("Exit Puzzle")]
         public void OnExit()
         {
-            // TODO make better later!!! Actually hold a reference to current puzzle
-            foreach (var puzzle in FindObjectsByType<Puzzle>(FindObjectsSortMode.None))
-            {
-                LocalSave.Instance.Save(puzzle.ToData());
-                Destroy(puzzle.gameObject);
-            }
+            PuzzleManager.Instance.CloseCurrentPuzzle();
         }
     }
 }
