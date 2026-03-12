@@ -29,8 +29,9 @@ public class Piece : MonoBehaviour
         meshFilter.sharedMesh = pieceMesh;
         
         MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
-        
-        Material puzzleImageMaterial = new Material(Shader.Find("Unlit/Texture"));
+
+        var shader = Shader.Find("Universal Render Pipeline/Unlit");
+        var puzzleImageMaterial = new Material(shader);
         puzzleImageMaterial.mainTexture = puzzleRenderData.PuzzleImage;
 
         var pieceSolutionLocation = pieceCut.solutionLocation;
