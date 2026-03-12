@@ -30,7 +30,7 @@ public class Piece : MonoBehaviour
         
         MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
 
-        var shader = Shader.Find("Universal Render Pipeline/Unlit");
+        var shader = Shader.Find("Unlit/Texture");
         var puzzleImageMaterial = new Material(shader);
         puzzleImageMaterial.mainTexture = puzzleRenderData.PuzzleImage;
 
@@ -49,7 +49,7 @@ public class Piece : MonoBehaviour
         puzzleImageMaterial.mainTextureOffset = uvOffset;
         puzzleImageMaterial.mainTextureScale = uvScale;
         
-        Material backAndSidesMaterial = new(Shader.Find("Universal Render Pipeline/Unlit"))
+        Material backAndSidesMaterial = new(Shader.Find("Unlit/Color"))
         {
             color = Color.gray
         };
