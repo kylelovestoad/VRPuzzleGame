@@ -48,8 +48,13 @@ public class Piece : MonoBehaviour
         
         puzzleImageMaterial.mainTextureOffset = uvOffset;
         puzzleImageMaterial.mainTextureScale = uvScale;
+        
+        Material backAndSidesMaterial = new(Shader.Find("Universal Render Pipeline/Unlit"))
+        {
+            color = Color.gray
+        };
     
-        meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, puzzleRenderData.BackAndSidesMaterial };
+        meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, backAndSidesMaterial };
         
         Bounds bounds = pieceMesh.bounds;
         BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
