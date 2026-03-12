@@ -20,7 +20,7 @@ public class Chunk : MonoBehaviour
 
     public bool IsMerged { set; get; }
 
-    public bool IsCollisionProcedureRunning { set; get; } = false;
+    private int _isCollisionProcedureRunning;
 
     public void InitializeSinglePieceChunk(PieceCut cut, Puzzle puzzle)
     {
@@ -118,33 +118,24 @@ public class Chunk : MonoBehaviour
         if (otherChunk == null
             || GetInstanceID() >= otherChunk.GetInstanceID()
             || otherChunk.IsMerged
-            || IsCollisionProcedureRunning
-            || Pieces.Length <= 0
-            || otherChunk.Pieces.Length <= 0) return;
+            || Interlocked.Exchange(ref _isCollisionProcedureRunning, 1) == 0) return;
         
-        // TODO this needs to be atomic
-        IsCollisionProcedureRunning = true;
         
         foreach (var piece in Pieces)
         {
             foreach (var otherPiece in otherChunk.Pieces)
             {
-                if (piece.IsCloseEnough(otherPiece))
-                {
-                    Debug.Log("Close Enough");
-                    Debug.LogError($"this: {GetInstanceID()}, other: {otherChunk.GetInstanceID()}");
-                    Merge(otherChunk);  
-                    goto end; 
-                }
-                else
-                {
-                    Debug.Log("Not Close Enough");
-                }
+                if (!piece.IsCloseEnough(otherPiece)) continue;
+                
+                Debug.Log("Close Enough");
+                Debug.LogError($"this: {GetInstanceID()}, other: {otherChunk.GetInstanceID()}");
+                Merge(otherChunk);  
+                goto end;
             }
         }
         
         end:
-        IsCollisionProcedureRunning = false;
+        Interlocked.Exchange(ref _isCollisionProcedureRunning, 0);
     }
     
     public ChunkSaveData ToData()
