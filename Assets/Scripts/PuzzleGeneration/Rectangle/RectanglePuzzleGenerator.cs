@@ -10,29 +10,29 @@ namespace PuzzleGeneration.Rectangle
     
         public PuzzleLayout Generate(Texture2D image, int rows, int cols, float puzzleHeight)
         {
-            float widthHeightRatio = (float) image.width / image.height;
-            float puzzleWidth = puzzleHeight * widthHeightRatio;
+            var widthHeightRatio = (float) image.width / image.height;
+            var puzzleWidth = puzzleHeight * widthHeightRatio;
             
-            float pieceHeight = puzzleHeight / rows;
-            float avgPieceWidth = widthHeightRatio * pieceHeight;
+            var pieceHeight = puzzleHeight / rows;
+            var avgPieceWidth = puzzleWidth / cols;
             
-            float horizontalShiftRange = avgPieceWidth * MaxHorizontalShiftRatio;
+            var horizontalShiftRange = avgPieceWidth * MaxHorizontalShiftRatio;
 
             List<PieceCut> pieceCuts = new List<PieceCut>();
         
-            for (int r = 0; r < rows; r++)
+            for (var r = 0; r < rows; r++)
             {
                 float leftBoundary = 0;
 
-                for (int c = 0; c < cols; c++)
+                for (var c = 0; c < cols; c++)
                 {
-                    float rightBoundary = avgPieceWidth * (c + 1);
+                    var rightBoundary = avgPieceWidth * (c + 1);
                     if (c < cols - 1)
                     {
                         rightBoundary += Random.Range(-horizontalShiftRange, horizontalShiftRange);
                     }
 
-                    float pieceWidth = rightBoundary - leftBoundary;
+                    var pieceWidth = rightBoundary - leftBoundary;
                     
                     var borderPoints = RectanglePieceBorderPoints(
                         pieceWidth,

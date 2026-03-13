@@ -17,6 +17,7 @@ namespace PuzzleGeneration.Jigsaw
     public static class JigsawPieceEdgeUtil
     {
         // https://stackoverflow.com/questions/30617132/jigsaw-puzzle-pices-using-bezier-curve
+        // TODO: prevent sockets from intersecting
         private static readonly Vector2[] SocketUpBaseControlPoints = {
             new(0f, 0f),
             new(0.35f, -0.15f),
