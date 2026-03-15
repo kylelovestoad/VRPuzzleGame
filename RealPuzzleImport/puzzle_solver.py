@@ -1,33 +1,48 @@
 from heapq import heapify, heappop
 
+import cv2
 import numpy as np
 
 from piece import NUM_PIECE_POINTS, Piece
 from puzzle import Puzzle
-from transformation import get_transformation, IDENTITY_TRANSFORMATION, Transformation
+from transformation import get_transformation, Transformation
 
-SEGMENT_COMPARISON_POINTS = 128
+
+MAX_HULL_CANDIDATE_POINTS = 32
+SEGMENT_COMPARISON_POINTS = 64
 ANCHOR_SEGMENT_EXTENSION = 1/12
 ANCHOR_DIFF_CANDIDATES = np.linspace(-1/16, 1/16, 4)
 
 
 class PieceConnectionCandidate:
     socket_out_piece: Piece
+    out_hull_index: int
     socket_in_piece: Piece
+    in_cave_index: int
     transformation: Transformation
     score: float
+    spline_score: float
+    color_score: float
 
     def __init__(
         self,
         socket_out_piece: Piece,
+        out_hull_index: int,
         socket_in_piece: Piece,
+        in_cave_index: int,
         transformation: Transformation,
-        score: float
+        score: float,
+        spline_score: float,
+        color_score: float
     ):
         self.socket_out_piece = socket_out_piece
+        self.out_hull_index = out_hull_index
         self.socket_in_piece = socket_in_piece
+        self.in_cave_index = in_cave_index
         self.transformation = transformation
         self.score = score
+        self.spline_score = spline_score
+        self.color_score = color_score
 
     def __lt__(self, other):
         return self.score < other.score
@@ -36,25 +51,69 @@ class PieceConnectionCandidate:
         return f"PieceConnectionCandidate: ({self.transformation}, {self.score})"
 
 
-def _best_fit_inside(piece, other_piece):
+min_color_score = 10000
+max_color_score = 0
+
+
+def _color_gradient(piece, piece_param):
+    outline_indices = (piece_param % 1 * NUM_PIECE_POINTS).astype(int)
+    piece_colors = piece.outline_colors[outline_indices]
+
+    return piece_colors
+
+
+def _get_color_score(piece, piece_param, other_piece, other_piece_param):
+    from_colors = _color_gradient(piece, piece_param)
+    to_colors = _color_gradient(other_piece, other_piece_param)
+
+    color_diffs = np.linalg.norm(from_colors - to_colors, axis=1)
+    color_score = color_diffs.mean()
+
+    global min_color_score
+    global max_color_score
+
+    min_color_score = min(min_color_score, color_score)
+    max_color_score = max(max_color_score, color_score)
+
+    return color_score
+
+
+def _get_spline_score(from_points, to_points):
+    spline_diffs = from_points - to_points
+    spline_score = np.mean(np.linalg.norm(spline_diffs, axis=0))
+
+    return spline_score
+
+
+def _get_score(piece, piece_param, other_piece, other_piece_param, transformed_from_points, to_points):
+    spline_score = _get_spline_score(transformed_from_points, to_points)
+    color_score = _get_color_score(piece, piece_param, other_piece, other_piece_param)
+
+    score = spline_score, color_score
+
+    return score
+
+
+def _best_fit_inside_allow_t_joint(piece, other_piece):
     arc_length = piece.spline.arc_length
     other_arc_length = other_piece.spline.arc_length
     arc_length_ratio = arc_length / other_arc_length
 
     min_distance_diff_sum = float("inf")
     best_transformation = None
-    max_hull_points = 0
+    best_hull_index = None
+    best_cave_index = None
 
-    for hull_section in piece.piece_hull_sections:
+    for hull_index, hull_section in enumerate(piece.piece_hull_sections):
+
         start_idx = hull_section.start_idx
         end_idx = hull_section.end_idx + 1
         end_idx += NUM_PIECE_POINTS * (start_idx > end_idx)
 
-        max_hull_points = max(max_hull_points, end_idx - start_idx)
+        for cave_index, cave in enumerate(other_piece.piece_caves):
+            step = max(1, (end_idx - hull_section.start_idx) // MAX_HULL_CANDIDATE_POINTS)
 
-        for cave in other_piece.piece_caves:
-
-            for point_idx in range(hull_section.start_idx, end_idx):
+            for point_idx in range(hull_section.start_idx, end_idx, step):
                 point_idx %= NUM_PIECE_POINTS
                 from_anchor_start_param = point_idx / NUM_PIECE_POINTS
                 to_anchor_start_param = cave.deepest_idx / NUM_PIECE_POINTS
@@ -83,25 +142,41 @@ def _best_fit_inside(piece, other_piece):
                         to_anchor_end_point
                     )
 
-                    from_points = piece.transform_segment(
-                        from_param,
-                        transformation
-                    )
+                    from_points = piece.spline(from_param)
+                    transformed_from_points = transformation(from_points)
+
                     to_points = other_piece.spline(to_param)
 
-                    diff = from_points - to_points
-                    curr_distance_diff_sum = np.sum(np.linalg.norm(diff, axis=0))
+                    spline_score, color_score = _get_score(
+                        piece,
+                        from_param,
+                        other_piece,
+                        to_param,
+                        transformed_from_points,
+                        to_points
+                    )
+                    score = spline_score
 
-                    if curr_distance_diff_sum < min_distance_diff_sum:
-                        min_distance_diff_sum = curr_distance_diff_sum
+                    if score < min_distance_diff_sum:
+                        min_distance_diff_sum = score
                         best_transformation = transformation
+                        best_hull_index = hull_index
+                        best_cave_index = cave_index
+                        min_spline_score = spline_score
+                        min_color_score = color_score
 
     assert best_transformation is not None
-    print(best_transformation)
-    print(min_distance_diff_sum)
-    print(f"Max hull: {max_hull_points}")
 
-    piece_connection = PieceConnectionCandidate(piece, other_piece, best_transformation, min_distance_diff_sum)
+    piece_connection = PieceConnectionCandidate(
+        piece,
+        best_hull_index,
+        other_piece,
+        best_cave_index,
+        best_transformation,
+        min_distance_diff_sum,
+        min_spline_score,
+        min_color_score
+    )
 
     return piece_connection
 
@@ -109,10 +184,10 @@ def _best_fit_inside(piece, other_piece):
 def _connections_heap(puzzle):
     heap = []
 
-    for piece0 in puzzle:
-        for piece1 in puzzle:
+    for i, piece0 in enumerate(puzzle):
+        for j, piece1 in enumerate(puzzle):
             if piece0 != piece1:
-                connection = _best_fit_inside(piece0, piece1)
+                connection = _best_fit_inside_allow_t_joint(piece0, piece1)
                 heap.append(connection)
 
     heapify(heap)
@@ -139,27 +214,39 @@ def solve(puzzle: Puzzle):
     while len(connections_heap):
         cand_conn = heappop(connections_heap)
 
+        out_piece = cand_conn.socket_out_piece
+        out_hull_index = cand_conn.out_hull_index
         in_piece = cand_conn.socket_in_piece
+        in_cave_index = cand_conn.in_cave_index
 
         out_chunk_idx = cand_conn.socket_out_piece.chunk_idx
         in_chunk_idx = in_piece.chunk_idx
 
-        if out_chunk_idx == in_chunk_idx:
+        out_chunk = chunks[out_chunk_idx]
+        in_chunk = chunks[in_chunk_idx]
+
+        if (out_chunk_idx == in_chunk_idx
+            or out_piece.used_piece_hull_sections[out_hull_index]
+            or in_piece.used_caves[in_cave_index]):
             continue
 
         connect += 1
         print("Candidate", cand_conn.transformation.from_point, cand_conn.transformation.to_point)
+        print("Scoring", cand_conn.score, cand_conn.color_score, cand_conn.spline_score)
 
-        out_chunk = chunks[out_chunk_idx]
-        in_chunk = chunks[in_chunk_idx]
+        out_piece.used_piece_hull_sections[out_hull_index] = True
+        in_piece.used_caves[in_cave_index] = True
+
+        out_chunk_transformation = in_piece.transformation(
+            cand_conn.transformation(
+                out_piece.transformation.invert()
+            )
+        )
 
         for piece in out_chunk:
             piece.chunk_idx = in_chunk_idx
-            piece.transformation = in_piece.transformation(cand_conn.transformation)
-
+            piece.transformation = out_chunk_transformation(piece.transformation)
             in_chunk.append(piece)
-
-        print(cand_conn)
 
         if len(in_chunk) == piece_count:
             print("Solved")
