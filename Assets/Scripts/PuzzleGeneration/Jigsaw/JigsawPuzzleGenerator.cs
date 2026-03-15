@@ -29,22 +29,43 @@ namespace PuzzleGeneration.Jigsaw
                     Vector3 solutionLocation = new Vector3(leftBoundary, pieceHeight * r, 0);
 
                     System.Diagnostics.Debug.Assert(prevRowBorders != null, nameof(prevRowBorders) + " != null");
+
+                    var top = r == rows - 1 
+                        ? JigsawPieceEdgeType.Straight 
+                        : JigsawPieceEdgeUtil.RandomVerticalSocket();
+                    var bottom = r == 0 
+                        ? JigsawPieceEdgeType.Straight 
+                        : prevRowBorders[c].Top;
+                    var left = c == 0 
+                        ? JigsawPieceEdgeType.Straight 
+                        : currRowBorders[c - 1].Right;
+                    var right = c == cols - 1
+                        ? JigsawPieceEdgeType.Straight
+                        : JigsawPieceEdgeUtil.RandomHorizontalSocket();
                     
                     JigsawPieceBorder border = new JigsawPieceBorder(
                         pieceWidth,
                         pieceHeight,
-                        r == rows - 1 ? JigsawPieceEdgeType.Straight : JigsawPieceEdgeUtil.RandomVerticalSocket(),
-                        r == 0 ? JigsawPieceEdgeType.Straight : prevRowBorders[c].Top,
-                        c == 0 ? JigsawPieceEdgeType.Straight : currRowBorders[c - 1].Right,
-                        c == cols - 1 ? JigsawPieceEdgeType.Straight : JigsawPieceEdgeUtil.RandomHorizontalSocket()
+                        top,
+                        bottom,
+                        left,
+                        right
                     );
                     
                     currRowBorders.Add(border);
                     
                     var borderPoints = JigsawPieceBorderPoints(border);
                     
-                    int nextIndex = pieceCuts.Count;
-                    PieceCut cut = new PieceCut(nextIndex, solutionLocation, borderPoints);
+                    int pieceIndex = pieceCuts.Count;
+                    
+                    var neighbors = new List<int>();
+                    
+                    if (r > 0) neighbors.Add(pieceIndex - cols);
+                    if (r < rows - 1) neighbors.Add(pieceIndex + cols);
+                    if (c > 0) neighbors.Add(pieceIndex - 1);
+                    if (c < cols - 1) neighbors.Add(pieceIndex + 1);
+                    
+                    PieceCut cut = new PieceCut(pieceIndex, neighbors, solutionLocation, borderPoints);
                     pieceCuts.Add(cut);
                     
                     leftBoundary = rightBoundary;

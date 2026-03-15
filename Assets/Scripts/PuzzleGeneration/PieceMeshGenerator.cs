@@ -67,7 +67,7 @@ namespace PuzzleGeneration
             while (verticesRemaining.Count > 3)
             {
                 int i0 = MakeTriangle(borderPoints, verticesRemaining);
-                Debug.Assert(i0 >= 0, "Failed to triangulate jigsaw puzzle piece");
+                Debug.Assert(i0 >= 0, "Failed to triangulate puzzle piece");
                 
                 int i1 = (i0 + 1) % verticesRemaining.Count;
                 int i2 = (i0 + 2) % verticesRemaining.Count;

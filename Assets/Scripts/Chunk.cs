@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
@@ -16,6 +17,10 @@ public class Chunk : MonoBehaviour
     private BoxCollider BoxCollider => GetComponent<BoxCollider>();
     private Piece[] Pieces => GetComponentsInChildren<Piece>();
     public int PieceCount => Pieces.Length;
+
+    public bool IsMerged { set; get; }
+
+    private int _isCollisionProcedureRunning;
 
     public void InitializeSinglePieceChunk(PieceCut cut, Puzzle puzzle)
     {
@@ -93,44 +98,44 @@ public class Chunk : MonoBehaviour
 
         Piece repPiece = Pieces[0];
 
-        // avoid unity complaining about modifying piece during iteration, no foreach
-        int piecesCount = other.PieceCount;
+        Debug.LogError($"Thread ID: {Thread.CurrentThread.ManagedThreadId}");
+        Debug.LogError($"Count: this: {PieceCount}, other: {other.PieceCount}");
 
-        for (int i = 0; i < piecesCount; i++)
+        foreach (var otherPiece in other.Pieces.ToArray())
         {
-            Piece otherPiece = other.Pieces[i];
-
             otherPiece.SnapIntoPlace(repPiece);
             otherPiece.transform.SetParent(transform);
         }
 
-        if (Application.isPlaying)
-        {
-            Destroy(other.gameObject);
-        }
-        else
-        {
-            DestroyImmediate(other.gameObject);
-        }
+        other.IsMerged = true;
+        Destroy(other.gameObject);
     }
 
     void OnTriggerStay(Collider other)
     {
         Chunk otherChunk = other.GetComponent<Chunk>();
-
-        if (otherChunk != null 
-            && GetInstanceID() < otherChunk.GetInstanceID()
-            && Pieces.Length > 0 
-            && otherChunk.Pieces.Length > 0
-        ) {
-            Piece repPiece = Pieces[0];
-            Piece otherRepPiece = otherChunk.Pieces[0];
-
-            if (repPiece.IsRelativelyClose(otherRepPiece))
+        
+        if (otherChunk == null
+            || GetInstanceID() >= otherChunk.GetInstanceID()
+            || otherChunk.IsMerged
+            || Interlocked.Exchange(ref _isCollisionProcedureRunning, 1) == 0) return;
+        
+        
+        foreach (var piece in Pieces)
+        {
+            foreach (var otherPiece in otherChunk.Pieces)
             {
-                Merge(otherChunk);
+                if (!piece.IsCloseEnough(otherPiece)) continue;
+                
+                Debug.Log("Close Enough");
+                Debug.LogError($"this: {GetInstanceID()}, other: {otherChunk.GetInstanceID()}");
+                Merge(otherChunk);  
+                goto end;
             }
         }
+        
+        end:
+        Interlocked.Exchange(ref _isCollisionProcedureRunning, 0);
     }
     
     public ChunkSaveData ToData()

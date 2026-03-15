@@ -28,9 +28,12 @@ public class Piece : MonoBehaviour
         MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
         meshFilter.sharedMesh = pieceMesh;
         
-        MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
+        Debug.Log("Here!!!!!!!!!");
         
-        Material puzzleImageMaterial = new Material(Shader.Find("Unlit/Texture"));
+        MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
+
+        var shader = Shader.Find("Unlit/Texture");
+        var puzzleImageMaterial = new Material(shader);
         puzzleImageMaterial.mainTexture = puzzleRenderData.PuzzleImage;
 
         var pieceSolutionLocation = pieceCut.solutionLocation;
@@ -38,6 +41,8 @@ public class Piece : MonoBehaviour
         var pieceWidth = pieceBounds.max.x - pieceBounds.min.x;
         var pieceHeight = pieceBounds.max.y - pieceBounds.min.y;
         var puzzleLayout = puzzleRenderData.Layout;
+        
+        Debug.Log("Here 1!!!!!!!!!");
         
         Vector2 uvScale = new Vector2(pieceWidth / puzzleLayout.width, pieceHeight / puzzleLayout.height);
         Vector2 uvOffset = new Vector2(
@@ -47,8 +52,15 @@ public class Piece : MonoBehaviour
         
         puzzleImageMaterial.mainTextureOffset = uvOffset;
         puzzleImageMaterial.mainTextureScale = uvScale;
+        
+        Material backAndSidesMaterial = new(Shader.Find("Unlit/Color"))
+        {
+            color = Color.gray
+        };
+        
+        Debug.Log("Here 2!!!!!!!!!");
     
-        meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, puzzleRenderData.BackAndSidesMaterial };
+        meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, backAndSidesMaterial };
         
         Bounds bounds = pieceMesh.bounds;
         BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
@@ -56,6 +68,8 @@ public class Piece : MonoBehaviour
         boxCollider.size = bounds.size;
         
         _cut = pieceCut;
+        
+        Debug.Log("Finished!!!!!!!!!");
     }
 
     public Vector3[] Vertices()
@@ -66,6 +80,13 @@ public class Piece : MonoBehaviour
             .vertices
             .Select(vertex => transform.TransformPoint(vertex))
             .ToArray();
+    }
+
+    private bool IsNeighbor(Piece other)
+    {
+        if (_cut == null || other._cut == null) return false;
+        
+        return _cut.neighborIndices.Contains(other._cut.pieceIndex);
     }
     
     private Vector3 SolutionOffset(Piece other)
@@ -78,8 +99,10 @@ public class Piece : MonoBehaviour
         return other.transform.position + other.transform.rotation * SolutionOffset(other);
     }
     
-    public bool IsRelativelyClose(Piece other)
+    public bool IsCloseEnough(Piece other)
     {
+        if (!IsNeighbor(other)) return false;
+        
         var expectedPosition = ExpectedPosition(other);
         var actualPosition = transform.position;
         

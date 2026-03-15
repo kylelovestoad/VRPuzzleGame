@@ -10,39 +10,48 @@ namespace PuzzleGeneration.Rectangle
     
         public PuzzleLayout Generate(Texture2D image, int rows, int cols, float puzzleHeight)
         {
-            float widthHeightRatio = (float) image.width / image.height;
-            float puzzleWidth = puzzleHeight * widthHeightRatio;
+            var widthHeightRatio = (float) image.width / image.height;
+            var puzzleWidth = puzzleHeight * widthHeightRatio;
             
-            float pieceHeight = puzzleHeight / rows;
-            float avgPieceWidth = widthHeightRatio * pieceHeight;
+            var pieceHeight = puzzleHeight / rows;
+            var avgPieceWidth = puzzleWidth / cols;
             
-            float horizontalShiftRange = avgPieceWidth * MaxHorizontalShiftRatio;
+            var horizontalShiftRange = avgPieceWidth * MaxHorizontalShiftRatio;
 
             List<PieceCut> pieceCuts = new List<PieceCut>();
         
-            for (int r = 0; r < rows; r++)
+            for (var r = 0; r < rows; r++)
             {
                 float leftBoundary = 0;
 
-                for (int c = 0; c < cols; c++)
+                for (var c = 0; c < cols; c++)
                 {
-                    float rightBoundary = avgPieceWidth * (c + 1);
+                    var rightBoundary = avgPieceWidth * (c + 1);
                     if (c < cols - 1)
                     {
                         rightBoundary += Random.Range(-horizontalShiftRange, horizontalShiftRange);
                     }
 
-                    float pieceWidth = rightBoundary - leftBoundary;
+                    var pieceWidth = rightBoundary - leftBoundary;
                     
                     var borderPoints = RectanglePieceBorderPoints(
                         pieceWidth,
                         pieceHeight
                     );
                 
-                    Vector3 solutionLocation = new Vector3(leftBoundary, pieceHeight * r, 0);
+                    var solutionLocation = new Vector3(leftBoundary, pieceHeight * r, 0);
 
-                    int nextIndex = pieceCuts.Count;
-                    PieceCut cut = new PieceCut(nextIndex, solutionLocation, borderPoints);
+                    var pieceIndex = pieceCuts.Count;
+
+                    var neighbors = new List<int>();
+                    
+                    // TODO, probably dont want this neighborhood due to not all same size
+                    if (r > 0) neighbors.Add(pieceIndex - cols);
+                    if (r < rows - 1) neighbors.Add(pieceIndex + cols);
+                    if (c > 0) neighbors.Add(pieceIndex - 1);
+                    if (c < cols - 1) neighbors.Add(pieceIndex + 1);
+                    
+                    PieceCut cut = new PieceCut(pieceIndex, neighbors, solutionLocation, borderPoints);
                     pieceCuts.Add(cut);
                 
                     leftBoundary = rightBoundary;
