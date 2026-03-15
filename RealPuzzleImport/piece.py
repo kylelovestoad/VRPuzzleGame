@@ -10,6 +10,7 @@ from transformation import Transformation, IDENTITY_TRANSFORMATION
 
 NUM_PIECE_POINTS = 1024
 MIN_CAVE_DEPTH = 10
+COLOR_BLOB_RADIUS = 4
 
 
 class PieceSpline:
@@ -53,20 +54,27 @@ class CaveSection:
 
 class Piece:
     spline: PieceSpline
+    outline_colors: ndarray
     piece_hull_sections: list[HullSection]
     piece_caves: list[CaveSection]
 
     # only added later when computing solution
     chunk_idx: int
     transformation: Transformation
+    used_piece_hull_sections: list[bool]
+    used_caves: list[bool]
 
     def __init__(
         self,
         spline: PieceSpline,
+        outline_colors: ndarray,
+        outline_points,
         piece_hull_sections: list[HullSection],
         piece_caves: list[CaveSection]
     ):
         self.spline = spline
+        self.outline_colors = outline_colors
+        self.outline_points = outline_points
         self.piece_hull_sections = piece_hull_sections
         self.piece_caves = piece_caves
 
@@ -85,6 +93,8 @@ class Piece:
     def attach_state(self, chunk_idx):
         self.chunk_idx = chunk_idx
         self.transformation = IDENTITY_TRANSFORMATION
+        self.used_piece_hull_sections = [False] * len(self.piece_hull_sections)
+        self.used_caves = [False] * len(self.piece_caves)
 
 
 def _get_cumulative_smooth_distances(x, y):
@@ -165,8 +175,39 @@ def _get_piece_sections(piece_spline):
     return piece_hull_sections, piece_caves
 
 
-def piece_from_contour(contour):
+def _get_piece_outline_colors(image, piece_mask, piece_spline):
+    contour = piece_spline.to_contour()
+
+    rows, cols = image.shape[:2]
+    outline_colors = np.zeros((len(contour), 3), dtype=np.uint8)
+    outline_points = []
+
+    for i, point in enumerate(contour):
+        x, y = point[0]
+
+        x0 = max(0, x - COLOR_BLOB_RADIUS)
+        x1 = min(cols, x + COLOR_BLOB_RADIUS + 1)
+        y0 = max(0, y - COLOR_BLOB_RADIUS)
+        y1 = min(rows, y + COLOR_BLOB_RADIUS + 1)
+
+        color_blob = image[y0:y1, x0:x1][piece_mask[y0:y1, x0:x1] > 0]
+
+        if len(color_blob) > 0:
+            median_color = np.median(color_blob, axis=0)
+        else:
+            median_color = image[y, x]
+
+        outline_colors[i] = median_color
+        outline_points.append((x, y))
+
+    return outline_colors, outline_points
+
+
+def piece_from_contour(image, piece_mask, contour):
+    print(len(contour))
+
     piece_spline = _get_piece_spline(contour)
     piece_hull_sections, piece_caves = _get_piece_sections(piece_spline)
+    outline_colors, outline_points = _get_piece_outline_colors(image, piece_mask, piece_spline)
 
-    return Piece(piece_spline, piece_hull_sections, piece_caves)
+    return Piece(piece_spline, outline_colors, outline_points, piece_hull_sections, piece_caves)

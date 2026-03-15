@@ -29,14 +29,27 @@ namespace PuzzleGeneration.Jigsaw
                     Vector3 solutionLocation = new Vector3(leftBoundary, pieceHeight * r, 0);
 
                     System.Diagnostics.Debug.Assert(prevRowBorders != null, nameof(prevRowBorders) + " != null");
+
+                    var top = r == rows - 1 
+                        ? JigsawPieceEdgeType.Straight 
+                        : JigsawPieceEdgeUtil.RandomVerticalSocket();
+                    var bottom = r == 0 
+                        ? JigsawPieceEdgeType.Straight 
+                        : prevRowBorders[c].Top;
+                    var left = c == 0 
+                        ? JigsawPieceEdgeType.Straight 
+                        : currRowBorders[c - 1].Right;
+                    var right = c == cols - 1
+                        ? JigsawPieceEdgeType.Straight
+                        : JigsawPieceEdgeUtil.RandomHorizontalSocket();
                     
                     JigsawPieceBorder border = new JigsawPieceBorder(
                         pieceWidth,
                         pieceHeight,
-                        r == rows - 1 ? JigsawPieceEdgeType.Straight : JigsawPieceEdgeUtil.RandomVerticalSocket(),
-                        r == 0 ? JigsawPieceEdgeType.Straight : prevRowBorders[c].Top,
-                        c == 0 ? JigsawPieceEdgeType.Straight : currRowBorders[c - 1].Right,
-                        c == cols - 1 ? JigsawPieceEdgeType.Straight : JigsawPieceEdgeUtil.RandomHorizontalSocket()
+                        top,
+                        bottom,
+                        left,
+                        right
                     );
                     
                     currRowBorders.Add(border);

@@ -28,6 +28,8 @@ public class Piece : MonoBehaviour
         MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
         meshFilter.sharedMesh = pieceMesh;
         
+        Debug.Log("Here!!!!!!!!!");
+        
         MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
 
         var shader = Shader.Find("Unlit/Texture");
@@ -39,6 +41,8 @@ public class Piece : MonoBehaviour
         var pieceWidth = pieceBounds.max.x - pieceBounds.min.x;
         var pieceHeight = pieceBounds.max.y - pieceBounds.min.y;
         var puzzleLayout = puzzleRenderData.Layout;
+        
+        Debug.Log("Here 1!!!!!!!!!");
         
         Vector2 uvScale = new Vector2(pieceWidth / puzzleLayout.width, pieceHeight / puzzleLayout.height);
         Vector2 uvOffset = new Vector2(
@@ -53,6 +57,8 @@ public class Piece : MonoBehaviour
         {
             color = Color.gray
         };
+        
+        Debug.Log("Here 2!!!!!!!!!");
     
         meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, backAndSidesMaterial };
         
@@ -62,6 +68,8 @@ public class Piece : MonoBehaviour
         boxCollider.size = bounds.size;
         
         _cut = pieceCut;
+        
+        Debug.Log("Finished!!!!!!!!!");
     }
 
     public Vector3[] Vertices()
@@ -76,6 +84,8 @@ public class Piece : MonoBehaviour
 
     private bool IsNeighbor(Piece other)
     {
+        if (_cut == null || other._cut == null) return false;
+        
         return _cut.neighborIndices.Contains(other._cut.pieceIndex);
     }
     
