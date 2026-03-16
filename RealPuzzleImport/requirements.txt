@@ -7,3 +7,5 @@ scipy~=1.17.1
 rembg~=2.0.72
 fastapi
 pydantic
+
+coverage
