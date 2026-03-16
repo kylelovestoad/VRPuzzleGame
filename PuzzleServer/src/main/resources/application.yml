@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: puzzleserver
+  data:
+    mongodb:
+      auto-index-creation: true
+  mongodb:
+    uri: mongodb://localhost:27017/puzzleserver
+logging:
+  level:
+    com.vrpuzzle.puzzleserver: DEBUG
