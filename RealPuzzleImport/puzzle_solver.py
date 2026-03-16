@@ -205,6 +205,49 @@ def _single_piece_chunks(puzzle):
     return chunks
 
 
+def _get_piece_global_border(piece, param, puzzle_height, scale_factor):
+    global_border_points = piece.get_placement(param)
+    global_border_points[1, :] = puzzle_height - global_border_points[1, :]
+    global_border_points *= scale_factor
+
+    return global_border_points
+
+
+def _get_solution_location(global_border_points):
+    location_index = np.argmin(global_border_points[0])
+    location = global_border_points[:, location_index]
+
+    return location
+
+
+def _offset_border_points(border_points, solution_location):
+    offset_x, offset_y = solution_location
+    print("Sol", solution_location, offset_x, offset_y)
+
+    local_border_points = np.vstack([
+        border_points[0, :] - offset_x,
+        border_points[1, :] - offset_y
+    ])
+
+    return local_border_points
+
+
+def move_pieces(puzzle: Puzzle):
+    puzzle_game_height = 0.3
+    puzzle_height = puzzle.image.shape[0]
+    scale_factor = puzzle_game_height / puzzle_height
+
+    param = np.linspace(0, 1, 256)
+
+    for piece in puzzle:
+        global_border_points = _get_piece_global_border(piece, param, puzzle_height, scale_factor)
+        solution_location = _get_solution_location(global_border_points)
+        local_border_points = _offset_border_points(global_border_points, solution_location)
+
+        piece.solution_location = solution_location
+        piece.local_border_points = local_border_points
+
+
 def solve(puzzle: Puzzle):
     connections_heap = _connections_heap(puzzle)
     chunks = _single_piece_chunks(puzzle)
@@ -250,6 +293,7 @@ def solve(puzzle: Puzzle):
 
         if len(in_chunk) == piece_count:
             print("Solved")
+            move_pieces(puzzle)
             return
 
     raise RuntimeError("Failed to Solve Puzzle")

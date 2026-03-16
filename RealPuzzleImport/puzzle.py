@@ -1,3 +1,5 @@
+import base64
+
 import cv2
 import numpy as np
 
@@ -35,30 +37,39 @@ class Puzzle:
     def piece_count(self):
         return len(self.pieces)
 
-    def generate_solved_image(self):
+    def generate_solved_image(self) -> str:
         rows, cols = self.image.shape[:2]
 
-        output = np.zeros((rows << 1, cols << 1, 3), dtype=self.image.dtype)
+        output = np.zeros((rows, cols, 3), dtype=self.image.dtype)
 
-        param = np.linspace(0, 1, NUM_PIECE_POINTS)
-        contours = []
+        min_row = rows
+        min_col = cols
+        piece_points = []
 
         for piece in self:
-            x, y = piece.get_placement(param)
-            res_array = [[[int(xi), int(yi)]] for xi, yi in zip(x, y)]
-            contour = np.asarray(res_array, dtype=np.int32)
-            contours.append(contour)
+            xy_original, xy_final = piece.transformed_shape(self.image.shape[:2])
+            piece_points.append((xy_original, xy_final))
+            x, y = xy_final
 
-        cv2.drawContours(
-            output,
-            contours,
-            -1,
-            (0, 0, 255),
-            thickness=2
-        )
+            min_row = min(min_row, np.min(y))
+            min_col = min(min_col, np.min(x))
+
+            piece_points.append((xy_original, xy_final))
+
+        for xy_original, xy_final in piece_points:
+            x0, y0 = xy_original
+            x, y = xy_final
+
+            for x01, y01, x1, y1 in zip(x0, y0, x, y):
+                output[int(y1) - min_row, int(x1) - min_col] = self.image[int(y01), int(x01)]
 
         output_path = "debug_images/solved.png"
         cv2.imwrite(output_path, output)
+
+        _, buffer = cv2.imencode(".png", output)
+        encoded_image = base64.b64encode(buffer).decode("utf-8")
+
+        return encoded_image
 
 
     def debug_segmentation(self):
@@ -227,10 +238,8 @@ def _get_pieces(image, piece_mask):
     return pieces
 
 
-def puzzle_from_image(image_path):
-    image = cv2.imread(image_path)
+def puzzle_from_image(image_matrix):
+    piece_mask = _get_piece_mask(image_matrix)
+    pieces = _get_pieces(image_matrix, piece_mask)
 
-    piece_mask = _get_piece_mask(image)
-    pieces = _get_pieces(image, piece_mask)
-
-    return Puzzle(image, piece_mask, pieces)
+    return Puzzle(image_matrix, piece_mask, pieces)

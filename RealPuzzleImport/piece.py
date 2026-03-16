@@ -53,8 +53,10 @@ class CaveSection:
 
 
 class Piece:
+    original_contour: ndarray
     spline: PieceSpline
     outline_colors: ndarray
+    outline_points: list[tuple]
     piece_hull_sections: list[HullSection]
     piece_caves: list[CaveSection]
 
@@ -63,15 +65,19 @@ class Piece:
     transformation: Transformation
     used_piece_hull_sections: list[bool]
     used_caves: list[bool]
+    solution_location: ndarray
+    local_border_points: ndarray
 
     def __init__(
         self,
+        original_contour: ndarray,
         spline: PieceSpline,
         outline_colors: ndarray,
-        outline_points,
+        outline_points: list[tuple],
         piece_hull_sections: list[HullSection],
         piece_caves: list[CaveSection]
     ):
+        self.original_contour = original_contour
         self.spline = spline
         self.outline_colors = outline_colors
         self.outline_points = outline_points
@@ -86,6 +92,24 @@ class Piece:
         transformed = transformation(points)
 
         return transformed
+
+    def transformed_shape(self, dim):
+        SCALE = 2
+        new_dim = (dim[0] * SCALE, dim[1] * SCALE)
+
+        mask = np.zeros(new_dim, dtype=np.uint8)
+        contour = (self.original_contour * SCALE).astype(np.int32)
+
+        cv2.fillPoly(mask, [contour], 1)
+        original_points = np.argwhere(mask == 1)[:, ::-1].T
+
+        final_points = self.transformation(original_points / SCALE) * SCALE
+        final_points = np.round(final_points).astype(int)
+
+        original_points = original_points // SCALE
+        final_points = final_points // SCALE
+
+        return original_points, final_points
 
     def to_contour(self):
         return self.spline.to_contour()
@@ -163,11 +187,10 @@ def _get_piece_hull_sections(piece_caves):
     return piece_hull_sections
 
 
-def _get_piece_sections(piece_spline):
-    contour = piece_spline.to_contour()
+def _get_piece_sections(piece_contour):
 
-    convex_hull = cv2.convexHull(contour, returnPoints=False)
-    convex_defects = cv2.convexityDefects(contour, convex_hull)
+    convex_hull = cv2.convexHull(piece_contour, returnPoints=False)
+    convex_defects = cv2.convexityDefects(piece_contour, convex_hull)
 
     piece_caves = _get_piece_caves(convex_defects)
     piece_hull_sections = _get_piece_hull_sections(piece_caves)
@@ -175,14 +198,13 @@ def _get_piece_sections(piece_spline):
     return piece_hull_sections, piece_caves
 
 
-def _get_piece_outline_colors(image, piece_mask, piece_spline):
-    contour = piece_spline.to_contour()
+def _get_piece_outline_colors(image, piece_mask, piece_contour):
 
     rows, cols = image.shape[:2]
-    outline_colors = np.zeros((len(contour), 3), dtype=np.uint8)
+    outline_colors = np.zeros((len(piece_contour), 3), dtype=np.uint8)
     outline_points = []
 
-    for i, point in enumerate(contour):
+    for i, point in enumerate(piece_contour):
         x, y = point[0]
 
         x0 = max(0, x - COLOR_BLOB_RADIUS)
@@ -207,7 +229,14 @@ def piece_from_contour(image, piece_mask, contour):
     print(len(contour))
 
     piece_spline = _get_piece_spline(contour)
-    piece_hull_sections, piece_caves = _get_piece_sections(piece_spline)
-    outline_colors, outline_points = _get_piece_outline_colors(image, piece_mask, piece_spline)
+    piece_hull_sections, piece_caves = _get_piece_sections(contour)
+    outline_colors, outline_points = _get_piece_outline_colors(image, piece_mask, contour)
 
-    return Piece(piece_spline, outline_colors, outline_points, piece_hull_sections, piece_caves)
+    return Piece(
+        contour,
+        piece_spline,
+        outline_colors,
+        outline_points,
+        piece_hull_sections,
+        piece_caves
+    )
