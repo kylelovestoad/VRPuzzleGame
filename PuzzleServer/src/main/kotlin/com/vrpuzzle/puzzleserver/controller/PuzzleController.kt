@@ -3,12 +3,14 @@ package com.vrpuzzle.puzzleserver.controller
 import com.vrpuzzle.puzzleserver.model.dto.PuzzleMetadataDTO
 import com.vrpuzzle.puzzleserver.request.CreatePuzzleRequest
 import com.vrpuzzle.puzzleserver.request.UpdatePuzzleRequest
+import com.vrpuzzle.puzzleserver.security.MetaQuestAuthenticationPrincipal
 import com.vrpuzzle.puzzleserver.services.ContentService
 import com.vrpuzzle.puzzleserver.services.PuzzleMetadataService
 import org.bson.types.ObjectId
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -55,16 +57,18 @@ class PuzzleController(
         @PathVariable id: ObjectId,
         @RequestPart("metadata") metadata: UpdatePuzzleRequest,
         @RequestPart("image", required = false) image: MultipartFile?,
+        @AuthenticationPrincipal principal: MetaQuestAuthenticationPrincipal,
     ): ResponseEntity<PuzzleMetadataDTO> {
-        val result = puzzleMetadataService.updatePuzzle(id, metadata, image)
+        val result = puzzleMetadataService.updatePuzzle(id, metadata, image, principal)
         return ResponseEntity.ok(result)
     }
 
     @DeleteMapping("/{id}")
     fun deleteOnlinePuzzle(
-        @PathVariable id: ObjectId
+        @PathVariable id: ObjectId,
+        @AuthenticationPrincipal principal: MetaQuestAuthenticationPrincipal,
     ): ResponseEntity<Void> {
-        puzzleMetadataService.deletePuzzle(id)
+        puzzleMetadataService.deletePuzzle(id, principal)
         return ResponseEntity.noContent().build()
     }
 }

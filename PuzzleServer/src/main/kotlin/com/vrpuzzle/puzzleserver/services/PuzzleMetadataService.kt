@@ -5,9 +5,11 @@ import com.vrpuzzle.puzzleserver.model.dto.PuzzleMetadataDTO
 import com.vrpuzzle.puzzleserver.request.CreatePuzzleRequest
 import com.vrpuzzle.puzzleserver.request.UpdatePuzzleRequest
 import com.vrpuzzle.puzzleserver.repository.PuzzleMetadataRepository
+import com.vrpuzzle.puzzleserver.security.MetaQuestAuthenticationPrincipal
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
+import java.security.Principal
 
 @Service
 class PuzzleMetadataService(
@@ -40,8 +42,18 @@ class PuzzleMetadataService(
     fun getAllPuzzles(): List<PuzzleMetadataDTO> =
         puzzleMetadataRepository.findAll().map { it.toDTO() }
 
-    fun updatePuzzle(id: ObjectId, metadata: UpdatePuzzleRequest, image: MultipartFile?): PuzzleMetadataDTO {
+    fun updatePuzzle(
+        id: ObjectId,
+        metadata:
+        UpdatePuzzleRequest,
+        image: MultipartFile?,
+        principal: MetaQuestAuthenticationPrincipal
+    ): PuzzleMetadataDTO {
         val existing = getPuzzleById(id)
+
+        if (existing.author != principal.userId) {
+            throw IllegalAccessException("User is not the author of the Puzzle")
+        }
 
         val updatedContent = if (image != null) {
             contentService.uploadContent(image)
@@ -59,9 +71,10 @@ class PuzzleMetadataService(
         return puzzleMetadataRepository.save(updated).toDTO()
     }
 
-    fun deletePuzzle(id: ObjectId) {
-        if (!puzzleMetadataRepository.existsById(id)) {
-            throw NoSuchElementException("Puzzle not found: $id")
+    fun deletePuzzle(id: ObjectId, principal: MetaQuestAuthenticationPrincipal) {
+        val existing = getPuzzleById(id)
+        if (existing.author != principal.userId) {
+            throw IllegalAccessException("User is not the author of the Puzzle")
         }
         puzzleMetadataRepository.deleteById(id)
     }
