@@ -1,5 +1,5 @@
-// PuzzleSaveData.kt
 import com.vrpuzzle.puzzleserver.model.dto.UploadedPuzzleMetadataDTO
+import com.vrpuzzle.puzzleserver.model.entity.Content
 import com.vrpuzzle.puzzleserver.model.type.PuzzleLayout
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
@@ -14,13 +14,13 @@ data class UploadedPuzzleMetadata(
     val name: String,
     val author: String,
     val layout: PuzzleLayout,
-    val imageUrl: String?
+    val content: Content,
 ) {
     fun toDTO() = UploadedPuzzleMetadataDTO(
         onlineID = onlineID.toHexString(),
         name = name,
         author = author,
         layout = layout,
-        imageUrl = imageUrl
+        content = content.toDTO(),
     )
 }

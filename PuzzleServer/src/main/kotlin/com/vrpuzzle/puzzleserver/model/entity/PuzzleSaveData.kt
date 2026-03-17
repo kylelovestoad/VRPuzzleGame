@@ -24,7 +24,7 @@ data class PuzzleSaveData(
     fun toDTO() = PuzzleSaveDataDTO(
         id = id.toHexString(),
         metaUserId = metaUserId,
-        puzzleMetadataId = puzzleMetadata.onlineID.toHexString(),
+        puzzleMetadata = puzzleMetadata.toDTO(),
         chunks = chunks,
         clockBase = clockBase,
         clockTimestamp = clockTimestamp

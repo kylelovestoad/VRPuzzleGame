@@ -9,5 +9,5 @@ data class UploadedPuzzleMetadataDTO(
     val name: String,
     val author: String,
     val layout: PuzzleLayout,
-    val imageUrl: String?
+    val content: ContentDTO
 )
