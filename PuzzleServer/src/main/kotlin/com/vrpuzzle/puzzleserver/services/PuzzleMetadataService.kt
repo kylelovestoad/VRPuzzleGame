@@ -2,8 +2,8 @@ package com.vrpuzzle.puzzleserver.services
 
 import com.vrpuzzle.puzzleserver.model.entity.PuzzleMetadata
 import com.vrpuzzle.puzzleserver.model.dto.PuzzleMetadataDTO
-import com.vrpuzzle.puzzleserver.model.request.CreatePuzzleRequest
-import com.vrpuzzle.puzzleserver.model.request.UpdatePuzzleRequest
+import com.vrpuzzle.puzzleserver.request.CreatePuzzleRequest
+import com.vrpuzzle.puzzleserver.request.UpdatePuzzleRequest
 import com.vrpuzzle.puzzleserver.repository.PuzzleMetadataRepository
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service

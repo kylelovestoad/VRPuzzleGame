@@ -1,4 +1,4 @@
-package com.vrpuzzle.puzzleserver.model.request
+package com.vrpuzzle.puzzleserver.request
 
 import com.vrpuzzle.puzzleserver.model.type.PuzzleLayout
 

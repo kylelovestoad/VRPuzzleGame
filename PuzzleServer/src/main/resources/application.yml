@@ -11,3 +11,6 @@ logging:
     com.vrpuzzle.puzzleserver: DEBUG
 vrpuzzle:
   storage.path: "content-storage"
+meta:
+  app-id: ${META_APP_ID}
+  app-secret: ${META_APP_SECRET}
