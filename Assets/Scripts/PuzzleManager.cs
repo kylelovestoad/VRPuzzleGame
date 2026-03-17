@@ -39,7 +39,7 @@ public class PuzzleManager : MonoBehaviour
         var saveData = _currentPuzzle.ToData();
         LocalSave.Instance.SaveSkipImage(saveData);
         
-        Destroy(_currentPuzzle.gameObject);
+        DestroyImmediate(_currentPuzzle.gameObject);
         _currentPuzzle = null;
     }
 }
