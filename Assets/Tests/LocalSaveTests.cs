@@ -35,8 +35,8 @@ namespace Tests
                 "Author", 
                 new PuzzleLayout(2, 2, PieceShape.Rectangle, new List<PieceCut>()), 
                 null,
-                null
-                );
+                new Texture2D(2, 2)
+            );
 
         [Test]
         public void Create_AssignsLocalID()
@@ -80,6 +80,11 @@ namespace Tests
                 MakePuzzle("Puzzle B"),
                 MakePuzzle("Puzzle C"),
             };
+
+            foreach (var puzzle in puzzles)
+            {
+                LocalSave.Instance.Create(puzzle);
+            }
 
             LocalSave.Instance.SaveAll(puzzles);
 

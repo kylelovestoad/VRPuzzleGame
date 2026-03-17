@@ -72,6 +72,8 @@ namespace PuzzleGeneration
                 int i1 = (i0 + 1) % verticesRemaining.Count;
                 int i2 = (i0 + 2) % verticesRemaining.Count;
                 
+                Debug.Log(currTriangleIndex + "  " + triangles.Length);
+                
                 triangles[currTriangleIndex++] = verticesRemaining[i0];
                 triangles[currTriangleIndex++] = verticesRemaining[i1];
                 triangles[currTriangleIndex++] = verticesRemaining[i2];

@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using PuzzleGeneration;
+using UnityEngine;
+
+[Serializable]
+public class PieceResponse
+{
+    public int pieceIndex;
+    public List<int> neighborIndices;
+    public Vector3 solutionLocation;
+    public List<Vector2> borderPoints;
+    
+    public PieceCut ToPieceCut()
+    {
+        return new PieceCut(pieceIndex, neighborIndices, solutionLocation, borderPoints);
+    }
+}

@@ -7,7 +7,8 @@ namespace PuzzleGeneration
     public enum PieceShape
     {
         Rectangle,
-        Jigsaw
+        Jigsaw,
+        Real
     }
 
     public static class PieceShapeExtensions

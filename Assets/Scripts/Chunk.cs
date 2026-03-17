@@ -98,8 +98,8 @@ public class Chunk : MonoBehaviour
 
         Piece repPiece = Pieces[0];
 
-        Debug.LogError($"Thread ID: {Thread.CurrentThread.ManagedThreadId}");
-        Debug.LogError($"Count: this: {PieceCount}, other: {other.PieceCount}");
+        // Debug.LogError($"Thread ID: {Thread.CurrentThread.ManagedThreadId}");
+        // Debug.LogError($"Count: this: {PieceCount}, other: {other.PieceCount}");
 
         foreach (var otherPiece in other.Pieces.ToArray())
         {
@@ -108,7 +108,7 @@ public class Chunk : MonoBehaviour
         }
 
         other.IsMerged = true;
-        Destroy(other.gameObject);
+        DestroyImmediate(other.gameObject);
     }
 
     void OnTriggerStay(Collider other)
@@ -118,7 +118,11 @@ public class Chunk : MonoBehaviour
         if (otherChunk == null
             || GetInstanceID() >= otherChunk.GetInstanceID()
             || otherChunk.IsMerged
-            || Interlocked.Exchange(ref _isCollisionProcedureRunning, 1) == 0) return;
+            || Interlocked.Exchange(ref _isCollisionProcedureRunning, 1) == 1)
+        {
+            Debug.Log("Short fail " + otherChunk.IsMerged + " " + _isCollisionProcedureRunning);
+            return;
+        }
         
         
         foreach (var piece in Pieces)
@@ -128,7 +132,7 @@ public class Chunk : MonoBehaviour
                 if (!piece.IsCloseEnough(otherPiece)) continue;
                 
                 Debug.Log("Close Enough");
-                Debug.LogError($"this: {GetInstanceID()}, other: {otherChunk.GetInstanceID()}");
+                // Debug.LogError($"this: {GetInstanceID()}, other: {otherChunk.GetInstanceID()}");
                 Merge(otherChunk);  
                 goto end;
             }

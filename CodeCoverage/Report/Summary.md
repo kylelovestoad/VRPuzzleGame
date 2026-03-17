@@ -1,21 +1,21 @@
 ﻿# Summary
 |||
 |:---|:---|
-| Generated on: | 2/25/2026 - 2:20:39 PM |
+| Generated on: | 3/17/2026 - 12:37:08 PM |
 | Parser: | MultiReportParser (2x OpenCoverParser) |
 | Assemblies: | 4 |
-| Classes: | 57 |
-| Files: | 57 |
-| Covered lines: | 896 |
-| Uncovered lines: | 2650 |
-| Coverable lines: | 3546 |
-| Total lines: | 7663 |
-| Line coverage: | 25.2% (896 of 3546) |
+| Classes: | 64 |
+| Files: | 64 |
+| Covered lines: | 43 |
+| Uncovered lines: | 3360 |
+| Coverable lines: | 3403 |
+| Total lines: | 7567 |
+| Line coverage: | 1.2% (43 of 3403) |
 | Covered branches: | 0 |
 | Total branches: | 0 |
-| Covered methods: | 115 |
-| Total methods: | 346 |
-| Method coverage: | 33.2% (115 of 346) |
+| Covered methods: | 8 |
+| Total methods: | 349 |
+| Method coverage: | 2.2% (8 of 349) |
 
 |**Name**|**Covered**|**Uncovered**|**Coverable**|**Total**|**Line coverage**|**Covered**|**Total**|**Branch coverage**|**Covered**|**Total**|**Method coverage**|
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -56,27 +56,34 @@
 |TMPro.TMP_TextEventHandler|0|107|107|263|0%|0|0||0|20|0%|
 |**Assembly-CSharp-Editor**|**0**|**140**|**140**|**242**|**0%**|**0**|**0**|****|**0**|**14**|**0%**|
 |ReadmeEditor|0|140|140|242|0%|0|0||0|14|0%|
-|**PuzzleGameScripts**|**397**|**219**|**616**|**1338**|**64.4%**|**0**|**0**|****|**67**|**119**|**56.3%**|
-|Chunk|3|85|88|155|3.4%|0|0||1|12|8.3%|
-|ChunkFactory|3|11|14|41|21.4%|0|0||1|5|20%|
-|Events.PlayButtonBehaviour|0|8|8|25|0%|0|0||0|3|0%|
-|Persistence.LocalSave|57|8|65|110|87.6%|0|0||11|12|91.6%|
+|**PuzzleGameScripts**|**20**|**789**|**809**|**1817**|**2.4%**|**0**|**0**|****|**5**|**143**|**3.4%**|
+|Chunk|0|83|83|150|0%|0|0||0|14|0%|
+|Persistence.LocalSave|0|97|97|161|0%|0|0||0|16|0%|
 |Persistence.LocalSaveInitializer|0|8|8|20|0%|0|0||0|2|0%|
-|Persistence.PuzzleSaveData|11|0|11|44|100%|0|0||2|2|100%|
-|Piece|39|7|46|103|84.7%|0|0||6|8|75%|
-|Puzzle|1|48|49|98|2%|0|0||2|25|8%|
-|PuzzleGeneration.Jigsaw.JigsawPieceBorder|7|0|7|18|100%|0|0||7|7|100%|
-|PuzzleGeneration.Jigsaw.JigsawPieceEdgeUtil|24|1|25|81|96%|0|0||7|7|100%|
-|PuzzleGeneration.Jigsaw.JigsawPuzzleGenerator|85|0|85|183|100%|0|0||10|10|100%|
-|PuzzleGeneration.PieceCut|6|0|6|22|100%|0|0||1|1|100%|
-|PuzzleGeneration.PieceMeshGenerator|118|4|122|198|96.7%|0|0||12|12|100%|
+|Persistence.PuzzleSaveData|0|11|11|46|0%|0|0||0|2|0%|
+|Piece|0|58|58|128|0%|0|0||0|9|0%|
+|PieceResponse|0|3|3|18|0%|0|0||0|1|0%|
+|Puzzle|1|50|51|102|1.9%|0|0||2|25|8%|
+|PuzzleGeneration.Jigsaw.JigsawPieceBorder|0|7|7|18|0%|0|0||0|7|0%|
+|PuzzleGeneration.Jigsaw.JigsawPieceEdgeUtil|0|25|25|82|0%|0|0||0|7|0%|
+|PuzzleGeneration.Jigsaw.JigsawPuzzleGenerator|0|94|94|204|0%|0|0||0|10|0%|
+|PuzzleGeneration.PieceCut|7|0|7|24|100%|0|0||1|1|100%|
+|PuzzleGeneration.PieceMeshGenerator|0|123|123|200|0%|0|0||0|12|0%|
+|PuzzleGeneration.PieceShapeExtensions|0|6|6|27|0%|0|0||0|1|0%|
 |PuzzleGeneration.PuzzleLayout|7|0|7|23|100%|0|0||1|1|100%|
-|PuzzleGeneration.Rectangle.RectanglePuzzleGenerator|32|0|32|71|100%|0|0||2|2|100%|
-|PuzzleRenderData|4|0|4|9|100%|0|0||4|4|100%|
-|Seeders.PuzzleSeeder|0|39|39|137|0%|0|0||0|6|0%|
-|**PuzzleGameTests**|**499**|**43**|**542**|**1137**|**92%**|**0**|**0**|****|**48**|**48**|**100%**|
-|Tests.ChunkTests|33|43|76|197|43.4%|0|0||8|8|100%|
-|Tests.JigsawPuzzleGeneratorTests|84|0|84|151|100%|0|0||8|8|100%|
-|Tests.LocalSaveTests|48|0|48|110|100%|0|0||9|9|100%|
-|Tests.PieceTests|286|0|286|575|100%|0|0||16|16|100%|
-|Tests.RectanglePuzzleGeneratorTests|48|0|48|104|100%|0|0||7|7|100%|
+|PuzzleGeneration.Real.RealPuzzleGenerator|0|2|2|12|0%|0|0||0|1|0%|
+|PuzzleGeneration.Rectangle.RectanglePuzzleGenerator|0|37|37|80|0%|0|0||0|2|0%|
+|PuzzleManager|0|15|15|45|0%|0|0||0|4|0%|
+|PuzzleRenderData|5|2|7|14|71.4%|0|0||1|3|33.3%|
+|PuzzleResponse|0|16|16|40|0%|0|0||0|3|0%|
+|Seeders.PuzzleSeeder|0|42|42|142|0%|0|0||0|6|0%|
+|UI.HUD|0|9|9|29|0%|0|0||0|3|0%|
+|UI.PuzzleCreationBehaviour|0|55|55|131|0%|0|0||0|4|0%|
+|UI.PuzzleGallery|0|28|28|56|0%|0|0||0|4|0%|
+|UI.PuzzleGalleryTile|0|10|10|39|0%|0|0||0|2|0%|
+|UI.PuzzleInfo|0|8|8|26|0%|0|0||0|3|0%|
+|**PuzzleGameTests**|**23**|**183**|**206**|**562**|**11.1%**|**0**|**0**|****|**3**|**27**|**11.1%**|
+|Tests.ChunkTests|23|3|26|197|88.4%|0|0||3|3|100%|
+|Tests.JigsawPuzzleGeneratorTests|0|84|84|151|0%|0|0||0|8|0%|
+|Tests.LocalSaveTests|0|48|48|110|0%|0|0||0|9|0%|
+|Tests.RectanglePuzzleGeneratorTests|0|48|48|104|0%|0|0||0|7|0%|

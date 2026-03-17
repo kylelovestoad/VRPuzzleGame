@@ -8,7 +8,7 @@ using UnityEngine;
 public class Puzzle: MonoBehaviour
 {
     [SerializeField]
-    private Chunk chunkPrefab;
+    public Chunk chunkPrefab;
     
     public string LocalID { get; set; }
     public string OnlineID { get; set; }
