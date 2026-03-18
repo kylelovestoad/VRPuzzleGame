@@ -24,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile
 @RestController
 @RequestMapping("/api/puzzles")
 class PuzzleController(
-    private val contentService: ContentService,
     private val puzzleMetadataService: PuzzleMetadataService,
 ) {
 
