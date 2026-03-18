@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 data class PuzzleSaveDataDTO(
     val id: String,
     val metaUserId: String,
-    val puzzleMetadata: UploadedPuzzleMetadataDTO,
+    val puzzleMetadata: PuzzleMetadataDTO,
     val chunks: List<ChunkSaveData>?,
     val clockBase: Int,
     val clockTimestamp: LocalDateTime?

@@ -1,7 +1,7 @@
 package com.vrpuzzle.puzzleserver.repository
 
-import UploadedPuzzleMetadata
+import com.vrpuzzle.puzzleserver.model.entity.Content
 import org.bson.types.ObjectId
 import org.springframework.data.mongodb.repository.MongoRepository
 
-interface UploadedPuzzleMetadataRepository : MongoRepository<UploadedPuzzleMetadata, ObjectId>
+interface ContentRepository : MongoRepository<Content, ObjectId>

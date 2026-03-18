@@ -5,7 +5,12 @@ spring:
     mongodb:
       auto-index-creation: true
   mongodb:
-    uri: mongodb://localhost:27017/puzzleserver
+    uri: ${MONGODB_URI:mongodb://localhost:27017/puzzleserver}
 logging:
   level:
     com.vrpuzzle.puzzleserver: DEBUG
+vrpuzzle:
+  storage.path: "content-storage"
+meta:
+  app-id: ${META_APP_ID}
+  app-secret: ${META_APP_SECRET}
