@@ -1,21 +1,21 @@
 ﻿# Summary
 |||
 |:---|:---|
-| Generated on: | 3/17/2026 - 12:37:08 PM |
+| Generated on: | 3/18/2026 - 12:42:02 AM |
 | Parser: | MultiReportParser (2x OpenCoverParser) |
 | Assemblies: | 4 |
-| Classes: | 64 |
-| Files: | 64 |
-| Covered lines: | 43 |
-| Uncovered lines: | 3360 |
-| Coverable lines: | 3403 |
-| Total lines: | 7567 |
-| Line coverage: | 1.2% (43 of 3403) |
+| Classes: | 68 |
+| Files: | 68 |
+| Covered lines: | 1318 |
+| Uncovered lines: | 2554 |
+| Coverable lines: | 3872 |
+| Total lines: | 8479 |
+| Line coverage: | 34% (1318 of 3872) |
 | Covered branches: | 0 |
 | Total branches: | 0 |
-| Covered methods: | 8 |
-| Total methods: | 349 |
-| Method coverage: | 2.2% (8 of 349) |
+| Covered methods: | 172 |
+| Total methods: | 383 |
+| Method coverage: | 44.9% (172 of 383) |
 
 |**Name**|**Covered**|**Uncovered**|**Coverable**|**Total**|**Line coverage**|**Covered**|**Total**|**Branch coverage**|**Covered**|**Total**|**Method coverage**|
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -56,34 +56,38 @@
 |TMPro.TMP_TextEventHandler|0|107|107|263|0%|0|0||0|20|0%|
 |**Assembly-CSharp-Editor**|**0**|**140**|**140**|**242**|**0%**|**0**|**0**|****|**0**|**14**|**0%**|
 |ReadmeEditor|0|140|140|242|0%|0|0||0|14|0%|
-|**PuzzleGameScripts**|**20**|**789**|**809**|**1817**|**2.4%**|**0**|**0**|****|**5**|**143**|**3.4%**|
-|Chunk|0|83|83|150|0%|0|0||0|14|0%|
-|Persistence.LocalSave|0|97|97|161|0%|0|0||0|16|0%|
+|**PuzzleGameScripts**|**620**|**164**|**784**|**1772**|**79%**|**0**|**0**|****|**110**|**142**|**77.4%**|
+|Chunk|66|16|82|154|80.4%|0|0||12|14|85.7%|
+|Persistence.LocalSave|89|8|97|161|91.7%|0|0||15|16|93.7%|
 |Persistence.LocalSaveInitializer|0|8|8|20|0%|0|0||0|2|0%|
-|Persistence.PuzzleSaveData|0|11|11|46|0%|0|0||0|2|0%|
-|Piece|0|58|58|128|0%|0|0||0|9|0%|
+|Persistence.PuzzleSaveData|11|0|11|46|100%|0|0||2|2|100%|
+|Piece|55|3|58|128|94.8%|0|0||8|9|88.8%|
 |PieceResponse|0|3|3|18|0%|0|0||0|1|0%|
-|Puzzle|1|50|51|102|1.9%|0|0||2|25|8%|
-|PuzzleGeneration.Jigsaw.JigsawPieceBorder|0|7|7|18|0%|0|0||0|7|0%|
-|PuzzleGeneration.Jigsaw.JigsawPieceEdgeUtil|0|25|25|82|0%|0|0||0|7|0%|
-|PuzzleGeneration.Jigsaw.JigsawPuzzleGenerator|0|94|94|204|0%|0|0||0|10|0%|
+|Puzzle|30|21|51|102|58.8%|0|0||19|25|76%|
+|PuzzleGeneration.Jigsaw.JigsawPieceBorder|7|0|7|18|100%|0|0||7|7|100%|
+|PuzzleGeneration.Jigsaw.JigsawPieceEdgeUtil|24|1|25|82|96%|0|0||7|7|100%|
+|PuzzleGeneration.Jigsaw.JigsawPuzzleGenerator|94|0|94|204|100%|0|0||10|10|100%|
 |PuzzleGeneration.PieceCut|7|0|7|24|100%|0|0||1|1|100%|
-|PuzzleGeneration.PieceMeshGenerator|0|123|123|200|0%|0|0||0|12|0%|
-|PuzzleGeneration.PieceShapeExtensions|0|6|6|27|0%|0|0||0|1|0%|
+|PuzzleGeneration.PieceMeshGenerator|119|4|123|200|96.7%|0|0||12|12|100%|
+|PuzzleGeneration.PieceShapeExtensions|4|2|6|27|66.6%|0|0||1|1|100%|
 |PuzzleGeneration.PuzzleLayout|7|0|7|23|100%|0|0||1|1|100%|
 |PuzzleGeneration.Real.RealPuzzleGenerator|0|2|2|12|0%|0|0||0|1|0%|
-|PuzzleGeneration.Rectangle.RectanglePuzzleGenerator|0|37|37|80|0%|0|0||0|2|0%|
-|PuzzleManager|0|15|15|45|0%|0|0||0|4|0%|
-|PuzzleRenderData|5|2|7|14|71.4%|0|0||1|3|33.3%|
+|PuzzleGeneration.Rectangle.RectanglePuzzleGenerator|37|0|37|80|100%|0|0||2|2|100%|
+|PuzzleManager|12|3|15|45|80%|0|0||3|4|75%|
+|PuzzleRenderData|7|0|7|14|100%|0|0||3|3|100%|
 |PuzzleResponse|0|16|16|40|0%|0|0||0|3|0%|
 |Seeders.PuzzleSeeder|0|42|42|142|0%|0|0||0|6|0%|
-|UI.HUD|0|9|9|29|0%|0|0||0|3|0%|
-|UI.PuzzleCreationBehaviour|0|55|55|131|0%|0|0||0|4|0%|
-|UI.PuzzleGallery|0|28|28|56|0%|0|0||0|4|0%|
-|UI.PuzzleGalleryTile|0|10|10|39|0%|0|0||0|2|0%|
+|UI.HUD|6|3|9|29|66.6%|0|0||2|3|66.6%|
+|UI.PuzzleCreationBehaviour|13|18|31|82|41.9%|0|0||1|3|33.3%|
+|UI.PuzzleGallery|25|3|28|56|89.2%|0|0||3|4|75%|
+|UI.PuzzleGalleryTile|7|3|10|39|70%|0|0||1|2|50%|
 |UI.PuzzleInfo|0|8|8|26|0%|0|0||0|3|0%|
-|**PuzzleGameTests**|**23**|**183**|**206**|**562**|**11.1%**|**0**|**0**|****|**3**|**27**|**11.1%**|
-|Tests.ChunkTests|23|3|26|197|88.4%|0|0||3|3|100%|
-|Tests.JigsawPuzzleGeneratorTests|0|84|84|151|0%|0|0||0|8|0%|
-|Tests.LocalSaveTests|0|48|48|110|0%|0|0||0|9|0%|
-|Tests.RectanglePuzzleGeneratorTests|0|48|48|104|0%|0|0||0|7|0%|
+|**PuzzleGameTests**|**698**|**2**|**700**|**1519**|**99.7%**|**0**|**0**|****|**62**|**62**|**100%**|
+|Tests.ChunkTests|81|2|83|227|97.5%|0|0||8|8|100%|
+|Tests.JigsawPuzzleGeneratorTests|84|0|84|151|100%|0|0||8|8|100%|
+|Tests.LocalSaveTests|52|0|52|115|100%|0|0||9|9|100%|
+|Tests.PieceTests|312|0|312|614|100%|0|0||16|16|100%|
+|Tests.RectanglePuzzleGeneratorTests|48|0|48|104|100%|0|0||7|7|100%|
+|Tests.UI.HUDTests|30|0|30|87|100%|0|0||4|4|100%|
+|Tests.UI.PuzzleCreationBehaviourTests|32|0|32|75|100%|0|0||4|4|100%|
+|Tests.UI.PuzzleGalleryTests|59|0|59|146|100%|0|0||6|6|100%|

@@ -10,7 +10,7 @@ namespace UI
         [SerializeField]
         private PuzzleGalleryTile puzzleGalleryItemPrefab;
 
-        private void Start()
+        public void Start()
         {
             FillPuzzles();
             LocalSave.Instance.OnSaved += OnPuzzleSaved;
@@ -46,7 +46,7 @@ namespace UI
             
             foreach (var tile in tiles)
             {
-                Destroy(tile.gameObject);
+                DestroyImmediate(tile.gameObject);
             }
             
             FillPuzzles();

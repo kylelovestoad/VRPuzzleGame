@@ -4,7 +4,9 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "PuzzleGameScripts"
+        "PuzzleGameScripts",
+        "Unity.TextMeshPro",
+        "Oculus.Interaction.Samples"
     ],
     "includePlatforms": [
         "Editor"
