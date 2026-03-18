@@ -60,13 +60,6 @@ namespace Tests
         [Test]
         public void PrefabComponentsExist()
         {
-            // Chunk chunk = _chunkFactory.CreateSinglePieceChunk(
-            //     Vector3.zero, 
-            //     Quaternion.identity, 
-            //     _piece0Cut, 
-            //     _puzzle
-            // );
-            
             var chunk = Object.Instantiate(
                 _chunkPrefab, 
                 Vector3.zero, 
@@ -101,7 +94,6 @@ namespace Tests
         [Test]
         public void UpdatesChunkSizeWhenMorePiecesAdded()
         {
-            // Chunk chunk = _chunkFactory.CreateSinglePieceChunk(Vector3.zero, Quaternion.identity, _piece0Cut, _puzzle);
             var chunk = Object.Instantiate(
                 _chunkPrefab, 
                 Vector3.zero, 
@@ -137,19 +129,6 @@ namespace Tests
         [Test]
         public void CombiningChunks()
         {
-            // Chunk chunk = _chunkFactory.CreateSinglePieceChunk(
-            //     Vector3.zero, 
-            //     Quaternion.identity,
-            //     _piece0Cut, 
-            //     _puzzle
-            // );
-            // Chunk otherChunk = _chunkFactory.CreateSinglePieceChunk(
-            //     new Vector3(1, 0, 0), 
-            //     Quaternion.identity, 
-            //     _piece1Cut, 
-            //     _puzzle
-            // );
-            
             var chunk = Object.Instantiate(
                 _chunkPrefab, 
                 Vector3.zero, 
