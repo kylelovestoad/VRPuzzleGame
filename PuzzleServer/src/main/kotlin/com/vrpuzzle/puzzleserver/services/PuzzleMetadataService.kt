@@ -24,7 +24,8 @@ class PuzzleMetadataService(
         val content = contentService.uploadContent(image)
 
         val puzzleMetadata = PuzzleMetadata(
-            name = metadata.name,
+            // Filename input should be irrelevant
+            name = content.id.toHexString(),
             author = metadata.author,
             layout = metadata.layout,
             content = content,

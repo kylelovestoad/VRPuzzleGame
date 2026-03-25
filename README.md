@@ -82,10 +82,21 @@ Navigate to `Assets/Scenes` to find our game scenes.
 ### Scripts
 Navigate to `Assets/Scripts` to find the game scripts.
 
+### Real Puzzle Microservice
+Navigate to `RealPuzzleImport` to find the code for this microservice
+
+### Server
+Navigate to `PuzzleServer` to find the backend code
+
 ### Unit Tests
-Navigate to `Assets/Tests` to find the unit tests.
+
+Navigate to `Assets/Tests` to find the unity unit tests.
 
 The Coverage report is located in the repo root under the folder CoverageReport
+
+Navigate to `RealPuzzleImport/tests` to find the Real Puzzle Microservice unit tests.
+
+The Coverage report is located in `RealPuzzleImport/tests/htmlcov`
 
 #### To Run the Unit Tests with Coverage:
 
