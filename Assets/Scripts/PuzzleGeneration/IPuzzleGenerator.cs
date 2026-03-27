@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace PuzzleGeneration
 {
@@ -6,6 +7,6 @@ namespace PuzzleGeneration
     {
         public const float Thickness = 0.01f;
         
-        public PuzzleLayout Generate(Texture2D image, int rows, int cols, float puzzleHeight);
+        public void Generate(Texture2D image, int rows, int cols, float puzzleHeight, Action<PuzzleRenderData> onComplete);
     }
 }

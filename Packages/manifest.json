@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
     "com.github-glitchenzo.nugetforunity": "4.5.0",
     "com.meta.xr.sdk.all": "83.0.3",
     "com.unity.2d.sprite": "1.0.0",

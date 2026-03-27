@@ -67,16 +67,19 @@ namespace UI
             }
 
             var generator = selectedShape.Generator();
-
-            LocalSave.Instance.Create(new PuzzleSaveData(
-                null,
-                null,
-                puzzleName,
-                "DK",
-                generator.Generate(puzzleImage, rows, columns, 0.3f),
-                new List<ChunkSaveData>(),
-                puzzleImage
-            ));
+            
+            generator.Generate(puzzleImage, rows, columns, 0.3f, renderData =>
+            {
+                LocalSave.Instance.Create(new PuzzleSaveData(
+                    null,
+                    null,
+                    puzzleName,
+                    "DK",
+                    renderData.Layout,
+                    new List<ChunkSaveData>(),
+                    puzzleImage
+                ));
+            });
         }
 
         private bool ValidateInputs(out string puzzleName, out int rows, out int columns, out PieceShape selectedShape)
