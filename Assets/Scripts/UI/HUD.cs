@@ -44,6 +44,7 @@ namespace UI
         public void OnExit()
         {
             PuzzleManager.Instance.CloseCurrentPuzzle();
+            timerField.text = "";
         }
     }
 }
