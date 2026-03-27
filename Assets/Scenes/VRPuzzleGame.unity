@@ -12596,6 +12596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: PuzzleGameScripts::UI.HUD
   exitButton: {fileID: 4210545}
+  timerField: {fileID: 331782349691096544}
 --- !u!1 &657161513
 GameObject:
   m_ObjectHideFlags: 0

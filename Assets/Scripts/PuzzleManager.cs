@@ -13,6 +13,8 @@ public class PuzzleManager : MonoBehaviour
     private Puzzle puzzlePrefab;
 
     private Puzzle _currentPuzzle;
+    
+    public event Action<Puzzle> OnPuzzleOpened;
 
     private void Awake()
     {
@@ -32,6 +34,8 @@ public class PuzzleManager : MonoBehaviour
             puzzleSaveData,
             puzzleRenderData
         );
+        
+        OnPuzzleOpened?.Invoke(_currentPuzzle);
     }
     
     public void CloseCurrentPuzzle()

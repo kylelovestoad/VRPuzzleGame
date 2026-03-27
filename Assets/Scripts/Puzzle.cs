@@ -21,6 +21,12 @@ public class Puzzle: MonoBehaviour
     public Texture2D PuzzleImage { get; set; }
     
     private Chunk[] Chunks => GetComponentsInChildren<Chunk>();
+    
+    public event Action<float> UpdateTimer;
+    private float _elapsedTime;
+    private bool _timeRunning;
+    
+    
     public long TotalPieces => Chunks.Sum(chunk => chunk.PieceCount);
     public bool IsOnline => OnlineID != null;
     public double PercentComplete => (double) SolvedPieces / TotalPieces;
@@ -38,6 +44,18 @@ public class Puzzle: MonoBehaviour
         PuzzleImage = saveData.PuzzleImage;
         
         InitializeChunks(saveData);
+
+        _elapsedTime = saveData.elapsedTime;
+        _timeRunning = true;
+    }
+    
+    void Update()
+    {
+        if (!_timeRunning) return;
+        
+        _elapsedTime += Time.deltaTime;
+
+        UpdateTimer?.Invoke(_elapsedTime);
     }
     
     private void InitializeChunks(PuzzleSaveData saveData)
@@ -96,7 +114,8 @@ public class Puzzle: MonoBehaviour
             author: Author,
             layout: Layout,
             puzzleImage: PuzzleImage,
-            chunks: Chunks.Select(c => c.ToData()).ToList()
+            chunks: Chunks.Select(c => c.ToData()).ToList(),
+            elapsedTime: _elapsedTime
         );
     }
 }
