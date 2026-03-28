@@ -34,6 +34,8 @@ def real_puzzle(file: UploadFile = File(...)):
     image_arr = np.frombuffer(contents, np.uint8)
     image = cv2.imdecode(image_arr, cv2.IMREAD_COLOR)
 
+    print("Shape", image.shape)
+
     if image is None:
         raise HTTPException(400, "Could not decode image")
 

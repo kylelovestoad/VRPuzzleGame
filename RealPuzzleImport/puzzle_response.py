@@ -1,4 +1,5 @@
 ﻿from pydantic import BaseModel
+from pydantic.alias_generators import to_camel
 
 from piece_response import PieceResponse, get_piece_response
 from puzzle import Puzzle
@@ -7,6 +8,8 @@ from puzzle import Puzzle
 class PuzzleResponse(BaseModel):
     solved_puzzle_image: str
     initial_piece_cuts: list[PieceResponse]
+
+    model_config = {"populate_by_name": True, "alias_generator": to_camel}
 
 
 def get_puzzle_response(puzzle: Puzzle) -> PuzzleResponse:

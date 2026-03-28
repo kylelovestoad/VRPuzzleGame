@@ -87,9 +87,9 @@ def _get_spline_score(from_points, to_points):
 
 def _get_score(piece, piece_param, other_piece, other_piece_param, transformed_from_points, to_points):
     spline_score = _get_spline_score(transformed_from_points, to_points)
-    color_score = _get_color_score(piece, piece_param, other_piece, other_piece_param)
+    # color_score = _get_color_score(piece, piece_param, other_piece, other_piece_param)
 
-    score = spline_score, color_score
+    score = spline_score, 0
 
     return score
 
@@ -207,6 +207,8 @@ def _single_piece_chunks(puzzle):
 
 def _get_piece_global_border(piece, param, puzzle_height, scale_factor):
     global_border_points = piece.get_placement(param)
+    print("Global", global_border_points)
+
     global_border_points[1, :] = puzzle_height - global_border_points[1, :]
     global_border_points *= scale_factor
 
@@ -216,6 +218,8 @@ def _get_piece_global_border(piece, param, puzzle_height, scale_factor):
 def _get_solution_location(global_border_points):
     location_index = np.argmin(global_border_points[0])
     location = global_border_points[:, location_index]
+
+    print("Solution Location", location, min(global_border_points[0]))
 
     return location
 
@@ -229,7 +233,7 @@ def _offset_border_points(border_points, solution_location):
         border_points[1, :] - offset_y
     ])
 
-    return local_border_points
+    return local_border_points[:, ::-1]
 
 
 def move_pieces(puzzle: Puzzle):

@@ -54,14 +54,12 @@ class Puzzle:
             min_row = min(min_row, np.min(y))
             min_col = min(min_col, np.min(x))
 
-            piece_points.append((xy_original, xy_final))
-
         for xy_original, xy_final in piece_points:
             x0, y0 = xy_original
             x, y = xy_final
 
             for x01, y01, x1, y1 in zip(x0, y0, x, y):
-                output[int(y1) - min_row, int(x1) - min_col] = self.image[int(y01), int(x01)]
+                output[int(y1), int(x1)] = self.image[int(y01), int(x01)]
 
         output_path = "debug_images/solved.png"
         cv2.imwrite(output_path, output)
