@@ -16,6 +16,8 @@ namespace Persistence
         public string name;
         public string author;
         public PuzzleLayout layout;
+        
+        public float elapsedTime;
         [CanBeNull] public List<ChunkSaveData> chunks;
         
         [NonSerialized]
@@ -30,7 +32,8 @@ namespace Persistence
             string author,
             PuzzleLayout layout,
             List<ChunkSaveData> chunks,
-            Texture2D puzzleImage
+            Texture2D puzzleImage,
+            float elapsedTime = 0
         ) {
             this.localID = localID;
             this.onlineID = onlineID;
@@ -38,9 +41,8 @@ namespace Persistence
             this.author = author;
             this.layout = layout;
             this.chunks = chunks;
-            this.PuzzleImage = puzzleImage;
+            PuzzleImage = puzzleImage;
+            this.elapsedTime = elapsedTime;
         }
-
-       
     }
 }

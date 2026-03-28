@@ -16,16 +16,21 @@ public class Puzzle: MonoBehaviour
     public string Author { get; set; }
     
     public PuzzleLayout Layout { get; set; }
-    public long SolvedPieces { get; private set; }
     
     public Texture2D PuzzleImage { get; set; }
+    public PuzzleRenderData RenderData { get; set; }
     
     private Chunk[] Chunks => GetComponentsInChildren<Chunk>();
-    public long TotalPieces => Chunks.Sum(chunk => chunk.PieceCount);
-    public bool IsOnline => OnlineID != null;
-    public double PercentComplete => (double) SolvedPieces / TotalPieces;
+    
+    private float _elapsedTime;
+    private bool _timeRunning;
 
-    public PuzzleRenderData RenderData { get; set; }
+    public long CurrentConnections => GoalConnections - Chunks.Length + 1;
+    public long GoalConnections => Layout.initialPieceCuts.Count - 1;
+    public bool IsOnline => OnlineID != null;
+    
+    public event Action<float> UpdateTimer;
+    public event Action OnProgressUpdated;
     
     public void InitializePuzzle(PuzzleSaveData saveData, PuzzleRenderData renderData)
     {
@@ -38,6 +43,18 @@ public class Puzzle: MonoBehaviour
         PuzzleImage = saveData.PuzzleImage;
         
         InitializeChunks(saveData);
+
+        _elapsedTime = saveData.elapsedTime;
+        _timeRunning = true;
+    }
+    
+    void Update()
+    {
+        if (!_timeRunning) return;
+        
+        _elapsedTime += Time.deltaTime;
+
+        UpdateTimer?.Invoke(_elapsedTime);
     }
     
     private void InitializeChunks(PuzzleSaveData saveData)
@@ -87,6 +104,11 @@ public class Puzzle: MonoBehaviour
         }
     }
     
+    private void OnTransformChildrenChanged()
+    {
+        OnProgressUpdated?.Invoke();
+    }
+    
     public PuzzleSaveData ToData()
     {
         return new PuzzleSaveData(
@@ -96,7 +118,8 @@ public class Puzzle: MonoBehaviour
             author: Author,
             layout: Layout,
             puzzleImage: PuzzleImage,
-            chunks: Chunks.Select(c => c.ToData()).ToList()
+            chunks: Chunks.Select(c => c.ToData()).ToList(),
+            elapsedTime: _elapsedTime
         );
     }
 }

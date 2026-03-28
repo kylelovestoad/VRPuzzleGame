@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Persistence;
 using PuzzleGeneration;
@@ -118,6 +117,8 @@ public class Piece : MonoBehaviour
 
     public PieceSaveData ToData()
     {
+        Debug.Log(("Saving Piece: " + _cut.pieceIndex));
+        
         return new PieceSaveData
         {
             pieceIndex = _cut.pieceIndex,

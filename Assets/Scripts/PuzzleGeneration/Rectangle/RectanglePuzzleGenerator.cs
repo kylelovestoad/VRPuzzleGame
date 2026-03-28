@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,7 +9,7 @@ namespace PuzzleGeneration.Rectangle
     {
         private const float MaxHorizontalShiftRatio = 0.25f;
     
-        public PuzzleLayout Generate(Texture2D image, int rows, int cols, float puzzleHeight)
+        public void Generate(Texture2D image, int rows, int cols, float puzzleHeight, Action<PuzzleRenderData> onComplete)
         {
             var widthHeightRatio = (float) image.width / image.height;
             var puzzleWidth = puzzleHeight * widthHeightRatio;
@@ -58,7 +59,10 @@ namespace PuzzleGeneration.Rectangle
                 }
             }
         
-            return new PuzzleLayout(puzzleWidth, puzzleHeight, PieceShape.Rectangle, pieceCuts);
+            var layout = new PuzzleLayout(puzzleWidth, puzzleHeight, PieceShape.Rectangle, pieceCuts);
+            var renderData = new PuzzleRenderData(image, layout);
+            
+            onComplete?.Invoke(renderData);
         }
         
         private static List<Vector2> RectanglePieceBorderPoints(

@@ -16,119 +16,119 @@ namespace Seeders
 
         private Puzzle puzzle;
     
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
-        {
-            // RandomPuzzle();
-            // SeedPuzzleSaveData();
-            // LoadPuzzleSaveData();
-            // LoadSavedPuzzle();
-        }
-
-        void LoadSavedPuzzle()
-        {
-            var saveData = LocalSave.Instance.LoadAll().ToList()[0];
-            
-            var backMaterial = new Material(Shader.Find("Unlit/Color"))
-            {
-                color = Color.gray
-            };
-
-            var puzzleRenderData = new PuzzleRenderData(puzzleImage, saveData.layout);
-            
-            var puzzleObject = new GameObject("Puzzle");
-            puzzle = puzzleObject.AddComponent<Puzzle>();
-            
-            puzzle.InitializePuzzle(
-                saveData,
-                puzzleRenderData
-            );
-        }
-
-        void LoadPuzzleSaveData()
-        {
-            var saves = LocalSave.Instance.LoadAll();
-            foreach (var puzzle in saves)
-            {
-                Debug.Log("Puzzle: " + puzzle);
-            }
-        }
-        
-        void SeedPuzzleSaveData()
-        {
-            
-            IPuzzleGenerator jigsawGenerator = new JigsawPuzzleGenerator();
-            IPuzzleGenerator rectangleGenerator = new RectanglePuzzleGenerator();
-            
-            var puzzleSaves = new List<PuzzleSaveData>
-            {
-                new(
-                    null,
-                    null, 
-                    "Mountain Sunset", 
-                    "Alice",
-                    jigsawGenerator.Generate(puzzleImage, 4, 4, 1),
-                    null,
-                    puzzleImage
-                ),
-                new(
-                    null,
-                    null, 
-                    "Ocean Waves", 
-                    "Bob", 
-                    rectangleGenerator.Generate(puzzleImage, 1, 2, 2), 
-                    null,
-                    puzzleImage
-                    ),
-                new(
-                    null,
-                    null, 
-                    "City Lights", 
-                    "Carol", 
-                    rectangleGenerator.Generate(puzzleImage, 2, 10, 1), 
-                    null,
-                    puzzleImage
-                    ),
-            };
-
-            foreach (var puzzleSave in puzzleSaves)
-            {
-                LocalSave.Instance.Create(puzzleSave);
-            }
-
-            Debug.Log("Saving Puzzle...");
-        }
-
-        void RandomPuzzle()
-        {
-            IPuzzleGenerator generator = new RectanglePuzzleGenerator();
-        
-            var backMaterial = new Material(Shader.Find("Unlit/Color"))
-            {
-                color = Color.gray
-            };
-
-            var puzzleLayout = generator.Generate(puzzleImage, 4, 4, 1);
-            var puzzleRenderData = new PuzzleRenderData(puzzleImage, puzzleLayout);
-
-            PuzzleSaveData saveData = new(
-                null,
-                null,
-                "Donkey Kong",
-                "Donkey Kong",
-                puzzleLayout,
-                null,
-                puzzleImage
-            );
-            
-            var puzzleObject = new GameObject("Puzzle");
-            puzzle = puzzleObject.AddComponent<Puzzle>();
-            
-            puzzle.InitializePuzzle(
-                saveData,
-                puzzleRenderData
-            );
-        }
+        // // Start is called once before the first execution of Update after the MonoBehaviour is created
+        // void Start()
+        // {
+        //     // RandomPuzzle();
+        //     // SeedPuzzleSaveData();
+        //     // LoadPuzzleSaveData();
+        //     // LoadSavedPuzzle();
+        // }
+        //
+        // void LoadSavedPuzzle()
+        // {
+        //     var saveData = LocalSave.Instance.LoadAll().ToList()[0];
+        //     
+        //     var backMaterial = new Material(Shader.Find("Unlit/Color"))
+        //     {
+        //         color = Color.gray
+        //     };
+        //
+        //     var puzzleRenderData = new PuzzleRenderData(puzzleImage, saveData.layout);
+        //     
+        //     var puzzleObject = new GameObject("Puzzle");
+        //     puzzle = puzzleObject.AddComponent<Puzzle>();
+        //     
+        //     puzzle.InitializePuzzle(
+        //         saveData,
+        //         puzzleRenderData
+        //     );
+        // }
+        //
+        // void LoadPuzzleSaveData()
+        // {
+        //     var saves = LocalSave.Instance.LoadAll();
+        //     foreach (var puzzle in saves)
+        //     {
+        //         Debug.Log("Puzzle: " + puzzle);
+        //     }
+        // }
+        //
+        // void SeedPuzzleSaveData()
+        // {
+        //     
+        //     IPuzzleGenerator jigsawGenerator = new JigsawPuzzleGenerator();
+        //     IPuzzleGenerator rectangleGenerator = new RectanglePuzzleGenerator();
+        //     
+        //     var puzzleSaves = new List<PuzzleSaveData>
+        //     {
+        //         new(
+        //             null,
+        //             null, 
+        //             "Mountain Sunset", 
+        //             "Alice",
+        //             jigsawGenerator.Generate(puzzleImage, 4, 4, 1).Layout,
+        //             null,
+        //             puzzleImage
+        //         ),
+        //         new(
+        //             null,
+        //             null, 
+        //             "Ocean Waves", 
+        //             "Bob", 
+        //             rectangleGenerator.Generate(puzzleImage, 1, 2, 2).Layout, 
+        //             null,
+        //             puzzleImage
+        //             ),
+        //         new(
+        //             null,
+        //             null, 
+        //             "City Lights", 
+        //             "Carol", 
+        //             rectangleGenerator.Generate(puzzleImage, 2, 10, 1).Layout, 
+        //             null,
+        //             puzzleImage
+        //             ),
+        //     };
+        //
+        //     foreach (var puzzleSave in puzzleSaves)
+        //     {
+        //         LocalSave.Instance.Create(puzzleSave);
+        //     }
+        //
+        //     Debug.Log("Saving Puzzle...");
+        // }
+        //
+        // void RandomPuzzle()
+        // {
+        //     IPuzzleGenerator generator = new RectanglePuzzleGenerator();
+        //
+        //     var backMaterial = new Material(Shader.Find("Unlit/Color"))
+        //     {
+        //         color = Color.gray
+        //     };
+        //
+        //     var puzzleRenderData = generator.Generate(puzzleImage, 4, 4, 1);
+        //     var puzzleLayout = puzzleRenderData.Layout;
+        //
+        //     PuzzleSaveData saveData = new(
+        //         null,
+        //         null,
+        //         "Donkey Kong",
+        //         "Donkey Kong",
+        //         puzzleLayout,
+        //         null,
+        //         puzzleImage
+        //     );
+        //     
+        //     var puzzleObject = new GameObject("Puzzle");
+        //     puzzle = puzzleObject.AddComponent<Puzzle>();
+        //     
+        //     puzzle.InitializePuzzle(
+        //         saveData,
+        //         puzzleRenderData
+        //     );
+        // }
         
         [ContextMenu("Save Puzzle")]
         private void SavePuzzle()

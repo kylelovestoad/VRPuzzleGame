@@ -40,6 +40,8 @@ public class Chunk : MonoBehaviour
         
         var piecesSaveDataList = chunkStateData.pieces;
         var initialPieceCuts = puzzle.Layout.initialPieceCuts;
+
+        Debug.Log("Pieces Len: " + piecesSaveDataList.Count);
         
         foreach (var currPiece in piecesSaveDataList)
         {
@@ -108,7 +110,7 @@ public class Chunk : MonoBehaviour
         }
 
         other.IsMerged = true;
-        DestroyImmediate(other.gameObject);
+        Destroy(other.gameObject);
     }
 
     void OnTriggerStay(Collider other)
@@ -120,7 +122,7 @@ public class Chunk : MonoBehaviour
             || otherChunk.IsMerged
             || Interlocked.Exchange(ref _isCollisionProcedureRunning, 1) == 1)
         {
-            Debug.Log("Short fail " + otherChunk.IsMerged + " " + _isCollisionProcedureRunning);
+            // Debug.Log("Short fail " + otherChunk.IsMerged + " " + _isCollisionProcedureRunning);
             return;
         }
         

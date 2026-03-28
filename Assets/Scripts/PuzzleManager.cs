@@ -13,6 +13,9 @@ public class PuzzleManager : MonoBehaviour
     private Puzzle puzzlePrefab;
 
     private Puzzle _currentPuzzle;
+    
+    public event Action<Puzzle> OnPuzzleOpened;
+    public event Action OnPuzzleClosed;
 
     private void Awake()
     {
@@ -32,14 +35,18 @@ public class PuzzleManager : MonoBehaviour
             puzzleSaveData,
             puzzleRenderData
         );
+        
+        OnPuzzleOpened?.Invoke(_currentPuzzle);
     }
     
     public void CloseCurrentPuzzle()
     {
         var saveData = _currentPuzzle.ToData();
         LocalSave.Instance.SaveSkipImage(saveData);
-        
-        DestroyImmediate(_currentPuzzle.gameObject);
+    
+        Destroy(_currentPuzzle.gameObject);
         _currentPuzzle = null;
+    
+        OnPuzzleClosed?.Invoke();
     }
 }

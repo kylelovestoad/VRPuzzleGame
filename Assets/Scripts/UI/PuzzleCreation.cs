@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Networking;
+using Networking.Request;
 using Oculus.Interaction.Samples;
 using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
 
 namespace UI
 {
@@ -17,8 +18,7 @@ namespace UI
         public TMP_InputField columnsInputField;
         public DropDownGroup dropdown;
         public Button createButton;
-        
-        // TODO: upload
+
         public Texture2D puzzleImage;
         public Texture2D realImage;
 
@@ -37,15 +37,15 @@ namespace UI
         {
             var puzzleName = nameInputField.text;
             var selected = dropdown.SelectedIndex;
-            
+
             if (!Enum.IsDefined(typeof(PieceShape), selected))
             {
                 Debug.LogWarning("Invalid shape");
                 return;
             }
-            
-            var selectedShape = (PieceShape) selected;
-            
+
+            var selectedShape = (PieceShape)selected;
+
             if (string.IsNullOrWhiteSpace(puzzleName))
             {
                 Debug.LogWarning("Name field cannot be empty");
@@ -58,7 +58,7 @@ namespace UI
                 Debug.LogWarning("Row field cannot be empty");
                 return;
             }
-            
+
             var notParsedColumns = !int.TryParse(columnsInputField.text, out var columns);
             if (notParsedColumns)
             {
@@ -68,15 +68,55 @@ namespace UI
 
             var generator = selectedShape.Generator();
             
-            LocalSave.Instance.Create(new PuzzleSaveData(
-                null,
-                null,
-                puzzleName,
-                "DK", // TODO author will be handled with meta quest account
-                generator.Generate(puzzleImage, rows, columns, 0.3f),
-                new List<ChunkSaveData>(),
-                puzzleImage // TODO this will be uploaded
-            ));
+            generator.Generate(puzzleImage, rows, columns, 0.3f, renderData =>
+            {
+                LocalSave.Instance.Create(new PuzzleSaveData(
+                    null,
+                    null,
+                    puzzleName,
+                    "DK",
+                    renderData.Layout,
+                    new List<ChunkSaveData>(),
+                    puzzleImage
+                ));
+            });
+        }
+
+        private bool ValidateInputs(out string puzzleName, out int rows, out int columns, out PieceShape selectedShape)
+        {
+            puzzleName = nameInputField.text;
+            rows = 0;
+            columns = 0;
+            selectedShape = default;
+
+            var selected = dropdown.SelectedIndex;
+            if (!Enum.IsDefined(typeof(PieceShape), selected))
+            {
+                Debug.LogWarning("Invalid shape");
+                return false;
+            }
+
+            selectedShape = (PieceShape)selected;
+
+            if (string.IsNullOrWhiteSpace(puzzleName))
+            {
+                Debug.LogWarning("Name field cannot be empty");
+                return false;
+            }
+
+            if (!int.TryParse(rowsInputField.text, out rows))
+            {
+                Debug.LogWarning("Row field cannot be empty");
+                return false;
+            }
+
+            if (!int.TryParse(columnsInputField.text, out columns))
+            {
+                Debug.LogWarning("Col field cannot be empty");
+                return false;
+            }
+
+            return true;
         }
     }
 }

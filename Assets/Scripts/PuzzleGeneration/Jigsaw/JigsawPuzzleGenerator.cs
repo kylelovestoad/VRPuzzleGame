@@ -7,15 +7,20 @@ namespace PuzzleGeneration.Jigsaw
 {
     public class JigsawPuzzleGenerator : IPuzzleGenerator
     {
-        public PuzzleLayout Generate(Texture2D image, int rows, int cols, float puzzleHeight)
-        {
-            float widthHeightRatio = (float) image.width / image.height;
-            float puzzleWidth = puzzleHeight * widthHeightRatio;
+        public void Generate(
+            Texture2D image, 
+            int rows, 
+            int cols, 
+            float puzzleHeight, 
+            Action<PuzzleRenderData> onComplete
+        ) {
+            var widthHeightRatio = (float) image.width / image.height;
+            var puzzleWidth = puzzleHeight * widthHeightRatio;
             
-            float pieceWidth = puzzleWidth / cols;
-            float pieceHeight = puzzleHeight / rows;
+            var pieceWidth = puzzleWidth / cols;
+            var pieceHeight = puzzleHeight / rows;
 
-            List<PieceCut> pieceCuts = new List<PieceCut>();
+            var pieceCuts = new List<PieceCut>();
             List<JigsawPieceBorder> prevRowBorders = null;
         
             for (int r = 0; r < rows; r++)
@@ -23,10 +28,10 @@ namespace PuzzleGeneration.Jigsaw
                 float leftBoundary = 0;
                 var currRowBorders = new List<JigsawPieceBorder>();
 
-                for (int c = 0; c < cols; c++)
+                for (var c = 0; c < cols; c++)
                 {
-                    float rightBoundary = pieceWidth * (c + 1);
-                    Vector3 solutionLocation = new Vector3(leftBoundary, pieceHeight * r, 0);
+                    var rightBoundary = pieceWidth * (c + 1);
+                    var solutionLocation = new Vector3(leftBoundary, pieceHeight * r, 0);
 
                     System.Diagnostics.Debug.Assert(prevRowBorders != null, nameof(prevRowBorders) + " != null");
 
@@ -56,7 +61,7 @@ namespace PuzzleGeneration.Jigsaw
                     
                     var borderPoints = JigsawPieceBorderPoints(border);
                     
-                    int pieceIndex = pieceCuts.Count;
+                    var pieceIndex = pieceCuts.Count;
                     
                     var neighbors = new List<int>();
                     
@@ -65,7 +70,7 @@ namespace PuzzleGeneration.Jigsaw
                     if (c > 0) neighbors.Add(pieceIndex - 1);
                     if (c < cols - 1) neighbors.Add(pieceIndex + 1);
                     
-                    PieceCut cut = new PieceCut(pieceIndex, neighbors, solutionLocation, borderPoints);
+                    var cut = new PieceCut(pieceIndex, neighbors, solutionLocation, borderPoints);
                     pieceCuts.Add(cut);
                     
                     leftBoundary = rightBoundary;
@@ -74,7 +79,10 @@ namespace PuzzleGeneration.Jigsaw
                 prevRowBorders = currRowBorders;
             }
         
-            return new PuzzleLayout(puzzleWidth, puzzleHeight, PieceShape.Jigsaw, pieceCuts);
+            var layout = new PuzzleLayout(puzzleWidth, puzzleHeight, PieceShape.Jigsaw, pieceCuts);
+            var renderData = new PuzzleRenderData(image, layout);
+            
+            onComplete?.Invoke(renderData);
         }
 
         private static List<Vector2> JigsawPieceBorderPoints(JigsawPieceBorder border)
