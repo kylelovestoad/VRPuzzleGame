@@ -10162,7 +10162,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4455134865496526808, guid: ac2e09824bbe6da42bff68e86401d411, type: 3}
       propertyPath: m_Text
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4455134865496526808, guid: ac2e09824bbe6da42bff68e86401d411, type: 3}
       propertyPath: m_ContentType
@@ -10182,7 +10182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4455134865966531833, guid: ac2e09824bbe6da42bff68e86401d411, type: 3}
       propertyPath: m_text
-      value: "6\u200B"
+      value: "4\u200B"
       objectReference: {fileID: 0}
     - target: {fileID: 4455134865966531833, guid: ac2e09824bbe6da42bff68e86401d411, type: 3}
       propertyPath: m_isRightToLeft
@@ -11520,7 +11520,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4455134865496526808, guid: ac2e09824bbe6da42bff68e86401d411, type: 3}
       propertyPath: m_Text
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4455134865496526808, guid: ac2e09824bbe6da42bff68e86401d411, type: 3}
       propertyPath: m_ContentType
@@ -11540,7 +11540,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4455134865966531833, guid: ac2e09824bbe6da42bff68e86401d411, type: 3}
       propertyPath: m_text
-      value: "2\u200B"
+      value: "4\u200B"
       objectReference: {fileID: 0}
     - target: {fileID: 4455134865966531833, guid: ac2e09824bbe6da42bff68e86401d411, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
@@ -12653,7 +12653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: PuzzleGameScripts::UI.HUD
   exitButton: {fileID: 4210545}
-  timerField: {fileID: 0}
+  timerField: {fileID: 331782349691096544}
 --- !u!1 &657161513
 GameObject:
   m_ObjectHideFlags: 0

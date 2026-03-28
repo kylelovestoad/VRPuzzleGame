@@ -66,7 +66,7 @@ namespace UI
                 return;
             }
 
-            var generator = selectedShape.Generator();
+            var generator = PieceShape.Hexagon.Generator();
             
             generator.Generate(puzzleImage, rows, columns, 0.3f, renderData =>
             {
