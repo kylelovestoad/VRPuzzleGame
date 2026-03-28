@@ -16,22 +16,21 @@ public class Puzzle: MonoBehaviour
     public string Author { get; set; }
     
     public PuzzleLayout Layout { get; set; }
-    public long SolvedPieces { get; private set; }
     
     public Texture2D PuzzleImage { get; set; }
+    public PuzzleRenderData RenderData { get; set; }
     
     private Chunk[] Chunks => GetComponentsInChildren<Chunk>();
     
-    public event Action<float> UpdateTimer;
     private float _elapsedTime;
     private bool _timeRunning;
-    
-    
-    public long TotalPieces => Chunks.Sum(chunk => chunk.PieceCount);
-    public bool IsOnline => OnlineID != null;
-    public double PercentComplete => (double) SolvedPieces / TotalPieces;
 
-    public PuzzleRenderData RenderData { get; set; }
+    public long CurrentConnections => GoalConnections - Chunks.Length + 1;
+    public long GoalConnections => Layout.initialPieceCuts.Count - 1;
+    public bool IsOnline => OnlineID != null;
+    
+    public event Action<float> UpdateTimer;
+    public event Action OnProgressUpdated;
     
     public void InitializePuzzle(PuzzleSaveData saveData, PuzzleRenderData renderData)
     {
@@ -103,6 +102,11 @@ public class Puzzle: MonoBehaviour
         
             chunk.InitializeMultiplePieceChunk(chunkSaveData, this);
         }
+    }
+    
+    private void OnTransformChildrenChanged()
+    {
+        OnProgressUpdated?.Invoke();
     }
     
     public PuzzleSaveData ToData()

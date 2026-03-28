@@ -12654,6 +12654,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: PuzzleGameScripts::UI.HUD
   exitButton: {fileID: 4210545}
   timerField: {fileID: 331782349691096544}
+  progressPercentField: {fileID: 5871006960078327968}
+  progressConnectionsField: {fileID: 7825325554237784018}
 --- !u!1 &657161513
 GameObject:
   m_ObjectHideFlags: 0

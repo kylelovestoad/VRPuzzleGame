@@ -9,8 +9,15 @@ namespace UI
     public class HUD : MonoBehaviour
     {
         public Button exitButton;
+        
         [SerializeField]
         private TMP_Text timerField;
+        [SerializeField]
+        private TMP_Text progressPercentField;
+        [SerializeField]
+        private TMP_Text progressConnectionsField;
+        
+        private Puzzle _currentPuzzle;
         
         public void Start()
         {
@@ -24,20 +31,44 @@ namespace UI
             exitButton.onClick.RemoveListener(OnExit);
             
             PuzzleManager.Instance.OnPuzzleOpened -= OnPuzzleOpened;
+            PuzzleManager.Instance.OnPuzzleClosed += OnPuzzleClosed;
         }
         
-        public void OnPuzzleOpened(Puzzle puzzle)
+        private void OnPuzzleOpened(Puzzle puzzle)
         {
-            puzzle.UpdateTimer += OnTimerUpdate;
+            _currentPuzzle = puzzle;
+            _currentPuzzle.UpdateTimer += OnTimerUpdate;
+            _currentPuzzle.OnProgressUpdated += OnProgressUpdated;
+            
+            progressPercentField.text = "0%";
+            progressConnectionsField.text = $"0/{puzzle.GoalConnections}";
+        }
+        
+        private void OnPuzzleClosed()
+        {
+            _currentPuzzle.UpdateTimer -= OnTimerUpdate;
+            _currentPuzzle = null;
+            timerField.text = "";
         }
 
-        public void OnTimerUpdate(float timeRemaining)
+        private void OnTimerUpdate(float timeRemaining)
         {
             var time = TimeSpan
                 .FromSeconds(timeRemaining)
                 .ToString(@"m\:ss");
             
             timerField.text = time;
+        }
+        
+        private void OnProgressUpdated()
+        {
+            var currConnections = _currentPuzzle.CurrentConnections;
+            var goalConnections = _currentPuzzle.GoalConnections;
+                
+            var percentComplete = (float) currConnections / goalConnections * 100;
+            
+            progressPercentField.text = $"{percentComplete:F0}%";
+            progressConnectionsField.text = $"{currConnections}/{goalConnections}";
         }
 
         [ContextMenu("Exit Puzzle")]
