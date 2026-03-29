@@ -43,8 +43,10 @@ public class Piece : MonoBehaviour
         
         Debug.Log("Here 1!!!!!!!!!");
         
-        Vector2 uvScale = new Vector2(pieceWidth / puzzleLayout.width, pieceHeight / puzzleLayout.height);
-        Vector2 uvOffset = new Vector2(
+        Debug.Log($"Puzzle Width: {puzzleLayout.width}, Puzzle Height: {puzzleLayout.height}");
+        
+        var uvScale = new Vector2(pieceWidth / puzzleLayout.width, pieceHeight / puzzleLayout.height);
+        var uvOffset = new Vector2(
             (pieceSolutionLocation.x + pieceBounds.min.x) / puzzleLayout.width,
             (pieceSolutionLocation.y + pieceBounds.min.y) / puzzleLayout.height
         );

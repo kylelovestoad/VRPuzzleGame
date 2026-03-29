@@ -66,9 +66,9 @@ namespace UI
                 return;
             }
 
-            var generator = selectedShape.Generator();
+            var generator = PieceShape.Real.Generator();
             
-            generator.Generate(puzzleImage, rows, columns, 0.3f, renderData =>
+            generator.Generate(realImage, rows, columns, 0.3f, renderData =>
             {
                 LocalSave.Instance.Create(new PuzzleSaveData(
                     null,
@@ -77,7 +77,7 @@ namespace UI
                     "DK",
                     renderData.Layout,
                     new List<ChunkSaveData>(),
-                    puzzleImage
+                    renderData.PuzzleImage
                 ));
             });
         }

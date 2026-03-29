@@ -9,6 +9,8 @@ public class PuzzleResponse
 {
     public string solvedPuzzleImage;
     public List<PieceResponse> initialPieceCuts;
+    public float puzzleWidth;
+    public float puzzleHeight;
     
     // TODO: probably make utility class could see a lot of repeated
     private byte[] GetImageBytes() => Convert.FromBase64String(solvedPuzzleImage);
@@ -27,11 +29,8 @@ public class PuzzleResponse
     {
         var image = PuzzleImageTexture2D();
         
-        var imageWidth = image.width;
-        var imageHeight = image.height;
-        
         var pieceCuts = initialPieceCuts.Select(pieceResponse => pieceResponse.ToPieceCut()).ToList();
-        var layout = new PuzzleLayout(0.3f, 0.3f * imageHeight / imageWidth, PieceShape.Real, pieceCuts);
+        var layout = new PuzzleLayout(puzzleWidth, puzzleHeight, PieceShape.Real, pieceCuts);
         
         var renderData = new PuzzleRenderData(image, layout);
         
