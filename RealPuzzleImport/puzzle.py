@@ -19,23 +19,36 @@ CONNECTED_NEIGHBORS = 8
 GAUSSIAN_BLUR_KERNEL_SIZE = (7, 7)
 GAUSSIAN_BLUR_SIGMA_X = 0
 SEGMENTATION_GRAYSCALE_THRESHOLD = 127
+PUZZLE_GAME_HEIGHT = 0.3
 
 
 class Puzzle:
     image: ndarray
     piece_mask: ndarray
     pieces: list[Piece]
+    game_height: float
 
     def __init__(self, image, piece_mask, pieces):
         self.image = image
         self.piece_mask = piece_mask
         self.pieces = pieces
+        self.game_height = PUZZLE_GAME_HEIGHT
 
     def __iter__(self):
         return iter(self.pieces)
 
     def piece_count(self):
         return len(self.pieces)
+
+    def width_height_ratio(self):
+        height, width = self.image.shape[:2]
+
+        return width / height
+
+    def game_width_and_height(self):
+        ratio = self.width_height_ratio()
+
+        return self.game_height * ratio, self.game_height
 
     def generate_solved_image(self) -> str:
         rows, cols = self.image.shape[:2]
@@ -229,8 +242,8 @@ def _get_pieces(image, piece_mask):
 
     pieces = []
 
-    for contour in noisy_contours:
-        piece = piece_from_contour(image, piece_mask, contour)
+    for i, contour in enumerate(noisy_contours):
+        piece = piece_from_contour(image, piece_mask, i, contour)
         pieces.append(piece)
 
     return pieces

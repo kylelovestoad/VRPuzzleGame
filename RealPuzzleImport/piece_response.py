@@ -56,7 +56,7 @@ def _get_border_points_response(border_points):
     return border_points_response
 
 
-def is_clockwise(contour: np.ndarray) -> bool:
+def _is_clockwise(contour: np.ndarray) -> bool:
     x = contour[0, :]
     y = contour[1, :]
 
@@ -66,27 +66,15 @@ def is_clockwise(contour: np.ndarray) -> bool:
 
 
 def get_piece_response(piece: Piece) -> PieceResponse:
+    local_border_points = piece.local_border_points
+    assert _is_clockwise(local_border_points)
+
     solution_location = _get_solution_location_response(piece.solution_location)
     border_points = _get_border_points_response(piece.local_border_points)
 
-    x, y = piece.local_border_points
-    print(max(x), min(x), max(y), min(y))
-    print(solution_location)
-
-    import numpy as np
-    import matplotlib.pyplot as plt
-
-    data = piece.local_border_points
-
-    plt.plot(data[0], data[1])
-    plt.show()
-
-    assert is_clockwise(data)
-    print(f"Clockwise {is_clockwise(data)}")
-
     return PieceResponse.model_validate({
-        "piece_index": 0, # TODO: fill in
-        "neighbor_indices": [], # TODO: fill in
+        "piece_index": piece.piece_index,
+        "neighbor_indices": piece.neighbors,
         "solution_location": solution_location,
         "border_points": border_points,
     })

@@ -53,12 +53,13 @@ class CaveSection:
 
 
 class Piece:
-    original_contour: ndarray
     spline: PieceSpline
+    original_contour: ndarray
     outline_colors: ndarray
     outline_points: list[tuple]
     piece_hull_sections: list[HullSection]
     piece_caves: list[CaveSection]
+    piece_index: int
 
     # only added later when computing solution
     chunk_idx: int
@@ -67,29 +68,29 @@ class Piece:
     used_caves: list[bool]
     solution_location: ndarray
     local_border_points: ndarray
+    neighbors: list[int]
 
     def __init__(
         self,
-        original_contour: ndarray,
         spline: PieceSpline,
         outline_colors: ndarray,
         outline_points: list[tuple],
         piece_hull_sections: list[HullSection],
-        piece_caves: list[CaveSection]
+        piece_caves: list[CaveSection],
+        index: int
     ):
-        self.original_contour = original_contour
         self.spline = spline
+        self.original_contour = self.spline.to_contour()
         self.outline_colors = outline_colors
         self.outline_points = outline_points
         self.piece_hull_sections = piece_hull_sections
         self.piece_caves = piece_caves
+        self.piece_index = index
+        self.neighbors = []
 
     def get_placement(self, param):
-        return self.transform_segment(param, self.transformation)
-
-    def transform_segment(self, segment_param, transformation):
-        points = self.spline(segment_param)
-        transformed = transformation(points)
+        points = self.spline(param)
+        transformed = self.transformation(points)
 
         return transformed
 
@@ -116,14 +117,18 @@ class Piece:
 
         return original_points, final_points
 
-    def to_contour(self):
-        return self.spline.to_contour()
-
     def attach_state(self, chunk_idx):
         self.chunk_idx = chunk_idx
         self.transformation = IDENTITY_TRANSFORMATION
         self.used_piece_hull_sections = [False] * len(self.piece_hull_sections)
         self.used_caves = [False] * len(self.piece_caves)
+
+    def assign_neighbors(self, other):
+        self.neighbors.append(other.piece_index)
+        other.neighbors.append(self.piece_index)
+
+    def is_neighbor(self, other):
+        return other.piece_index in self.neighbors
 
 
 def _get_cumulative_smooth_distances(x, y):
@@ -232,18 +237,16 @@ def _get_piece_outline_colors(image, piece_mask, piece_spline):
     return outline_colors, outline_points
 
 
-def piece_from_contour(image, piece_mask, contour):
-    print(len(contour))
-
+def piece_from_contour(image, piece_mask, piece_index, contour):
     piece_spline = _get_piece_spline(contour)
     piece_hull_sections, piece_caves = _get_piece_sections(piece_spline)
     outline_colors, outline_points = _get_piece_outline_colors(image, piece_mask, piece_spline)
 
     return Piece(
-        contour,
         piece_spline,
         outline_colors,
         outline_points,
         piece_hull_sections,
-        piece_caves
+        piece_caves,
+        piece_index
     )
