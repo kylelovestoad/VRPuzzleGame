@@ -4,6 +4,7 @@ using System.Linq;
 using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Puzzle: MonoBehaviour
 {
@@ -22,11 +23,13 @@ public class Puzzle: MonoBehaviour
     
     private Chunk[] Chunks => GetComponentsInChildren<Chunk>();
     
-    private float _elapsedTime;
+    public float ElapsedTime { get; private set; }
     private bool _timeRunning;
 
     public long CurrentConnections => GoalConnections - Chunks.Length + 1;
     public long GoalConnections => Layout.initialPieceCuts.Count - 1;
+    public bool IsCompleted => CurrentConnections == GoalConnections;
+    
     public bool IsOnline => OnlineID != null;
     
     public event Action<float> UpdateTimer;
@@ -44,7 +47,7 @@ public class Puzzle: MonoBehaviour
         
         InitializeChunks(saveData);
 
-        _elapsedTime = saveData.elapsedTime;
+        ElapsedTime = saveData.elapsedTime;
         _timeRunning = true;
     }
     
@@ -52,9 +55,9 @@ public class Puzzle: MonoBehaviour
     {
         if (!_timeRunning) return;
         
-        _elapsedTime += Time.deltaTime;
+        ElapsedTime += Time.deltaTime;
 
-        UpdateTimer?.Invoke(_elapsedTime);
+        UpdateTimer?.Invoke(ElapsedTime);
     }
     
     private void InitializeChunks(PuzzleSaveData saveData)
@@ -106,6 +109,7 @@ public class Puzzle: MonoBehaviour
     
     private void OnTransformChildrenChanged()
     {
+        _timeRunning = _timeRunning && !IsCompleted;
         OnProgressUpdated?.Invoke();
     }
     
@@ -119,7 +123,7 @@ public class Puzzle: MonoBehaviour
             layout: Layout,
             puzzleImage: PuzzleImage,
             chunks: Chunks.Select(c => c.ToData()).ToList(),
-            elapsedTime: _elapsedTime
+            elapsedTime: ElapsedTime
         );
     }
 }

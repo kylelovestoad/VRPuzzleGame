@@ -1,6 +1,7 @@
 using System;
 using Persistence;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PuzzleManager : MonoBehaviour
 {
@@ -12,9 +13,9 @@ public class PuzzleManager : MonoBehaviour
     [SerializeField] 
     private Puzzle puzzlePrefab;
 
-    private Puzzle _currentPuzzle;
+    public Puzzle CurrentPuzzle { get; private set; }
     
-    public event Action<Puzzle> OnPuzzleOpened;
+    public event Action OnPuzzleOpened;
     public event Action OnPuzzleClosed;
 
     private void Awake()
@@ -29,24 +30,24 @@ public class PuzzleManager : MonoBehaviour
             puzzleSaveData.layout
         );
             
-        _currentPuzzle = Instantiate(puzzlePrefab);
+        CurrentPuzzle = Instantiate(puzzlePrefab);
         
-        _currentPuzzle.InitializePuzzle(
+        CurrentPuzzle.InitializePuzzle(
             puzzleSaveData,
             puzzleRenderData
         );
         
-        OnPuzzleOpened?.Invoke(_currentPuzzle);
+        OnPuzzleOpened?.Invoke();
     }
     
     public void CloseCurrentPuzzle()
     {
-        var saveData = _currentPuzzle.ToData();
+        var saveData = CurrentPuzzle.ToData();
         LocalSave.Instance.SaveSkipImage(saveData);
-    
-        Destroy(_currentPuzzle.gameObject);
-        _currentPuzzle = null;
-    
+        
         OnPuzzleClosed?.Invoke();
+        
+        Destroy(CurrentPuzzle.gameObject);
+        CurrentPuzzle = null;
     }
 }
