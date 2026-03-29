@@ -90,8 +90,6 @@ namespace UI
             var valid = TryGetFormInput(out var form);
             if (!valid) return;
 
-            var generator = form.Shape.Generator();
-
             var generator = selectedShape.Generator();
 
             generator.Generate(realImage, rows, columns, PuzzleGameHeight, renderData =>

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Persistence;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI
@@ -6,21 +7,37 @@ namespace UI
     // TODO add logic from gallery tile to this since tile click brings you to this UI
     public class PuzzleInfo : MonoBehaviour
     {
-        public Button button;
+        [SerializeField] 
+        private Button button;
+        
+        [SerializeField]
+        private Image puzzleImage;
 
-        public void Start()
+        private PuzzleSaveData _puzzleSaveData;
+
+        private void Start()
         {
             button.onClick.AddListener(OnPlay);
         }
 
-        public void OnDestroy()
+        private void OnDestroy()
         {
             button.onClick.RemoveListener(OnPlay);
         }
-
-        private static void OnPlay()
+        
+        public void SetVisible(PuzzleSaveData puzzleSaveData)
         {
+            _puzzleSaveData = puzzleSaveData;
+            puzzleImage.sprite = UIUtils.PuzzleImageSprite(puzzleSaveData);
+        
+            _puzzleSaveData = puzzleSaveData;
             
+            gameObject.SetActive(true);
+        }
+
+        private void OnPlay()
+        {
+            PuzzleManager.Instance.OpenPuzzle(_puzzleSaveData);
         } 
     }
 }

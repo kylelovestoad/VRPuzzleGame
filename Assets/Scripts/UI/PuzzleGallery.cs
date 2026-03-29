@@ -9,14 +9,17 @@ namespace UI
     {
         [SerializeField]
         private PuzzleGalleryTile puzzleGalleryItemPrefab;
+        
+        [SerializeField]
+        private GameObject puzzleGalleryItemContainer;
 
-        public void Start()
+        private void Start()
         {
             FillPuzzles();
             LocalSave.Instance.OnSaved += OnPuzzleSaved;
         }
 
-        public void OnDestroy()
+        private void OnDestroy()
         {
             LocalSave.Instance.OnSaved -= OnPuzzleSaved;
         }
@@ -32,10 +35,13 @@ namespace UI
 
             foreach (var puzzleSaveData in p)
             {
-                var galleryTile = Instantiate(puzzleGalleryItemPrefab, transform, false);
-            
-                galleryTile.gameObject.SetActive(true);
-                galleryTile.SetFields(puzzleSaveData);
+                var galleryTile = Instantiate(
+                    puzzleGalleryItemPrefab, 
+                    puzzleGalleryItemContainer.transform, 
+                    false
+                );
+
+                galleryTile.SetVisible(puzzleSaveData);
             }
         }
 
@@ -46,7 +52,7 @@ namespace UI
             
             foreach (var tile in tiles)
             {
-                DestroyImmediate(tile.gameObject);
+                Destroy(tile.gameObject);
             }
             
             FillPuzzles();

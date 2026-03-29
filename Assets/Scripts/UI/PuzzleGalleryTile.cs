@@ -15,19 +15,14 @@ namespace UI
 
         private PuzzleSaveData _puzzleSaveData;
 
-        public void SetFields(PuzzleSaveData puzzleSaveData)
+        public void SetVisible(PuzzleSaveData puzzleSaveData)
         {
             puzzleNameLabel.text = puzzleSaveData.name;
-        
-            var puzzleImageTexture = puzzleSaveData.PuzzleImage;
-            var puzzleImageSprite = Sprite.Create(
-                puzzleImageTexture,
-                new Rect(0, 0, puzzleImageTexture.width, puzzleImageTexture.height), 
-                Vector2.zero
-            );
-            puzzleImage.sprite = puzzleImageSprite;
+            puzzleImage.sprite = UIUtils.PuzzleImageSprite(puzzleSaveData);
         
             _puzzleSaveData = puzzleSaveData;
+            
+            gameObject.SetActive(true);
         }
     
         [ContextMenu("Open Puzzle")]
