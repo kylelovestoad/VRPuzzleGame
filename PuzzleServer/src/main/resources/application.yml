@@ -1,11 +1,17 @@
 spring:
   application:
     name: puzzleserver
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 30MB
   data:
     mongodb:
       auto-index-creation: true
   mongodb:
     uri: ${MONGODB_URI:mongodb://localhost:27017/puzzleserver}
+server:
+  port: 25565
 logging:
   level:
     com.vrpuzzle.puzzleserver: DEBUG

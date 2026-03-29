@@ -1,75 +1,99 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Networking;
 using Networking.Request;
+using NUnit.Framework.Internal;
 using Oculus.Interaction.Samples;
 using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
+using EditorAttributes;
+using Void = EditorAttributes.Void;
 
 namespace UI
 {
     public class PuzzleCreationBehaviour : MonoBehaviour
     {
         private const float PuzzleGameHeight = 0.3f;
-        
-        public TMP_InputField nameInputField;
-        public TMP_InputField rowsInputField;
-        public TMP_InputField columnsInputField;
-        public DropDownGroup dropdown;
-        public Button createButton;
+
+        [FoldoutGroup("UI",
+            nameof(nameInputField),
+            nameof(rowsInputField),
+            nameof(columnsInputField),
+            nameof(dropdown),
+            nameof(createButton),
+            nameof(uploadButton)
+        )]
+        [SerializeField] private Void groupHolder;
+
+        [SerializeField, HideProperty] public TMP_InputField nameInputField;
+        [SerializeField, HideProperty] public TMP_InputField rowsInputField;
+        [SerializeField, HideProperty] public TMP_InputField columnsInputField;
+        [SerializeField, HideProperty] public DropDownGroup dropdown;
+        [SerializeField, HideProperty] public Button createButton;
+        [SerializeField, HideProperty] public Button uploadButton;
 
         public Texture2D puzzleImage;
         public Texture2D realImage;
 
+        private class PuzzleCreationForm
+        {
+            public readonly string Name;
+            public readonly PieceShape Shape;
+            public readonly int Rows;
+            public readonly int Columns;
+
+            public PuzzleCreationForm(string name, PieceShape shape, int rows, int columns)
+            {
+                Name = name;
+                Shape = shape;
+                Rows = rows;
+                Columns = columns;
+            }
+        }
+
         public void Start()
         {
             createButton.onClick.AddListener(OnCreate);
+            uploadButton.onClick.AddListener(OnUpload);
         }
 
         public void OnDestroy()
         {
             createButton.onClick.RemoveListener(OnCreate);
+            uploadButton.onClick.RemoveListener(OnUpload);
         }
 
-        [ContextMenu("Create Puzzle")]
+
+        private bool TryGetFormInput(out PuzzleCreationForm input)
+        {
+            input = null;
+
+            if (string.IsNullOrWhiteSpace(nameInputField.text)) return false;
+            if (!Enum.IsDefined(typeof(PieceShape), dropdown.SelectedIndex)) return false;
+            if (!int.TryParse(rowsInputField.text, out var rows)) return false;
+            if (!int.TryParse(columnsInputField.text, out var columns)) return false;
+
+            input = new PuzzleCreationForm(nameInputField.text, (PieceShape)dropdown.SelectedIndex, rows, columns);
+            return true;
+        }
+
+        [Button("Create Puzzle")]
         private void OnCreate()
         {
-            var puzzleName = nameInputField.text;
-            var selected = dropdown.SelectedIndex;
 
-            if (!Enum.IsDefined(typeof(PieceShape), selected))
-            {
-                Debug.LogWarning("Invalid shape");
-                return;
-            }
+            var valid = TryGetFormInput(out var form);
+            if (!valid) return;
 
-            var selectedShape = (PieceShape)selected;
-
-            if (string.IsNullOrWhiteSpace(puzzleName))
-            {
-                Debug.LogWarning("Name field cannot be empty");
-                return;
-            }
-
-            var notParsedRows = !int.TryParse(rowsInputField.text, out var rows);
-            if (notParsedRows)
-            {
-                Debug.LogWarning("Row field cannot be empty");
-                return;
-            }
-
-            var notParsedColumns = !int.TryParse(columnsInputField.text, out var columns);
-            if (notParsedColumns)
-            {
-                Debug.LogWarning("Col field cannot be empty");
-                return;
-            }
+            var generator = form.Shape.Generator();
 
             var generator = selectedShape.Generator();
-            
+
             generator.Generate(realImage, rows, columns, PuzzleGameHeight, renderData =>
             {
                 LocalSave.Instance.Create(new PuzzleSaveData(
@@ -84,41 +108,20 @@ namespace UI
             });
         }
 
-        private bool ValidateInputs(out string puzzleName, out int rows, out int columns, out PieceShape selectedShape)
+        [Button("Upload Puzzle")]
+
+        public async void OnUpload()
         {
-            puzzleName = nameInputField.text;
-            rows = 0;
-            columns = 0;
-            selectedShape = default;
+            var valid = TryGetFormInput(out var form);
+            if (!valid) return;
 
-            var selected = dropdown.SelectedIndex;
-            if (!Enum.IsDefined(typeof(PieceShape), selected))
-            {
-                Debug.LogWarning("Invalid shape");
-                return false;
-            }
+            var generator = form.Shape.Generator();
 
-            selectedShape = (PieceShape)selected;
-
-            if (string.IsNullOrWhiteSpace(puzzleName))
-            {
-                Debug.LogWarning("Name field cannot be empty");
-                return false;
-            }
-
-            if (!int.TryParse(rowsInputField.text, out rows))
-            {
-                Debug.LogWarning("Row field cannot be empty");
-                return false;
-            }
-
-            if (!int.TryParse(columnsInputField.text, out columns))
-            {
-                Debug.LogWarning("Col field cannot be empty");
-                return false;
-            }
-
-            return true;
+            var puzzle = await PuzzleServerApi.Instance.CreatePuzzle(new CreatePuzzleRequest(
+                form.Name,
+                PuzzleServerApi.Instance.Manager.User.DisplayName,
+                generator.Generate(puzzleImage, form.Rows, form.Columns, 0.3f)
+            ), puzzleImage);
         }
     }
 }

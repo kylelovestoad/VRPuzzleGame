@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -10,25 +12,54 @@ using UnityEngine.Networking;
 
 namespace Networking
 {
-    public class PuzzleServerApi : MonoBehaviour
+    public class PuzzleServerApi
     {
-        public MetaQuestAuthenticationManager manager;
+        
+        private static PuzzleServerApi _instance;
+        public static PuzzleServerApi Instance => _instance ?? throw new NullReferenceException("There must be one instance of PuzzleServerApi");
 
-        [SerializeField] private string baseUrl = "http://localhost:8080";
+        public readonly MetaQuestAuthenticationManager Manager;
+
+        private readonly string _baseUrl;
 
         private const string PuzzlesEndpoint = "/api/puzzles";
         private const string ContentEndpoint = "/api/content";
-
-        private void AddAuthHeaders(UnityWebRequest request)
+        
+        private PuzzleServerApi(MetaQuestAuthenticationManager manager, string baseUrl)
         {
-            request.SetRequestHeader("X-Meta-User-Id", manager.UserId);
-            request.SetRequestHeader("X-Meta-Nonce", manager.Nonce);
+            Manager = manager;
+            _baseUrl = baseUrl;
+        }
+
+        public static void Initialize(MetaQuestAuthenticationManager manager, string baseUrl)
+        {
+            if (_instance != null)
+            {
+                throw new InvalidOperationException("PuzzleServerApi has already been initialized");
+            }
+
+            _instance = new PuzzleServerApi(manager, baseUrl);
+        }
+
+        public static void Shutdown()
+        {
+            _instance = null;
+        }
+
+        private async Task AddAuthHeaders(UnityWebRequest request)
+        {
+            if (Manager.User == null)
+            {
+                throw new InvalidCredentialException("User is not logged in");
+            }
+            request.SetRequestHeader("Puzzle-Meta-User-Id", Manager.User.ID.ToString());
+            request.SetRequestHeader("Puzzle-Meta-Nonce", await Manager.GetNonce());
         }
 
         public async Task<PuzzleMetadataDTO[]> GetAllPuzzles()
         {
-            using var request = UnityWebRequest.Get($"{baseUrl}{PuzzlesEndpoint}");
-            AddAuthHeaders(request);
+            using var request = UnityWebRequest.Get($"{_baseUrl}{PuzzlesEndpoint}");
+            await AddAuthHeaders(request);
             await request.SendWebRequest();
 
             if (request.result != UnityWebRequest.Result.Success)
@@ -40,8 +71,8 @@ namespace Networking
 
         public async Task<PuzzleMetadataDTO> GetPuzzle(string id)
         {
-            using var request = UnityWebRequest.Get($"{baseUrl}{PuzzlesEndpoint}/{id}");
-            AddAuthHeaders(request);
+            using var request = UnityWebRequest.Get($"{_baseUrl}{PuzzlesEndpoint}/{id}");
+            await AddAuthHeaders(request);
             await request.SendWebRequest();
 
             if (request.result != UnityWebRequest.Result.Success)
@@ -53,12 +84,12 @@ namespace Networking
         public async Task<PuzzleMetadataDTO> CreatePuzzle(CreatePuzzleRequest metadata, Texture2D image)
         {
             var form = BuildMultipartForm(JsonUtility.ToJson(metadata), image);
-            using var request = UnityWebRequest.Post($"{baseUrl}{PuzzlesEndpoint}", form);
-            AddAuthHeaders(request);
+            using var request = UnityWebRequest.Post($"{_baseUrl}{PuzzlesEndpoint}", form);
+            await AddAuthHeaders(request);
             await request.SendWebRequest();
-
+            
             if (request.result != UnityWebRequest.Result.Success)
-                throw new Exception(request.error);
+                throw new HttpRequestException(request.error);
 
             return JsonUtility.FromJson<PuzzleMetadataDTO>(request.downloadHandler.text);
         }
@@ -66,9 +97,9 @@ namespace Networking
         public async Task<PuzzleMetadataDTO> UpdatePuzzle(string id, UpdatePuzzleRequest metadata, [CanBeNull] Texture2D image)
         {
             var form = BuildMultipartForm(JsonUtility.ToJson(metadata), image);
-            using var request = UnityWebRequest.Post($"{baseUrl}{PuzzlesEndpoint}/{id}", form);
+            using var request = UnityWebRequest.Post($"{_baseUrl}{PuzzlesEndpoint}/{id}", form);
             request.method = "PUT";
-            AddAuthHeaders(request);
+            await AddAuthHeaders(request);
             await request.SendWebRequest();
 
             if (request.result != UnityWebRequest.Result.Success)
@@ -79,8 +110,8 @@ namespace Networking
 
         public async Task DeletePuzzle(string id)
         {
-            using var request = UnityWebRequest.Delete($"{baseUrl}{PuzzlesEndpoint}/{id}");
-            AddAuthHeaders(request);
+            using var request = UnityWebRequest.Delete($"{_baseUrl}{PuzzlesEndpoint}/{id}");
+            await AddAuthHeaders(request);
             await request.SendWebRequest();
 
             if (request.result != UnityWebRequest.Result.Success)
@@ -89,8 +120,8 @@ namespace Networking
 
         public async Task<Texture2D> DownloadImage(string fileId)
         {
-            using var request = UnityWebRequestTexture.GetTexture($"{baseUrl}{ContentEndpoint}/{fileId}");
-            AddAuthHeaders(request);
+            using var request = UnityWebRequestTexture.GetTexture($"{_baseUrl}{ContentEndpoint}/{fileId}");
+            await AddAuthHeaders(request);
             await request.SendWebRequest();
 
             if (request.result != UnityWebRequest.Result.Success)

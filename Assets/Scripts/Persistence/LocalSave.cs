@@ -89,6 +89,10 @@ namespace Persistence
         
         public static void Initialize(string dbPath)
         {
+            if (_instance != null)
+            {
+                throw new InvalidOperationException("PuzzleServerApi has already been initialized.");
+            }
             _instance = new LocalSave(dbPath);
         }
 
