@@ -87,9 +87,9 @@ def _get_spline_score(from_points, to_points):
 
 def _get_score(piece, piece_param, other_piece, other_piece_param, transformed_from_points, to_points):
     spline_score = _get_spline_score(transformed_from_points, to_points)
-    color_score = _get_color_score(piece, piece_param, other_piece, other_piece_param)
+    # color_score = _get_color_score(piece, piece_param, other_piece, other_piece_param)
 
-    score = spline_score, color_score
+    score = spline_score, 0
 
     return score
 
@@ -207,7 +207,9 @@ def _single_piece_chunks(puzzle):
 
 def _get_piece_global_border(piece, param, puzzle_height, scale_factor):
     global_border_points = piece.get_placement(param)
-    global_border_points[1, :] = puzzle_height - global_border_points[1, :]
+    print("Global", global_border_points)
+
+    global_border_points[1, :] = puzzle_height - 1 - global_border_points[1, :]
     global_border_points *= scale_factor
 
     return global_border_points
@@ -216,6 +218,8 @@ def _get_piece_global_border(piece, param, puzzle_height, scale_factor):
 def _get_solution_location(global_border_points):
     location_index = np.argmin(global_border_points[0])
     location = global_border_points[:, location_index]
+
+    print("Solution Location", location, min(global_border_points[0]))
 
     return location
 
@@ -229,13 +233,12 @@ def _offset_border_points(border_points, solution_location):
         border_points[1, :] - offset_y
     ])
 
-    return local_border_points
+    return local_border_points[:, ::-1]
 
 
-def move_pieces(puzzle: Puzzle):
-    puzzle_game_height = 0.3
+def _move_pieces(puzzle: Puzzle):
     puzzle_height = puzzle.image.shape[0]
-    scale_factor = puzzle_game_height / puzzle_height
+    scale_factor = puzzle.game_height / puzzle_height
 
     param = np.linspace(0, 1, 256)
 
@@ -246,6 +249,56 @@ def move_pieces(puzzle: Puzzle):
 
         piece.solution_location = solution_location
         piece.local_border_points = local_border_points
+
+
+def _find_closest_hull_point(cave_point, other_piece):
+    other_contour = other_piece.original_contour
+    min_dist = float('inf')
+
+    for hull_section in other_piece.piece_hull_sections:
+        for index in range(hull_section.start_idx, hull_section.end_idx):
+            other_piece_point = other_contour[index][0]
+            hull_point = other_piece.transformation(other_piece_point)
+            dist = np.linalg.norm(cave_point - hull_point)
+            min_dist = min(min_dist, dist)
+
+    return min_dist
+
+
+def _find_closest_piece(cave_point, curr_piece, puzzle):
+    min_dist = float('inf')
+    closest_piece = None
+
+    for other_piece in puzzle:
+        if other_piece is curr_piece:
+            continue
+
+        dist = _find_closest_hull_point(cave_point, other_piece)
+
+        if dist < min_dist:
+            min_dist = dist
+            closest_piece = other_piece
+
+    return closest_piece
+
+
+def _connect_socket(curr_piece, cave_section, puzzle):
+    curr_contour = curr_piece.original_contour
+    cave_point = curr_piece.transformation(curr_contour[cave_section.deepest_idx][0])
+    closest_piece = _find_closest_piece(cave_point, curr_piece, puzzle)
+
+    if not curr_piece.is_neighbor(closest_piece):
+        curr_piece.assign_neighbors(closest_piece)
+
+
+def _assign_piece_neighbors(curr_piece, puzzle):
+    for cave_section in curr_piece.piece_caves:
+        _connect_socket(curr_piece, cave_section, puzzle)
+
+
+def _assign_all_neighbors(puzzle: Puzzle):
+    for curr_piece in puzzle:
+        _assign_piece_neighbors(curr_piece, puzzle)
 
 
 def solve(puzzle: Puzzle):
@@ -293,7 +346,12 @@ def solve(puzzle: Puzzle):
 
         if len(in_chunk) == piece_count:
             print("Solved")
-            move_pieces(puzzle)
+            _move_pieces(puzzle)
+            _assign_all_neighbors(puzzle)
+
+            for p in puzzle:
+                print("Neighs", p.neighbors)
+
             return
 
     raise RuntimeError("Failed to Solve Puzzle")
