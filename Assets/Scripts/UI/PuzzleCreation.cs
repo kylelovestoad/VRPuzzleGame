@@ -13,6 +13,8 @@ namespace UI
 {
     public class PuzzleCreationBehaviour : MonoBehaviour
     {
+        private const float PuzzleGameHeight = 0.3f;
+        
         public TMP_InputField nameInputField;
         public TMP_InputField rowsInputField;
         public TMP_InputField columnsInputField;
@@ -66,9 +68,9 @@ namespace UI
                 return;
             }
 
-            var generator = PieceShape.Real.Generator();
+            var generator = selectedShape.Generator();
             
-            generator.Generate(realImage, rows, columns, 0.3f, renderData =>
+            generator.Generate(realImage, rows, columns, PuzzleGameHeight, renderData =>
             {
                 LocalSave.Instance.Create(new PuzzleSaveData(
                     null,
