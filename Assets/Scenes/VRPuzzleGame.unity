@@ -8244,6 +8244,7 @@ MonoBehaviour:
   columnsInputField: {fileID: 523131803}
   dropdown: {fileID: 1339612302}
   createButton: {fileID: 604848485}
+  uploadButton: {fileID: 1099038257}
   puzzleImage: {fileID: 2800000, guid: 418dc4b7eea547a49bda27edacab2c9c, type: 3}
   realImage: {fileID: 2800000, guid: 479c78aad1899554282e4f35d521055f, type: 3}
 --- !u!1 &152933029
@@ -10230,7 +10231,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4455134865496526808, guid: ac2e09824bbe6da42bff68e86401d411, type: 3}
       propertyPath: m_Text
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4455134865496526808, guid: ac2e09824bbe6da42bff68e86401d411, type: 3}
       propertyPath: m_ContentType
@@ -10250,7 +10251,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4455134865966531833, guid: ac2e09824bbe6da42bff68e86401d411, type: 3}
       propertyPath: m_text
-      value: "4\u200B"
+      value: "1\u200B"
       objectReference: {fileID: 0}
     - target: {fileID: 4455134865966531833, guid: ac2e09824bbe6da42bff68e86401d411, type: 3}
       propertyPath: m_isRightToLeft
@@ -10318,17 +10319,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1403338623}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &401213366 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2821358155431730155, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
-  m_PrefabInstance: {fileID: 999680847}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 566010867d5729e46aba099528206ffd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: PuzzleGameScripts::PuzzleGalleryManager
 --- !u!1 &405929112
 GameObject:
   m_ObjectHideFlags: 0
@@ -11610,7 +11600,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4455134865496526808, guid: ac2e09824bbe6da42bff68e86401d411, type: 3}
       propertyPath: m_Text
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4455134865496526808, guid: ac2e09824bbe6da42bff68e86401d411, type: 3}
       propertyPath: m_ContentType
@@ -11630,7 +11620,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4455134865966531833, guid: ac2e09824bbe6da42bff68e86401d411, type: 3}
       propertyPath: m_text
-      value: "4\u200B"
+      value: "2\u200B"
       objectReference: {fileID: 0}
     - target: {fileID: 4455134865966531833, guid: ac2e09824bbe6da42bff68e86401d411, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
@@ -14383,6 +14373,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 667753430}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &857814453 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2121831639775495873, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
+  m_PrefabInstance: {fileID: 6092262163404714267}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &857814459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857814453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bf41ec30940474481dca6b4ffc84535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PuzzleGameScripts::UI.PuzzleInfo
+  playButton: {fileID: 5166825692684459383}
+  pieceCountField: {fileID: 7659602495137929058}
+  pieceShapeField: {fileID: 167783561207428414}
+  puzzleImage: {fileID: 2780502752140952635}
+  elapsedTimeField: {fileID: 5222492965464267109}
+  percentCompleteField: {fileID: 2133226683396572197}
+  pieceProgressField: {fileID: 2340072752616926039}
 --- !u!1001 &859652539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17276,11 +17290,50 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2821358155431730155, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5515437907243875799, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 999680851}
   m_SourcePrefab: {fileID: 100100000, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
+--- !u!1 &999680848 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5515437907243875799, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
+  m_PrefabInstance: {fileID: 999680847}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &999680849 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5515437907001179531, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
+  m_PrefabInstance: {fileID: 999680847}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &999680850 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4648767731415452789, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
+  m_PrefabInstance: {fileID: 999680847}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec5a73b55b625c34db1d5b97bc6af2c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+--- !u!114 &999680851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999680848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 566010867d5729e46aba099528206ffd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PuzzleGameScripts::UI.PuzzleGallery
+  puzzleGalleryItemPrefab: {fileID: 999680850}
+  puzzleGalleryItemContainer: {fileID: 999680849}
 --- !u!1 &1008387637
 GameObject:
   m_ObjectHideFlags: 0
@@ -18223,6 +18276,17 @@ MonoBehaviour:
   m_FlexibleWidth: 12
   m_FlexibleHeight: -1
   m_LayoutPriority: 0
+--- !u!114 &1099038257 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -2353561579252473944, guid: 708bb04189b8488418aa725e7f94bbe8, type: 3}
+  m_PrefabInstance: {fileID: 1099038251}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1099038253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1118838191
 GameObject:
   m_ObjectHideFlags: 0
@@ -23760,7 +23824,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: PuzzleGameScripts::UI.UIManager
   puzzleCreation: {fileID: 149345950}
-  puzzleGallery: {fileID: 401213366}
+  puzzleInfo: {fileID: 857814459}
+  puzzleGallery: {fileID: 999680851}
   gameplayHUD: {fileID: 634607502}
   completionDialog: {fileID: 192399015}
 --- !u!4 &1297027853
@@ -30849,8 +30914,13 @@ MonoBehaviour:
   maxRenderScale: 1
   _headPoseRelativeOffsetRotation: {x: 0, y: 0, z: 0}
   _headPoseRelativeOffsetTranslation: {x: 0, y: 0, z: 0}
-  profilerTcpPort: 32419
-  expandMixedRealityCapturePropertySheet: 0
+  enableCoreMetricsRelease: 0
+  enableCoreMetricsDevelopment: 1
+  coreMetricVisibility:
+    visibleMemoryMetricStats: 0
+    visibleMemoryMetricGraphs: 0
+    visibleRenderMetricStats: 0
+    visibleRenderMetricGraphs: 0
   enableMixedReality: 0
   compositionMethod: 0
   extraHiddenLayers:
@@ -32247,7 +32317,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 243424268127923124, guid: 708bb04189b8488418aa725e7f94bbe8, type: 3}
       propertyPath: m_Name
-      value: PrimaryButton_IconAndLabel_UnityUIButton
+      value: Play Button
       objectReference: {fileID: 0}
     - target: {fileID: 595206484569908514, guid: 708bb04189b8488418aa725e7f94bbe8, type: 3}
       propertyPath: m_text
@@ -34452,6 +34522,17 @@ MonoBehaviour:
   m_FlexibleWidth: 12
   m_FlexibleHeight: -1
   m_LayoutPriority: 0
+--- !u!114 &5166825692684459383 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -2353561579252473944, guid: 708bb04189b8488418aa725e7f94bbe8, type: 3}
+  m_PrefabInstance: {fileID: 2639308300292811545}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081941842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5222492965464267109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35095,7 +35176,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3563149335964526229, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7513834338467354201}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2121831639775495873, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 857814459}
   m_SourcePrefab: {fileID: 100100000, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
 --- !u!224 &6128207021285805810
 RectTransform:
@@ -35265,9 +35349,9 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: -1
+  m_PreferredWidth: 400
   m_PreferredHeight: -1
-  m_FlexibleWidth: 2
+  m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
 --- !u!1 &6895111238903115968

@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace PuzzleGeneration.Jigsaw
 {
     public class JigsawPuzzleGenerator : IPuzzleGenerator
     {
-        public void Generate(
+        public async Task<PuzzleRenderData> Generate(
             Texture2D image, 
             int rows, 
             int cols, 
-            float puzzleHeight, 
-            Action<PuzzleRenderData> onComplete
+            float puzzleHeight
         ) {
             var widthHeightRatio = (float) image.width / image.height;
             var puzzleWidth = puzzleHeight * widthHeightRatio;
@@ -81,8 +81,8 @@ namespace PuzzleGeneration.Jigsaw
         
             var layout = new PuzzleLayout(puzzleWidth, puzzleHeight, PieceShape.Jigsaw, pieceCuts);
             var renderData = new PuzzleRenderData(image, layout);
-            
-            onComplete?.Invoke(renderData);
+
+            return renderData;
         }
 
         private static List<Vector2> JigsawPieceBorderPoints(JigsawPieceBorder border)

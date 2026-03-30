@@ -15,7 +15,7 @@ namespace UI
 
         private PuzzleSaveData _puzzleSaveData;
 
-        public void SetVisible(PuzzleSaveData puzzleSaveData)
+        public void DisplayPuzzle(PuzzleSaveData puzzleSaveData)
         {
             puzzleNameLabel.text = puzzleSaveData.name;
             puzzleImage.sprite = UIUtils.PuzzleImageSprite(puzzleSaveData);
@@ -28,7 +28,7 @@ namespace UI
         [ContextMenu("Open Puzzle")]
         public void OnClick()
         {
-            PuzzleManager.Instance.OpenPuzzle(_puzzleSaveData);
+            UIManager.Instance.ShowSelectedPuzzle(_puzzleSaveData);
         }
     }
 }

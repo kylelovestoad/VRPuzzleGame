@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Networking;
 using Networking.Request;
-using NUnit.Framework.Internal;
 using Oculus.Interaction.Samples;
 using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.Events;
-using UnityEngine.Serialization;
 using EditorAttributes;
 using Void = EditorAttributes.Void;
 
@@ -84,41 +80,51 @@ namespace UI
         }
 
         [Button("Create Puzzle")]
-        private void OnCreate()
+        private async void OnCreate()
         {
 
-            var valid = TryGetFormInput(out var form);
-            if (!valid) return;
-
-            var generator = selectedShape.Generator();
-
-            generator.Generate(realImage, rows, columns, PuzzleGameHeight, renderData =>
-            {
-                LocalSave.Instance.Create(new PuzzleSaveData(
-                    null,
-                    null,
-                    puzzleName,
-                    "DK",
-                    renderData.Layout,
-                    new List<ChunkSaveData>(),
-                    renderData.PuzzleImage
-                ));
-            });
-        }
-
-        [Button("Upload Puzzle")]
-
-        public async void OnUpload()
-        {
             var valid = TryGetFormInput(out var form);
             if (!valid) return;
 
             var generator = form.Shape.Generator();
 
+            var renderData = await generator.Generate(
+                realImage, 
+                form.Rows, 
+                form.Columns, 
+                PuzzleGameHeight
+            );
+                
+            LocalSave.Instance.Create(new PuzzleSaveData(
+                null,
+                null,
+                form.Name,
+                "DK",
+                renderData.Layout,
+                new List<ChunkSaveData>(),
+                renderData.PuzzleImage
+            ));
+        }
+
+        [Button("Upload Puzzle")]
+        public async void OnUpload()
+        {
+            var valid = TryGetFormInput(out var form);
+            if (!valid) return;
+            
+            var generator = form.Shape.Generator();
+
+            var renderData = await generator.Generate(
+                puzzleImage, 
+                form.Rows, 
+                form.Columns, 
+                PuzzleGameHeight
+            );
+            
             var puzzle = await PuzzleServerApi.Instance.CreatePuzzle(new CreatePuzzleRequest(
                 form.Name,
                 PuzzleServerApi.Instance.Manager.User.DisplayName,
-                generator.Generate(puzzleImage, form.Rows, form.Columns, 0.3f)
+                renderData.Layout
             ), puzzleImage);
         }
     }

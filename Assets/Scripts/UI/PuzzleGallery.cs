@@ -41,7 +41,7 @@ namespace UI
                     false
                 );
 
-                galleryTile.SetVisible(puzzleSaveData);
+                galleryTile.DisplayPuzzle(puzzleSaveData);
             }
         }
 
