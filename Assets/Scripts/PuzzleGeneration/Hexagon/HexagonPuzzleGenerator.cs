@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace PuzzleGeneration.Hexagon
 {
     public class HexagonPuzzleGenerator: IPuzzleGenerator
     {
-        public void Generate(
+        public async Task<PuzzleRenderData> Generate(
             Texture2D image, 
             int rows, 
             int cols, 
-            float puzzleHeight, 
-            Action<PuzzleRenderData> onComplete
-        )
-        {
+            float puzzleHeight
+        ) {
             var dimensions = new PuzzleGenerationDimensions(image, rows, cols, puzzleHeight);
             var pieceHeight = dimensions.PieceHeight;
             var pieceWidth = dimensions.AvgPieceWidth;
@@ -35,8 +34,8 @@ namespace PuzzleGeneration.Hexagon
         
             var layout = new PuzzleLayout(dimensions.PuzzleWidth, puzzleHeight, PieceShape.Hexagon, pieceCuts);
             var renderData = new PuzzleRenderData(image, layout);
-            
-            onComplete?.Invoke(renderData);
+
+            return renderData;
         }
 
         private static void AddPieceCut(

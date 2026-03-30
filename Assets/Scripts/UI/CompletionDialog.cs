@@ -1,4 +1,5 @@
 using System;
+using EditorAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,7 +37,7 @@ namespace UI
             finishTime.text = $"Time: {timeStr}";
         }
 
-        [ContextMenu("Exit Puzzle")]
+        [Button("Exit Puzzle")]
         private void OnExit()
         {
             PuzzleManager.Instance.CloseCurrentPuzzle();

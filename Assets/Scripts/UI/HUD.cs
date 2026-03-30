@@ -1,5 +1,5 @@
 ﻿using System;
-using Persistence;
+using EditorAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -63,16 +63,15 @@ namespace UI
         {
             var currentPuzzle =  PuzzleManager.Instance.CurrentPuzzle;
             
+            var percentComplete = currentPuzzle.PercentComplete;
+            progressPercentField.text = $"{percentComplete:F0}%";
+            
             var currConnections = currentPuzzle.CurrentConnections;
             var goalConnections = currentPuzzle.GoalConnections;
-                
-            var percentComplete = (float) currConnections / goalConnections * 100;
-            
-            progressPercentField.text = $"{percentComplete:F0}%";
             progressConnectionsField.text = $"{currConnections}/{goalConnections}";
         }
 
-        [ContextMenu("Exit Puzzle")]
+        [Button("Exit Puzzle")]
         public void OnExit()
         {
             PuzzleManager.Instance.CloseCurrentPuzzle();

@@ -26,8 +26,9 @@ public class Puzzle: MonoBehaviour
     public float ElapsedTime { get; private set; }
     private bool _timeRunning;
 
-    public long CurrentConnections => GoalConnections - Chunks.Length + 1;
-    public long GoalConnections => Layout.initialPieceCuts.Count - 1;
+    public long CurrentConnections => GoalConnections == Chunks.Length ? 0 : GoalConnections - Chunks.Length + 1;
+    public long GoalConnections => Layout.initialPieceCuts.Count;
+    public float PercentComplete => (float) CurrentConnections / GoalConnections * 100;
     public bool IsCompleted => CurrentConnections == GoalConnections;
     
     public bool IsOnline => OnlineID != null;

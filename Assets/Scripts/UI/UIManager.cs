@@ -1,11 +1,21 @@
-﻿using UnityEngine;
+﻿using System;
+using Persistence;
+using UnityEngine;
 
 namespace UI
 {
     public class UIManager : MonoBehaviour
     {
+        private static UIManager _instance;
+        public static UIManager Instance => _instance ?? throw new NullReferenceException(
+            "There must be one instance of UIManager"
+        );
+        
         [SerializeField] 
         private PuzzleCreationBehaviour puzzleCreation;
+        
+        [SerializeField]
+        private PuzzleInfo puzzleInfo;
 
         [SerializeField] 
         private PuzzleGallery puzzleGallery;
@@ -15,6 +25,11 @@ namespace UI
         
         [SerializeField]
         private CompletionDialog completionDialog;
+        
+        private void Awake()
+        {
+            _instance = this;
+        }
 
         private void Start()
         {
@@ -52,11 +67,17 @@ namespace UI
             completionDialog.DisplayFields();
         }
 
+        public void ShowSelectedPuzzle(PuzzleSaveData saveData)
+        {
+            puzzleInfo.DisplayPuzzle(saveData);
+        }
+
         private void ShowBrowsingScreens()
         {
             puzzleCreation.gameObject.SetActive(true);
             puzzleGallery.gameObject.SetActive(true);
             
+            puzzleInfo.gameObject.SetActive(false);
             gameplayHUD.gameObject.SetActive(false);
             completionDialog.gameObject.SetActive(false);
         }
@@ -64,6 +85,7 @@ namespace UI
         private void ShowGameplayScreens()
         {
             puzzleCreation.gameObject.SetActive(false);
+            puzzleInfo.gameObject.SetActive(false);
             puzzleGallery.gameObject.SetActive(false);
             
             gameplayHUD.gameObject.SetActive(true);
