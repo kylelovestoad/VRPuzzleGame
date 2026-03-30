@@ -47,7 +47,12 @@ public class PuzzleManager : MonoBehaviour
         
         OnPuzzleClosed?.Invoke();
         
+    #if UNITY_INCLUDE_TESTS
+        DestroyImmediate(CurrentPuzzle.gameObject);
+    #else
         Destroy(CurrentPuzzle.gameObject);
+    #endif
+        
         CurrentPuzzle = null;
     }
 }
