@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using Persistence;
 using PuzzleGeneration;
+using UnityEditor;
 using UnityEngine;
 
 namespace Tests
@@ -31,6 +33,28 @@ namespace Tests
                 null,
                 new Texture2D(2, 2)
             );
+        }
+
+        public static void MakePuzzleManager()
+        {
+            var puzzleManager = new GameObject().AddComponent<PuzzleManager>();
+            
+            var puzzlePrefab = AssetDatabase.LoadAssetAtPath<Puzzle>(
+                "Assets/Prefabs/Puzzle.prefab"
+            );
+            
+            var field = typeof(PuzzleManager).GetField(
+                "puzzlePrefab", 
+                BindingFlags.Instance | BindingFlags.NonPublic
+            );
+            field.SetValue(puzzleManager, puzzlePrefab);
+            
+            var puzzleManagerAwakeMethod = typeof(PuzzleManager).GetMethod(
+                "Awake", 
+                BindingFlags.Instance | BindingFlags.NonPublic
+            );
+            
+            puzzleManagerAwakeMethod.Invoke(puzzleManager, null);
         }
     }
 }

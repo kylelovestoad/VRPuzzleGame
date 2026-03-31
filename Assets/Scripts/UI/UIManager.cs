@@ -47,6 +47,8 @@ namespace UI
 
         private void OnPuzzleOpened()
         {
+            Debug.Log("UI Manager: OnPuzzleOpened");
+            
             PuzzleManager.Instance.CurrentPuzzle.OnProgressUpdated += OnProgressUpdated;
             
             ShowGameplayScreens();

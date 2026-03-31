@@ -43,8 +43,6 @@ namespace Tests
             {
                 Object.DestroyImmediate(chunk.gameObject);
             }
-            
-            Object.DestroyImmediate(_puzzle.gameObject);
         }
 
         #region Initialization Tests

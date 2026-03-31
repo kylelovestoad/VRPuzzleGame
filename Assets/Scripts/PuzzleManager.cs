@@ -25,6 +25,8 @@ public class PuzzleManager : MonoBehaviour
 
     public void OpenPuzzle(PuzzleSaveData puzzleSaveData)
     {
+        Debug.Log("Puzzle Manager: PuzzleOpened");
+        
         CurrentPuzzle = Instantiate(puzzlePrefab);
         
         CurrentPuzzle.InitializePuzzle(puzzleSaveData);
