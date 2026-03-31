@@ -56,19 +56,7 @@ def _get_border_points_response(border_points):
     return border_points_response
 
 
-def _is_clockwise(contour: np.ndarray) -> bool:
-    x = contour[0, :]
-    y = contour[1, :]
-
-    clockwise = np.sum(x * np.roll(y, -1) - np.roll(x, -1) * y) < 0
-
-    return clockwise
-
-
 def get_piece_response(piece: Piece) -> PieceResponse:
-    local_border_points = piece.local_border_points
-    assert _is_clockwise(local_border_points)
-
     solution_location = _get_solution_location_response(piece.solution_location)
     border_points = _get_border_points_response(piece.local_border_points)
 

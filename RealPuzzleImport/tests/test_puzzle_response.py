@@ -10,7 +10,7 @@ from puzzle_solver import solve
 class TestPuzzleResponse(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.image_matrix = cv2.imread("/home/joe/PycharmProjects/VRPuzzleGame/RealPuzzleImport/images/moon.png")
+        cls.image_matrix = cv2.imread("images/moon.png")
         cls.puzzle = puzzle_from_image(cls.image_matrix)
         solve(cls.puzzle)
 
