@@ -25,17 +25,9 @@ public class PuzzleManager : MonoBehaviour
 
     public void OpenPuzzle(PuzzleSaveData puzzleSaveData)
     {
-        var puzzleRenderData = new PuzzleRenderData(
-            puzzleSaveData.PuzzleImage, 
-            puzzleSaveData.layout
-        );
-            
         CurrentPuzzle = Instantiate(puzzlePrefab);
         
-        CurrentPuzzle.InitializePuzzle(
-            puzzleSaveData,
-            puzzleRenderData
-        );
+        CurrentPuzzle.InitializePuzzle(puzzleSaveData);
         
         OnPuzzleOpened?.Invoke();
     }
@@ -47,7 +39,12 @@ public class PuzzleManager : MonoBehaviour
         
         OnPuzzleClosed?.Invoke();
         
+    #if UNITY_INCLUDE_TESTS
+        DestroyImmediate(CurrentPuzzle.gameObject);
+    #else
         Destroy(CurrentPuzzle.gameObject);
+    #endif
+        
         CurrentPuzzle = null;
     }
 }

@@ -46,14 +46,11 @@ namespace UI
         {
             pieceCountField.text = $"Piece Count: {puzzleSaveData.PieceCount}";
             pieceShapeField.text = $"Piece Shape: {puzzleSaveData.layout.shape.ToString()}";
-            // puzzleImage.sprite = UIUtils.PuzzleImageSprite(puzzleSaveData);
             elapsedTimeField.text = $"{puzzleSaveData.elapsedTime}";
             percentCompleteField.text = $"{puzzleSaveData.PercentComplete():F0}% Complete";
             pieceProgressField.text = $"{puzzleSaveData.CurrentConnections()}/{puzzleSaveData.PieceCount}";
             
-            // var originalSize = puzzleImage.rectTransform.sizeDelta;
             puzzleImage.sprite = UIUtils.PuzzleImageSprite(puzzleSaveData);
-            // puzzleImage.rectTransform.sizeDelta = originalSize;
             
             _puzzleSaveData = puzzleSaveData;
             

@@ -19,7 +19,6 @@ public class Puzzle: MonoBehaviour
     public PuzzleLayout Layout { get; set; }
     
     public Texture2D PuzzleImage { get; set; }
-    public PuzzleRenderData RenderData { get; set; }
     
     private Chunk[] Chunks => GetComponentsInChildren<Chunk>();
     
@@ -36,14 +35,13 @@ public class Puzzle: MonoBehaviour
     public event Action<float> UpdateTimer;
     public event Action OnProgressUpdated;
     
-    public void InitializePuzzle(PuzzleSaveData saveData, PuzzleRenderData renderData)
+    public void InitializePuzzle(PuzzleSaveData saveData)
     {
         LocalID = saveData.localID;
         OnlineID = saveData.onlineID;
         Name = saveData.name;
         Author = saveData.author;
         Layout = saveData.layout;
-        RenderData = renderData;
         PuzzleImage = saveData.PuzzleImage;
         
         InitializeChunks(saveData);
@@ -65,15 +63,15 @@ public class Puzzle: MonoBehaviour
     {
         if (saveData.chunks == null || saveData.chunks.Count == 0)
         {
-            InitializeSinglePieceChunks();
+            InitializeSinglePieceChunks(saveData);
         }
         else
         {
-            InitializeSavedChunkStates(saveData.chunks);
+            InitializeSavedChunkStates(saveData);
         }
     }
 
-    private void InitializeSinglePieceChunks()
+    private void InitializeSinglePieceChunks(PuzzleSaveData saveData)
     {
         foreach (var cut in Layout.initialPieceCuts)
         {
@@ -82,29 +80,29 @@ public class Puzzle: MonoBehaviour
             // TODO: randomize placement
             var offset = new Vector3(cut.solutionLocation.x * 1.5f, cut.solutionLocation.y * 1.5f, 0);
 
-            Chunk chunk = Instantiate(
+            var chunk = Instantiate(
                 chunkPrefab, 
                 cut.solutionLocation + offset, 
                 Quaternion.identity, 
                 transform
             );
         
-            chunk.InitializeSinglePieceChunk(cut, this);
+            chunk.InitializeSinglePieceChunk(cut, saveData);
         }
     }
     
-    private void InitializeSavedChunkStates(List<ChunkSaveData> chunks)
+    private void InitializeSavedChunkStates(PuzzleSaveData saveData)
     {
-        foreach (var chunkSaveData in chunks)
+        foreach (var chunkSaveData in saveData.chunks)
         {
-            Chunk chunk = Instantiate(
+            var chunk = Instantiate(
                 chunkPrefab, 
                 chunkSaveData.position, 
                 chunkSaveData.rotation, 
                 transform
             );
         
-            chunk.InitializeMultiplePieceChunk(chunkSaveData, this);
+            chunk.InitializeMultiplePieceChunk(chunkSaveData, saveData);
         }
     }
     
