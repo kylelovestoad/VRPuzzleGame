@@ -1,11 +1,13 @@
 package com.vrpuzzle.puzzleserver.controller
 
 import com.vrpuzzle.puzzleserver.model.dto.PuzzleMetadataDTO
+import com.vrpuzzle.puzzleserver.model.dto.PuzzleSaveDataDTO
 import com.vrpuzzle.puzzleserver.request.CreatePuzzleRequest
-import com.vrpuzzle.puzzleserver.request.UpdatePuzzleRequest
+import com.vrpuzzle.puzzleserver.request.UpdatePuzzleMetadataRequest
+import com.vrpuzzle.puzzleserver.request.UpdatePuzzleSaveDataRequest
 import com.vrpuzzle.puzzleserver.security.MetaQuestAuthenticationPrincipal
-import com.vrpuzzle.puzzleserver.services.ContentService
 import com.vrpuzzle.puzzleserver.services.PuzzleMetadataService
+import com.vrpuzzle.puzzleserver.services.PuzzleSaveDataService
 import org.bson.types.ObjectId
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
@@ -25,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile
 @RequestMapping("/api/puzzles")
 class PuzzleController(
     private val puzzleMetadataService: PuzzleMetadataService,
+    private val puzzleSaveDataService: PuzzleSaveDataService,
 ) {
 
 
@@ -36,6 +40,17 @@ class PuzzleController(
         val result = puzzleMetadataService.createPuzzle(metadata, image)
         return ResponseEntity.status(HttpStatus.CREATED).body(result)
     }
+
+//    @PutMapping("/{puzzleId}/saves/")
+//    fun upsertPuzzleSaveData(
+//        @PathVariable puzzleId: ObjectId,
+//        @RequestBody req: UpdatePuzzleSaveDataRequest,
+//        @AuthenticationPrincipal principal: MetaQuestAuthenticationPrincipal,
+//        ): ResponseEntity<PuzzleSaveDataDTO> {
+//        val result = puzzleSaveDataService.upsertPuzzleSaveDataFromRequest(puzzleId, principal.userId, req)
+//        return ResponseEntity.ok(result)
+//    }
+
 
     @GetMapping("/{id}")
     fun readOnlinePuzzle(
@@ -54,7 +69,7 @@ class PuzzleController(
     @PutMapping("/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun updateOnlinePuzzle(
         @PathVariable id: ObjectId,
-        @RequestPart("metadata") metadata: UpdatePuzzleRequest,
+        @RequestPart("metadata") metadata: UpdatePuzzleMetadataRequest,
         @RequestPart("image", required = false) image: MultipartFile?,
         @AuthenticationPrincipal principal: MetaQuestAuthenticationPrincipal,
     ): ResponseEntity<PuzzleMetadataDTO> {

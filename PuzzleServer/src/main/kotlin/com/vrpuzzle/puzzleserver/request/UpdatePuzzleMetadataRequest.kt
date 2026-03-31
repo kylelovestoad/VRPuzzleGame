@@ -2,7 +2,7 @@ package com.vrpuzzle.puzzleserver.request
 
 import com.vrpuzzle.puzzleserver.model.type.PuzzleLayout
 
-data class UpdatePuzzleRequest(
+data class UpdatePuzzleMetadataRequest(
     val name: String?,
     val author: String?,
     val layout: PuzzleLayout?,

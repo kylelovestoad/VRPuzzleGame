@@ -3,13 +3,12 @@ package com.vrpuzzle.puzzleserver.services
 import com.vrpuzzle.puzzleserver.model.entity.PuzzleMetadata
 import com.vrpuzzle.puzzleserver.model.dto.PuzzleMetadataDTO
 import com.vrpuzzle.puzzleserver.request.CreatePuzzleRequest
-import com.vrpuzzle.puzzleserver.request.UpdatePuzzleRequest
+import com.vrpuzzle.puzzleserver.request.UpdatePuzzleMetadataRequest
 import com.vrpuzzle.puzzleserver.repository.PuzzleMetadataRepository
 import com.vrpuzzle.puzzleserver.security.MetaQuestAuthenticationPrincipal
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
-import java.security.Principal
 
 @Service
 class PuzzleMetadataService(
@@ -46,7 +45,7 @@ class PuzzleMetadataService(
     fun updatePuzzle(
         id: ObjectId,
         metadata:
-        UpdatePuzzleRequest,
+        UpdatePuzzleMetadataRequest,
         image: MultipartFile?,
         principal: MetaQuestAuthenticationPrincipal
     ): PuzzleMetadataDTO {
@@ -77,6 +76,8 @@ class PuzzleMetadataService(
         if (existing.author != principal.userId) {
             throw IllegalAccessException("User is not the author of the Puzzle")
         }
+
         puzzleMetadataRepository.deleteById(id)
+        contentService.deleteContent(existing.content.id)
     }
 }

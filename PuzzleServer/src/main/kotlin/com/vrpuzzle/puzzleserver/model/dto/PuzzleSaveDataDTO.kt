@@ -1,13 +1,13 @@
 package com.vrpuzzle.puzzleserver.model.dto
 
 import com.vrpuzzle.puzzleserver.model.type.ChunkSaveData
+import org.bson.types.ObjectId
 import java.time.LocalDateTime
 
 data class PuzzleSaveDataDTO(
-    val id: String,
+    val id: ObjectId,
     val metaUserId: String,
-    val puzzleMetadata: PuzzleMetadataDTO,
+    val puzzleId: ObjectId,
     val chunks: List<ChunkSaveData>?,
-    val clockBase: Int,
-    val clockTimestamp: LocalDateTime?
+    val elapsedTime: Float,
 )

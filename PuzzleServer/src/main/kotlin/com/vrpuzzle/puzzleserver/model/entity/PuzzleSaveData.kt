@@ -5,24 +5,21 @@ import com.vrpuzzle.puzzleserver.model.type.ChunkSaveData
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
-import java.time.LocalDateTime
 
 @Document(collection = "puzzle_save_data")
 data class PuzzleSaveData(
     @Id
     val id: ObjectId = ObjectId.get(),
     val metaUserId: String,
-    val puzzleMetadata: PuzzleMetadata,
+    val puzzleId: ObjectId,
     val chunks: List<ChunkSaveData>?,
-    val clockBase: Int,
-    val clockTimestamp: LocalDateTime?
+    val elapsedTime: Float
 ) {
     fun toDTO() = PuzzleSaveDataDTO(
-        id = id.toHexString(),
+        id = id,
         metaUserId = metaUserId,
-        puzzleMetadata = puzzleMetadata.toDTO(),
+        puzzleId = puzzleId,
         chunks = chunks,
-        clockBase = clockBase,
-        clockTimestamp = clockTimestamp
+        elapsedTime = elapsedTime
     )
 }

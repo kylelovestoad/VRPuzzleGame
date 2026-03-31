@@ -35,7 +35,8 @@ class MetaQuestAuthService(
             throw InvalidMetaQuestTokenException("Nonce validation failed for user: $userId")
         }
 
-        return fetchOrgScopedId(userId) ?: throw InvalidMetaQuestTokenException("Nonce validation failed for user: $userId")
+        // TODO replace with fetch scoped Id
+        return userId
     }
 
     fun validateNonce(userId: String, nonce: String): Boolean {

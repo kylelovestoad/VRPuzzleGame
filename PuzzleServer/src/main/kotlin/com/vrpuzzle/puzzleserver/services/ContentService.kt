@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
+import kotlin.io.path.div
 
 @Service
 class ContentService(
@@ -32,8 +33,14 @@ class ContentService(
     }
 
 
-    fun deleteContentById(id: ObjectId) =
+    fun deleteContent(id: ObjectId) {
+        val existing = getContentById(id)
         contentRepository.deleteById(id)
+
+        val contentPath = Paths.get(storagePath) / existing.filename
+
+        Files.deleteIfExists(contentPath)
+    }
 
     private fun createContent(content: Content): Content =
         contentRepository.save(content)

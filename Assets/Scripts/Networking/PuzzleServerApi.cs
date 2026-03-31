@@ -83,7 +83,7 @@ namespace Networking
 
         public async Task<PuzzleMetadataDTO> CreatePuzzle(CreatePuzzleRequest metadata, Texture2D image)
         {
-            var form = BuildMultipartForm(JsonUtility.ToJson(metadata), image);
+            var form = BuildMultipartPuzzleMetadata(JsonUtility.ToJson(metadata), image);
             using var request = UnityWebRequest.Post($"{_baseUrl}{PuzzlesEndpoint}", form);
             await AddAuthHeaders(request);
             await request.SendWebRequest();
@@ -94,9 +94,12 @@ namespace Networking
             return JsonUtility.FromJson<PuzzleMetadataDTO>(request.downloadHandler.text);
         }
 
-        public async Task<PuzzleMetadataDTO> UpdatePuzzle(string id, UpdatePuzzleRequest metadata, [CanBeNull] Texture2D image)
+        public async Task<PuzzleMetadataDTO> UpdatePuzzle(
+            string id, 
+            UpdatePuzzleRequest metadata, 
+            [CanBeNull] Texture2D image)
         {
-            var form = BuildMultipartForm(JsonUtility.ToJson(metadata), image);
+            var form = BuildMultipartPuzzleMetadata(JsonUtility.ToJson(metadata), image);
             using var request = UnityWebRequest.Post($"{_baseUrl}{PuzzlesEndpoint}/{id}", form);
             request.method = "PUT";
             await AddAuthHeaders(request);
@@ -130,7 +133,7 @@ namespace Networking
             return DownloadHandlerTexture.GetContent(request);
         }
 
-        private static List<IMultipartFormSection> BuildMultipartForm(string metadataJson, [CanBeNull] Texture2D image)
+        private static List<IMultipartFormSection> BuildMultipartPuzzleMetadata(string metadataJson, [CanBeNull] Texture2D image)
         {
             var sections = new List<IMultipartFormSection>
             {
