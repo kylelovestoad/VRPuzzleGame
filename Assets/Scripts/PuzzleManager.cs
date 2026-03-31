@@ -25,17 +25,9 @@ public class PuzzleManager : MonoBehaviour
 
     public void OpenPuzzle(PuzzleSaveData puzzleSaveData)
     {
-        var puzzleRenderData = new PuzzleRenderData(
-            puzzleSaveData.PuzzleImage, 
-            puzzleSaveData.layout
-        );
-            
         CurrentPuzzle = Instantiate(puzzlePrefab);
         
-        CurrentPuzzle.InitializePuzzle(
-            puzzleSaveData,
-            puzzleRenderData
-        );
+        CurrentPuzzle.InitializePuzzle(puzzleSaveData);
         
         OnPuzzleOpened?.Invoke();
     }

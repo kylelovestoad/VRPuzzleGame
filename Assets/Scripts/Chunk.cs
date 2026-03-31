@@ -22,24 +22,24 @@ public class Chunk : MonoBehaviour
 
     private int _isCollisionProcedureRunning;
 
-    public void InitializeSinglePieceChunk(PieceCut cut, Puzzle puzzle)
+    public void InitializeSinglePieceChunk(PieceCut cut, PuzzleSaveData saveData)
     {
         gameObject.SetActive(true);
         
         Piece piece = Instantiate(piecePrefab, transform);
-        piece.InitializePiece(cut, puzzle.RenderData);
+        piece.InitializePiece(cut, saveData);
         
         InitializeBoxCollider();
     }
     
     public void InitializeMultiplePieceChunk(
         ChunkSaveData chunkStateData,
-        Puzzle puzzle
+        PuzzleSaveData saveData
     ) {
         gameObject.SetActive(true);
         
         var piecesSaveDataList = chunkStateData.pieces;
-        var initialPieceCuts = puzzle.Layout.initialPieceCuts;
+        var initialPieceCuts = saveData.layout.initialPieceCuts;
 
         Debug.Log("Pieces Len: " + piecesSaveDataList.Count);
         
@@ -48,7 +48,7 @@ public class Chunk : MonoBehaviour
             PieceCut currCut = initialPieceCuts[currPiece.pieceIndex];
                 
             Piece piece = Instantiate(piecePrefab, currPiece.position, currPiece.rotation, transform);
-            piece.InitializePiece(currCut, puzzle.RenderData);
+            piece.InitializePiece(currCut, saveData);
         }
 
         InitializeBoxCollider();

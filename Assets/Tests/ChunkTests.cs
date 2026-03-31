@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using NUnit.Framework;
+using Persistence;
 using PuzzleGeneration;
 using UnityEditor;
 using UnityEngine;
@@ -12,38 +13,27 @@ namespace Tests
         private const float Tolerance = 1e-6f;
 
         private Chunk _chunkPrefab;
-        private PuzzleLayout _mockLayout;
-        private PuzzleRenderData _mockRenderData;
-        private Puzzle _puzzle;
+        private PuzzleSaveData _puzzleSaveData;
         private PieceCut _piece0Cut;
         private PieceCut _piece1Cut;
+        private Puzzle _puzzle;
 
         [SetUp]
         public void SetUp()
         {
-            GameObject puzzlePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
+            var puzzlePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
                 "Assets/Prefabs/Puzzle.prefab"
             );
             
             _puzzle = puzzlePrefab.GetComponent<Puzzle>();
             _chunkPrefab = _puzzle.chunkPrefab;
-            
-            var vertices = new List<Vector2>
-            {
-                new(0, 0),
-                new(0, 1),
-                new(1, 0),
-                new(1, 1)
-            };
 
-            _piece0Cut = new PieceCut(0, new List<int> {1}, Vector2.zero, vertices);
-            _piece1Cut = new PieceCut(1, new List<int> {0}, new Vector2(1, 0), vertices);
-            var pieceCuts = new List<PieceCut> { _piece0Cut, _piece1Cut };
+            _puzzleSaveData = TestUtils.MakePuzzle();
 
-            _mockLayout = new PuzzleLayout(2, 1, PieceShape.Rectangle, pieceCuts);
-            _mockRenderData = new PuzzleRenderData(null, _mockLayout);
-            _puzzle = new GameObject("Puzzle").AddComponent<Puzzle>();
-            _puzzle.RenderData = _mockRenderData;
+            var initialPieceCuts = _puzzleSaveData.layout.initialPieceCuts;
+
+            _piece0Cut = initialPieceCuts[0];
+            _piece1Cut = initialPieceCuts[1];
         }
 
         [TearDown]
@@ -53,6 +43,8 @@ namespace Tests
             {
                 Object.DestroyImmediate(chunk.gameObject);
             }
+            
+            Object.DestroyImmediate(_puzzle.gameObject);
         }
 
         #region Initialization Tests
@@ -82,7 +74,7 @@ namespace Tests
                 Quaternion.identity
             );
             
-            chunk.InitializeSinglePieceChunk(_piece0Cut, _puzzle);
+            chunk.InitializeSinglePieceChunk(_piece0Cut, _puzzleSaveData);
         
             Assert.AreEqual(1, chunk.PieceCount);
         }
@@ -100,12 +92,12 @@ namespace Tests
                 Quaternion.identity
             );
             
-            chunk.InitializeSinglePieceChunk(_piece0Cut, _puzzle);
+            chunk.InitializeSinglePieceChunk(_piece0Cut, _puzzleSaveData);
             
             GameObject newPieceObject = chunk.transform.Find("Piece").gameObject;
             Piece piece = newPieceObject.AddComponent<Piece>();
             piece.transform.position = new Vector3(1, 0, 0);
-            piece.InitializePiece(_piece1Cut, _puzzle.RenderData);
+            piece.InitializePiece(_piece1Cut, _puzzleSaveData);
         
             MethodInfo updateBoxColliderMethod = typeof(Chunk).GetMethod(
                 "UpdateBoxCollider",
@@ -135,7 +127,7 @@ namespace Tests
                 Quaternion.identity
             );
             
-            chunk.InitializeSinglePieceChunk(_piece0Cut, _puzzle);
+            chunk.InitializeSinglePieceChunk(_piece0Cut, _puzzleSaveData);
             
             var otherChunk = Object.Instantiate(
                 _chunkPrefab, 
@@ -143,7 +135,7 @@ namespace Tests
                 Quaternion.identity
             );
             
-            otherChunk.InitializeSinglePieceChunk(_piece1Cut, _puzzle);
+            otherChunk.InitializeSinglePieceChunk(_piece1Cut, _puzzleSaveData);
         
             MethodInfo combineMethod = typeof(Chunk).GetMethod(
                 "Merge",
@@ -164,7 +156,7 @@ namespace Tests
                 Quaternion.identity
             );
             
-            chunk.InitializeSinglePieceChunk(_piece0Cut, _puzzle);
+            chunk.InitializeSinglePieceChunk(_piece0Cut, _puzzleSaveData);
             
             var otherChunk = Object.Instantiate(
                 _chunkPrefab, 
@@ -172,7 +164,7 @@ namespace Tests
                 Quaternion.identity
             );
             
-            otherChunk.InitializeSinglePieceChunk(_piece1Cut, _puzzle);
+            otherChunk.InitializeSinglePieceChunk(_piece1Cut, _puzzleSaveData);
             
             MethodInfo collideMethod = typeof(Chunk).GetMethod(
                 "OnTriggerStay",
@@ -199,7 +191,7 @@ namespace Tests
                 Quaternion.identity
             );
             
-            chunk.InitializeSinglePieceChunk(_piece0Cut, _puzzle);
+            chunk.InitializeSinglePieceChunk(_piece0Cut, _puzzleSaveData);
             
             var otherChunk = Object.Instantiate(
                 _chunkPrefab, 
@@ -207,7 +199,7 @@ namespace Tests
                 Quaternion.identity
             );
             
-            otherChunk.InitializeSinglePieceChunk(_piece1Cut, _puzzle);
+            otherChunk.InitializeSinglePieceChunk(_piece1Cut, _puzzleSaveData);
         
             MethodInfo collideMethod = typeof(Chunk).GetMethod(
                 "OnTriggerStay",

@@ -5,6 +5,7 @@ using Persistence;
 using PuzzleGeneration;
 using TMPro;
 using UI;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,9 @@ namespace Tests.UI
         private TMP_Text _elapsedTimeField;
         private TMP_Text _percentCompleteField;
         private TMP_Text _pieceProgressField;
+        
+        private PuzzleManager _puzzleManager;
+        private Puzzle _puzzlePrefab;
 
         [SetUp]
         public void SetUp()
@@ -48,6 +52,25 @@ namespace Tests.UI
             );
             
             startMethod.Invoke(_puzzleInfo, null);
+            
+            _puzzleManager = new GameObject().AddComponent<PuzzleManager>();
+            
+            _puzzlePrefab = AssetDatabase.LoadAssetAtPath<Puzzle>(
+                "Assets/Prefabs/Puzzle.prefab"
+            );
+            
+            var field = typeof(PuzzleManager).GetField(
+                "puzzlePrefab", 
+                BindingFlags.Instance | BindingFlags.NonPublic
+            );
+            field.SetValue(_puzzleManager, _puzzlePrefab);
+            
+            var puzzleManagerAwakeMethod = typeof(PuzzleManager).GetMethod(
+                "Awake", 
+                BindingFlags.Instance | BindingFlags.NonPublic
+            );
+            
+            puzzleManagerAwakeMethod.Invoke(_puzzleManager, null);
         }
 
         [TearDown]
@@ -61,32 +84,7 @@ namespace Tests.UI
             Object.DestroyImmediate(_elapsedTimeField.gameObject);
             Object.DestroyImmediate(_percentCompleteField.gameObject);
             Object.DestroyImmediate(_pieceProgressField.gameObject);
-        }
-
-        private PuzzleSaveData MakePuzzle(string name = "Test Puzzle")
-        {
-            var vertices = new List<Vector2>
-            {
-                new(0, 0), 
-                new(0, 1), 
-                new(1, 0), 
-                new(1, 1)
-            };
-            
-            var piece0Cut = new PieceCut(0, new List<int> {1}, Vector2.zero, vertices);
-            var piece1Cut = new PieceCut(1, new List<int> {0}, new Vector2(1, 0), vertices);
-            
-            var pieceCuts = new List<PieceCut> { piece0Cut, piece1Cut };
-            
-            return new(
-                null,
-                null, 
-                name, 
-                "Author", 
-                new PuzzleLayout(2, 2, PieceShape.Rectangle, pieceCuts), 
-                null,
-                new Texture2D(2, 2)
-            );
+            Object.DestroyImmediate(_puzzleManager.gameObject);
         }
             
 
@@ -103,7 +101,7 @@ namespace Tests.UI
         [Test]
         public void FieldsSetCorrectly()
         {
-            var puzzleSaveData = MakePuzzle();
+            var puzzleSaveData = TestUtils.MakePuzzle();
             
             _puzzleInfo.DisplayPuzzle(puzzleSaveData);
             
@@ -136,7 +134,7 @@ namespace Tests.UI
         [Test]
         public void PlayButtonOpensPuzzle()
         {
-            var puzzleSaveData = MakePuzzle();
+            var puzzleSaveData = TestUtils.MakePuzzle();
             
             _puzzleInfo.DisplayPuzzle(puzzleSaveData);
             
