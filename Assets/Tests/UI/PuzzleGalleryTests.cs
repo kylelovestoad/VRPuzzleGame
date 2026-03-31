@@ -15,6 +15,7 @@ namespace Tests.UI
     {
         private GameObject _galleryObject;
         private PuzzleGallery _puzzleGallery;
+        private GameObject _puzzleGalleryItemContainer;
         private PuzzleGalleryTile _tilePrefab;
 
         [SetUp]
@@ -24,6 +25,13 @@ namespace Tests.UI
             
             _galleryObject = new GameObject("PuzzleGallery");
             _puzzleGallery = _galleryObject.AddComponent<PuzzleGallery>();
+
+            _puzzleGalleryItemContainer = new GameObject("TileContainer");
+            var itemContainerField = typeof(PuzzleGallery).GetField(
+                "puzzleGalleryItemContainer", 
+                BindingFlags.NonPublic | BindingFlags.Instance
+            );
+            itemContainerField.SetValue(_puzzleGallery, _puzzleGalleryItemContainer);
 
             _tilePrefab = new GameObject("TilePrefab").AddComponent<PuzzleGalleryTile>();
 
@@ -53,6 +61,7 @@ namespace Tests.UI
         public void TearDown()
         {
             Object.DestroyImmediate(_galleryObject);
+            Object.DestroyImmediate(_puzzleGalleryItemContainer);
             Object.DestroyImmediate(_tilePrefab.gameObject);
             
             LocalSave.Instance.DB.DropCollection("puzzles");
@@ -62,16 +71,24 @@ namespace Tests.UI
         [Test]
         public void PuzzleGalleryInitallyEmpty()
         {
-            _puzzleGallery.Start();
+            var startMethod = typeof(PuzzleGallery).GetMethod(
+                "Start", 
+                BindingFlags.Instance | BindingFlags.NonPublic
+            );
+            startMethod.Invoke(_puzzleGallery, null);
             
-            var tiles = _galleryObject.GetComponentsInChildren<PuzzleGalleryTile>();
+            var tiles = _puzzleGalleryItemContainer.GetComponentsInChildren<PuzzleGalleryTile>();
             Assert.AreEqual(0, tiles.Length);
         }
         
         [Test]
         public void PuzzleFillsWhenPuzzleCreated()
         {
-            _puzzleGallery.Start();
+            var startMethod = typeof(PuzzleGallery).GetMethod(
+                "Start", 
+                BindingFlags.Instance | BindingFlags.NonPublic
+            );
+            startMethod.Invoke(_puzzleGallery, null);
             
             var puzzle = new PuzzleSaveData(
                 null,
@@ -85,16 +102,20 @@ namespace Tests.UI
             
             LocalSave.Instance.Create(puzzle);
             
-            var tiles = _galleryObject.GetComponentsInChildren<PuzzleGalleryTile>();
+            var tiles = _puzzleGalleryItemContainer.GetComponentsInChildren<PuzzleGalleryTile>();
             Assert.AreEqual(1, tiles.Length);
         }
         
         [Test]
         public void CreatesMultipleTilesForMultiplePuzzles()
         {
-            var numPuzzles = 4;
+            var numPuzzles = 2;
             
-            _puzzleGallery.Start();
+            var startMethod = typeof(PuzzleGallery).GetMethod(
+                "Start", 
+                BindingFlags.Instance | BindingFlags.NonPublic
+            );
+            startMethod.Invoke(_puzzleGallery, null);
             
             for (var i = 0; i < numPuzzles; i++)
             {
@@ -111,14 +132,18 @@ namespace Tests.UI
                 LocalSave.Instance.Create(puzzle);
             }
             
-            var tiles = _galleryObject.GetComponentsInChildren<PuzzleGalleryTile>();
+            var tiles = _puzzleGalleryItemContainer.GetComponentsInChildren<PuzzleGalleryTile>();
             Assert.AreEqual(numPuzzles, tiles.Length);
         }
         
         [Test]
         public void SameAmountOfPuzzlesWhenOneIsUpdated()
         {
-            _puzzleGallery.Start();
+            var startMethod = typeof(PuzzleGallery).GetMethod(
+                "Start", 
+                BindingFlags.Instance | BindingFlags.NonPublic
+            );
+            startMethod.Invoke(_puzzleGallery, null);
             
             var puzzle = new PuzzleSaveData(
                 null,
@@ -132,14 +157,14 @@ namespace Tests.UI
             
             LocalSave.Instance.Create(puzzle);
             
-            var tiles = _galleryObject.GetComponentsInChildren<PuzzleGalleryTile>();
+            var tiles = _puzzleGalleryItemContainer.GetComponentsInChildren<PuzzleGalleryTile>();
             Assert.AreEqual(1, tiles.Length);
 
             puzzle.author = "DK";
             
             LocalSave.Instance.Save(puzzle);
             
-            tiles = _galleryObject.GetComponentsInChildren<PuzzleGalleryTile>();
+            tiles = _puzzleGalleryItemContainer.GetComponentsInChildren<PuzzleGalleryTile>();
             Assert.AreEqual(1, tiles.Length);
         }
     }

@@ -1,5 +1,5 @@
 ﻿using System;
-using Persistence;
+using EditorAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,39 +16,38 @@ namespace UI
         private TMP_Text progressPercentField;
         [SerializeField]
         private TMP_Text progressConnectionsField;
-        
-        private Puzzle _currentPuzzle;
-        
-        public void Start()
+
+        private void Start()
         {
             exitButton.onClick.AddListener(OnExit);
-
-            PuzzleManager.Instance.OnPuzzleOpened += OnPuzzleOpened;
         }
 
-        public void OnDestroy()
+        private void OnDisable()
+        {
+            var puzzle = PuzzleManager.Instance.CurrentPuzzle;
+            
+            if (puzzle == null) return;
+            
+            puzzle.UpdateTimer -= OnTimerUpdate;
+            puzzle.OnProgressUpdated -= OnProgressUpdated;
+            
+            timerField.text = "";
+        }
+
+        private void OnDestroy()
         {
             exitButton.onClick.RemoveListener(OnExit);
-            
-            PuzzleManager.Instance.OnPuzzleOpened -= OnPuzzleOpened;
-            PuzzleManager.Instance.OnPuzzleClosed += OnPuzzleClosed;
         }
         
-        private void OnPuzzleOpened(Puzzle puzzle)
+        public void DisplayFields()
         {
-            _currentPuzzle = puzzle;
-            _currentPuzzle.UpdateTimer += OnTimerUpdate;
-            _currentPuzzle.OnProgressUpdated += OnProgressUpdated;
+            var puzzle = PuzzleManager.Instance.CurrentPuzzle;
+            
+            puzzle.UpdateTimer += OnTimerUpdate;
+            puzzle.OnProgressUpdated += OnProgressUpdated;
             
             progressPercentField.text = "0%";
             progressConnectionsField.text = $"0/{puzzle.GoalConnections}";
-        }
-        
-        private void OnPuzzleClosed()
-        {
-            _currentPuzzle.UpdateTimer -= OnTimerUpdate;
-            _currentPuzzle = null;
-            timerField.text = "";
         }
 
         private void OnTimerUpdate(float timeRemaining)
@@ -62,20 +61,20 @@ namespace UI
         
         private void OnProgressUpdated()
         {
-            var currConnections = _currentPuzzle.CurrentConnections;
-            var goalConnections = _currentPuzzle.GoalConnections;
-                
-            var percentComplete = (float) currConnections / goalConnections * 100;
+            var currentPuzzle =  PuzzleManager.Instance.CurrentPuzzle;
             
+            var percentComplete = currentPuzzle.PercentComplete;
             progressPercentField.text = $"{percentComplete:F0}%";
+            
+            var currConnections = currentPuzzle.CurrentConnections;
+            var goalConnections = currentPuzzle.GoalConnections;
             progressConnectionsField.text = $"{currConnections}/{goalConnections}";
         }
 
-        [ContextMenu("Exit Puzzle")]
+        [Button("Exit Puzzle")]
         public void OnExit()
         {
             PuzzleManager.Instance.CloseCurrentPuzzle();
-            timerField.text = "";
         }
     }
 }

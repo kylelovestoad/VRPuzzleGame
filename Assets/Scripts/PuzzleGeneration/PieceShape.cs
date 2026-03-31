@@ -1,6 +1,7 @@
 ﻿using System;
 using PuzzleGeneration.Hexagon;
 using PuzzleGeneration.Jigsaw;
+using PuzzleGeneration.Real;
 using PuzzleGeneration.Rectangle;
 using PuzzleGeneration.Triangle;
 
@@ -25,7 +26,7 @@ namespace PuzzleGeneration
                 PieceShape.Jigsaw => new JigsawPuzzleGenerator(),
                 PieceShape.Triangle => new TrianglePuzzleGenerator(),
                 PieceShape.Hexagon => new HexagonPuzzleGenerator(),
-                PieceShape.Real => throw new NotImplementedException(),
+                PieceShape.Real => new RealPuzzleGenerator(),
                 _ => throw new ArgumentOutOfRangeException(nameof(shape), shape, null)
             };
         }

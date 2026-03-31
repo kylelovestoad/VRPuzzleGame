@@ -19,8 +19,8 @@ class MetaQuestAuthenticationFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val userId = request.getHeader("X-Meta-User-Id")
-        val nonce  = request.getHeader("X-Meta-Nonce")
+        val userId = request.getHeader("Puzzle-Meta-User-Id")
+        val nonce  = request.getHeader("Puzzle-Meta-Nonce")
 
         if (userId != null && nonce != null) {
             try {

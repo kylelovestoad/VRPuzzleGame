@@ -17,12 +17,12 @@ public class Piece : MonoBehaviour
     
     public void InitializePiece(
         PieceCut pieceCut,
-        PuzzleRenderData puzzleRenderData
+        PuzzleSaveData saveData
     )
     {
         gameObject.SetActive(true);
         
-        Mesh pieceMesh = PieceMeshGenerator.PieceMesh(pieceCut.borderPoints);
+        var pieceMesh = PieceMeshGenerator.PieceMesh(pieceCut.borderPoints);
         
         MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
         meshFilter.sharedMesh = pieceMesh;
@@ -33,18 +33,20 @@ public class Piece : MonoBehaviour
 
         var shader = Shader.Find("Unlit/Texture");
         var puzzleImageMaterial = new Material(shader);
-        puzzleImageMaterial.mainTexture = puzzleRenderData.PuzzleImage;
+        puzzleImageMaterial.mainTexture = saveData.PuzzleImage;
 
         var pieceSolutionLocation = pieceCut.solutionLocation;
         var pieceBounds = pieceMesh.bounds;
         var pieceWidth = pieceBounds.max.x - pieceBounds.min.x;
         var pieceHeight = pieceBounds.max.y - pieceBounds.min.y;
-        var puzzleLayout = puzzleRenderData.Layout;
+        var puzzleLayout = saveData.layout;
         
         Debug.Log("Here 1!!!!!!!!!");
         
-        Vector2 uvScale = new Vector2(pieceWidth / puzzleLayout.width, pieceHeight / puzzleLayout.height);
-        Vector2 uvOffset = new Vector2(
+        Debug.Log($"Puzzle Width: {puzzleLayout.width}, Puzzle Height: {puzzleLayout.height}");
+        
+        var uvScale = new Vector2(pieceWidth / puzzleLayout.width, pieceHeight / puzzleLayout.height);
+        var uvOffset = new Vector2(
             (pieceSolutionLocation.x + pieceBounds.min.x) / puzzleLayout.width,
             (pieceSolutionLocation.y + pieceBounds.min.y) / puzzleLayout.height
         );

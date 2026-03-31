@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,13 +12,13 @@ namespace PuzzleGeneration.Triangle
         private const int LeftTriangleOffset = 0;
         private const int RightTriangleOffset = 1;
         
-        public void Generate(
+        public async Task<PuzzleRenderData> Generate(
             Texture2D image, 
             int rows, 
             int cols, 
-            float puzzleHeight, 
-            Action<PuzzleRenderData> onComplete
-        ) {
+            float puzzleHeight
+        )
+        {
             var widthHeightRatio = (float) image.width / image.height;
             var puzzleWidth = puzzleHeight * widthHeightRatio;
             
@@ -70,8 +71,8 @@ namespace PuzzleGeneration.Triangle
         
             var layout = new PuzzleLayout(puzzleWidth, puzzleHeight, PieceShape.Triangle, pieceCuts);
             var renderData = new PuzzleRenderData(image, layout);
-            
-            onComplete?.Invoke(renderData);
+
+            return renderData;
         }
 
         private static void AddPieceCut(

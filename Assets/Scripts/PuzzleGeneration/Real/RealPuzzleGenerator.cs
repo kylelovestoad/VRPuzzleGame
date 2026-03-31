@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -10,12 +11,12 @@ namespace PuzzleGeneration.Real
         private const string URL = "http://localhost:6969/real-puzzle";
         private const string MultiPartFormFilename = "puzzle.png";
         
-        public void Generate(Texture2D image, int rows, int cols, float puzzleHeight, Action<PuzzleRenderData> onComplete)
-        {
-            GetRealPuzzleResponse(image, onComplete);
-        }
-        
-        private async void GetRealPuzzleResponse(Texture2D image, Action<PuzzleRenderData> onComplete)
+        public async Task<PuzzleRenderData> Generate(
+            Texture2D image, 
+            int rows, 
+            int cols, 
+            float puzzleHeight
+        )
         {
             try
             {
@@ -38,7 +39,7 @@ namespace PuzzleGeneration.Real
                 if (request.result == UnityWebRequest.Result.Success)
                 {
                     var response = JsonUtility.FromJson<PuzzleResponse>(request.downloadHandler.text);
-                    onComplete?.Invoke(response.ToPuzzleRenderData());
+                    return response.ToPuzzleRenderData();
                 }
                 else
                 {
@@ -49,6 +50,8 @@ namespace PuzzleGeneration.Real
             {
                 Debug.LogError($"Puzzle generation failed: {e}");
             }
+
+            return null;
         }
     }
 }

@@ -16,7 +16,6 @@ namespace Persistence
         public string name;
         public string author;
         public PuzzleLayout layout;
-        
         public float elapsedTime;
         [CanBeNull] public List<ChunkSaveData> chunks;
         
@@ -24,6 +23,8 @@ namespace Persistence
         public Texture2D PuzzleImage;
         
         public bool HasLocalID => localID != null;
+        
+        public int PieceCount => layout.initialPieceCuts.Count;
 
         public PuzzleSaveData(
             string localID,
@@ -43,6 +44,20 @@ namespace Persistence
             this.chunks = chunks;
             PuzzleImage = puzzleImage;
             this.elapsedTime = elapsedTime;
+        }
+
+        public long CurrentConnections()
+        {
+            if (chunks == null || chunks.Count == 0) return 0;
+            
+            Debug.Log(PieceCount + " " + chunks.Count);
+
+            return PieceCount - chunks.Count + 1;
+        }
+        
+        public float PercentComplete()
+        {
+            return (float) CurrentConnections() / PieceCount * 100;
         }
     }
 }

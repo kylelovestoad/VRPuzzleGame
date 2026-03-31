@@ -22,24 +22,24 @@ public class Chunk : MonoBehaviour
 
     private int _isCollisionProcedureRunning;
 
-    public void InitializeSinglePieceChunk(PieceCut cut, Puzzle puzzle)
+    public void InitializeSinglePieceChunk(PieceCut cut, PuzzleSaveData saveData)
     {
         gameObject.SetActive(true);
         
         Piece piece = Instantiate(piecePrefab, transform);
-        piece.InitializePiece(cut, puzzle.RenderData);
+        piece.InitializePiece(cut, saveData);
         
         InitializeBoxCollider();
     }
     
     public void InitializeMultiplePieceChunk(
         ChunkSaveData chunkStateData,
-        Puzzle puzzle
+        PuzzleSaveData saveData
     ) {
         gameObject.SetActive(true);
         
         var piecesSaveDataList = chunkStateData.pieces;
-        var initialPieceCuts = puzzle.Layout.initialPieceCuts;
+        var initialPieceCuts = saveData.layout.initialPieceCuts;
 
         Debug.Log("Pieces Len: " + piecesSaveDataList.Count);
         
@@ -48,7 +48,7 @@ public class Chunk : MonoBehaviour
             PieceCut currCut = initialPieceCuts[currPiece.pieceIndex];
                 
             Piece piece = Instantiate(piecePrefab, currPiece.position, currPiece.rotation, transform);
-            piece.InitializePiece(currCut, puzzle.RenderData);
+            piece.InitializePiece(currCut, saveData);
         }
 
         InitializeBoxCollider();
@@ -98,10 +98,7 @@ public class Chunk : MonoBehaviour
     {
         UpdateBoxCollider(other.Pieces);
 
-        Piece repPiece = Pieces[0];
-
-        // Debug.LogError($"Thread ID: {Thread.CurrentThread.ManagedThreadId}");
-        // Debug.LogError($"Count: this: {PieceCount}, other: {other.PieceCount}");
+        var repPiece = Pieces[0];
 
         foreach (var otherPiece in other.Pieces.ToArray())
         {
@@ -110,22 +107,25 @@ public class Chunk : MonoBehaviour
         }
 
         other.IsMerged = true;
+        
+    #if UNITY_INCLUDE_TESTS
+        DestroyImmediate(other.gameObject);
+    #else
         Destroy(other.gameObject);
+    #endif
     }
 
     void OnTriggerStay(Collider other)
     {
-        Chunk otherChunk = other.GetComponent<Chunk>();
+        var otherChunk = other.GetComponent<Chunk>();
         
         if (otherChunk == null
             || GetInstanceID() >= otherChunk.GetInstanceID()
             || otherChunk.IsMerged
             || Interlocked.Exchange(ref _isCollisionProcedureRunning, 1) == 1)
         {
-            // Debug.Log("Short fail " + otherChunk.IsMerged + " " + _isCollisionProcedureRunning);
             return;
         }
-        
         
         foreach (var piece in Pieces)
         {

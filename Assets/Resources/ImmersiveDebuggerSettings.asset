@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: ImmersiveDebuggerSettings
   m_EditorClassIdentifier: Meta.XR.ImmersiveDebugger::Meta.XR.ImmersiveDebugger.RuntimeSettings
   debugTypes:
-  - AssemblyName: Meta.XR.BuildingBlocks.AIBlocks
-    DebugTypes:
-    - Meta.XR.BuildingBlocks.AIBlocks.LlmAgentHelper
   - AssemblyName: Meta.XR.ImmersiveDebugger
     DebugTypes:
     - TestSceneUsage

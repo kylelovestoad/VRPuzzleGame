@@ -2,6 +2,7 @@ using System;
 using Persistence;
 using UnityEngine;
 
+
 public class PuzzleManager : MonoBehaviour
 {
     private static PuzzleManager _instance;
@@ -12,9 +13,9 @@ public class PuzzleManager : MonoBehaviour
     [SerializeField] 
     private Puzzle puzzlePrefab;
 
-    private Puzzle _currentPuzzle;
+    public Puzzle CurrentPuzzle { get; private set; }
     
-    public event Action<Puzzle> OnPuzzleOpened;
+    public event Action OnPuzzleOpened;
     public event Action OnPuzzleClosed;
 
     private void Awake()
@@ -24,29 +25,28 @@ public class PuzzleManager : MonoBehaviour
 
     public void OpenPuzzle(PuzzleSaveData puzzleSaveData)
     {
-        var puzzleRenderData = new PuzzleRenderData(
-            puzzleSaveData.PuzzleImage, 
-            puzzleSaveData.layout
-        );
-            
-        _currentPuzzle = Instantiate(puzzlePrefab);
+        Debug.Log("Puzzle Manager: PuzzleOpened");
         
-        _currentPuzzle.InitializePuzzle(
-            puzzleSaveData,
-            puzzleRenderData
-        );
+        CurrentPuzzle = Instantiate(puzzlePrefab);
         
-        OnPuzzleOpened?.Invoke(_currentPuzzle);
+        CurrentPuzzle.InitializePuzzle(puzzleSaveData);
+        
+        OnPuzzleOpened?.Invoke();
     }
     
     public void CloseCurrentPuzzle()
     {
-        var saveData = _currentPuzzle.ToData();
+        var saveData = CurrentPuzzle.ToData();
         LocalSave.Instance.SaveSkipImage(saveData);
-    
-        Destroy(_currentPuzzle.gameObject);
-        _currentPuzzle = null;
-    
+        
         OnPuzzleClosed?.Invoke();
+        
+    #if UNITY_INCLUDE_TESTS
+        DestroyImmediate(CurrentPuzzle.gameObject);
+    #else
+        Destroy(CurrentPuzzle.gameObject);
+    #endif
+        
+        CurrentPuzzle = null;
     }
 }

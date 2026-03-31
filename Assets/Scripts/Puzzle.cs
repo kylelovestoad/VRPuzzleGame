@@ -4,6 +4,7 @@ using System.Linq;
 using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Puzzle: MonoBehaviour
 {
@@ -18,33 +19,34 @@ public class Puzzle: MonoBehaviour
     public PuzzleLayout Layout { get; set; }
     
     public Texture2D PuzzleImage { get; set; }
-    public PuzzleRenderData RenderData { get; set; }
     
     private Chunk[] Chunks => GetComponentsInChildren<Chunk>();
     
-    private float _elapsedTime;
+    public float ElapsedTime { get; private set; }
     private bool _timeRunning;
 
-    public long CurrentConnections => GoalConnections - Chunks.Length + 1;
-    public long GoalConnections => Layout.initialPieceCuts.Count - 1;
+    public long CurrentConnections => GoalConnections == Chunks.Length ? 0 : GoalConnections - Chunks.Length + 1;
+    public long GoalConnections => Layout.initialPieceCuts.Count;
+    public float PercentComplete => (float) CurrentConnections / GoalConnections * 100;
+    public bool IsCompleted => CurrentConnections == GoalConnections;
+    
     public bool IsOnline => OnlineID != null;
     
     public event Action<float> UpdateTimer;
     public event Action OnProgressUpdated;
     
-    public void InitializePuzzle(PuzzleSaveData saveData, PuzzleRenderData renderData)
+    public void InitializePuzzle(PuzzleSaveData saveData)
     {
         LocalID = saveData.localID;
         OnlineID = saveData.onlineID;
         Name = saveData.name;
         Author = saveData.author;
         Layout = saveData.layout;
-        RenderData = renderData;
         PuzzleImage = saveData.PuzzleImage;
         
         InitializeChunks(saveData);
 
-        _elapsedTime = saveData.elapsedTime;
+        ElapsedTime = saveData.elapsedTime;
         _timeRunning = true;
     }
     
@@ -52,24 +54,24 @@ public class Puzzle: MonoBehaviour
     {
         if (!_timeRunning) return;
         
-        _elapsedTime += Time.deltaTime;
+        ElapsedTime += Time.deltaTime;
 
-        UpdateTimer?.Invoke(_elapsedTime);
+        UpdateTimer?.Invoke(ElapsedTime);
     }
     
     private void InitializeChunks(PuzzleSaveData saveData)
     {
         if (saveData.chunks == null || saveData.chunks.Count == 0)
         {
-            InitializeSinglePieceChunks();
+            InitializeSinglePieceChunks(saveData);
         }
         else
         {
-            InitializeSavedChunkStates(saveData.chunks);
+            InitializeSavedChunkStates(saveData);
         }
     }
 
-    private void InitializeSinglePieceChunks()
+    private void InitializeSinglePieceChunks(PuzzleSaveData saveData)
     {
         foreach (var cut in Layout.initialPieceCuts)
         {
@@ -78,34 +80,35 @@ public class Puzzle: MonoBehaviour
             // TODO: randomize placement
             var offset = new Vector3(cut.solutionLocation.x * 1.5f, cut.solutionLocation.y * 1.5f, 0);
 
-            Chunk chunk = Instantiate(
+            var chunk = Instantiate(
                 chunkPrefab, 
                 cut.solutionLocation + offset, 
                 Quaternion.identity, 
                 transform
             );
         
-            chunk.InitializeSinglePieceChunk(cut, this);
+            chunk.InitializeSinglePieceChunk(cut, saveData);
         }
     }
     
-    private void InitializeSavedChunkStates(List<ChunkSaveData> chunks)
+    private void InitializeSavedChunkStates(PuzzleSaveData saveData)
     {
-        foreach (var chunkSaveData in chunks)
+        foreach (var chunkSaveData in saveData.chunks)
         {
-            Chunk chunk = Instantiate(
+            var chunk = Instantiate(
                 chunkPrefab, 
                 chunkSaveData.position, 
                 chunkSaveData.rotation, 
                 transform
             );
         
-            chunk.InitializeMultiplePieceChunk(chunkSaveData, this);
+            chunk.InitializeMultiplePieceChunk(chunkSaveData, saveData);
         }
     }
     
     private void OnTransformChildrenChanged()
     {
+        _timeRunning = _timeRunning && !IsCompleted;
         OnProgressUpdated?.Invoke();
     }
     
@@ -119,7 +122,7 @@ public class Puzzle: MonoBehaviour
             layout: Layout,
             puzzleImage: PuzzleImage,
             chunks: Chunks.Select(c => c.ToData()).ToList(),
-            elapsedTime: _elapsedTime
+            elapsedTime: ElapsedTime
         );
     }
 }

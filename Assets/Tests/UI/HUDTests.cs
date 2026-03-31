@@ -72,14 +72,15 @@ namespace Tests.UI
         [Test]
         public void PuzzleClosedWhenExitButtonClikced()
         {
-            _hud.Start();
+            var startMethod = typeof(HUD).GetMethod(
+                "Start", 
+                BindingFlags.Instance | BindingFlags.NonPublic
+            );
+            startMethod.Invoke(_hud, null);
             
             _exitButton.onClick.Invoke();
             
-            var currentPuzzleField = typeof(PuzzleManager)
-                .GetField("_currentPuzzle", BindingFlags.NonPublic | BindingFlags.Instance);
-            
-            var currentPuzzle = currentPuzzleField.GetValue(PuzzleManager.Instance) as Puzzle;
+            var currentPuzzle = PuzzleManager.Instance.CurrentPuzzle;
             
             Assert.IsNull(currentPuzzle, "Puzzle should be closed");
         }
