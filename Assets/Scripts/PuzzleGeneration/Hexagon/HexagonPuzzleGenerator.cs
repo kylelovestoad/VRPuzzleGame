@@ -7,7 +7,7 @@ namespace PuzzleGeneration.Hexagon
 {
     public class HexagonPuzzleGenerator: IPuzzleGenerator
     {
-        public async Task<PuzzleRenderData> Generate(
+        public async Task<PuzzleGenerationData> Generate(
             Texture2D image, 
             int rows, 
             int cols, 
@@ -33,7 +33,7 @@ namespace PuzzleGeneration.Hexagon
             }
         
             var layout = new PuzzleLayout(dimensions.PuzzleWidth, puzzleHeight, PieceShape.Hexagon, pieceCuts);
-            var renderData = new PuzzleRenderData(image, layout);
+            var renderData = new PuzzleGenerationData(image, layout);
 
             return renderData;
         }

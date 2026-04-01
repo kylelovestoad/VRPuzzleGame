@@ -34,7 +34,7 @@ namespace Seeders
         //         color = Color.gray
         //     };
         //
-        //     var puzzleRenderData = new PuzzleRenderData(puzzleImage, saveData.layout);
+        //     var puzzleRenderData = new PuzzleGenerationData(puzzleImage, saveData.layout);
         //     
         //     var puzzleObject = new GameObject("Puzzle");
         //     puzzle = puzzleObject.AddComponent<Puzzle>();

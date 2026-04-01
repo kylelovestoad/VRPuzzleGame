@@ -12,7 +12,7 @@ namespace PuzzleGeneration.Triangle
         private const int LeftTriangleOffset = 0;
         private const int RightTriangleOffset = 1;
         
-        public async Task<PuzzleRenderData> Generate(
+        public async Task<PuzzleGenerationData> Generate(
             Texture2D image, 
             int rows, 
             int cols, 
@@ -70,7 +70,7 @@ namespace PuzzleGeneration.Triangle
             }
         
             var layout = new PuzzleLayout(puzzleWidth, puzzleHeight, PieceShape.Triangle, pieceCuts);
-            var renderData = new PuzzleRenderData(image, layout);
+            var renderData = new PuzzleGenerationData(image, layout);
 
             return renderData;
         }

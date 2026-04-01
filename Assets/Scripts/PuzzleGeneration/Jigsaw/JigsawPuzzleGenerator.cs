@@ -8,7 +8,7 @@ namespace PuzzleGeneration.Jigsaw
 {
     public class JigsawPuzzleGenerator : IPuzzleGenerator
     {
-        public async Task<PuzzleRenderData> Generate(
+        public async Task<PuzzleGenerationData> Generate(
             Texture2D image, 
             int rows, 
             int cols, 
@@ -80,7 +80,7 @@ namespace PuzzleGeneration.Jigsaw
             }
         
             var layout = new PuzzleLayout(puzzleWidth, puzzleHeight, PieceShape.Jigsaw, pieceCuts);
-            var renderData = new PuzzleRenderData(image, layout);
+            var renderData = new PuzzleGenerationData(image, layout);
 
             return renderData;
         }

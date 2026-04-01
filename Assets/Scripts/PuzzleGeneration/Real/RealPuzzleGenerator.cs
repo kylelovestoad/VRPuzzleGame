@@ -11,7 +11,7 @@ namespace PuzzleGeneration.Real
         private const string URL = "http://localhost:6969/real-puzzle";
         private const string MultiPartFormFilename = "puzzle.png";
         
-        public async Task<PuzzleRenderData> Generate(
+        public async Task<PuzzleGenerationData> Generate(
             Texture2D image, 
             int rows, 
             int cols, 

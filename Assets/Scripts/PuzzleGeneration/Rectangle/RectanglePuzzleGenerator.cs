@@ -10,7 +10,7 @@ namespace PuzzleGeneration.Rectangle
     {
         private const float MaxHorizontalShiftRatio = 0.25f;
     
-        public async Task<PuzzleRenderData> Generate(
+        public async Task<PuzzleGenerationData> Generate(
             Texture2D image, 
             int rows, 
             int cols, 
@@ -66,7 +66,7 @@ namespace PuzzleGeneration.Rectangle
             }
         
             var layout = new PuzzleLayout(puzzleWidth, puzzleHeight, PieceShape.Rectangle, pieceCuts);
-            var renderData = new PuzzleRenderData(image, layout);
+            var renderData = new PuzzleGenerationData(image, layout);
 
             return renderData;
         }
