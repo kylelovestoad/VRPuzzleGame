@@ -66,7 +66,7 @@ class PuzzleMetadataService(
             content = updatedContent,
         )
 
-        
+
         return puzzleMetadataRepository.save(updated).toDTO()
     }
 
