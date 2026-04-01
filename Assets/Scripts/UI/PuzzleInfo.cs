@@ -1,4 +1,5 @@
 ﻿using EditorAttributes;
+using NUnit.Framework;
 using Persistence;
 using TMPro;
 using UnityEngine;
@@ -50,9 +51,23 @@ namespace UI
             percentCompleteField.text = $"{puzzleSaveData.PercentComplete():F0}% Complete";
             pieceProgressField.text = $"{puzzleSaveData.CurrentConnections()}/{puzzleSaveData.PieceCount}";
             
-            puzzleImage.sprite = UIUtils.PuzzleImageSprite(puzzleSaveData);
+            puzzleImage.sprite = UIUtils.PuzzleImageSprite(puzzleSaveData.PuzzleImage);
             
             _puzzleSaveData = puzzleSaveData;
+            
+            gameObject.SetActive(true);
+        }
+        
+        // TODO HACKY. Design needs to make more sense here with PuzzleSaveData and PuzzleMetadata being separate
+        public void DisplayPuzzle(PuzzleMetadata puzzleMetadata)
+        {
+            pieceCountField.text = $"Piece Count: {puzzleMetadata.PieceCount}";
+            pieceShapeField.text = $"Piece Shape: {puzzleMetadata.layout.shape.ToString()}";
+            elapsedTimeField.text = "";
+            percentCompleteField.text = "0% Complete";
+            pieceProgressField.text = $"0/{puzzleMetadata.PieceCount}";
+            
+            puzzleImage.sprite = UIUtils.PuzzleImageSprite(puzzleMetadata.PuzzleImage);
             
             gameObject.SetActive(true);
         }

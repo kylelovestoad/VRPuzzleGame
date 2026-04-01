@@ -22,6 +22,8 @@ class MetaQuestAuthenticationFilter(
         val userId = request.getHeader("Puzzle-Meta-User-Id")
         val nonce  = request.getHeader("Puzzle-Meta-Nonce")
 
+        logger.info("Request: ${request.method} ${request.requestURI} | userId=$userId | nonce=${nonce?.take(10)}")
+
         if (userId != null && nonce != null) {
             try {
 

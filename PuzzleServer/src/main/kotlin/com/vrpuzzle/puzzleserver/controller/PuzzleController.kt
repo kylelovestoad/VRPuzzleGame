@@ -6,9 +6,12 @@ import com.vrpuzzle.puzzleserver.request.CreatePuzzleRequest
 import com.vrpuzzle.puzzleserver.request.UpdatePuzzleMetadataRequest
 import com.vrpuzzle.puzzleserver.request.UpdatePuzzleSaveDataRequest
 import com.vrpuzzle.puzzleserver.security.MetaQuestAuthenticationPrincipal
+import com.vrpuzzle.puzzleserver.services.MetaQuestAuthService
 import com.vrpuzzle.puzzleserver.services.PuzzleMetadataService
 import com.vrpuzzle.puzzleserver.services.PuzzleSaveDataService
 import org.bson.types.ObjectId
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -28,10 +31,7 @@ import org.springframework.web.multipart.MultipartFile
 @RequestMapping("/api/puzzles")
 class PuzzleController(
     private val puzzleMetadataService: PuzzleMetadataService,
-    private val puzzleSaveDataService: PuzzleSaveDataService,
 ) {
-
-
     @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun createPuzzle(
         @RequestPart("metadata") metadata: CreatePuzzleRequest,

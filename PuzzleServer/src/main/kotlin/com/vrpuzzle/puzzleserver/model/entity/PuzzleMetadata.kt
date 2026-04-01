@@ -18,7 +18,7 @@ data class PuzzleMetadata(
     val content: Content,
 ) {
     fun toDTO() = PuzzleMetadataDTO(
-        onlineID = onlineID,
+        onlineID = onlineID.toHexString(),
         name = name,
         author = author,
         layout = layout,

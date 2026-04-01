@@ -63,8 +63,12 @@ namespace Networking
             await request.SendWebRequest();
 
             if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log("Threw: " + request.error);
                 throw new Exception(request.error);
+            }
 
+            Debug.Log(request.downloadHandler.text);
             var list = PuzzleMetadataListDTO.Wrap(request.downloadHandler.text);
             return list.items.ToArray();
         }
@@ -77,7 +81,7 @@ namespace Networking
 
             if (request.result != UnityWebRequest.Result.Success)
                 throw new Exception(request.error);
-
+            
             return JsonUtility.FromJson<PuzzleMetadataDTO>(request.downloadHandler.text);
         }
 

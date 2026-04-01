@@ -4,7 +4,7 @@ import com.vrpuzzle.puzzleserver.model.type.PuzzleLayout
 import org.bson.types.ObjectId
 
 data class PuzzleMetadataDTO(
-    val onlineID: ObjectId,
+    val onlineID: String,
     val name: String,
     val author: String,
     val layout: PuzzleLayout,

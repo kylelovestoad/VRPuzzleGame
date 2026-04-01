@@ -73,6 +73,12 @@ namespace UI
         {
             puzzleInfo.DisplayPuzzle(saveData);
         }
+        
+        // TODO HACKY Design needs to make more sense here with PuzzleSaveData and PuzzleMetadata being separate
+        public void ShowSelectedPuzzle(PuzzleMetadata saveData)
+        {
+            puzzleInfo.DisplayPuzzle(saveData);
+        }
 
         private void ShowBrowsingScreens()
         {

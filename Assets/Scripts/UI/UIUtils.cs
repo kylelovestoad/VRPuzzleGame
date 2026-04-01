@@ -5,9 +5,8 @@ namespace UI
 {
     public static class UIUtils
     {
-        public static Sprite PuzzleImageSprite(PuzzleSaveData puzzleSaveData)
+        public static Sprite PuzzleImageSprite(Texture2D puzzleImageTexture)
         {
-            var puzzleImageTexture = puzzleSaveData.PuzzleImage;
             var puzzleImageSprite = Sprite.Create(
                 puzzleImageTexture,
                 new Rect(0, 0, puzzleImageTexture.width, puzzleImageTexture.height), 

@@ -18,7 +18,7 @@ namespace UI
         public void DisplayPuzzle(PuzzleSaveData puzzleSaveData)
         {
             puzzleNameLabel.text = puzzleSaveData.name;
-            puzzleImage.sprite = UIUtils.PuzzleImageSprite(puzzleSaveData);
+            puzzleImage.sprite = UIUtils.PuzzleImageSprite(puzzleSaveData.PuzzleImage);
         
             _puzzleSaveData = puzzleSaveData;
             

@@ -23,8 +23,7 @@ class PuzzleMetadataService(
         val content = contentService.uploadContent(image)
 
         val puzzleMetadata = PuzzleMetadata(
-            // Filename input should be irrelevant
-            name = content.id.toHexString(),
+            name = metadata.name,
             author = metadata.author,
             layout = metadata.layout,
             content = content,
@@ -44,8 +43,7 @@ class PuzzleMetadataService(
 
     fun updatePuzzle(
         id: ObjectId,
-        metadata:
-        UpdatePuzzleMetadataRequest,
+        metadata: UpdatePuzzleMetadataRequest,
         image: MultipartFile?,
         principal: MetaQuestAuthenticationPrincipal
     ): PuzzleMetadataDTO {
@@ -68,6 +66,7 @@ class PuzzleMetadataService(
             content = updatedContent,
         )
 
+        
         return puzzleMetadataRepository.save(updated).toDTO()
     }
 
