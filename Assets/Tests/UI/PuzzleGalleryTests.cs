@@ -16,45 +16,48 @@ namespace Tests.UI
         private GameObject _galleryObject;
         private PuzzleGallery _puzzleGallery;
         private GameObject _puzzleGalleryItemContainer;
+        private GameObject _puzzleOnlineGalleryItemContainer;
         private PuzzleGalleryTile _tilePrefab;
+        private Toggle _localTab;
+        private Toggle _onlineTab;
 
         [SetUp]
         public void SetUp()
         {
             LocalSave.Initialize(Path.Combine(Application.persistentDataPath, "puzzles.db"));
-            
+    
             _galleryObject = new GameObject("PuzzleGallery");
             _puzzleGallery = _galleryObject.AddComponent<PuzzleGallery>();
 
-            _puzzleGalleryItemContainer = new GameObject("TileContainer");
-            var itemContainerField = typeof(PuzzleGallery).GetField(
-                "puzzleGalleryItemContainer", 
-                BindingFlags.NonPublic | BindingFlags.Instance
-            );
-            itemContainerField.SetValue(_puzzleGallery, _puzzleGalleryItemContainer);
+            var flags = BindingFlags.NonPublic | BindingFlags.Instance;
+            var galleryType = typeof(PuzzleGallery);
 
-            _tilePrefab = new GameObject("TilePrefab").AddComponent<PuzzleGalleryTile>();
+            _puzzleGalleryItemContainer = new GameObject("LocalTileContainer");
+            galleryType.GetField("puzzleLocalGalleryItemContainer", flags)
+                .SetValue(_puzzleGallery, _puzzleGalleryItemContainer);
 
-            var field = typeof(PuzzleGallery)
-                .GetField("puzzleGalleryItemPrefab", BindingFlags.NonPublic | BindingFlags.Instance);
-            field.SetValue(_puzzleGallery, _tilePrefab.GetComponent<PuzzleGalleryTile>());
+            _puzzleOnlineGalleryItemContainer = new GameObject("OnlineTileContainer");
+            galleryType.GetField("puzzleOnlineGalleryItemContainer", flags)
+                .SetValue(_puzzleGallery, _puzzleOnlineGalleryItemContainer);
             
+            _tilePrefab = new GameObject("TilePrefab").AddComponent<PuzzleGalleryTile>();
+            var tileType = typeof(PuzzleGalleryTile);
+
             var labelObject = new GameObject("Label");
             labelObject.transform.SetParent(_tilePrefab.transform);
-            var label = labelObject.AddComponent<TextMeshProUGUI>();
+            tileType.GetField("puzzleNameLabel", flags).SetValue(_tilePrefab, labelObject.AddComponent<TextMeshProUGUI>());
 
             var imageObject = new GameObject("Image");
             imageObject.transform.SetParent(_tilePrefab.transform);
-            var image = imageObject.AddComponent<Image>();
+            tileType.GetField("puzzleImage", flags).SetValue(_tilePrefab, imageObject.AddComponent<Image>());
 
-            var flags = BindingFlags.NonPublic | BindingFlags.Instance;
-            var tileType = typeof(PuzzleGalleryTile);
-            tileType.GetField("puzzleNameLabel", flags).SetValue(_tilePrefab, label);
-            tileType.GetField("puzzleImage", flags).SetValue(_tilePrefab, image);
+            galleryType.GetField("puzzleGalleryItemPrefab", flags).SetValue(_puzzleGallery, _tilePrefab);
+            
+            _localTab = new GameObject("LocalTab").AddComponent<Toggle>();
+            galleryType.GetField("localTab", flags).SetValue(_puzzleGallery, _localTab);
 
-            typeof(PuzzleGallery)
-                .GetField("puzzleGalleryItemPrefab", flags)
-                .SetValue(_puzzleGallery, _tilePrefab);
+            _onlineTab = new GameObject("OnlineTab").AddComponent<Toggle>();
+            galleryType.GetField("onlineTab", flags).SetValue(_puzzleGallery, _onlineTab);
         }
 
         [TearDown]
@@ -62,7 +65,10 @@ namespace Tests.UI
         {
             Object.DestroyImmediate(_galleryObject);
             Object.DestroyImmediate(_puzzleGalleryItemContainer);
+            Object.DestroyImmediate(_puzzleOnlineGalleryItemContainer);
             Object.DestroyImmediate(_tilePrefab.gameObject);
+            Object.DestroyImmediate(_localTab.gameObject);
+            Object.DestroyImmediate(_onlineTab.gameObject);
             
             LocalSave.Instance.DB.DropCollection("puzzles");
             LocalSave.Shutdown();
