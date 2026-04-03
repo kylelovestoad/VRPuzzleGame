@@ -4,7 +4,9 @@ using System.Linq;
 using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class Puzzle: MonoBehaviour
 {
@@ -110,6 +112,29 @@ public class Puzzle: MonoBehaviour
     {
         _timeRunning = _timeRunning && !IsCompleted;
         OnProgressUpdated?.Invoke();
+    }
+
+    private Piece LookupPiece(int pieceIndex)
+    {
+        foreach (var chunk in Chunks)
+        {
+            if (chunk.TryLookupPiece(pieceIndex, out var piece))
+                return piece;
+        }
+        
+        return null;
+    }
+
+    public (Piece, Piece) RandomUnconnectedPiecePair()
+    {
+        var randChunkIndex = Random.Range(0, Chunks.Length);
+        var pieces = Chunks[randChunkIndex].MissingConnections();
+        var (piece0, unconnectedNeighborIndices) = pieces[Random.Range(0, pieces.Count)];
+
+        var randUnconnectedNeighborIndex = Random.Range(0, unconnectedNeighborIndices.Count);
+        var piece1 = LookupPiece(unconnectedNeighborIndices[randUnconnectedNeighborIndex]);
+
+        return (piece0, piece1);
     }
     
     public PuzzleSaveData ToData()

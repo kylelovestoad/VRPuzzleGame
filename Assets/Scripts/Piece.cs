@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Persistence;
 using PuzzleGeneration;
@@ -14,6 +15,9 @@ public class Piece : MonoBehaviour
     
     private PieceCut _cut;
     private Vector2 SolutionLocation => _cut.solutionLocation;
+
+    public int PieceIndex => _cut.pieceIndex;
+    public List<int> NeighborIndices => _cut.neighborIndices;
     
     public void InitializePiece(
         PieceCut pieceCut,

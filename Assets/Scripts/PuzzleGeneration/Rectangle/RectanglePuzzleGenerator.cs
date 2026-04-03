@@ -52,7 +52,6 @@ namespace PuzzleGeneration.Rectangle
 
                     var neighbors = new List<int>();
                     
-                    // TODO, probably dont want this neighborhood due to not all same size
                     if (r > 0) neighbors.Add(pieceIndex - cols);
                     if (r < rows - 1) neighbors.Add(pieceIndex + cols);
                     if (c > 0) neighbors.Add(pieceIndex - 1);

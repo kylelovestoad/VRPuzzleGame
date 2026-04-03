@@ -1,10 +1,13 @@
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using JetBrains.Annotations;
 using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(BoxCollider))]
 public class Chunk : MonoBehaviour
@@ -92,6 +95,32 @@ public class Chunk : MonoBehaviour
         }
 
         return bounds;
+    }
+
+    public List<PieceMissingConnections> MissingConnections()
+    {
+        var pieceIndices = Pieces.Select(piece => piece.PieceIndex).ToHashSet();
+        
+        var pieces = new List<PieceMissingConnections>();
+        
+        foreach (var piece in Pieces)
+        {
+            var unconnectedNeighbors = piece.NeighborIndices
+                .Where(neighborIndex => !pieceIndices.Contains(neighborIndex)).ToList();
+
+            if (unconnectedNeighbors.Count == 0) continue;
+            
+            var currMissingConnections = new PieceMissingConnections(piece, unconnectedNeighbors);
+            pieces.Add(currMissingConnections);
+        }
+
+        return pieces;
+    }
+    
+    public bool TryLookupPiece(int pieceIndex, out Piece? piece)
+    {
+        piece = Pieces.FirstOrDefault(p => p.PieceIndex == pieceIndex);
+        return piece is not null;
     }
 
     private void Merge(Chunk other)
