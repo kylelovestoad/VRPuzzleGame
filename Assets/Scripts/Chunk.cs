@@ -99,22 +99,25 @@ public class Chunk : MonoBehaviour
 
     public List<PieceMissingConnections> MissingConnections()
     {
-        var pieceIndices = Pieces.Select(piece => piece.PieceIndex).ToHashSet();
+        Debug.Assert(PieceCount > 0, "Chunk must have some pieces");
         
-        var pieces = new List<PieceMissingConnections>();
+        var pieceIndices = Pieces.Select(piece => piece.PieceIndex).ToHashSet();
+        var missingConnections = new List<PieceMissingConnections>();
         
         foreach (var piece in Pieces)
         {
+            Debug.LogError($"Neighbors: {piece.NeighborIndices.Count}");
+            
             var unconnectedNeighbors = piece.NeighborIndices
                 .Where(neighborIndex => !pieceIndices.Contains(neighborIndex)).ToList();
 
             if (unconnectedNeighbors.Count == 0) continue;
             
             var currMissingConnections = new PieceMissingConnections(piece, unconnectedNeighbors);
-            pieces.Add(currMissingConnections);
+            missingConnections.Add(currMissingConnections);
         }
 
-        return pieces;
+        return missingConnections;
     }
     
     public bool TryLookupPiece(int pieceIndex, out Piece? piece)
@@ -136,12 +139,15 @@ public class Chunk : MonoBehaviour
         }
 
         other.IsMerged = true;
-        
-    #if UNITY_INCLUDE_TESTS
-        DestroyImmediate(other.gameObject);
-    #else
-        Destroy(other.gameObject);
-    #endif
+
+        if (Application.isPlaying)
+        {
+            Destroy(other.gameObject);
+        }
+        else
+        {
+            DestroyImmediate(other.gameObject);
+        }
     }
 
     void OnTriggerStay(Collider other)
@@ -163,7 +169,6 @@ public class Chunk : MonoBehaviour
                 if (!piece.IsCloseEnough(otherPiece)) continue;
                 
                 Debug.Log("Close Enough");
-                // Debug.LogError($"this: {GetInstanceID()}, other: {otherChunk.GetInstanceID()}");
                 Merge(otherChunk);  
                 goto end;
             }

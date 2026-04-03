@@ -95,6 +95,8 @@ public class Puzzle: MonoBehaviour
     
     private void InitializeSavedChunkStates(PuzzleSaveData saveData)
     {
+        Debug.Assert(saveData.chunks != null, "Puzzle In Progess must have chunk states");
+        
         foreach (var chunkSaveData in saveData.chunks)
         {
             var chunk = Instantiate(
@@ -129,7 +131,12 @@ public class Puzzle: MonoBehaviour
     {
         var randChunkIndex = Random.Range(0, Chunks.Length);
         var pieces = Chunks[randChunkIndex].MissingConnections();
-        var (piece0, unconnectedNeighborIndices) = pieces[Random.Range(0, pieces.Count)];
+        
+        Debug.Log($"Piece Index {pieces.Count}");
+        
+        var piece0MissingConnections = pieces[Random.Range(0, pieces.Count)];
+        var piece0 = piece0MissingConnections.CurrPiece;
+        var unconnectedNeighborIndices = piece0MissingConnections.UnconnectedNeighborIndices;
 
         var randUnconnectedNeighborIndex = Random.Range(0, unconnectedNeighborIndices.Count);
         var piece1 = LookupPiece(unconnectedNeighborIndices[randUnconnectedNeighborIndex]);

@@ -1,3 +1,4 @@
+using EditorAttributes;
 using Persistence;
 using TMPro;
 using UnityEngine;
@@ -25,7 +26,7 @@ namespace UI
             gameObject.SetActive(true);
         }
     
-        [ContextMenu("Open Puzzle")]
+        [Button("Open Puzzle")]
         public void OnClick()
         {
             UIManager.Instance.ShowSelectedPuzzle(_puzzleSaveData);

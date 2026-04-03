@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Persistence;
@@ -14,10 +15,20 @@ public class Piece : MonoBehaviour
     private const float ConnectionRotationThreshold = 45f;
     
     private PieceCut _cut;
+    
     private Vector2 SolutionLocation => _cut.solutionLocation;
-
     public int PieceIndex => _cut.pieceIndex;
     public List<int> NeighborIndices => _cut.neighborIndices;
+    public List<Vector2> BorderPoints => _cut.borderPoints;
+    
+    private MeshRenderer _meshRenderer;
+    private MeshFilter _meshFilter;
+
+    private void Awake()
+    {
+        _meshRenderer = GetComponent<MeshRenderer>();
+        _meshFilter = GetComponent<MeshFilter>();
+    }
     
     public void InitializePiece(
         PieceCut pieceCut,
@@ -27,13 +38,10 @@ public class Piece : MonoBehaviour
         gameObject.SetActive(true);
         
         var pieceMesh = PieceMeshGenerator.PieceMesh(pieceCut.borderPoints);
-        
-        MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
-        meshFilter.sharedMesh = pieceMesh;
+
+        _meshFilter.sharedMesh = pieceMesh;
         
         Debug.Log("Here!!!!!!!!!");
-        
-        MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
 
         var shader = Shader.Find("Unlit/Texture");
         var puzzleImageMaterial = new Material(shader);
@@ -65,10 +73,10 @@ public class Piece : MonoBehaviour
         
         Debug.Log("Here 2!!!!!!!!!");
     
-        meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, backAndSidesMaterial };
+        _meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, backAndSidesMaterial };
         
-        Bounds bounds = pieceMesh.bounds;
-        BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
+        var bounds = pieceMesh.bounds;
+        var boxCollider = gameObject.GetComponent<BoxCollider>();
         boxCollider.center = bounds.center;
         boxCollider.size = bounds.size;
         
@@ -79,8 +87,7 @@ public class Piece : MonoBehaviour
 
     public Vector3[] Vertices()
     {
-        return gameObject
-            .GetComponent<MeshFilter>()
+        return _meshFilter
             .sharedMesh
             .vertices
             .Select(vertex => transform.TransformPoint(vertex))
@@ -119,6 +126,23 @@ public class Piece : MonoBehaviour
     {
         transform.position = ExpectedPosition(other);
         transform.rotation = other.transform.rotation;
+    }
+    
+    public void SetOutlineMaterial(Material material)
+    {
+        var materials = _meshRenderer.sharedMaterials;
+        var newMaterials = new Material[materials.Length + 1];
+        
+        materials.CopyTo(newMaterials, 0);
+        newMaterials[^1] = material;
+        _meshRenderer.sharedMaterials = newMaterials;
+    }
+
+    public void ClearOutlineMaterial(Material material)
+    {
+        _meshRenderer.sharedMaterials = _meshRenderer.sharedMaterials
+            .Where(m => m != material)
+            .ToArray();
     }
 
     public PieceSaveData ToData()

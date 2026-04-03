@@ -12,14 +12,20 @@ namespace UI
         
         [SerializeField]
         private TMP_Text timerField;
+        
         [SerializeField]
         private TMP_Text progressPercentField;
+        
         [SerializeField]
         private TMP_Text progressConnectionsField;
+        
+        [SerializeField]
+        private Button hintButton;
 
         private void Start()
         {
             exitButton.onClick.AddListener(OnExit);
+            hintButton.onClick.AddListener(OnHint);
         }
 
         private void OnDisable()
@@ -37,6 +43,7 @@ namespace UI
         private void OnDestroy()
         {
             exitButton.onClick.RemoveListener(OnExit);
+            hintButton.onClick.RemoveListener(OnHint);
         }
         
         public void DisplayFields()
@@ -72,9 +79,15 @@ namespace UI
         }
 
         [Button("Exit Puzzle")]
-        public void OnExit()
+        private void OnExit()
         {
             PuzzleManager.Instance.CloseCurrentPuzzle();
+        }
+        
+        [Button("Get Hint")]
+        private void OnHint()
+        {
+            PuzzleManager.Instance.ShowPuzzleHint();
         }
     }
 }

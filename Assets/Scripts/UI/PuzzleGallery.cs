@@ -163,11 +163,14 @@ namespace UI
             
             foreach (var tile in tiles)
             {
-#if UNITY_INCLUDE_TESTS
-                DestroyImmediate(tile.gameObject);
-#else
-                Destroy(tile.gameObject);
-#endif
+                if (Application.isPlaying)
+                {
+                    Destroy(tile.gameObject);
+                }
+                else
+                {
+                    DestroyImmediate(tile.gameObject);
+                }
             }
 
         }
@@ -185,11 +188,14 @@ namespace UI
             
             foreach (var tile in tiles)
             {
-#if UNITY_INCLUDE_TESTS
-                DestroyImmediate(tile.gameObject);
-#else
-                Destroy(tile.gameObject);
-#endif
+                if (Application.isPlaying)
+                {
+                    Destroy(tile.gameObject);
+                }
+                else
+                {
+                    DestroyImmediate(tile.gameObject);
+                }
             }
         }
     }

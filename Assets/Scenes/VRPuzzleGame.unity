@@ -141,7 +141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 243424268127923124, guid: 708bb04189b8488418aa725e7f94bbe8, type: 3}
       propertyPath: m_Name
-      value: PrimaryButton_IconAndLabel_UnityUIButton (3)
+      value: ExitButton
       objectReference: {fileID: 0}
     - target: {fileID: 595206484569908514, guid: 708bb04189b8488418aa725e7f94bbe8, type: 3}
       propertyPath: m_text
@@ -13161,6 +13161,7 @@ MonoBehaviour:
   timerField: {fileID: 331782349691096544}
   progressPercentField: {fileID: 5871006960078327968}
   progressConnectionsField: {fileID: 7825325554237784018}
+  hintButton: {fileID: 7512016337302798240}
 --- !u!1 &657161513
 GameObject:
   m_ObjectHideFlags: 0
@@ -31281,6 +31282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   puzzlePrefab: {fileID: 5672668829631471454, guid: 57be528b8de726d4bbe02bd0cb516ebd, type: 3}
+  hintOutlineMaterial: {fileID: 2100000, guid: 50a137bde20c22a4998e078faf3ff7cc, type: 2}
 --- !u!4 &2052330966
 Transform:
   m_ObjectHideFlags: 0
@@ -36817,7 +36819,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 243424268127923124, guid: 708bb04189b8488418aa725e7f94bbe8, type: 3}
       propertyPath: m_Name
-      value: PrimaryButton_IconAndLabel_UnityUIButton
+      value: HintButton
       objectReference: {fileID: 0}
     - target: {fileID: 595206484569908514, guid: 708bb04189b8488418aa725e7f94bbe8, type: 3}
       propertyPath: m_text
@@ -37068,6 +37070,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6762338879539652668, guid: 708bb04189b8488418aa725e7f94bbe8, type: 3}
   m_PrefabInstance: {fileID: 7512016337302798236}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7512016337302798240 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -2353561579252473944, guid: 708bb04189b8488418aa725e7f94bbe8, type: 3}
+  m_PrefabInstance: {fileID: 7512016337302798236}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7512016337302798238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &7513834338467354201
 RectTransform:
   m_ObjectHideFlags: 0

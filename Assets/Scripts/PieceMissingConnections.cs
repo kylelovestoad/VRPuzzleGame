@@ -1,7 +1,13 @@
 ﻿using System.Collections.Generic;
 
-public record PieceMissingConnections(Piece CurrPiece, List<int> UnconnectedNeighborIndices)
+public readonly struct PieceMissingConnections
 {
-    public Piece CurrPiece { get; } = CurrPiece;
-    public List<int> UnconnectedNeighborIndices { get; } = UnconnectedNeighborIndices;
+    public readonly Piece CurrPiece;
+    public readonly List<int> UnconnectedNeighborIndices;
+
+    public PieceMissingConnections(Piece currPiece, List<int> unconnectedNeighborIndices)
+    {
+        CurrPiece = currPiece;
+        UnconnectedNeighborIndices = unconnectedNeighborIndices;
+    }
 }
