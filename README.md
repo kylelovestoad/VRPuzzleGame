@@ -92,7 +92,7 @@ Navigate to `PuzzleServer` to find the backend code
 
 Navigate to `Assets/Tests` to find the unity unit tests.
 
-The Coverage report is located in the repo root under the folder CoverageReport
+The Coverage report is located in the repo root under the folder CodeCoverage
 
 Navigate to `RealPuzzleImport/tests` to find the Real Puzzle Microservice unit tests.
 
