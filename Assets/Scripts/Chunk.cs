@@ -16,13 +16,14 @@ public class Chunk : MonoBehaviour
 
     [SerializeField] 
     private Piece piecePrefab;
+
+    public event Action<Chunk, Chunk> OnMerge;
     
     private BoxCollider BoxCollider => GetComponent<BoxCollider>();
-    private Piece[] Pieces => GetComponentsInChildren<Piece>();
+    public Piece[] Pieces => GetComponentsInChildren<Piece>();
     public int PieceCount => Pieces.Length;
 
-    public bool IsMerged { set; get; }
-
+    private bool _isDestroyQueued;
     private int _isCollisionProcedureRunning;
 
     public void InitializeSinglePieceChunk(PieceCut cut, PuzzleSaveData saveData)
@@ -138,7 +139,9 @@ public class Chunk : MonoBehaviour
             otherPiece.transform.SetParent(transform);
         }
 
-        other.IsMerged = true;
+        other._isDestroyQueued = true;
+        
+        OnMerge.Invoke(this, other);
 
         if (Application.isPlaying)
         {
@@ -150,13 +153,13 @@ public class Chunk : MonoBehaviour
         }
     }
 
-    void OnTriggerStay(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         var otherChunk = other.GetComponent<Chunk>();
         
         if (otherChunk == null
             || GetInstanceID() >= otherChunk.GetInstanceID()
-            || otherChunk.IsMerged
+            || otherChunk._isDestroyQueued
             || Interlocked.Exchange(ref _isCollisionProcedureRunning, 1) == 1)
         {
             return;

@@ -15,7 +15,10 @@ public class PuzzleManager : MonoBehaviour
     private Puzzle puzzlePrefab;
     
     [SerializeField] 
-    private Material hintOutlineMaterial;
+    private Material hintFrontMaterial;
+    
+    [SerializeField] 
+    private Material hintBackAndSidesMaterial;
 
     public Puzzle CurrentPuzzle { get; private set; }
     
@@ -28,7 +31,7 @@ public class PuzzleManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
-        _hintManager = new HintManager(hintOutlineMaterial);
+        _hintManager = new HintManager(hintFrontMaterial, hintBackAndSidesMaterial);
     }
 
     public void OpenPuzzle(PuzzleSaveData puzzleSaveData)
@@ -36,8 +39,8 @@ public class PuzzleManager : MonoBehaviour
         Debug.Log("Puzzle Manager: PuzzleOpened");
         
         CurrentPuzzle = Instantiate(puzzlePrefab);
-        
         CurrentPuzzle.InitializePuzzle(puzzleSaveData);
+        CurrentPuzzle.OnProgressUpdated += OnChunkMerge;
         
         OnPuzzleOpened?.Invoke();
     }
@@ -50,14 +53,24 @@ public class PuzzleManager : MonoBehaviour
         LocalSave.Instance.SaveSkipImage(saveData);
         
         OnPuzzleClosed?.Invoke();
-        
-    #if UNITY_INCLUDE_TESTS
-        DestroyImmediate(CurrentPuzzle.gameObject);
-    #else
-        Destroy(CurrentPuzzle.gameObject);
-    #endif
+
+        if (Application.isPlaying)
+        {
+            Destroy(CurrentPuzzle.gameObject);
+        }
+        else
+        {
+            DestroyImmediate(CurrentPuzzle.gameObject);
+        }
         
         CurrentPuzzle = null;
+    }
+
+    private void OnChunkMerge(Piece[] updatedPieces)
+    {
+        Debug.Assert(CurrentPuzzle != null, "Puzzle must be playing to merge");
+
+        _hintManager.ClearHintIfConnected(updatedPieces);
     }
 
     public void ShowPuzzleHint()

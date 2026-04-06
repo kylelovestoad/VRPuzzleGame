@@ -22,12 +22,12 @@ public class Puzzle: MonoBehaviour
     
     public Texture2D PuzzleImage { get; set; }
     
-    private Chunk[] Chunks => GetComponentsInChildren<Chunk>();
+    public Chunk[] Chunks => GetComponentsInChildren<Chunk>();
     
     public float ElapsedTime { get; private set; }
     private bool _timeRunning;
 
-    public long CurrentConnections => GoalConnections == Chunks.Length ? 0 : GoalConnections - Chunks.Length + 1;
+    public long CurrentConnections { get; private set; }
     public long GoalConnections => Layout.initialPieceCuts.Count;
     public float PercentComplete => (float) CurrentConnections / GoalConnections * 100;
     public bool IsCompleted => CurrentConnections == GoalConnections;
@@ -35,7 +35,7 @@ public class Puzzle: MonoBehaviour
     public bool IsOnline => OnlineID != null;
     
     public event Action<float> UpdateTimer;
-    public event Action OnProgressUpdated;
+    public event Action<Piece[]> OnProgressUpdated;
     
     public void InitializePuzzle(PuzzleSaveData saveData)
     {
@@ -52,7 +52,7 @@ public class Puzzle: MonoBehaviour
         _timeRunning = true;
     }
     
-    void Update()
+    private void Update()
     {
         if (!_timeRunning) return;
         
@@ -70,6 +70,11 @@ public class Puzzle: MonoBehaviour
         else
         {
             InitializeSavedChunkStates(saveData);
+        }
+
+        foreach (var chunk in Chunks)
+        {
+            chunk.OnMerge += OnChunkMerged;
         }
     }
 
@@ -110,10 +115,14 @@ public class Puzzle: MonoBehaviour
         }
     }
     
-    private void OnTransformChildrenChanged()
+    private void OnChunkMerged(Chunk combinedChunk, Chunk destroyedChunk)
     {
-        _timeRunning = _timeRunning && !IsCompleted;
-        OnProgressUpdated?.Invoke();
+        CurrentConnections = CurrentConnections == 0 ? 2 : CurrentConnections + 1;
+        _timeRunning = _timeRunning && combinedChunk.PieceCount == GoalConnections;
+
+        destroyedChunk.OnMerge -= OnChunkMerged;
+        
+        OnProgressUpdated?.Invoke(combinedChunk.Pieces);
     }
 
     private Piece LookupPiece(int pieceIndex)

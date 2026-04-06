@@ -10,9 +10,18 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class Piece : MonoBehaviour
 {
-    // TODO: make better thresholds
     private const float ConnectionDistanceThreshold = 0.01f;
     private const float ConnectionRotationThreshold = 45f;
+
+    [SerializeField] 
+    private Shader defaultFrontShader;
+    [SerializeField] 
+    private Shader defaultBackAndSidesShader;
+    
+    private MeshRenderer _meshRenderer;
+    private MeshFilter _meshFilter;
+    
+    private Material[] _normalPuzzleMaterials;
     
     private PieceCut _cut;
     
@@ -21,9 +30,6 @@ public class Piece : MonoBehaviour
     public List<int> NeighborIndices => _cut.neighborIndices;
     public List<Vector2> BorderPoints => _cut.borderPoints;
     
-    private MeshRenderer _meshRenderer;
-    private MeshFilter _meshFilter;
-
     private void Awake()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
@@ -41,19 +47,16 @@ public class Piece : MonoBehaviour
 
         _meshFilter.sharedMesh = pieceMesh;
         
-        Debug.Log("Here!!!!!!!!!");
-
-        var shader = Shader.Find("Unlit/Texture");
-        var puzzleImageMaterial = new Material(shader);
-        puzzleImageMaterial.mainTexture = saveData.PuzzleImage;
+        var frontMaterial = new Material(defaultFrontShader)
+        {
+            mainTexture = saveData.PuzzleImage
+        };
 
         var pieceSolutionLocation = pieceCut.solutionLocation;
         var pieceBounds = pieceMesh.bounds;
         var pieceWidth = pieceBounds.max.x - pieceBounds.min.x;
         var pieceHeight = pieceBounds.max.y - pieceBounds.min.y;
         var puzzleLayout = saveData.layout;
-        
-        Debug.Log("Here 1!!!!!!!!!");
         
         Debug.Log($"Puzzle Width: {puzzleLayout.width}, Puzzle Height: {puzzleLayout.height}");
         
@@ -63,17 +66,18 @@ public class Piece : MonoBehaviour
             (pieceSolutionLocation.y + pieceBounds.min.y) / puzzleLayout.height
         );
         
-        puzzleImageMaterial.mainTextureOffset = uvOffset;
-        puzzleImageMaterial.mainTextureScale = uvScale;
+        Debug.LogError($"UV Offset: {uvOffset} {pieceCut.pieceIndex}");
         
-        Material backAndSidesMaterial = new(Shader.Find("Unlit/Color"))
+        frontMaterial.mainTextureOffset = uvOffset;
+        frontMaterial.mainTextureScale = uvScale;
+        
+        Material backAndSidesMaterial = new(defaultBackAndSidesShader)
         {
             color = Color.gray
         };
         
-        Debug.Log("Here 2!!!!!!!!!");
-    
-        _meshRenderer.sharedMaterials = new[] { puzzleImageMaterial, backAndSidesMaterial };
+        _normalPuzzleMaterials = new[] { frontMaterial, backAndSidesMaterial };
+        _meshRenderer.sharedMaterials = _normalPuzzleMaterials;
         
         var bounds = pieceMesh.bounds;
         var boxCollider = gameObject.GetComponent<BoxCollider>();
@@ -127,27 +131,29 @@ public class Piece : MonoBehaviour
         transform.position = ExpectedPosition(other);
         transform.rotation = other.transform.rotation;
     }
-    
-    public void SetOutlineMaterial(Material material)
-    {
-        var materials = _meshRenderer.sharedMaterials;
-        var newMaterials = new Material[materials.Length + 1];
-        
-        materials.CopyTo(newMaterials, 0);
-        newMaterials[^1] = material;
-        _meshRenderer.sharedMaterials = newMaterials;
-    }
 
-    public void ClearOutlineMaterial(Material material)
+    public void SetMaterials(Material frontMaterial, Material backAndSidesMaterial)
     {
-        _meshRenderer.sharedMaterials = _meshRenderer.sharedMaterials
-            .Where(m => m != material)
-            .ToArray();
+        Debug.LogError($"UV Scale: {_meshRenderer.sharedMaterials[0].mainTextureScale} {_cut.pieceIndex}");
+        Debug.LogError($"UV Offset: {_meshRenderer.sharedMaterials[0].mainTextureOffset} {_cut.pieceIndex}");
+        
+        var normalFrontMaterial = _normalPuzzleMaterials[0];
+        
+        frontMaterial.mainTexture = normalFrontMaterial.mainTexture;
+        frontMaterial.mainTextureOffset = normalFrontMaterial.mainTextureOffset;
+        frontMaterial.mainTextureScale = normalFrontMaterial.mainTextureScale;
+
+        _meshRenderer.sharedMaterials = new[] { frontMaterial, backAndSidesMaterial };
+    }
+    
+    public void ResetMaterials()
+    {
+        _meshRenderer.sharedMaterials = _normalPuzzleMaterials;
     }
 
     public PieceSaveData ToData()
     {
-        Debug.Log(("Saving Piece: " + _cut.pieceIndex));
+        Debug.Log("Saving Piece: " + _cut.pieceIndex);
         
         return new PieceSaveData
         {
