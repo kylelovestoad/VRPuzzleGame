@@ -36,8 +36,9 @@ class PuzzleController(
     fun createPuzzle(
         @RequestPart("metadata") metadata: CreatePuzzleRequest,
         @RequestPart("image") image: MultipartFile,
+        @AuthenticationPrincipal principal: MetaQuestAuthenticationPrincipal
     ): ResponseEntity<PuzzleMetadataDTO> {
-        val result = puzzleMetadataService.createPuzzle(metadata, image)
+        val result = puzzleMetadataService.createPuzzle(metadata, image, principal)
         return ResponseEntity.status(HttpStatus.CREATED).body(result)
     }
 

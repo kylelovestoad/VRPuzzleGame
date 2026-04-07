@@ -48,12 +48,9 @@ namespace Networking
 
         private async Task AddAuthHeaders(UnityWebRequest request)
         {
-            if (Manager.User == null)
-            {
-                throw new InvalidCredentialException("User is not logged in");
-            }
-            request.SetRequestHeader("Puzzle-Meta-User-Id", Manager.User.ID.ToString());
-            request.SetRequestHeader("Puzzle-Meta-Nonce", await Manager.GetNonce());
+            var user = await Manager.GetUser();
+            request.SetRequestHeader("Puzzle-Meta-User-Id", user.ID.ToString());
+            request.SetRequestHeader("Puzzle-Meta-User-Access-Token", await Manager.GetAccessToken());
         }
 
         public async Task<PuzzleMetadataDTO[]> GetAllPuzzles()

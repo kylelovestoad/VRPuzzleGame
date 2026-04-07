@@ -10,25 +10,22 @@ namespace Networking
 {
     public class MetaQuestAuthenticationManager : MonoBehaviour
     {
-        [CanBeNull] public User User { get; private set; }
+        [CanBeNull] public string AccessToken { get; private set; }
         public bool IsReady { get; private set; }
 
         async void Start()
         {
             await Initialize();
         }
-        
+
         public async Task Initialize()
         {
             try
             {
                 await InitializePlatform();
                 await CheckEntitlement();
-                User = await GetUser();
 
                 IsReady = true;
-                if (User != null)
-                    Debug.Log($"Ready with user: {User.DisplayName} : {User.ID} : {User.OculusID}");
             }
             catch (Exception e)
             {
@@ -37,7 +34,7 @@ namespace Networking
             }
         }
 
-        private static Task CheckEntitlement()
+        private Task CheckEntitlement()
         {
             var tcs = new TaskCompletionSource<bool>();
             Entitlements.IsUserEntitledToApplication().OnComplete(msg =>
@@ -50,7 +47,7 @@ namespace Networking
             return tcs.Task;
         }
 
-        private static Task InitializePlatform()
+        private Task InitializePlatform()
         {
             var tcs = new TaskCompletionSource<bool>();
             Core.AsyncInitialize().OnComplete(msg =>
@@ -63,28 +60,28 @@ namespace Networking
             return tcs.Task;
         }
 
-        private static Task<User> GetUser()
+        public Task<User> GetUser()
         {
             var tcs = new TaskCompletionSource<User>();
             Users.GetLoggedInUser().OnComplete(msg =>
             {
                 if (msg.IsError)
-                    tcs.SetException(new Exception($"Failed to get user ID: {msg.GetError().Message}"));
+                    tcs.SetException(new Exception($"Failed to get user: {msg.GetError().Message}"));
                 else
                     tcs.SetResult(msg.Data);
             });
             return tcs.Task;
         }
 
-        public Task<string> GetNonce()
+        public Task<string> GetAccessToken()
         {
             var tcs = new TaskCompletionSource<string>();
-            Users.GetUserProof().OnComplete(msg =>
+            Users.GetAccessToken().OnComplete(msg =>
             {
                 if (msg.IsError)
-                    tcs.SetException(new Exception($"Failed to get nonce: {msg.GetError().Message}"));
+                    tcs.SetException(new Exception($"Failed to get access token: {msg.GetError().Message}"));
                 else
-                    tcs.SetResult(msg.Data.Value);
+                    tcs.SetResult(msg.Data);
             });
             return tcs.Task;
         }
