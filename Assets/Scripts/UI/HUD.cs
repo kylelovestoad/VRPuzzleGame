@@ -66,7 +66,7 @@ namespace UI
             timerField.text = time;
         }
         
-        private void OnProgressUpdated()
+        private void OnProgressUpdated(Piece[] _)
         {
             var currentPuzzle =  PuzzleManager.Instance.CurrentPuzzle;
             

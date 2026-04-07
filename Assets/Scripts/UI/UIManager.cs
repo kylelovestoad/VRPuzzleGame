@@ -61,7 +61,7 @@ namespace UI
             ShowBrowsingScreens();
         }
 
-        private void OnProgressUpdated()
+        private void OnProgressUpdated(Piece[] _)
         {
             if (!PuzzleManager.Instance.CurrentPuzzle.IsCompleted) return;
             
