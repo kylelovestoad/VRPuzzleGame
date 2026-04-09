@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Networking;
 using Networking.Request;
 using Oculus.Interaction.Samples;
@@ -36,6 +37,8 @@ namespace UI
 
         public Texture2D puzzleImage;
         public Texture2D realImage;
+        
+        public event Action<string, PuzzleGenerationData> OnRealPuzzleGenerated;
 
         private class PuzzleCreationForm
         {
@@ -88,22 +91,37 @@ namespace UI
 
             var generator = form.Shape.Generator();
 
-            var renderData = await generator.Generate(
+            var generationData = await generator.Generate(
                 realImage, 
                 form.Rows, 
                 form.Columns, 
                 PuzzleGameHeight
             );
-                
-            LocalSave.Instance.Create(new PuzzleSaveData(
-                null,
-                null,
-                form.Name,
-                "DK",
-                renderData.Layout,
-                new List<ChunkSaveData>(),
-                renderData.PuzzleImage
-            ));
+            
+            OnGeneration(form, generationData);
+        }
+
+        private void OnGeneration(
+            PuzzleCreationForm form,
+            PuzzleGenerationData generationData
+        )
+        {
+            if (form.Shape == PieceShape.Real)
+            {
+                OnRealPuzzleGenerated?.Invoke(form.Name, generationData);
+            }
+            else
+            {
+                LocalSave.Instance.Create(new PuzzleSaveData(
+                    null,
+                    null,
+                    form.Name,
+                    "DK",
+                    generationData.Layout,
+                    new List<ChunkSaveData>(),
+                    generationData.PuzzleImage
+                ));
+            }
         }
 
         [Button("Upload Puzzle")]

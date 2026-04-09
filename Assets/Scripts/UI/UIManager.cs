@@ -26,6 +26,9 @@ namespace UI
         [SerializeField]
         private CompletionDialog completionDialog;
         
+        [SerializeField]
+        private RealPuzzleDetectionReport realPuzzleDetectionReport;
+        
         private void Awake()
         {
             _instance = this;
@@ -35,6 +38,10 @@ namespace UI
         {
             PuzzleManager.Instance.OnPuzzleOpened += OnPuzzleOpened;
             PuzzleManager.Instance.OnPuzzleClosed += OnPuzzleClosed;
+
+            puzzleGallery.OnPuzzleSelected += ShowSelectedPuzzle;
+            puzzleCreation.OnRealPuzzleGenerated += OnRealPuzzleGenerated;
+            realPuzzleDetectionReport.OnExit += OnRealPuzzleDetectionReportExit;
             
             ShowBrowsingScreens();
         }
@@ -43,6 +50,10 @@ namespace UI
         {
             PuzzleManager.Instance.OnPuzzleOpened -= OnPuzzleOpened;
             PuzzleManager.Instance.OnPuzzleClosed -= OnPuzzleClosed;
+            
+            puzzleGallery.OnPuzzleSelected -= ShowSelectedPuzzle;
+            puzzleCreation.OnRealPuzzleGenerated -= OnRealPuzzleGenerated;
+            realPuzzleDetectionReport.OnExit -= OnRealPuzzleDetectionReportExit;
         }
 
         private void OnPuzzleOpened()
@@ -69,16 +80,16 @@ namespace UI
             completionDialog.DisplayFields();
         }
 
-        public void ShowSelectedPuzzle(PuzzleSaveData saveData)
+        private void ShowSelectedPuzzle(PuzzleSaveData saveData)
         {
             puzzleInfo.DisplayPuzzle(saveData);
         }
         
         // TODO HACKY Design needs to make more sense here with PuzzleSaveData and PuzzleMetadata being separate
-        public void ShowSelectedPuzzle(PuzzleMetadata saveData)
-        {
-            puzzleInfo.DisplayPuzzle(saveData);
-        }
+        // public void ShowSelectedPuzzle(PuzzleMetadata saveData)
+        // {
+        //     puzzleInfo.DisplayPuzzle(saveData);
+        // }
 
         private void ShowBrowsingScreens()
         {
@@ -88,6 +99,7 @@ namespace UI
             puzzleInfo.gameObject.SetActive(false);
             gameplayHUD.gameObject.SetActive(false);
             completionDialog.gameObject.SetActive(false);
+            realPuzzleDetectionReport.gameObject.SetActive(false);
         }
 
         private void ShowGameplayScreens()
@@ -95,9 +107,24 @@ namespace UI
             puzzleCreation.gameObject.SetActive(false);
             puzzleInfo.gameObject.SetActive(false);
             puzzleGallery.gameObject.SetActive(false);
+            realPuzzleDetectionReport.gameObject.SetActive(false);
             
             gameplayHUD.gameObject.SetActive(true);
             gameplayHUD.DisplayFields();
+        }
+
+        private void OnRealPuzzleGenerated(
+            string puzzleName, 
+            PuzzleGenerationData generationData
+        )
+        {
+            realPuzzleDetectionReport.gameObject.SetActive(true);
+            realPuzzleDetectionReport.Display(puzzleName, generationData);
+        }
+
+        private void OnRealPuzzleDetectionReportExit()
+        {
+            realPuzzleDetectionReport.gameObject.SetActive(false);
         }
     }
 }

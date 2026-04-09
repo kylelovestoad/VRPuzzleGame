@@ -1,3 +1,4 @@
+using System;
 using EditorAttributes;
 using Persistence;
 using TMPro;
@@ -15,6 +16,8 @@ namespace UI
         private Image puzzleImage;
 
         private PuzzleSaveData _puzzleSaveData;
+        
+        public event Action<PuzzleSaveData> OnTileClicked;
 
         public void DisplayPuzzle(PuzzleSaveData puzzleSaveData)
         {
@@ -29,7 +32,7 @@ namespace UI
         [Button("Open Puzzle")]
         public void OnClick()
         {
-            UIManager.Instance.ShowSelectedPuzzle(_puzzleSaveData);
+            OnTileClicked?.Invoke(_puzzleSaveData);
         }
     }
 }

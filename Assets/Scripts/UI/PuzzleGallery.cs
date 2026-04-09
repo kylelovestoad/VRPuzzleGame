@@ -31,7 +31,7 @@ namespace UI
         [SerializeField]
         private Toggle onlineTab; 
         
-        
+        public event Action<PuzzleSaveData> OnPuzzleSelected;
 
         private enum Tab
         {
@@ -115,6 +115,8 @@ namespace UI
                     false
                 );
 
+                galleryTile.OnTileClicked += Select;
+
                 galleryTile.DisplayPuzzle(puzzleSaveData);
             }
         }
@@ -197,6 +199,11 @@ namespace UI
                     DestroyImmediate(tile.gameObject);
                 }
             }
+        }
+
+        private void Select(PuzzleSaveData puzzleSaveData)
+        {
+            OnPuzzleSelected?.Invoke(puzzleSaveData);
         }
     }
 }
