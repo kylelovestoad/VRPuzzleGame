@@ -18,13 +18,17 @@ class PuzzleMetadataService(
     internal fun createMetadata(metadata: PuzzleMetadata): PuzzleMetadataDTO =
         puzzleMetadataRepository.save(metadata).toDTO()
 
-    fun createPuzzle(metadata: CreatePuzzleRequest, image: MultipartFile): PuzzleMetadataDTO {
+    fun createPuzzle(
+        metadata: CreatePuzzleRequest,
+        image: MultipartFile, principal:
+        MetaQuestAuthenticationPrincipal
+    ): PuzzleMetadataDTO {
 
         val content = contentService.uploadContent(image)
 
         val puzzleMetadata = PuzzleMetadata(
             name = metadata.name,
-            author = metadata.author,
+            author = principal.metaUser.displayName,
             layout = metadata.layout,
             content = content,
         )
@@ -61,7 +65,7 @@ class PuzzleMetadataService(
 
         val updated = existing.copy(
             name = metadata.name ?: existing.name,
-            author = metadata.author ?: existing.author,
+            author = principal.metaUser.displayName,
             layout = metadata.layout ?: existing.layout,
             content = updatedContent,
         )

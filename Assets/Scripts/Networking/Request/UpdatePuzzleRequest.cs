@@ -8,7 +8,6 @@ namespace Networking.Request
     public class UpdatePuzzleRequest
     {
         [CanBeNull] public string name;
-        [CanBeNull] public string author;
         [CanBeNull] public PuzzleLayout layout;
     }
 }

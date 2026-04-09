@@ -139,9 +139,8 @@ namespace UI
                 PuzzleGameHeight
             );
             
-            var puzzle = await PuzzleServerApi.Instance.CreatePuzzle(new CreatePuzzleRequest(
+            await PuzzleServerApi.Instance.CreatePuzzle(new CreatePuzzleRequest(
                 form.Name,
-                PuzzleServerApi.Instance.Manager.User.DisplayName,
                 renderData.Layout
             ), puzzleImage);
         }
