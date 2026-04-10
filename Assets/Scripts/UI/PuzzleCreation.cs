@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using EditorAttributes;
+using PuzzleGeneration.Rectangle;
 using Void = EditorAttributes.Void;
 
 namespace UI
@@ -89,10 +90,10 @@ namespace UI
             var valid = TryGetFormInput(out var form);
             if (!valid) return;
 
-            var generator = form.Shape.Generator();
+            var generator = new RectanglePuzzleGenerator();
 
             var generationData = await generator.Generate(
-                realImage, 
+                puzzleImage, 
                 form.Rows, 
                 form.Columns, 
                 PuzzleGameHeight

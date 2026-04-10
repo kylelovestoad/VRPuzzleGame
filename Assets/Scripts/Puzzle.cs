@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
@@ -80,27 +81,37 @@ public class Puzzle: MonoBehaviour
 
     private void InitializeSinglePieceChunks(PuzzleSaveData saveData)
     {
-        foreach (var cut in Layout.initialPieceCuts)
-        {
-            Debug.Log(cut.solutionLocation);
-
-            // TODO: randomize placement
-            var offset = new Vector3(cut.solutionLocation.x * 1.5f, cut.solutionLocation.y * 1.5f, 0);
-
-            var chunk = Instantiate(
-                chunkPrefab, 
-                cut.solutionLocation + offset, 
-                Quaternion.identity, 
-                transform
-            );
+        var initialCuts = Layout.initialPieceCuts;
         
-            chunk.InitializeSinglePieceChunk(cut, saveData);
+        var grid = PuzzlePlacement.GetBoundingGrid(Layout);
+        PuzzlePlacement.ShuffleCells(grid.Cells);
+        
+        for (var i = 0; i < initialCuts.Count; i++)
+        {
+            PlacePieceInCell(initialCuts[i], grid.Cells[i], grid, saveData);
         }
+    }
+
+    private void PlacePieceInCell(
+        PieceCut cut, 
+        PuzzlePlacement.Cell cell, 
+        PuzzlePlacement.BoundingGrid boundingGrid, 
+        PuzzleSaveData saveData
+    )
+    {
+        var randomRotation = PuzzlePlacement.RandomRotationZ();
+        var chunk = Instantiate(chunkPrefab, Vector3.zero, randomRotation, transform);
+        chunk.InitializeSinglePieceChunk(cut, saveData);
+
+        var piece = chunk.FirstPiece();
+        var position = PuzzlePlacement.RandomPositionInCell(cell, boundingGrid, piece);
+        chunk.transform.position = position;
     }
     
     private void InitializeSavedChunkStates(PuzzleSaveData saveData)
     {
-        Debug.Assert(saveData.chunks != null, "Puzzle In Progess must have chunk states");
+        Debug.Assert(saveData.chunks != null, 
+            "Puzzle In Progress must have chunk states");
         
         foreach (var chunkSaveData in saveData.chunks)
         {

@@ -26,11 +26,14 @@ public class Chunk : MonoBehaviour
     private bool _isDestroyQueued;
     private int _isCollisionProcedureRunning;
 
-    public void InitializeSinglePieceChunk(PieceCut cut, PuzzleSaveData saveData)
+    public void InitializeSinglePieceChunk(
+        PieceCut cut, 
+        PuzzleSaveData saveData
+    )
     {
         gameObject.SetActive(true);
         
-        Piece piece = Instantiate(piecePrefab, transform);
+        var piece = Instantiate(piecePrefab, transform);
         piece.InitializePiece(cut, saveData);
         
         InitializeBoxCollider();
@@ -96,6 +99,11 @@ public class Chunk : MonoBehaviour
         }
 
         return bounds;
+    }
+
+    public Piece FirstPiece()
+    {
+        return Pieces[0];
     }
 
     public List<PieceMissingConnections> MissingConnections()

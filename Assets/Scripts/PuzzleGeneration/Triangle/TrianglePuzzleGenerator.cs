@@ -48,14 +48,14 @@ namespace PuzzleGeneration.Triangle
                     var leftIndex = pieceCuts.Count;
                     var rightIndex = leftIndex + 1;
 
-                    AddPieceCut(pieceCuts, leftIndex, rightIndex, solutionLocation, pair.LeftVertices,
+                    AddPieceCut(pieceCuts, leftIndex, r, c * 2, rightIndex, solutionLocation, pair.LeftVertices,
                         prevRowNeighborIndex: GetPrevRowNeighborIndex(prevRowTrianglePairs, c, leftIndex, cols),
                         isPrevRowNeighborCondition: !pair.PositiveSlopingDiagonal,
                         hasPrevCol: c > 0,
                         hasNextCol: false
                     );
 
-                    AddPieceCut(pieceCuts, rightIndex, leftIndex, solutionLocation, pair.RightVertices,
+                    AddPieceCut(pieceCuts, rightIndex, r, c * 2 + 1, leftIndex, solutionLocation, pair.RightVertices,
                         prevRowNeighborIndex: GetPrevRowNeighborIndex(prevRowTrianglePairs, c, leftIndex, cols),
                         isPrevRowNeighborCondition: pair.PositiveSlopingDiagonal,
                         hasPrevCol: false,
@@ -78,6 +78,8 @@ namespace PuzzleGeneration.Triangle
         private static void AddPieceCut(
             List<PieceCut> pieceCuts,
             int index,
+            int row,
+            int col,
             int siblingIndex,
             Vector3 solutionLocation,
             List<Vector2> vertices,
@@ -99,7 +101,7 @@ namespace PuzzleGeneration.Triangle
                 pieceCuts[prevRowNeighborIndex.Value].neighborIndices.Add(index);
             }
 
-            var pieceCut = new PieceCut(index, neighbors, solutionLocation, vertices);
+            var pieceCut = new PieceCut(index, row, col, neighbors, solutionLocation, vertices);
             pieceCuts.Add(pieceCut);
         }
 

@@ -97,6 +97,23 @@ public class Piece : MonoBehaviour
             .Select(vertex => transform.TransformPoint(vertex))
             .ToArray();
     }
+    
+    public Bounds GetVertexBounds()
+    {
+        var vertices = Vertices();
+        var min = vertices[0];
+        var max = vertices[0];
+
+        foreach (var v in vertices)
+        {
+            min = Vector3.Min(min, v);
+            max = Vector3.Max(max, v);
+        }
+
+        var bounds = new Bounds();
+        bounds.SetMinMax(min, max);
+        return bounds;
+    }
 
     private bool IsNeighbor(Piece other)
     {

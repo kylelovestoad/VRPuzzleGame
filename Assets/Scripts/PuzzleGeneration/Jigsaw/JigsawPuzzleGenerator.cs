@@ -70,7 +70,7 @@ namespace PuzzleGeneration.Jigsaw
                     if (c > 0) neighbors.Add(pieceIndex - 1);
                     if (c < cols - 1) neighbors.Add(pieceIndex + 1);
                     
-                    var cut = new PieceCut(pieceIndex, neighbors, solutionLocation, borderPoints);
+                    var cut = new PieceCut(pieceIndex, r, c, neighbors, solutionLocation, borderPoints);
                     pieceCuts.Add(cut);
                     
                     leftBoundary = rightBoundary;
