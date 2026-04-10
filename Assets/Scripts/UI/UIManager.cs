@@ -118,6 +118,8 @@ namespace UI
             PuzzleGenerationData generationData
         )
         {
+            Debug.Log("UI Manager: OnRealPuzzleGenerated");
+            
             realPuzzleDetectionReport.gameObject.SetActive(true);
             realPuzzleDetectionReport.Display(puzzleName, generationData);
         }

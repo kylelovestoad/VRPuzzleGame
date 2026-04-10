@@ -15,9 +15,22 @@ namespace UI
         [SerializeField]
         private Image puzzleImage;
 
+        [SerializeField] 
+        private Button selectButton;
+
         private PuzzleSaveData _puzzleSaveData;
         
         public event Action<PuzzleSaveData> OnTileClicked;
+        
+        private void Start()
+        {
+            selectButton.onClick.AddListener(OnClick);
+        }
+        
+        private void OnDestroy()
+        {
+            selectButton.onClick.RemoveListener(OnClick);
+        }
 
         public void DisplayPuzzle(PuzzleSaveData puzzleSaveData)
         {

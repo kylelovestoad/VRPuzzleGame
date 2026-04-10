@@ -10,6 +10,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using EditorAttributes;
+using PuzzleGeneration.Hexagon;
+using PuzzleGeneration.Jigsaw;
+using PuzzleGeneration.Real;
 using PuzzleGeneration.Rectangle;
 using Void = EditorAttributes.Void;
 
@@ -90,7 +93,7 @@ namespace UI
             var valid = TryGetFormInput(out var form);
             if (!valid) return;
 
-            var generator = new RectanglePuzzleGenerator();
+            var generator = form.Shape.Generator();
 
             var generationData = await generator.Generate(
                 puzzleImage, 
@@ -109,6 +112,7 @@ namespace UI
         {
             if (form.Shape == PieceShape.Real)
             {
+                Debug.Log("PuzzleCreation: OnRealPuzzleGenerated");
                 OnRealPuzzleGenerated?.Invoke(form.Name, generationData);
             }
             else

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using EditorAttributes;
 using Persistence;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,7 +34,7 @@ namespace UI
             acceptButton.onClick.RemoveListener(Accept);
             acceptButton.onClick.RemoveListener(Trash);
         }
-
+        
         public void Display(
             string puzzleName, 
             PuzzleGenerationData generationData
@@ -46,12 +47,13 @@ namespace UI
             gameObject.SetActive(true);
         }
 
+        [Button("Accept")]
         private void Accept()
         {
             LocalSave.Instance.Create(new PuzzleSaveData(
                 null,
                 null,
-                "Name",
+                _puzzleName,
                 "DK",
                 _generationData.Layout,
                 new List<ChunkSaveData>(),
@@ -61,6 +63,7 @@ namespace UI
             OnExit?.Invoke();
         }
         
+        [Button("Trash")]
         private void Trash()
         {
             OnExit?.Invoke();

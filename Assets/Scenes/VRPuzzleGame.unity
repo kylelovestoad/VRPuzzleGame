@@ -7101,6 +7101,18 @@ PrefabInstance:
       value: Room
       objectReference: {fileID: 0}
     - target: {fileID: 1573937324926373621, guid: 7d01fdf47fd68f94cbddf4a4eff1e3fa, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1573937324926373621, guid: 7d01fdf47fd68f94cbddf4a4eff1e3fa, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1573937324926373621, guid: 7d01fdf47fd68f94cbddf4a4eff1e3fa, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1573937324926373621, guid: 7d01fdf47fd68f94cbddf4a4eff1e3fa, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.5237294
       objectReference: {fileID: 0}
@@ -21616,6 +21628,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 191934660831941347, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 266562364566381057, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -21800,6 +21816,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4648767731415452789, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
+      propertyPath: selectButton
+      value: 
+      objectReference: {fileID: 999680856}
     - target: {fileID: 4812970187696311199, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -22254,6 +22274,17 @@ MonoBehaviour:
   puzzleOnlineGalleryItemContainer: {fileID: 1210892056}
   localTab: {fileID: 1514170555}
   onlineTab: {fileID: 342684164}
+--- !u!114 &999680856 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 191934660831941347, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
+  m_PrefabInstance: {fileID: 999680847}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1 &1008387637
 GameObject:
   m_ObjectHideFlags: 0
@@ -34111,19 +34142,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 205431904945624814, guid: d1fbb9de4e73aff46a9f589420c2ad34, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 205431904945624814, guid: d1fbb9de4e73aff46a9f589420c2ad34, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 205431904945624814, guid: d1fbb9de4e73aff46a9f589420c2ad34, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 184
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 205431904945624814, guid: d1fbb9de4e73aff46a9f589420c2ad34, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -128
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 235928751188799294, guid: d1fbb9de4e73aff46a9f589420c2ad34, type: 3}
       propertyPath: m_AnchorMax.y
@@ -34199,7 +34230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1244861666801616035, guid: d1fbb9de4e73aff46a9f589420c2ad34, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1255411172774442197, guid: d1fbb9de4e73aff46a9f589420c2ad34, type: 3}
       propertyPath: m_AnchorMax.y
@@ -34347,19 +34378,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3478105553159553354, guid: d1fbb9de4e73aff46a9f589420c2ad34, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3478105553159553354, guid: d1fbb9de4e73aff46a9f589420c2ad34, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3478105553159553354, guid: d1fbb9de4e73aff46a9f589420c2ad34, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 184
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3478105553159553354, guid: d1fbb9de4e73aff46a9f589420c2ad34, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -128
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3763735689970886096, guid: d1fbb9de4e73aff46a9f589420c2ad34, type: 3}
       propertyPath: m_IsActive
@@ -34591,7 +34622,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5312722807834868960, guid: d1fbb9de4e73aff46a9f589420c2ad34, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5934350129205589805, guid: d1fbb9de4e73aff46a9f589420c2ad34, type: 3}
       propertyPath: m_AnchorMax.y
@@ -34695,7 +34726,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6653064668363691903, guid: d1fbb9de4e73aff46a9f589420c2ad34, type: 3}
       propertyPath: m_text
-      value: Does this look good?
+      value: Do you want to keep this puzzle?
       objectReference: {fileID: 0}
     - target: {fileID: 6653064668363691903, guid: d1fbb9de4e73aff46a9f589420c2ad34, type: 3}
       propertyPath: m_fontSize
