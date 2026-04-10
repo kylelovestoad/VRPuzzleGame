@@ -7,20 +7,17 @@ public static class PuzzlePlacement
     public static BoundingGrid GetBoundingGrid(PuzzleLayout layout)
     {
         var cells = new List<Cell>();
-        var maxRow = 0;
-        var maxCol = 0;
 
-        foreach (var cut in layout.initialPieceCuts)
+        for (var row = 0; row < layout.rows; row++)
         {
-            var currCell = new Cell
+            for (var col = 0; col < layout.cols; col++)
             {
-                Row = cut.row,
-                Col = cut.col
-            };
-            cells.Add(currCell);
-            
-            if (cut.row > maxRow) maxRow = cut.row;
-            if (cut.col > maxCol) maxCol = cut.col;
+                cells.Add(new Cell
+                {
+                    Row = row,
+                    Col = col
+                });
+            }
         }
         
         var boundingWidth = layout.width * 3f;
@@ -29,8 +26,8 @@ public static class PuzzlePlacement
         return new BoundingGrid 
         {
             Cells = cells,
-            CellWidth = boundingWidth / (maxCol + 1),
-            CellHeight = boundingHeight / (maxRow + 1),
+            CellWidth = boundingWidth / layout.cols,
+            CellHeight = boundingHeight / layout.rows,
         };
     }
     

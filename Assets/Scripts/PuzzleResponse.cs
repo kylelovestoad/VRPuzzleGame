@@ -25,12 +25,13 @@ public class PuzzleResponse
         return texture;
     }
 
-    public PuzzleGenerationData ToPuzzleRenderData()
+    public PuzzleGenerationData ToPuzzleGenerationData()
     {
         var image = PuzzleImageTexture2D();
         
         var pieceCuts = initialPieceCuts.Select(pieceResponse => pieceResponse.ToPieceCut()).ToList();
-        var layout = new PuzzleLayout(puzzleWidth, puzzleHeight, PieceShape.Real, pieceCuts);
+        // TODO: fix row and col
+        var layout = new PuzzleLayout(0, 0, puzzleWidth, puzzleHeight, PieceShape.Real, pieceCuts);
         
         var renderData = new PuzzleGenerationData(image, layout);
         

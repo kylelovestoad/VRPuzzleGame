@@ -57,14 +57,14 @@ namespace PuzzleGeneration.Rectangle
                     if (c > 0) neighbors.Add(pieceIndex - 1);
                     if (c < cols - 1) neighbors.Add(pieceIndex + 1);
                     
-                    PieceCut cut = new PieceCut(pieceIndex, r, c, neighbors, solutionLocation, borderPoints);
+                    var cut = new PieceCut(pieceIndex, neighbors, solutionLocation, borderPoints);
                     pieceCuts.Add(cut);
                 
                     leftBoundary = rightBoundary;
                 }
             }
         
-            var layout = new PuzzleLayout(puzzleWidth, puzzleHeight, PieceShape.Rectangle, pieceCuts);
+            var layout = new PuzzleLayout(rows, cols, puzzleWidth, puzzleHeight, PieceShape.Rectangle, pieceCuts);
             var renderData = new PuzzleGenerationData(image, layout);
 
             return renderData;

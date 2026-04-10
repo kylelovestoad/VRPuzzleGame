@@ -69,7 +69,14 @@ namespace PuzzleGeneration.Triangle
                 prevRowTrianglePairs = currRowTrianglePairs;
             }
         
-            var layout = new PuzzleLayout(puzzleWidth, puzzleHeight, PieceShape.Triangle, pieceCuts);
+            var layout = new PuzzleLayout(
+                rows, 
+                cols, 
+                puzzleWidth, 
+                puzzleHeight, 
+                PieceShape.Triangle, 
+                pieceCuts
+            );
             var renderData = new PuzzleGenerationData(image, layout);
 
             return renderData;
@@ -101,7 +108,7 @@ namespace PuzzleGeneration.Triangle
                 pieceCuts[prevRowNeighborIndex.Value].neighborIndices.Add(index);
             }
 
-            var pieceCut = new PieceCut(index, row, col, neighbors, solutionLocation, vertices);
+            var pieceCut = new PieceCut(index, neighbors, solutionLocation, vertices);
             pieceCuts.Add(pieceCut);
         }
 

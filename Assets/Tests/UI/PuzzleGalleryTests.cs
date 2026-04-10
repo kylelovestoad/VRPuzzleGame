@@ -101,7 +101,7 @@ namespace Tests.UI
                 null, 
                 "dk", 
                 "Author", 
-                new PuzzleLayout(2, 2, PieceShape.Rectangle, new List<PieceCut>()), 
+                new PuzzleLayout(0, 0, 2, 2, PieceShape.Rectangle, new List<PieceCut>()), 
                 null,
                 new Texture2D(2, 2)
             );
@@ -130,7 +130,7 @@ namespace Tests.UI
                     null, 
                     "dk", 
                     "Author", 
-                    new PuzzleLayout(2, 2, PieceShape.Rectangle, new List<PieceCut>()), 
+                    new PuzzleLayout(0, 0, 2, 2, PieceShape.Rectangle, new List<PieceCut>()), 
                     null,
                     new Texture2D(2, 2)
                 );
@@ -156,7 +156,7 @@ namespace Tests.UI
                 null, 
                 "dk", 
                 "Author", 
-                new PuzzleLayout(1, 1, PieceShape.Rectangle, new List<PieceCut>()), 
+                new PuzzleLayout(0, 0, 1, 1, PieceShape.Rectangle, new List<PieceCut>()), 
                 null,
                 new Texture2D(1, 1)
             );

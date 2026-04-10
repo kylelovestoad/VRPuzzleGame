@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using JetBrains.Annotations;
+using Oculus.Interaction;
 using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
@@ -25,6 +26,7 @@ public class Chunk : MonoBehaviour
 
     private bool _isDestroyQueued;
     private int _isCollisionProcedureRunning;
+    private readonly HashSet<Chunk> _pendingMergeChunks = new();
 
     public void InitializeSinglePieceChunk(
         PieceCut cut, 
@@ -160,33 +162,62 @@ public class Chunk : MonoBehaviour
             DestroyImmediate(other.gameObject);
         }
     }
+    
+    private bool IsGrabbed()
+    {
+        return Pieces.Any(piece => piece.IsGrabbed());
+    }
 
     private void OnTriggerStay(Collider other)
     {
         var otherChunk = other.GetComponent<Chunk>();
         
-        if (otherChunk == null
-            || GetInstanceID() >= otherChunk.GetInstanceID()
-            || otherChunk._isDestroyQueued
-            || Interlocked.Exchange(ref _isCollisionProcedureRunning, 1) == 1)
-        {
-            return;
-        }
+        if (otherChunk == null) return;
+        if (otherChunk._isDestroyQueued) return;
+        if (GetInstanceID() >= otherChunk.GetInstanceID()) return;
+        if (Interlocked.Exchange(ref _isCollisionProcedureRunning, 1) == 1) return;
+
+        var grabbed = IsGrabbed();
+        var otherGrabbed = otherChunk.IsGrabbed();
         
-        foreach (var piece in Pieces)
+        if (grabbed && otherGrabbed)
         {
-            foreach (var otherPiece in otherChunk.Pieces)
+            _pendingMergeChunks.Add(otherChunk);
+        }
+        else if (_pendingMergeChunks.Contains(otherChunk))
+        {
+            foreach (var piece in Pieces)
             {
-                if (!piece.IsCloseEnough(otherPiece)) continue;
-                
-                Debug.Log("Close Enough");
-                Merge(otherChunk);  
-                goto end;
+                foreach (var otherPiece in otherChunk.Pieces)
+                {
+                    if (!piece.IsCloseEnough(otherPiece)) continue;
+
+                    if (grabbed)
+                    {
+                        Merge(otherChunk);
+                    }
+                    else
+                    {
+                        otherChunk.Merge(this);
+                    }
+                    
+                    goto end;
+                }
             }
         }
         
         end:
         Interlocked.Exchange(ref _isCollisionProcedureRunning, 0);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        var otherChunk = other.GetComponent<Chunk>();
+        
+        if (otherChunk == null) return;
+        if (GetInstanceID() >= otherChunk.GetInstanceID()) return;
+        
+        _pendingMergeChunks.Remove(otherChunk);
     }
     
     public ChunkSaveData ToData()

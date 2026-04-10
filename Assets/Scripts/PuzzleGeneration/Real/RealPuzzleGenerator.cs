@@ -39,7 +39,7 @@ namespace PuzzleGeneration.Real
                 if (request.result == UnityWebRequest.Result.Success)
                 {
                     var response = JsonUtility.FromJson<PuzzleResponse>(request.downloadHandler.text);
-                    return response.ToPuzzleRenderData();
+                    return response.ToPuzzleGenerationData();
                 }
                 else
                 {

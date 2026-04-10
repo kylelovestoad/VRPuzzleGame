@@ -19,8 +19,8 @@ namespace Tests
                 new(1, 1)
             };
             
-            var piece0Cut = new PieceCut(0, 0, 0, new List<int> {1}, Vector2.zero, vertices);
-            var piece1Cut = new PieceCut(1, 0, 0, new List<int> {0}, new Vector2(1, 0), vertices);
+            var piece0Cut = new PieceCut(0, new List<int> {1}, Vector2.zero, vertices);
+            var piece1Cut = new PieceCut(1, new List<int> {0}, new Vector2(1, 0), vertices);
             
             var pieceCuts = new List<PieceCut> { piece0Cut, piece1Cut };
             
@@ -29,7 +29,7 @@ namespace Tests
                 null, 
                 name, 
                 "Author", 
-                new PuzzleLayout(2, 2, PieceShape.Rectangle, pieceCuts), 
+                new PuzzleLayout(1, 2, 2, 2, PieceShape.Rectangle, pieceCuts), 
                 null,
                 new Texture2D(2, 2)
             );

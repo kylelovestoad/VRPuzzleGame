@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Oculus.Interaction;
 using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
@@ -20,6 +20,7 @@ public class Piece : MonoBehaviour
     
     private MeshRenderer _meshRenderer;
     private MeshFilter _meshFilter;
+    private Grabbable _grabbable;
     
     private Material[] _normalPuzzleMaterials;
     
@@ -34,6 +35,7 @@ public class Piece : MonoBehaviour
     {
         _meshRenderer = GetComponent<MeshRenderer>();
         _meshFilter = GetComponent<MeshFilter>();
+        _grabbable = GetComponent<Grabbable>();
     }
     
     public void InitializePiece(
@@ -166,6 +168,11 @@ public class Piece : MonoBehaviour
     public void ResetMaterials()
     {
         _meshRenderer.sharedMaterials = _normalPuzzleMaterials;
+    }
+    
+    public bool IsGrabbed()
+    {
+        return _grabbable.SelectingPointsCount > 0;
     }
 
     public PieceSaveData ToData()

@@ -32,7 +32,14 @@ namespace PuzzleGeneration.Hexagon
                 }
             }
         
-            var layout = new PuzzleLayout(dimensions.PuzzleWidth, puzzleHeight, PieceShape.Hexagon, pieceCuts);
+            var layout = new PuzzleLayout(
+                rows, 
+                cols + 1, 
+                dimensions.PuzzleWidth, 
+                puzzleHeight, 
+                PieceShape.Hexagon, 
+                pieceCuts
+            );
             var renderData = new PuzzleGenerationData(image, layout);
 
             return renderData;
@@ -57,7 +64,7 @@ namespace PuzzleGeneration.Hexagon
                 : (OddRowNeighbors(r, c, rows, cols, pieceIndex), 
                     OddRowBorderPoints(pieceWidth, pieceHeight, r, rows));
                     
-            var cut = new PieceCut(pieceIndex, r, c, neighbors, solutionLocation, borderPoints);
+            var cut = new PieceCut(pieceIndex, neighbors, solutionLocation, borderPoints);
             pieceCuts.Add(cut);
         }
         
@@ -198,7 +205,7 @@ namespace PuzzleGeneration.Hexagon
                 vertices.Add(new(0, -pieceHeight / 2));
             }
                     
-            PieceCut cut = new PieceCut(pieceIndex, r, cols, neighbors, solutionLocation, vertices);
+            PieceCut cut = new PieceCut(pieceIndex, neighbors, solutionLocation, vertices);
             pieceCuts.Add(cut);
         }
 
