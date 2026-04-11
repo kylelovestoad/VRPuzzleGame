@@ -85,6 +85,8 @@ public class Puzzle: MonoBehaviour
         
         var grid = PuzzlePlacement.GetBoundingGrid(Layout);
         PuzzlePlacement.ShuffleCells(grid.Cells);
+
+        Debug.Log("Grid Count " + grid.Cells.Count);
         
         for (var i = 0; i < initialCuts.Count; i++)
         {

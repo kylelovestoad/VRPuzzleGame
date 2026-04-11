@@ -71,7 +71,7 @@ namespace PuzzleGeneration.Triangle
         
             var layout = new PuzzleLayout(
                 rows, 
-                cols, 
+                cols * 2,
                 puzzleWidth, 
                 puzzleHeight, 
                 PieceShape.Triangle, 
