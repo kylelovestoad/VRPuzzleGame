@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using NUnit.Framework;
 using Persistence;
 using PuzzleGeneration;
@@ -75,7 +76,15 @@ public class Puzzle: MonoBehaviour
 
         foreach (var chunk in Chunks)
         {
-            chunk.OnMerge += OnChunkMerged;
+            chunk.OnChunkDropped += OnChunkDropped;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        foreach (var chunk in Chunks)
+        {
+            chunk.OnChunkDropped -= OnChunkDropped;
         }
     }
 
@@ -128,21 +137,13 @@ public class Puzzle: MonoBehaviour
         
             chunk.InitializeMultiplePieceChunk(chunkSaveData, saveData);
         }
-
-        if (CurrentConnections == 1)
-        {
-            CurrentConnections = 2;
-        }
-    }
-    
-    private void OnChunkMerged(Chunk combinedChunk, Chunk destroyedChunk)
-    {
-        CurrentConnections = CurrentConnections == 0 ? 2 : CurrentConnections + 1;
-        _timeRunning = _timeRunning && combinedChunk.PieceCount != GoalConnections;
-
-        destroyedChunk.OnMerge -= OnChunkMerged;
         
-        OnProgressUpdated?.Invoke(combinedChunk.Pieces);
+        Debug.Log($"Fat Current Connections: {CurrentConnections}");
+
+        if (CurrentConnections > 0)
+        {
+            CurrentConnections++;
+        }
     }
 
     private Piece LookupPiece(int pieceIndex)
@@ -171,6 +172,55 @@ public class Puzzle: MonoBehaviour
         var piece1 = LookupPiece(unconnectedNeighborIndices[randUnconnectedNeighborIndex]);
 
         return (piece0, piece1);
+    }
+
+    private void OnChunkDropped(Chunk chunk)
+    {
+        foreach (var otherChunk in Chunks)
+        {
+            if (chunk == otherChunk || !chunk.IsCloseEnough(otherChunk)) continue;
+
+            var smallIdChunk = chunk;
+            var bigIdChunk = otherChunk;
+
+            if (otherChunk.GetInstanceID() < chunk.GetInstanceID())
+            {
+                smallIdChunk = otherChunk;
+                bigIdChunk = chunk;
+            }
+
+            if (Interlocked.Exchange(ref smallIdChunk.mergeProcedureRunning, 1) == 1)
+            {
+                continue;
+            }
+            
+            if (Interlocked.Exchange(ref bigIdChunk.mergeProcedureRunning, 1) == 1)
+            {
+                Interlocked.Exchange(ref smallIdChunk.mergeProcedureRunning, 0);
+                continue;
+            }
+            
+            chunk.OnChunkDropped -= OnChunkDropped;
+            
+            otherChunk.Merge(chunk);
+            
+            if (Application.isPlaying)
+            {
+                Destroy(chunk.gameObject);
+            }
+            else
+            {
+                DestroyImmediate(chunk.gameObject);
+            }
+                
+            CurrentConnections = CurrentConnections == 0 ? 2 : CurrentConnections + 1;
+            _timeRunning = _timeRunning && otherChunk.PieceCount != GoalConnections;
+        
+            OnProgressUpdated?.Invoke(otherChunk.Pieces);
+            
+            Interlocked.Exchange(ref smallIdChunk.mergeProcedureRunning, 0);
+            Interlocked.Exchange(ref bigIdChunk.mergeProcedureRunning, 0);
+        }
     }
     
     public PuzzleSaveData ToData()

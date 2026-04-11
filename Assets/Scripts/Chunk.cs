@@ -8,25 +8,21 @@ using Oculus.Interaction;
 using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(BoxCollider))]
+// [RequireComponent(typeof(BoxCollider))]
 public class Chunk : MonoBehaviour
 {
-    private const float CollisionDistanceThreshold = 0.01f;
-
     [SerializeField] 
     private Piece piecePrefab;
 
-    public event Action<Chunk, Chunk> OnMerge;
-    
-    private BoxCollider BoxCollider => GetComponent<BoxCollider>();
+    public event Action<Chunk> OnChunkDropped;
+
     public Piece[] Pieces => GetComponentsInChildren<Piece>();
     public int PieceCount => Pieces.Length;
 
-    private bool _isDestroyQueued;
-    private int _isCollisionProcedureRunning;
-    private readonly HashSet<Chunk> _pendingMergeChunks = new();
+    public int mergeProcedureRunning;
 
     public void InitializeSinglePieceChunk(
         PieceCut cut, 
@@ -38,7 +34,7 @@ public class Chunk : MonoBehaviour
         var piece = Instantiate(piecePrefab, transform);
         piece.InitializePiece(cut, saveData);
         
-        InitializeBoxCollider();
+        piece.OnDropped += OnPieceDropped;
     }
     
     public void InitializeMultiplePieceChunk(
@@ -54,55 +50,15 @@ public class Chunk : MonoBehaviour
         
         foreach (var currPiece in piecesSaveDataList)
         {
-            PieceCut currCut = initialPieceCuts[currPiece.pieceIndex];
+            var currCut = initialPieceCuts[currPiece.pieceIndex];
                 
-            Piece piece = Instantiate(piecePrefab, currPiece.position, currPiece.rotation, transform);
+            var piece = Instantiate(piecePrefab, currPiece.position, currPiece.rotation, transform);
             piece.InitializePiece(currCut, saveData);
+
+            piece.OnDropped += OnPieceDropped;
         }
-
-        InitializeBoxCollider();
     }
-
-    private void InitializeBoxCollider()
-    {
-        var initialPieces = GetComponentsInChildren<Piece>();
-        var initialBounds = VertexBounds(initialPieces[0].Vertices());;
-
-        SetBoxColliderBounds(initialBounds, initialPieces[1..]);
-    }
-
-    private void UpdateBoxCollider(Piece[] newPieces)
-    {
-        BoxCollider.size -= Vector3.one * (CollisionDistanceThreshold * 2);
-        var currBounds = BoxCollider.bounds;
-        
-        SetBoxColliderBounds(currBounds, newPieces);
-    }
-
-    private void SetBoxColliderBounds(Bounds currBounds, Piece[] newPieces)
-    {
-        foreach (var piece in newPieces)
-        {
-            var pieceBounds = VertexBounds(piece.Vertices());
-            currBounds.Encapsulate(pieceBounds);
-        }
-        
-        BoxCollider.center = transform.InverseTransformPoint(currBounds.center);
-        BoxCollider.size = currBounds.size + Vector3.one * (CollisionDistanceThreshold * 2);
-    }
-
-    private static Bounds VertexBounds(Vector3[] vertices)
-    {
-        var bounds = new Bounds(vertices[0], Vector3.zero);
     
-        foreach (var vertex in vertices)
-        {
-            bounds.Encapsulate(vertex);
-        }
-
-        return bounds;
-    }
-
     public Piece FirstPiece()
     {
         return Pieces[0];
@@ -137,87 +93,28 @@ public class Chunk : MonoBehaviour
         return piece is not null;
     }
 
-    private void Merge(Chunk other)
+    public void Merge(Chunk other)
     {
-        UpdateBoxCollider(other.Pieces);
-
         var repPiece = Pieces[0];
 
         foreach (var otherPiece in other.Pieces.ToArray())
         {
             otherPiece.SnapIntoPlace(repPiece);
             otherPiece.transform.SetParent(transform);
-        }
 
-        other._isDestroyQueued = true;
-        
-        OnMerge.Invoke(this, other);
-
-        if (Application.isPlaying)
-        {
-            Destroy(other.gameObject);
-        }
-        else
-        {
-            DestroyImmediate(other.gameObject);
+            otherPiece.OnDropped -= other.OnPieceDropped;
+            otherPiece.OnDropped += OnPieceDropped;
         }
     }
-    
-    private bool IsGrabbed()
+
+    private void OnPieceDropped()
     {
-        return Pieces.Any(piece => piece.IsGrabbed());
+        OnChunkDropped.Invoke(this);
     }
 
-    private void OnTriggerStay(Collider other)
+    public bool IsCloseEnough(Chunk otherChunk)
     {
-        var otherChunk = other.GetComponent<Chunk>();
-        
-        if (otherChunk == null) return;
-        if (otherChunk._isDestroyQueued) return;
-        if (GetInstanceID() >= otherChunk.GetInstanceID()) return;
-        if (Interlocked.Exchange(ref _isCollisionProcedureRunning, 1) == 1) return;
-
-        var grabbed = IsGrabbed();
-        var otherGrabbed = otherChunk.IsGrabbed();
-        
-        if (grabbed && otherGrabbed)
-        {
-            _pendingMergeChunks.Add(otherChunk);
-        }
-        else if (_pendingMergeChunks.Contains(otherChunk))
-        {
-            foreach (var piece in Pieces)
-            {
-                foreach (var otherPiece in otherChunk.Pieces)
-                {
-                    if (!piece.IsCloseEnough(otherPiece)) continue;
-
-                    if (grabbed)
-                    {
-                        Merge(otherChunk);
-                    }
-                    else
-                    {
-                        otherChunk.Merge(this);
-                    }
-                    
-                    goto end;
-                }
-            }
-        }
-        
-        end:
-        Interlocked.Exchange(ref _isCollisionProcedureRunning, 0);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        var otherChunk = other.GetComponent<Chunk>();
-        
-        if (otherChunk == null) return;
-        if (GetInstanceID() >= otherChunk.GetInstanceID()) return;
-        
-        _pendingMergeChunks.Remove(otherChunk);
+        return Pieces.Any(piece => otherChunk.Pieces.Any(piece.IsCloseEnough));
     }
     
     public ChunkSaveData ToData()

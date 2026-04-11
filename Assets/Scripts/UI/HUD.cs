@@ -52,9 +52,8 @@ namespace UI
             
             puzzle.UpdateTimer += OnTimerUpdate;
             puzzle.OnProgressUpdated += OnProgressUpdated;
-            
-            progressPercentField.text = "0%";
-            progressConnectionsField.text = $"0/{puzzle.GoalConnections}";
+
+            OnProgressUpdated(null);
         }
 
         private void OnTimerUpdate(float timeRemaining)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Oculus.Interaction;
@@ -30,12 +31,24 @@ public class Piece : MonoBehaviour
     public int PieceIndex => _cut.pieceIndex;
     public List<int> NeighborIndices => _cut.neighborIndices;
     public List<Vector2> BorderPoints => _cut.borderPoints;
+
+    public event Action OnDropped;
     
     private void Awake()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
         _meshFilter = GetComponent<MeshFilter>();
         _grabbable = GetComponent<Grabbable>();
+    }
+    
+    private void Start()
+    {
+        _grabbable.WhenPointerEventRaised += OnPointerEvent;
+    }
+
+    private void OnDestroy()
+    {
+        _grabbable.WhenPointerEventRaised -= OnPointerEvent;
     }
     
     public void InitializePiece(
@@ -173,6 +186,15 @@ public class Piece : MonoBehaviour
     public bool IsGrabbed()
     {
         return _grabbable.SelectingPointsCount > 0;
+    }
+    
+    private void OnPointerEvent(PointerEvent pointerEvent)
+    {
+        if (pointerEvent.Type == PointerEventType.Unselect)
+        {
+            Debug.LogError("Piece dropped");
+            OnDropped?.Invoke(); 
+        }
     }
 
     public PieceSaveData ToData()
