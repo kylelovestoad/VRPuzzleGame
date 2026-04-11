@@ -8006,6 +8006,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 897537686178030139, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 897537686178030139, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 897537686178030139, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 897537686178030139, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -8218,6 +8230,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2121831639775495873, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
       insertIndex: -1
       addedObject: {fileID: 149345950}
+    - targetCorrespondingSourceObject: {fileID: 2121831639775495873, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 149345960}
   m_SourcePrefab: {fileID: 100100000, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
 --- !u!223 &149345946 stripped
 Canvas:
@@ -8259,6 +8274,21 @@ MonoBehaviour:
   uploadButton: {fileID: 1099038257}
   puzzleImage: {fileID: 2800000, guid: 418dc4b7eea547a49bda27edacab2c9c, type: 3}
   realImage: {fileID: 2800000, guid: 479c78aad1899554282e4f35d521055f, type: 3}
+--- !u!114 &149345960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149345949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8f14b3c05a37a94cabe07941f95e80f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PuzzleGameScripts::UI.FollowCamera
+  positionOffset: {x: 0, y: 1.7, z: 0.6}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  cam: {fileID: 2115975286}
 --- !u!1 &152933029
 GameObject:
   m_ObjectHideFlags: 0
@@ -8471,6 +8501,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1924590820}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &188203172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999680848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8f14b3c05a37a94cabe07941f95e80f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PuzzleGameScripts::UI.FollowCamera
+  positionOffset: {x: 0, y: 1.75, z: 0.6}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  cam: {fileID: 2115975286}
 --- !u!1 &192399014 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 440948656542363877, guid: b8573c816e5b6b54ebf34e1253271cb1, type: 3}
@@ -13117,6 +13162,21 @@ MonoBehaviour:
   progressPercentField: {fileID: 5871006960078327968}
   progressConnectionsField: {fileID: 7825325554237784018}
   hintButton: {fileID: 7512016337302798240}
+--- !u!114 &634607510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634607494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8f14b3c05a37a94cabe07941f95e80f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  positionOffset: {x: 0, y: 0.8, z: 1}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  cam: {fileID: 2115975286}
 --- !u!1 &657161513
 GameObject:
   m_ObjectHideFlags: 0
@@ -19147,6 +19207,21 @@ MonoBehaviour:
   elapsedTimeField: {fileID: 5222492965464267109}
   percentCompleteField: {fileID: 2133226683396572197}
   pieceProgressField: {fileID: 2340072752616926039}
+--- !u!114 &857814465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857814453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8f14b3c05a37a94cabe07941f95e80f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PuzzleGameScripts::UI.FollowCamera
+  positionOffset: {x: 0, y: 1.75, z: 0.6}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  cam: {fileID: 2115975286}
 --- !u!1001 &859652539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21981,6 +22056,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5515437907243875796, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5515437907243875796, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5515437907243875796, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5515437907243875796, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.438
       objectReference: {fileID: 0}
@@ -22231,6 +22318,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5515437907243875799, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
       insertIndex: -1
       addedObject: {fileID: 999680851}
+    - targetCorrespondingSourceObject: {fileID: 5515437907243875799, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 188203172}
     - targetCorrespondingSourceObject: {fileID: 5515437906356147628, guid: a8191c7f224e7d94db7f241aa1046c40, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2099003425}
@@ -38034,6 +38124,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 897537686178030139, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 897537686178030139, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 897537686178030139, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 897537686178030139, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -38226,6 +38328,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2121831639775495873, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
       insertIndex: -1
       addedObject: {fileID: 634607502}
+    - targetCorrespondingSourceObject: {fileID: 2121831639775495873, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 634607510}
   m_SourcePrefab: {fileID: 100100000, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
 --- !u!223 &1759974847118976415 stripped
 Canvas:
@@ -41320,6 +41425,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 897537686178030139, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 897537686178030139, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 897537686178030139, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 897537686178030139, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -41526,6 +41643,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2121831639775495873, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
       insertIndex: -1
       addedObject: {fileID: 857814459}
+    - targetCorrespondingSourceObject: {fileID: 2121831639775495873, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 857814465}
   m_SourcePrefab: {fileID: 100100000, guid: 6b196de96e7d16b4297c1980179ae439, type: 3}
 --- !u!224 &6128207021285805810
 RectTransform:
