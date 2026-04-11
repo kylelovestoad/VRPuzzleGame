@@ -31,7 +31,11 @@ namespace UI
         [SerializeField]
         private Toggle onlineTab; 
         
+        [SerializeField]
+        private Button onCreateOption;
+        
         public event Action<PuzzleSaveData> OnPuzzleSelected;
+        public event Action OnCreateOptionSelected;
 
         private enum Tab
         {
@@ -89,6 +93,8 @@ namespace UI
             LocalSave.Instance.OnSaved += OnPuzzleSaved;
             localTab.onValueChanged.AddListener(isOn => { if (isOn) CurrentTab = Tab.Local; });
             onlineTab.onValueChanged.AddListener(isOn => { if (isOn) CurrentTab = Tab.Online; });
+
+            onCreateOption.onClick.AddListener(OnCreateButtonClicked);
         }
 
         private void OnDestroy()
@@ -96,6 +102,8 @@ namespace UI
             LocalSave.Instance.OnSaved -= OnPuzzleSaved;
             localTab.onValueChanged.RemoveAllListeners();
             onlineTab.onValueChanged.RemoveAllListeners();
+            
+            onCreateOption.onClick.RemoveListener(OnCreateButtonClicked);
         }
         
         private void FillLocalPuzzles()
@@ -204,6 +212,12 @@ namespace UI
         private void Select(PuzzleSaveData puzzleSaveData)
         {
             OnPuzzleSelected?.Invoke(puzzleSaveData);
+        }
+
+        [Button("Create Puzzle")]
+        private void OnCreateButtonClicked()
+        {
+            OnCreateOptionSelected?.Invoke();
         }
     }
 }

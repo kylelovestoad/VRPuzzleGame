@@ -40,10 +40,14 @@ namespace UI
             PuzzleManager.Instance.OnPuzzleClosed += OnPuzzleClosed;
 
             puzzleGallery.OnPuzzleSelected += ShowSelectedPuzzle;
+            puzzleGallery.OnCreateOptionSelected += ShowPuzzleCreation;
+            
             puzzleCreation.OnRealPuzzleGenerated += OnRealPuzzleGenerated;
+            puzzleCreation.OnExited += ShowPuzzleGallery;
+            
             realPuzzleDetectionReport.OnExit += OnRealPuzzleDetectionReportExit;
             
-            ShowBrowsingScreens();
+            ShowPuzzleGallery();
         }
 
         private void OnDestroy()
@@ -52,7 +56,11 @@ namespace UI
             PuzzleManager.Instance.OnPuzzleClosed -= OnPuzzleClosed;
             
             puzzleGallery.OnPuzzleSelected -= ShowSelectedPuzzle;
+            puzzleGallery.OnCreateOptionSelected -= ShowPuzzleCreation;
+            
             puzzleCreation.OnRealPuzzleGenerated -= OnRealPuzzleGenerated;
+            puzzleCreation.OnExited -= ShowPuzzleGallery;
+            
             realPuzzleDetectionReport.OnExit -= OnRealPuzzleDetectionReportExit;
         }
 
@@ -69,7 +77,7 @@ namespace UI
         {
             PuzzleManager.Instance.CurrentPuzzle.OnProgressUpdated -= OnProgressUpdated;
             
-            ShowBrowsingScreens();
+            ShowPuzzleGallery();
         }
 
         private void OnProgressUpdated(Piece[] _)
@@ -80,8 +88,25 @@ namespace UI
             completionDialog.DisplayFields();
         }
 
+        private void ShowPuzzleCreation()
+        {
+            puzzleInfo.gameObject.SetActive(false);
+            gameplayHUD.gameObject.SetActive(false);
+            completionDialog.gameObject.SetActive(false);
+            realPuzzleDetectionReport.gameObject.SetActive(false);
+            puzzleGallery.gameObject.SetActive(false);
+            
+            puzzleCreation.gameObject.SetActive(true);
+        }
+
         private void ShowSelectedPuzzle(PuzzleSaveData saveData)
         {
+            puzzleGallery.gameObject.SetActive(false);
+            puzzleCreation.gameObject.SetActive(false);
+            completionDialog.gameObject.SetActive(false);
+            realPuzzleDetectionReport.gameObject.SetActive(false);
+            gameplayHUD.gameObject.SetActive(false);
+            
             puzzleInfo.DisplayPuzzle(saveData);
         }
         
@@ -91,22 +116,24 @@ namespace UI
         //     puzzleInfo.DisplayPuzzle(saveData);
         // }
 
-        private void ShowBrowsingScreens()
+        private void ShowPuzzleGallery()
         {
-            puzzleCreation.gameObject.SetActive(true);
-            puzzleGallery.gameObject.SetActive(true);
-            
+            puzzleCreation.gameObject.SetActive(false);
             puzzleInfo.gameObject.SetActive(false);
             gameplayHUD.gameObject.SetActive(false);
             completionDialog.gameObject.SetActive(false);
             realPuzzleDetectionReport.gameObject.SetActive(false);
+            
+            puzzleGallery.gameObject.SetActive(true);
+
         }
 
         private void ShowGameplayScreens()
         {
+            puzzleGallery.gameObject.SetActive(false);
             puzzleCreation.gameObject.SetActive(false);
             puzzleInfo.gameObject.SetActive(false);
-            puzzleGallery.gameObject.SetActive(false);
+            completionDialog.gameObject.SetActive(false);
             realPuzzleDetectionReport.gameObject.SetActive(false);
             
             gameplayHUD.gameObject.SetActive(true);

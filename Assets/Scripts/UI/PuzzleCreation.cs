@@ -39,10 +39,14 @@ namespace UI
         [SerializeField, HideProperty] public Button createButton;
         [SerializeField, HideProperty] public Button uploadButton;
 
+        [SerializeField] 
+        private Button exitButton;
+
         public Texture2D puzzleImage;
         public Texture2D realImage;
         
         public event Action<string, PuzzleGenerationData> OnRealPuzzleGenerated;
+        public event Action OnExited;
 
         private class PuzzleCreationForm
         {
@@ -64,12 +68,14 @@ namespace UI
         {
             createButton.onClick.AddListener(OnCreate);
             uploadButton.onClick.AddListener(OnUpload);
+            exitButton.onClick.AddListener(OnExit);
         }
 
         public void OnDestroy()
         {
             createButton.onClick.RemoveListener(OnCreate);
             uploadButton.onClick.RemoveListener(OnUpload);
+            exitButton.onClick.RemoveListener(OnExit);
         }
 
 
@@ -148,6 +154,12 @@ namespace UI
                 form.Name,
                 renderData.Layout
             ), puzzleImage);
+        }
+
+        [Button("On Exit")]
+        private void OnExit()
+        {
+            OnExited?.Invoke();
         }
     }
 }
