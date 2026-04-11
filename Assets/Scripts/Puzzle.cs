@@ -123,15 +123,22 @@ public class Puzzle: MonoBehaviour
                 chunkSaveData.rotation, 
                 transform
             );
+
+            CurrentConnections += chunkSaveData.pieces.Count - 1;
         
             chunk.InitializeMultiplePieceChunk(chunkSaveData, saveData);
+        }
+
+        if (CurrentConnections == 1)
+        {
+            CurrentConnections = 2;
         }
     }
     
     private void OnChunkMerged(Chunk combinedChunk, Chunk destroyedChunk)
     {
         CurrentConnections = CurrentConnections == 0 ? 2 : CurrentConnections + 1;
-        _timeRunning = _timeRunning && combinedChunk.PieceCount == GoalConnections;
+        _timeRunning = _timeRunning && combinedChunk.PieceCount != GoalConnections;
 
         destroyedChunk.OnMerge -= OnChunkMerged;
         
