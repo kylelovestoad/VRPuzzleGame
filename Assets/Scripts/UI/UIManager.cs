@@ -44,6 +44,8 @@ namespace UI
             
             puzzleCreation.OnRealPuzzleGenerated += OnRealPuzzleGenerated;
             puzzleCreation.OnExited += ShowPuzzleGallery;
+
+            puzzleInfo.OnExited += ShowPuzzleGallery;
             
             realPuzzleDetectionReport.OnExit += OnRealPuzzleDetectionReportExit;
             
@@ -60,6 +62,8 @@ namespace UI
             
             puzzleCreation.OnRealPuzzleGenerated -= OnRealPuzzleGenerated;
             puzzleCreation.OnExited -= ShowPuzzleGallery;
+            
+            puzzleInfo.OnExited -= ShowPuzzleGallery;
             
             realPuzzleDetectionReport.OnExit -= OnRealPuzzleDetectionReportExit;
         }

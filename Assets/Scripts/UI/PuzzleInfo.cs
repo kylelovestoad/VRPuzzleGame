@@ -1,4 +1,5 @@
-﻿using EditorAttributes;
+﻿using System;
+using EditorAttributes;
 using NUnit.Framework;
 using Persistence;
 using TMPro;
@@ -31,16 +32,23 @@ namespace UI
         [SerializeField] 
         private TMP_Text pieceProgressField;
 
+        [SerializeField] 
+        private Button exitButton;
+
         private PuzzleSaveData _puzzleSaveData;
+        
+        public event Action OnExited;
 
         private void Start()
         {
             playButton.onClick.AddListener(OnPlay);
+            exitButton.onClick.AddListener(OnExit);
         }
 
         private void OnDestroy()
         {
             playButton.onClick.RemoveListener(OnPlay);
+            exitButton.onClick.RemoveListener(OnExit);
         }
         
         public void DisplayPuzzle(PuzzleSaveData puzzleSaveData)
@@ -77,5 +85,11 @@ namespace UI
         {
             PuzzleManager.Instance.OpenPuzzle(_puzzleSaveData);
         } 
+        
+        [Button("Exit")]
+        private void OnExit()
+        {
+            OnExited?.Invoke();
+        }
     }
 }
