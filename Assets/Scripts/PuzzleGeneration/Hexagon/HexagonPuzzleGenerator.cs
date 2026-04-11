@@ -14,7 +14,7 @@ namespace PuzzleGeneration.Hexagon
             float puzzleHeight
         ) {
             var dimensions = new PuzzleGenerationDimensions(image, rows, cols, puzzleHeight);
-            var pieceHeight = dimensions.PieceHeight;
+            var uncutPieceHeight = dimensions.AvgPieceHeight * rows / (rows - 0.5f);
             var pieceWidth = dimensions.AvgPieceWidth;
             
             var pieceCuts = new List<PieceCut>();
@@ -23,12 +23,12 @@ namespace PuzzleGeneration.Hexagon
             {
                 for (var c = 0; c < cols; c++)
                 {
-                    AddPieceCut(pieceCuts, pieceWidth, pieceHeight, r, c, rows, cols);
+                    AddPieceCut(pieceCuts, pieceWidth, uncutPieceHeight, r, c, rows, cols);
                 }
 
                 if ((r & 1) == 0)
                 {
-                    AddEvenRowEndPiece(pieceCuts, pieceWidth, pieceHeight, r, rows, cols);
+                    AddEvenRowEndPiece(pieceCuts, pieceWidth, uncutPieceHeight, r, rows, cols);
                 }
             }
         

@@ -6,7 +6,7 @@ namespace PuzzleGeneration
     {
         public readonly float PuzzleWidth;
         public readonly float WidthHeightRatio;
-        public readonly float PieceHeight;
+        public readonly float AvgPieceHeight;
         public readonly float AvgPieceWidth;
         
         public PuzzleGenerationDimensions(Texture2D image, int rows, int cols, float puzzleHeight)
@@ -14,7 +14,7 @@ namespace PuzzleGeneration
             WidthHeightRatio = (float) image.width / image.height;
             PuzzleWidth = puzzleHeight * WidthHeightRatio;
             
-            PieceHeight = puzzleHeight / rows;
+            AvgPieceHeight = puzzleHeight / rows;
             AvgPieceWidth = PuzzleWidth / cols;
         }
     }
