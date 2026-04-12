@@ -59,5 +59,10 @@ namespace Persistence
         {
             return (float) CurrentConnections() / PieceCount * 100;
         }
+
+        public PuzzleMetadata GetMetaData()
+        {
+            return new PuzzleMetadata(localID, onlineID, name, author, layout, PuzzleImage);
+        }
     }
 }

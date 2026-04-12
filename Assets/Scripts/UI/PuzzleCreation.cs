@@ -22,23 +22,12 @@ namespace UI
     {
         private const float PuzzleGameHeight = 0.3f;
 
-        [FoldoutGroup("UI",
-            nameof(nameInputField),
-            nameof(rowsInputField),
-            nameof(columnsInputField),
-            nameof(dropdown),
-            nameof(createButton),
-            nameof(uploadButton)
-        )]
-        [SerializeField] private Void groupHolder;
-
-        [SerializeField, HideProperty] public TMP_InputField nameInputField;
-        [SerializeField, HideProperty] public TMP_InputField rowsInputField;
-        [SerializeField, HideProperty] public TMP_InputField columnsInputField;
-        [SerializeField, HideProperty] public DropDownGroup dropdown;
         [SerializeField, HideProperty] public Button createButton;
         [SerializeField, HideProperty] public Button uploadButton;
-
+        
+        [SerializeField]
+        private PuzzleFormBehaviour puzzleFormBehaviour;
+        
         [SerializeField] 
         private Button exitButton;
 
@@ -47,22 +36,6 @@ namespace UI
         
         public event Action<string, PuzzleGenerationData> OnRealPuzzleGenerated;
         public event Action OnExited;
-
-        private class PuzzleCreationForm
-        {
-            public readonly string Name;
-            public readonly PieceShape Shape;
-            public readonly int Rows;
-            public readonly int Columns;
-
-            public PuzzleCreationForm(string name, PieceShape shape, int rows, int columns)
-            {
-                Name = name;
-                Shape = shape;
-                Rows = rows;
-                Columns = columns;
-            }
-        }
 
         public void Start()
         {
@@ -76,30 +49,17 @@ namespace UI
             createButton.onClick.RemoveListener(OnCreate);
             uploadButton.onClick.RemoveListener(OnUpload);
             exitButton.onClick.RemoveListener(OnExit);
-        }
-
-
-        private bool TryGetFormInput(out PuzzleCreationForm input)
-        {
-            input = null;
-
-            if (string.IsNullOrWhiteSpace(nameInputField.text)) return false;
-            if (!Enum.IsDefined(typeof(PieceShape), dropdown.SelectedIndex)) return false;
-            if (!int.TryParse(rowsInputField.text, out var rows)) return false;
-            if (!int.TryParse(columnsInputField.text, out var columns)) return false;
-
-            input = new PuzzleCreationForm(nameInputField.text, (PieceShape)dropdown.SelectedIndex, rows, columns);
-            return true;
+            
         }
 
         [Button("Create Puzzle")]
         private async void OnCreate()
         {
-
-            var valid = TryGetFormInput(out var form);
+            var valid = puzzleFormBehaviour.TryGetFormInput(out var form);
             if (!valid) return;
-
+            
             var generator = form.Shape.Generator();
+            // var generator = new RectanglePuzzleGenerator();
 
             var generationData = await generator.Generate(
                 puzzleImage, 
@@ -112,7 +72,7 @@ namespace UI
         }
 
         private void OnGeneration(
-            PuzzleCreationForm form,
+            PuzzleForm form,
             PuzzleGenerationData generationData
         )
         {
@@ -138,7 +98,7 @@ namespace UI
         [Button("Upload Puzzle")]
         public async void OnUpload()
         {
-            var valid = TryGetFormInput(out var form);
+            var valid = puzzleFormBehaviour.TryGetFormInput(out var form);
             if (!valid) return;
             
             var generator = form.Shape.Generator();

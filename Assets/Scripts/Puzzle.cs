@@ -51,7 +51,7 @@ public class Puzzle: MonoBehaviour
         InitializeChunks(saveData);
 
         ElapsedTime = saveData.elapsedTime;
-        _timeRunning = true;
+        _timeRunning = !IsCompleted;
     }
     
     private void Update()

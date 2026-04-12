@@ -117,6 +117,8 @@ namespace UI
 
             foreach (var puzzleSaveData in p)
             {
+                Debug.LogError("Has Local Id " + puzzleSaveData.HasLocalID);
+                
                 var galleryTile = Instantiate(
                     puzzleGalleryItemPrefab,
                     puzzleLocalGalleryItemContainer.transform, 

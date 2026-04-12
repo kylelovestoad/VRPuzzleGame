@@ -31,12 +31,16 @@ namespace UI
         
         [SerializeField] 
         private TMP_Text pieceProgressField;
+        
+        [SerializeField] 
+        private Button settingsButton;
 
         [SerializeField] 
         private Button exitButton;
 
         private PuzzleSaveData _puzzleSaveData;
         
+        public event Action<PuzzleMetadata> OnSettingsOpened;
         public event Action OnExited;
 
         private void Start()
@@ -78,6 +82,12 @@ namespace UI
             puzzleImage.sprite = UIUtils.PuzzleImageSprite(puzzleMetadata.PuzzleImage);
             
             gameObject.SetActive(true);
+        }
+        
+        [Button("Settings")]
+        private void OnOpenSettings()
+        {
+            OnSettingsOpened?.Invoke(_puzzleSaveData.GetMetaData());
         }
 
         [Button("Play Puzzle")]

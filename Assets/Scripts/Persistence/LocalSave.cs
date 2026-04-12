@@ -113,6 +113,8 @@ namespace Persistence
 
         public void Save(PuzzleSaveData saveData)
         {
+            Debug.Log("Saving..." + saveData.localID);
+            
             _puzzles.Upsert(ToDocument(saveData));
             SaveImage(saveData);
             OnSaved?.Invoke(new List<PuzzleSaveData> { saveData });

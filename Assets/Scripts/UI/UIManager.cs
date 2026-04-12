@@ -16,6 +16,9 @@ namespace UI
         
         [SerializeField]
         private PuzzleInfo puzzleInfo;
+        
+        [SerializeField]
+        private PuzzleSettings puzzleSettings;
 
         [SerializeField] 
         private PuzzleGallery puzzleGallery;
@@ -46,6 +49,8 @@ namespace UI
             puzzleCreation.OnExited += ShowPuzzleGallery;
 
             puzzleInfo.OnExited += ShowPuzzleGallery;
+            puzzleInfo.OnSettingsOpened += PuzzleSettingsOpen;
+            puzzleSettings.OnExited += PuzzleSettingsExit;
             
             realPuzzleDetectionReport.OnExit += OnRealPuzzleDetectionReportExit;
             
@@ -64,6 +69,7 @@ namespace UI
             puzzleCreation.OnExited -= ShowPuzzleGallery;
             
             puzzleInfo.OnExited -= ShowPuzzleGallery;
+            puzzleSettings.OnExited -= PuzzleSettingsExit;
             
             realPuzzleDetectionReport.OnExit -= OnRealPuzzleDetectionReportExit;
         }
@@ -115,15 +121,27 @@ namespace UI
         }
         
         // TODO HACKY Design needs to make more sense here with PuzzleSaveData and PuzzleMetadata being separate
-        // public void ShowSelectedPuzzle(PuzzleMetadata saveData)
-        // {
-        //     puzzleInfo.DisplayPuzzle(saveData);
-        // }
+        public void ShowSelectedPuzzle(PuzzleMetadata saveData)
+        {
+            puzzleInfo.DisplayPuzzle(saveData);
+        }
+        
+        private void PuzzleSettingsOpen(PuzzleMetadata metaData)
+        {
+            puzzleSettings.gameObject.SetActive(true);
+            puzzleSettings.Initialize(metaData);
+        }
+        
+        private void PuzzleSettingsExit()
+        {
+            puzzleSettings.gameObject.SetActive(false);
+        }
 
         private void ShowPuzzleGallery()
         {
             puzzleCreation.gameObject.SetActive(false);
             puzzleInfo.gameObject.SetActive(false);
+            puzzleSettings.gameObject.SetActive(false);
             gameplayHUD.gameObject.SetActive(false);
             completionDialog.gameObject.SetActive(false);
             realPuzzleDetectionReport.gameObject.SetActive(false);
@@ -137,6 +155,7 @@ namespace UI
             puzzleGallery.gameObject.SetActive(false);
             puzzleCreation.gameObject.SetActive(false);
             puzzleInfo.gameObject.SetActive(false);
+            puzzleSettings.gameObject.SetActive(false);
             completionDialog.gameObject.SetActive(false);
             realPuzzleDetectionReport.gameObject.SetActive(false);
             
