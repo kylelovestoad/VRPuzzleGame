@@ -50,6 +50,8 @@ namespace UI
 
             puzzleInfo.OnExited += ShowPuzzleGallery;
             puzzleInfo.OnSettingsOpened += PuzzleSettingsOpen;
+            puzzleInfo.OnLeaderboardOpened += PuzzleLeaderboardOpen;
+            
             puzzleSettings.OnExited += PuzzleSettingsExit;
             
             realPuzzleDetectionReport.OnExit += OnRealPuzzleDetectionReportExit;
@@ -69,6 +71,9 @@ namespace UI
             puzzleCreation.OnExited -= ShowPuzzleGallery;
             
             puzzleInfo.OnExited -= ShowPuzzleGallery;
+            puzzleInfo.OnSettingsOpened -= PuzzleSettingsOpen;
+            puzzleInfo.OnLeaderboardOpened -= PuzzleLeaderboardOpen;
+            
             puzzleSettings.OnExited -= PuzzleSettingsExit;
             
             realPuzzleDetectionReport.OnExit -= OnRealPuzzleDetectionReportExit;
@@ -130,6 +135,11 @@ namespace UI
         {
             puzzleSettings.gameObject.SetActive(true);
             puzzleSettings.Initialize(metaData);
+        }
+        
+        private void PuzzleLeaderboardOpen()
+        {
+            // TODO
         }
         
         private void PuzzleSettingsExit()

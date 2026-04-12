@@ -62,7 +62,27 @@ namespace Persistence
 
         public PuzzleMetadata GetMetaData()
         {
-            return new PuzzleMetadata(localID, onlineID, name, author, layout, PuzzleImage);
+            return new PuzzleMetadata(
+                localID, 
+                onlineID, 
+                name, 
+                author, 
+                layout, 
+                PuzzleImage
+            );
+        }
+        
+        public static PuzzleSaveData FromMetaData(PuzzleMetadata metaData)
+        {
+            return new PuzzleSaveData(
+                metaData.localID, 
+                metaData.onlineID, 
+                metaData.name, 
+                metaData.author, 
+                metaData.layout, 
+                null,
+                metaData.PuzzleImage
+            );
         }
     }
 }

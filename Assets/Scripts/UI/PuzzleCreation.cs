@@ -20,10 +20,9 @@ namespace UI
 {
     public class PuzzleCreationBehaviour : MonoBehaviour
     {
-        private const float PuzzleGameHeight = 0.3f;
+        public const float PuzzleGameHeight = 0.3f;
 
         [SerializeField, HideProperty] public Button createButton;
-        [SerializeField, HideProperty] public Button uploadButton;
         
         [SerializeField]
         private PuzzleFormBehaviour puzzleFormBehaviour;
@@ -40,14 +39,12 @@ namespace UI
         public void Start()
         {
             createButton.onClick.AddListener(OnCreate);
-            uploadButton.onClick.AddListener(OnUpload);
             exitButton.onClick.AddListener(OnExit);
         }
 
         public void OnDestroy()
         {
             createButton.onClick.RemoveListener(OnCreate);
-            uploadButton.onClick.RemoveListener(OnUpload);
             exitButton.onClick.RemoveListener(OnExit);
             
         }
@@ -93,27 +90,6 @@ namespace UI
                     generationData.PuzzleImage
                 ));
             }
-        }
-
-        [Button("Upload Puzzle")]
-        public async void OnUpload()
-        {
-            var valid = puzzleFormBehaviour.TryGetFormInput(out var form);
-            if (!valid) return;
-            
-            var generator = form.Shape.Generator();
-
-            var renderData = await generator.Generate(
-                puzzleImage, 
-                form.Rows, 
-                form.Columns, 
-                PuzzleGameHeight
-            );
-            
-            await PuzzleServerApi.Instance.CreatePuzzle(new CreatePuzzleRequest(
-                form.Name,
-                renderData.Layout
-            ), puzzleImage);
         }
 
         [Button("On Exit")]

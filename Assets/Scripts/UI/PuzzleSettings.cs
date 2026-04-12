@@ -12,18 +12,19 @@ namespace UI
 {
     public class PuzzleSettings : MonoBehaviour
     {
-        private const float PuzzleGameHeight = 0.3f;
-        
         [SerializeField] 
         public Button saveChangesButton;
         
         [SerializeField]
         private PuzzleFormBehaviour puzzleFormBehaviour;
         
+        [SerializeField]
+        private Image puzzleImage; 
+        
         [SerializeField] 
         private Button exitButton;
         
-        PuzzleMetadata _puzzleMetaData;
+        private PuzzleMetadata _puzzleMetaData;
         
         public event Action OnExited;
 
@@ -43,6 +44,8 @@ namespace UI
         {
             _puzzleMetaData = metaData;
             puzzleFormBehaviour.FillForm(_puzzleMetaData);
+            
+            puzzleImage.sprite = UIUtils.PuzzleImageSprite(metaData.PuzzleImage);
         }
 
         [Button("Save Puzzle")]
@@ -57,7 +60,7 @@ namespace UI
                 form.PuzzleImage,
                 form.Rows, 
                 form.Columns, 
-                PuzzleGameHeight
+                PuzzleCreationBehaviour.PuzzleGameHeight
             );
             
             OnGeneration(form, generationData);
@@ -72,7 +75,7 @@ namespace UI
                 _puzzleMetaData.localID,
                 _puzzleMetaData.onlineID,
                 form.Name,
-                "DK",
+                _puzzleMetaData.author,
                 generationData.Layout,
                 new List<ChunkSaveData>(),
                 generationData.PuzzleImage
