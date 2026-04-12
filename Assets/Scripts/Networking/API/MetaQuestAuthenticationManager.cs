@@ -6,7 +6,7 @@ using Oculus.Platform.Models;
 using UnityEngine;
 using Application = UnityEngine.Application;
 
-namespace Networking
+namespace Networking.API
 {
     public class MetaQuestAuthenticationManager : MonoBehaviour
     {

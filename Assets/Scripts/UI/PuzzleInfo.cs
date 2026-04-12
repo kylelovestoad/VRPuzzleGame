@@ -1,6 +1,7 @@
 ﻿using System;
 using EditorAttributes;
 using Networking;
+using Networking.API;
 using Networking.Request;
 using NUnit.Framework;
 using Persistence;
@@ -122,7 +123,7 @@ namespace UI
                 _puzzleSaveData.layout
             );
             
-            await PuzzleServerApi.Instance.CreatePuzzle(
+            await PuzzleServerApi.Instance.Puzzles.CreatePuzzle(
                 createRequest, 
                 _puzzleSaveData.PuzzleImage
             );

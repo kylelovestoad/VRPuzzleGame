@@ -14,7 +14,6 @@ class MetaQuestAuthService(
 ) {
     val logger: Logger = LoggerFactory.getLogger(MetaQuestAuthService::class.java)
 
-
     fun verify(userId: String, userAccessToken: String): MetaUser {
         logger.info("Verifying user: $userId")
         return fetchMetaUser(userId, userAccessToken)
