@@ -39,8 +39,9 @@ namespace UI
 
         private void Start()
         {
-            PuzzleManager.Instance.OnPuzzleOpened += OnPuzzleOpened;
+            PuzzleManager.Instance.OnLocalPuzzleOpened += OnLocalPuzzleOpened;
             PuzzleManager.Instance.OnPuzzleClosed += OnPuzzleClosed;
+            PuzzleManager.Instance.OnOnlinePuzzleOpened += OnOnlinePuzzleOpened;
 
             puzzleGallery.OnPuzzleSelected += ShowSelectedPuzzle;
             puzzleGallery.OnCreateOptionSelected += ShowPuzzleCreation;
@@ -61,8 +62,9 @@ namespace UI
 
         private void OnDestroy()
         {
-            PuzzleManager.Instance.OnPuzzleOpened -= OnPuzzleOpened;
+            PuzzleManager.Instance.OnLocalPuzzleOpened -= OnLocalPuzzleOpened;
             PuzzleManager.Instance.OnPuzzleClosed -= OnPuzzleClosed;
+            PuzzleManager.Instance.OnOnlinePuzzleOpened -= OnOnlinePuzzleOpened;
             
             puzzleGallery.OnPuzzleSelected -= ShowSelectedPuzzle;
             puzzleGallery.OnCreateOptionSelected -= ShowPuzzleCreation;
@@ -79,26 +81,33 @@ namespace UI
             realPuzzleDetectionReport.OnExit -= OnRealPuzzleDetectionReportExit;
         }
 
-        private void OnPuzzleOpened()
+        private void OnLocalPuzzleOpened()
         {
-            Debug.Log("UI Manager: OnPuzzleOpened");
+            Debug.Log("UI Manager: OnLocalPuzzleOpened");
             
-            PuzzleManager.Instance.CurrentPuzzle.OnProgressUpdated += OnProgressUpdated;
+            PuzzleManager.Instance.CurrentPuzzle.OnCompleted += OnPuzzleCompleted;
             
-            ShowGameplayScreens();
+            ShowLocalGameplayHud();
         }
 
         private void OnPuzzleClosed()
         {
-            PuzzleManager.Instance.CurrentPuzzle.OnProgressUpdated -= OnProgressUpdated;
+            PuzzleManager.Instance.CurrentPuzzle.OnCompleted -= OnPuzzleCompleted;
             
             ShowPuzzleGallery();
         }
-
-        private void OnProgressUpdated(Piece[] _)
+        
+        private void OnOnlinePuzzleOpened()
         {
-            if (!PuzzleManager.Instance.CurrentPuzzle.IsCompleted) return;
+            Debug.Log("UI Manager: OnLocalPuzzleOpened");
             
+            PuzzleManager.Instance.CurrentPuzzle.OnCompleted += OnPuzzleCompleted;
+            
+            ShowOnlineGameplayHud();
+        }
+
+        private void OnPuzzleCompleted()
+        {
             completionDialog.gameObject.SetActive(true);
             completionDialog.DisplayFields();
         }
@@ -122,13 +131,13 @@ namespace UI
             realPuzzleDetectionReport.gameObject.SetActive(false);
             gameplayHUD.gameObject.SetActive(false);
             
-            puzzleInfo.DisplayPuzzle(saveData);
+            puzzleInfo.DisplayLocalPuzzle(saveData);
         }
         
         // TODO HACKY Design needs to make more sense here with PuzzleSaveData and PuzzleMetadata being separate
         public void ShowSelectedPuzzle(PuzzleMetadata saveData)
         {
-            puzzleInfo.DisplayPuzzle(saveData);
+            puzzleInfo.DisplayOnlinePuzzle(saveData);
         }
         
         private void PuzzleSettingsOpen(PuzzleMetadata metaData)
@@ -160,7 +169,7 @@ namespace UI
 
         }
 
-        private void ShowGameplayScreens()
+        private void ShowLocalGameplayHud()
         {
             puzzleGallery.gameObject.SetActive(false);
             puzzleCreation.gameObject.SetActive(false);
@@ -170,7 +179,20 @@ namespace UI
             realPuzzleDetectionReport.gameObject.SetActive(false);
             
             gameplayHUD.gameObject.SetActive(true);
-            gameplayHUD.DisplayFields();
+            gameplayHUD.ShowLocalHud();
+        }
+        
+        private void ShowOnlineGameplayHud()
+        {
+            puzzleGallery.gameObject.SetActive(false);
+            puzzleCreation.gameObject.SetActive(false);
+            puzzleInfo.gameObject.SetActive(false);
+            puzzleSettings.gameObject.SetActive(false);
+            completionDialog.gameObject.SetActive(false);
+            realPuzzleDetectionReport.gameObject.SetActive(false);
+            
+            gameplayHUD.gameObject.SetActive(true);
+            gameplayHUD.ShowOnlineHud();
         }
 
         private void OnRealPuzzleGenerated(

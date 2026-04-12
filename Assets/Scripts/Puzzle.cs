@@ -38,6 +38,7 @@ public class Puzzle: MonoBehaviour
     
     public event Action<float> UpdateTimer;
     public event Action<Piece[]> OnProgressUpdated;
+    public event Action OnCompleted;
     
     public void InitializePuzzle(PuzzleSaveData saveData)
     {
@@ -217,6 +218,11 @@ public class Puzzle: MonoBehaviour
             _timeRunning = _timeRunning && otherChunk.PieceCount != GoalConnections;
         
             OnProgressUpdated?.Invoke(otherChunk.Pieces);
+
+            if (IsCompleted)
+            {
+                OnCompleted?.Invoke();
+            }
             
             Interlocked.Exchange(ref smallIdChunk.mergeProcedureRunning, 0);
             Interlocked.Exchange(ref bigIdChunk.mergeProcedureRunning, 0);

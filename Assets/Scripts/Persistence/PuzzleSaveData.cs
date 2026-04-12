@@ -24,6 +24,8 @@ namespace Persistence
         
         public bool HasLocalID => localID != null;
         
+        public bool HasOnlineID => onlineID != null;
+        
         public int PieceCount => layout.initialPieceCuts.Count;
 
         public PuzzleSaveData(

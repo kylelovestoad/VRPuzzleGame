@@ -40,7 +40,7 @@ namespace UI
         [Button("Exit Puzzle")]
         private void OnExit()
         {
-            PuzzleManager.Instance.CloseCurrentPuzzle();
+            PuzzleManager.Instance.ClosePuzzle();
         }
     }
 }

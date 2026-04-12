@@ -46,14 +46,25 @@ namespace UI
             hintButton.onClick.RemoveListener(OnHint);
         }
         
-        public void DisplayFields()
+        public void ShowLocalHud()
         {
             var puzzle = PuzzleManager.Instance.CurrentPuzzle;
             
             puzzle.UpdateTimer += OnTimerUpdate;
             puzzle.OnProgressUpdated += OnProgressUpdated;
 
+            hintButton.gameObject.SetActive(true);
             OnProgressUpdated(null);
+        }
+        
+        public void ShowOnlineHud()
+        {
+            var puzzle = PuzzleManager.Instance.CurrentPuzzle;
+            
+            puzzle.UpdateTimer += OnTimerUpdate;
+            puzzle.OnProgressUpdated += OnProgressUpdated;
+
+            hintButton.gameObject.SetActive(false);
         }
 
         private void OnTimerUpdate(float timeRemaining)
@@ -80,7 +91,12 @@ namespace UI
         [Button("Exit Puzzle")]
         private void OnExit()
         {
-            PuzzleManager.Instance.CloseCurrentPuzzle();
+            var puzzle = PuzzleManager.Instance.CurrentPuzzle;
+            
+            puzzle.UpdateTimer -= OnTimerUpdate;
+            puzzle.OnProgressUpdated -= OnProgressUpdated;
+            
+            PuzzleManager.Instance.ClosePuzzle();
         }
         
         [Button("Get Hint")]
