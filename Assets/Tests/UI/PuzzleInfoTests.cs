@@ -103,7 +103,7 @@ namespace Tests.UI
         {
             var puzzleSaveData = TestUtils.MakePuzzle();
             
-            _puzzleInfo.DisplayPuzzle(puzzleSaveData);
+            _puzzleInfo.DisplayLocalPuzzle(puzzleSaveData);
             
             Assert.AreEqual(
                 $"Piece Count: {puzzleSaveData.PieceCount}", 
@@ -136,7 +136,7 @@ namespace Tests.UI
         {
             var puzzleSaveData = TestUtils.MakePuzzle();
             
-            _puzzleInfo.DisplayPuzzle(puzzleSaveData);
+            _puzzleInfo.DisplayLocalPuzzle(puzzleSaveData);
             
             var playMethod = typeof(PuzzleInfo).GetMethod(
                 "OnPlay", 

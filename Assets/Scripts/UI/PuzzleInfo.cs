@@ -40,6 +40,9 @@ namespace UI
         [SerializeField]
         private Button uploadButton;
         
+        [SerializeField]
+        private Button saveCopyButton;
+        
         [SerializeField] 
         private Button settingsButton;
 
@@ -56,6 +59,7 @@ namespace UI
         {
             playButton.onClick.AddListener(OnPlay);
             uploadButton.onClick.AddListener(OnUpload);
+            saveCopyButton.onClick.AddListener(OnSaveCopy);
             leaderboardButton.onClick.AddListener(OnOpenLeaderboard);
             settingsButton.onClick.AddListener(OnOpenSettings);
             exitButton.onClick.AddListener(OnExit);
@@ -65,12 +69,13 @@ namespace UI
         {
             playButton.onClick.RemoveListener(OnPlay);
             uploadButton.onClick.RemoveListener(OnUpload);
+            saveCopyButton.onClick.RemoveListener(OnSaveCopy);
             leaderboardButton.onClick.RemoveListener(OnOpenLeaderboard);
             settingsButton.onClick.RemoveListener(OnOpenSettings);
             exitButton.onClick.RemoveListener(OnExit);
         }
         
-        public void DisplayPuzzle(PuzzleSaveData puzzleSaveData)
+        public void DisplayLocalPuzzle(PuzzleSaveData puzzleSaveData)
         {
             pieceCountField.text = $"Piece Count: {puzzleSaveData.PieceCount}";
             pieceShapeField.text = $"Piece Shape: {puzzleSaveData.layout.shape.ToString()}";
@@ -82,18 +87,17 @@ namespace UI
             
             _puzzleSaveData = puzzleSaveData;
             
+            settingsButton.gameObject.SetActive(true);
+            leaderboardButton.gameObject.SetActive(false);
             gameObject.SetActive(true);
         }
         
         // TODO HACKY. Design needs to make more sense here with PuzzleSaveData and PuzzleMetadata being separate
-        public async void DisplayPuzzle(PuzzleMetadata puzzleMetadata)
+        public async void DisplayOnlinePuzzle(PuzzleMetadata puzzleMetadata)
         {
             var user = await PuzzleServerApi.Instance.Manager.GetUser();
             // TODO
-            // if (user.ID != puzzleMetadata.author)
-            // {
-            //     settingsButton.gameObject.SetActive(false);
-            // }
+            // settingsButton.gameObject.SetActive(user.ID == puzzleMetadata.author);
             
             pieceCountField.text = $"Piece Count: {puzzleMetadata.PieceCount}";
             pieceShapeField.text = $"Piece Shape: {puzzleMetadata.layout.shape.ToString()}";
@@ -105,6 +109,7 @@ namespace UI
             
             _puzzleSaveData = PuzzleSaveData.FromMetaData(puzzleMetadata);
             
+            leaderboardButton.gameObject.SetActive(true);
             gameObject.SetActive(true);
         }
         
@@ -126,6 +131,12 @@ namespace UI
                 createRequest, 
                 _puzzleSaveData.PuzzleImage
             );
+        }
+        
+        [Button("Save Puzzle Copy")]
+        private void OnSaveCopy()
+        {
+            LocalSave.Instance.Create(_puzzleSaveData);
         }
         
         [Button("Settings")]
