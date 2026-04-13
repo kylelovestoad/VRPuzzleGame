@@ -75,8 +75,20 @@ namespace UI
             settingsButton.onClick.RemoveListener(OnOpenSettings);
             exitButton.onClick.RemoveListener(OnExit);
         }
+
+        public void DisplayPuzzle(PuzzleSaveData saveData)
+        {
+            if (saveData.HasOnlineID)
+            {
+                DisplayOnlinePuzzle(saveData.GetMetaData());
+            }
+            else
+            {
+                DisplayLocalPuzzle(saveData);
+            }
+        }
         
-        public void DisplayLocalPuzzle(PuzzleSaveData puzzleSaveData)
+        private void DisplayLocalPuzzle(PuzzleSaveData puzzleSaveData)
         {
             pieceCountField.text = $"Piece Count: {puzzleSaveData.PieceCount}";
             pieceShapeField.text = $"Piece Shape: {puzzleSaveData.layout.shape.ToString()}";
@@ -94,7 +106,7 @@ namespace UI
         }
         
         // TODO HACKY. Design needs to make more sense here with PuzzleSaveData and PuzzleMetadata being separate
-        public async void DisplayOnlinePuzzle(PuzzleMetadata puzzleMetadata)
+        private async void DisplayOnlinePuzzle(PuzzleMetadata puzzleMetadata)
         {
             var user = await PuzzleServerApi.Instance.Manager.GetUser();
             // TODO

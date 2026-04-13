@@ -5,6 +5,6 @@ data class PuzzleLayout(
     val cols: Int,
     val width: Float,
     val height: Float,
-    val shape: PieceShape,
+    val shape: Int,
     val initialPieceCuts: List<PieceCut>,
 )

@@ -142,7 +142,7 @@ namespace UI
         private void ShowSelectedPuzzle(PuzzleSaveData saveData)
         {
             ShowOnly(puzzleInfo);
-            puzzleInfo.DisplayLocalPuzzle(saveData);
+            puzzleInfo.DisplayPuzzle(saveData);
         }
         
         private void PuzzleSettingsOpen(PuzzleMetadata metaData)

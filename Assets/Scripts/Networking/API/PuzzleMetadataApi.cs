@@ -30,6 +30,8 @@ namespace Networking.API
             using var request = UnityWebRequest.Get($"{_baseUrl}{PuzzlesEndpoint}");
             await _api.AddAuthHeaders(request);
             await request.SendWebRequest();
+            
+            Debug.Log("Shape: " +  JsonArray<PuzzleMetadataDTO>.FromJson(request.downloadHandler.text)[0].layout.shape);
 
             return request.result != UnityWebRequest.Result.Success
                 ? throw new HttpRequestException(request.error)

@@ -158,6 +158,8 @@ namespace UI
                         metadataDto.layout,
                         image
                     );
+
+                    galleryTile.OnTileClicked += Select;
                     
                     galleryTile.DisplayPuzzle(metadata);
                 }

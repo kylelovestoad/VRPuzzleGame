@@ -1,4 +1,5 @@
-﻿using EditorAttributes;
+﻿using System;
+using EditorAttributes;
 using Networking.DTO;
 using Persistence;
 using TMPro;
@@ -17,6 +18,8 @@ namespace UI
 
         private PuzzleMetadata _metadata; 
         
+        public event Action<PuzzleSaveData> OnTileClicked;
+        
         public void DisplayPuzzle(PuzzleMetadata puzzleMetadata)
         {
             puzzleNameLabel.text = puzzleMetadata.name;
@@ -28,18 +31,10 @@ namespace UI
         }
         
         // TODO this will be moved to play info
-        [Button("Download Puzzle")]
+        [Button("Open Puzzle")]
         public void OnClick()
         {
-            LocalSave.Instance.Create(new PuzzleSaveData(
-                null,
-                _metadata.onlineID,
-                _metadata.name,
-                _metadata.author,
-                _metadata.layout,
-                null,
-                _metadata.PuzzleImage
-            ));
+            OnTileClicked?.Invoke(PuzzleSaveData.FromMetaData(_metadata));
         }
     }
 }

@@ -12,7 +12,8 @@ namespace UI
     {
         public const float PuzzleGameHeight = 0.3f;
 
-        [SerializeField, HideProperty] public Button createButton;
+        [SerializeField] 
+        public Button createButton;
         
         [SerializeField]
         private PuzzleFormBehaviour puzzleFormBehaviour;

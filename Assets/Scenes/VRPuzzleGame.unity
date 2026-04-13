@@ -44947,6 +44947,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PuzzleCreation
       objectReference: {fileID: 0}
+    - target: {fileID: 5632145248900015444, guid: 53e8c404122d59f4abc625e5b25f983d, type: 3}
+      propertyPath: m_Name
+      value: CreateButton
+      objectReference: {fileID: 0}
     - target: {fileID: 5648611549778610392, guid: 53e8c404122d59f4abc625e5b25f983d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -45500,7 +45504,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5324596373732412459, guid: 53e8c404122d59f4abc625e5b25f983d, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53e8c404122d59f4abc625e5b25f983d, type: 3}

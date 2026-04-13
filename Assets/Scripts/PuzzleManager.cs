@@ -87,6 +87,8 @@ public class PuzzleManager : MonoBehaviour
     
     private void CloseLocalPuzzle()
     {
+        Debug.LogError("Close local puzzle");
+        
         CurrentPuzzle.OnProgressUpdated -= OnChunkMerge;
         
         var saveData = CurrentPuzzle.ToData();
