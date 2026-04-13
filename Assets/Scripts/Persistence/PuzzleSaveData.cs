@@ -14,6 +14,7 @@ namespace Persistence
         public string localID;
         public string onlineID;
         public string name;
+        public string authorId;
         public string author;
         public PuzzleLayout layout;
         public float elapsedTime;
@@ -32,6 +33,7 @@ namespace Persistence
             string localID,
             string onlineID,
             string name,
+            string authorId,
             string author,
             PuzzleLayout layout,
             List<ChunkSaveData> chunks,
@@ -41,6 +43,7 @@ namespace Persistence
             this.localID = localID;
             this.onlineID = onlineID;
             this.name = name;
+            this.authorId = authorId;
             this.author = author;
             this.layout = layout;
             this.chunks = chunks;
@@ -68,6 +71,7 @@ namespace Persistence
                 localID, 
                 onlineID, 
                 name, 
+                authorId, 
                 author, 
                 layout, 
                 PuzzleImage
@@ -80,6 +84,7 @@ namespace Persistence
                 metaData.localID, 
                 metaData.onlineID, 
                 metaData.name, 
+                metaData.authorId, 
                 metaData.author, 
                 metaData.layout, 
                 null,

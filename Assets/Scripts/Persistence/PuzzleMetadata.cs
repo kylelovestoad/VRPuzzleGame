@@ -12,6 +12,7 @@ namespace Persistence
         public string localID;
         public string onlineID;
         public string name;
+        public string authorId;
         public string author;
         public PuzzleLayout layout;
         
@@ -26,6 +27,7 @@ namespace Persistence
             string localID,
             string onlineID,
             string name,
+            string authorId,
             string author,
             PuzzleLayout layout,
             Texture2D puzzleImage
@@ -34,6 +36,7 @@ namespace Persistence
             this.onlineID = onlineID;
             this.name = name;
             this.author = author;
+            this.authorId = authorId;
             this.layout = layout;
             PuzzleImage = puzzleImage;
         }

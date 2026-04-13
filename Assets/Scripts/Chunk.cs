@@ -73,7 +73,7 @@ public class Chunk : MonoBehaviour
         
         foreach (var piece in Pieces)
         {
-            Debug.LogError($"Neighbors: {piece.NeighborIndices.Count}");
+            Debug.Log($"Neighbors: {piece.NeighborIndices.Count}");
             
             var unconnectedNeighbors = piece.NeighborIndices
                 .Where(neighborIndex => !pieceIndices.Contains(neighborIndex)).ToList();

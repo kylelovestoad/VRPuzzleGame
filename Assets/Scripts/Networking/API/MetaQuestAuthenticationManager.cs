@@ -10,7 +10,6 @@ namespace Networking.API
 {
     public class MetaQuestAuthenticationManager : MonoBehaviour
     {
-        [CanBeNull] public string AccessToken { get; private set; }
         public bool IsReady { get; private set; }
 
         async void Start()

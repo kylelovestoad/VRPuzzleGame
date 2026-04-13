@@ -87,7 +87,7 @@ public class PuzzleManager : MonoBehaviour
     
     private void CloseLocalPuzzle()
     {
-        Debug.LogError("Close local puzzle");
+        Debug.Log("Close local puzzle");
         
         CurrentPuzzle.OnProgressUpdated -= OnChunkMerge;
         

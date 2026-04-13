@@ -70,17 +70,12 @@ namespace UI
             }
             else
             {
-                Debug.LogError("Creating Local Puzzle");
-                
-                LocalSave.Instance.Create(new PuzzleSaveData(
-                    null,
-                    null,
+                UIUtils.CreatePuzzleForCurrentUser(
                     form.Name,
-                    "DK",
                     generationData.Layout,
-                    new List<ChunkSaveData>(),
                     generationData.PuzzleImage
-                ));
+                );
+                Debug.Log("Creating Local Puzzle");
             }
         }
 

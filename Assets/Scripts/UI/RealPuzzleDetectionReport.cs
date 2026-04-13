@@ -50,15 +50,11 @@ namespace UI
         [Button("Accept")]
         private void Accept()
         {
-            LocalSave.Instance.Create(new PuzzleSaveData(
-                null,
-                null,
+            UIUtils.CreatePuzzleForCurrentUser(
                 _puzzleName,
-                "DK",
                 _generationData.Layout,
-                new List<ChunkSaveData>(),
                 _generationData.PuzzleImage
-            ));
+            );
             
             OnExit?.Invoke();
         }

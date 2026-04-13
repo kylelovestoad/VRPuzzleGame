@@ -118,8 +118,6 @@ namespace UI
 
             foreach (var puzzleSaveData in p)
             {
-                Debug.LogError("Has Local Id " + puzzleSaveData.HasLocalID);
-                
                 var galleryTile = Instantiate(
                     puzzleGalleryItemPrefab,
                     puzzleLocalGalleryItemContainer.transform, 
@@ -149,11 +147,12 @@ namespace UI
                     );
 
                     var image = await PuzzleServerApi.Instance.Content.DownloadImage(metadataDto.content.id);
-
+                    
                     var metadata = new PuzzleMetadata(
                         null,
                         metadataDto.onlineID,
                         metadataDto.name,
+                        metadataDto.authorId,
                         metadataDto.author,
                         metadataDto.layout,
                         image

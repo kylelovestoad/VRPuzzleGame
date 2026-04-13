@@ -30,7 +30,8 @@ class PuzzleMetadataService(
 
         val puzzleMetadata = PuzzleMetadata(
             name = metadata.name,
-            author = principal.userId,
+            authorId = principal.userId,
+            author = principal.metaUser.displayName,
             layout = metadata.layout,
             content = content,
         )
@@ -55,7 +56,7 @@ class PuzzleMetadataService(
     ): PuzzleMetadataDTO {
         val existing = getPuzzleById(id)
 
-        if (existing.author != principal.userId) {
+        if (existing.authorId != principal.userId) {
             throw IllegalAccessException("User is not the author of the Puzzle")
         }
 
@@ -67,7 +68,7 @@ class PuzzleMetadataService(
 
         val updated = existing.copy(
             name = metadata.name ?: existing.name,
-            author = principal.metaUser.displayName,
+            authorId = principal.metaUser.displayName,
             layout = metadata.layout ?: existing.layout,
             content = updatedContent,
         )
@@ -79,7 +80,7 @@ class PuzzleMetadataService(
     @Transactional
     fun deletePuzzle(id: ObjectId, principal: MetaQuestAuthenticationPrincipal) {
         val existing = getPuzzleById(id)
-        if (existing.author != principal.userId) {
+        if (existing.authorId != principal.userId) {
             throw IllegalAccessException("User is not the author of the Puzzle")
         }
 

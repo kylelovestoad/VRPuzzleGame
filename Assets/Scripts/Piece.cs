@@ -81,7 +81,7 @@ public class Piece : MonoBehaviour
             (pieceSolutionLocation.y + pieceBounds.min.y) / puzzleLayout.height
         );
         
-        Debug.LogError($"UV Offset: {uvOffset} {pieceCut.pieceIndex}");
+        Debug.Log($"UV Offset: {uvOffset} {pieceCut.pieceIndex}");
         
         frontMaterial.mainTextureOffset = uvOffset;
         frontMaterial.mainTextureScale = uvScale;
@@ -100,8 +100,6 @@ public class Piece : MonoBehaviour
         boxCollider.size = bounds.size;
         
         _cut = pieceCut;
-        
-        Debug.Log("Finished!!!!!!!!!");
     }
 
     public Vector3[] Vertices()
@@ -166,8 +164,8 @@ public class Piece : MonoBehaviour
 
     public void SetMaterials(Material frontMaterial, Material backAndSidesMaterial)
     {
-        Debug.LogError($"UV Scale: {_meshRenderer.sharedMaterials[0].mainTextureScale} {_cut.pieceIndex}");
-        Debug.LogError($"UV Offset: {_meshRenderer.sharedMaterials[0].mainTextureOffset} {_cut.pieceIndex}");
+        Debug.Log($"UV Scale: {_meshRenderer.sharedMaterials[0].mainTextureScale} {_cut.pieceIndex}");
+        Debug.Log($"UV Offset: {_meshRenderer.sharedMaterials[0].mainTextureOffset} {_cut.pieceIndex}");
         
         var normalFrontMaterial = _normalPuzzleMaterials[0];
         
@@ -192,7 +190,7 @@ public class Piece : MonoBehaviour
     {
         if (pointerEvent.Type == PointerEventType.Unselect)
         {
-            Debug.LogError("Piece dropped");
+            Debug.Log("Piece dropped");
             OnDropped?.Invoke(); 
         }
     }

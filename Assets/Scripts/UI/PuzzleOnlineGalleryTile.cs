@@ -30,7 +30,6 @@ namespace UI
             gameObject.SetActive(true);
         }
         
-        // TODO this will be moved to play info
         [Button("Open Puzzle")]
         public void OnClick()
         {

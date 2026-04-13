@@ -25,6 +25,9 @@ namespace UI
         private TMP_Text pieceShapeField;
         
         [SerializeField]
+        private TMP_Text createdByField;
+        
+        [SerializeField]
         private Image puzzleImage;
 
         [SerializeField] 
@@ -95,9 +98,10 @@ namespace UI
         
         private void DisplayLocalPuzzle(PuzzleSaveData puzzleSaveData)
         {
+            createdByField.text = $"Created By: {puzzleSaveData.author}";
             pieceCountField.text = $"Piece Count: {puzzleSaveData.PieceCount}";
             pieceShapeField.text = $"Piece Shape: {puzzleSaveData.layout.shape.ToString()}";
-            elapsedTimeField.text = $"{puzzleSaveData.elapsedTime}";
+            elapsedTimeField.text = $"{UIUtils.AsTimeString(puzzleSaveData.elapsedTime)}";
             percentCompleteField.text = $"{puzzleSaveData.PercentComplete():F0}% Complete";
             pieceProgressField.text = $"{puzzleSaveData.CurrentConnections()}/{puzzleSaveData.PieceCount}";
             
@@ -114,9 +118,10 @@ namespace UI
         private async void DisplayOnlinePuzzle(PuzzleMetadata puzzleMetadata)
         {
             var user = await PuzzleServerApi.Instance.Manager.GetUser();
-            // TODO
-            // settingsButton.gameObject.SetActive(user.ID == puzzleMetadata.author);
             
+            settingsButton.gameObject.SetActive(user.ID.ToString() == puzzleMetadata.authorId);
+            
+            createdByField.text = $"Created By: {puzzleMetadata.author}";
             pieceCountField.text = $"Piece Count: {puzzleMetadata.PieceCount}";
             pieceShapeField.text = $"Piece Shape: {puzzleMetadata.layout.shape.ToString()}";
             elapsedTimeField.text = "";

@@ -18,8 +18,9 @@ public class Puzzle: MonoBehaviour
     public string LocalID { get; set; }
     public string OnlineID { get; set; }
     public string Name { get; set; }
-    public string Author { get; set; }
+    public string AuthorId { get; set; }
     
+    public string Author { get; set; }
     public PuzzleLayout Layout { get; set; }
     
     public Texture2D PuzzleImage { get; set; }
@@ -45,6 +46,7 @@ public class Puzzle: MonoBehaviour
         LocalID = saveData.localID;
         OnlineID = saveData.onlineID;
         Name = saveData.name;
+        AuthorId = saveData.authorId;
         Author = saveData.author;
         Layout = saveData.layout;
         PuzzleImage = saveData.PuzzleImage;
@@ -235,6 +237,7 @@ public class Puzzle: MonoBehaviour
             localID: LocalID,
             onlineID: OnlineID,
             name: Name,
+            authorId: AuthorId,
             author: Author,
             layout: Layout,
             puzzleImage: PuzzleImage,

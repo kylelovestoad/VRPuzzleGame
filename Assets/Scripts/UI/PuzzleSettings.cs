@@ -75,6 +75,7 @@ namespace UI
                 _puzzleMetaData.localID,
                 _puzzleMetaData.onlineID,
                 form.Name,
+                _puzzleMetaData.authorId,
                 _puzzleMetaData.author,
                 generationData.Layout,
                 new List<ChunkSaveData>(),

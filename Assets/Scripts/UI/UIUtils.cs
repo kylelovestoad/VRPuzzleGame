@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using Networking.API;
 using Persistence;
+using PuzzleGeneration;
 using UnityEngine;
 
 namespace UI
@@ -30,6 +33,27 @@ namespace UI
             return TimeSpan
                 .FromSeconds(time)
                 .ToString(@"m\:ss\.fff");
+        }
+
+        public static async void CreatePuzzleForCurrentUser(
+            string puzzleName,
+            PuzzleLayout layout,
+            Texture2D puzzleImage
+            )
+        {
+
+            var user = await PuzzleServerApi.Instance.Manager.GetUser();
+            
+            LocalSave.Instance.Create(new PuzzleSaveData(
+                null,
+                null,
+                puzzleName,
+                user.ID.ToString(),
+                user.DisplayName,
+                layout,
+                new List<ChunkSaveData>(),
+                puzzleImage
+            ));
         }
     }
 }

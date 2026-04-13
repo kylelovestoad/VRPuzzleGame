@@ -38,7 +38,7 @@ public class HintManager
         var backAndSidesMaterial = new Material(_hintBackAndSidesMaterial);
         
         var centroid = Util.Centroid(piece.BorderPoints);
-        Debug.LogError("Centorid: " + centroid);
+        Debug.Log("Centroid: " + centroid);
         
         frontMaterial.SetVector(CentroidPropertyID, new Vector4(centroid.x, centroid.y, 0, 0));
         backAndSidesMaterial.SetVector(CentroidPropertyID, new Vector4(centroid.x, centroid.y, 0, 0));

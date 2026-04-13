@@ -1,17 +1,11 @@
 package com.vrpuzzle.puzzleserver.controller
 
 import com.vrpuzzle.puzzleserver.model.dto.PuzzleMetadataDTO
-import com.vrpuzzle.puzzleserver.model.dto.PuzzleSaveDataDTO
 import com.vrpuzzle.puzzleserver.request.CreatePuzzleRequest
 import com.vrpuzzle.puzzleserver.request.UpdatePuzzleMetadataRequest
-import com.vrpuzzle.puzzleserver.request.UpdatePuzzleSaveDataRequest
 import com.vrpuzzle.puzzleserver.security.MetaQuestAuthenticationPrincipal
-import com.vrpuzzle.puzzleserver.services.MetaQuestAuthService
 import com.vrpuzzle.puzzleserver.services.PuzzleMetadataService
-import com.vrpuzzle.puzzleserver.services.PuzzleSaveDataService
 import org.bson.types.ObjectId
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -21,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
