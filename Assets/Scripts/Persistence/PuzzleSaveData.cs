@@ -22,9 +22,9 @@ namespace Persistence
         [NonSerialized]
         public Texture2D PuzzleImage;
         
-        public bool HasLocalID => localID != null;
+        public bool HasLocalID => !string.IsNullOrEmpty(localID);
         
-        public bool HasOnlineID => onlineID != null;
+        public bool HasOnlineID => !string.IsNullOrEmpty(onlineID);
         
         public int PieceCount => layout.initialPieceCuts.Count;
 

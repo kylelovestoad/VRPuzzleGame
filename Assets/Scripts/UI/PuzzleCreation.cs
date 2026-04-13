@@ -47,7 +47,6 @@ namespace UI
             if (!valid) return;
             
             var generator = form.Shape.Generator();
-            // var generator = new RealPuzzleGenerator();
 
             var generationData = await generator.Generate(
                 puzzleImage, 
@@ -71,6 +70,8 @@ namespace UI
             }
             else
             {
+                Debug.LogError("Creating Local Puzzle");
+                
                 LocalSave.Instance.Create(new PuzzleSaveData(
                     null,
                     null,

@@ -16,14 +16,26 @@ namespace UI
             nameof(nameInputField),
             nameof(rowsInputField),
             nameof(columnsInputField),
-            nameof(dropdown)
+            nameof(dropdown),
+            nameof(dropdownList)
         )]
-        [SerializeField] private Void groupHolder;
+        [SerializeField] 
+        private Void groupHolder;
 
-        [SerializeField, HideProperty] public TMP_InputField nameInputField;
-        [SerializeField, HideProperty] public TMP_InputField rowsInputField;
-        [SerializeField, HideProperty] public TMP_InputField columnsInputField;
-        [SerializeField, HideProperty] public DropDownGroup dropdown;
+        [SerializeField, HideProperty] 
+        public TMP_InputField nameInputField;
+        
+        [SerializeField, HideProperty] 
+        public TMP_InputField rowsInputField;
+        
+        [SerializeField, HideProperty] 
+        public TMP_InputField columnsInputField;
+        
+        [SerializeField, HideProperty] 
+        public DropDownGroup dropdown;
+        
+        [SerializeField, HideProperty] 
+        public GameObject dropdownList;
         
         public Texture2D puzzleImage;
         
@@ -44,19 +56,16 @@ namespace UI
         {
             Debug.Log($"Filling form for {metadata} {dropdown.GetComponentInChildren<TMP_Dropdown>() != null}");
             
-            // foreach (var component in dropdown.GetComponentsInChildren<Component>())
-            // {
-            //     Debug.Log(component.GetType().FullName);
-            // }
-            
             Debug.Log($"Shape Index: {(int) metadata.layout.shape}");
-
             
             nameInputField.text = metadata.name;
             rowsInputField.text = metadata.layout.rows.ToString();
             columnsInputField.text = metadata.layout.cols.ToString();
-            // TODO: fix
-            dropdown.GetComponentsInChildren<Toggle>()[(int) metadata.layout.shape].isOn = true;
+            
+            Debug.Log($"Piece Shape Num Options: {dropdownList.GetComponentsInChildren<Toggle>()}");
+            
+            dropdownList.GetComponentsInChildren<Toggle>()[(int) metadata.layout.shape].isOn = true;
+            
             puzzleImage = metadata.PuzzleImage;
         }
     }

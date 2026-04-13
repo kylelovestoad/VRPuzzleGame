@@ -22735,6 +22735,17 @@ MonoBehaviour:
   _selectSurface: {fileID: 176461806}
   _movementProvider: {fileID: 0}
   _tiebreakerScore: 0
+--- !u!114 &936526429 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6469487921263452029, guid: 53e8c404122d59f4abc625e5b25f983d, type: 3}
+  m_PrefabInstance: {fileID: 345650848}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &937343223
 GameObject:
   m_ObjectHideFlags: 0
@@ -39266,7 +39277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   saveChangesButton: {fileID: 768540952}
   puzzleFormBehaviour: {fileID: 345650849}
-  puzzleImage: {fileID: 0}
+  puzzleImage: {fileID: 936526429}
   exitButton: {fileID: 828561707}
 --- !u!1 &1994437979
 GameObject:
@@ -44647,6 +44658,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3652662625182756609, guid: 53e8c404122d59f4abc625e5b25f983d, type: 3}
+      propertyPath: m_IsOn
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3656906455877385260, guid: 53e8c404122d59f4abc625e5b25f983d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -44789,6 +44804,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4552805956001175188, guid: 53e8c404122d59f4abc625e5b25f983d, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553993457608523183, guid: 53e8c404122d59f4abc625e5b25f983d, type: 3}
+      propertyPath: m_IsOn
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4620263363349128307, guid: 53e8c404122d59f4abc625e5b25f983d, type: 3}
@@ -44938,6 +44957,10 @@ PrefabInstance:
     - target: {fileID: 5250553414176930323, guid: 53e8c404122d59f4abc625e5b25f983d, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5286484413302892371, guid: 53e8c404122d59f4abc625e5b25f983d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5562384751017219172, guid: 53e8c404122d59f4abc625e5b25f983d, type: 3}
       propertyPath: puzzleFormBehaviour

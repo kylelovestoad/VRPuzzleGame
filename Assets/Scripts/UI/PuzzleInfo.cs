@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using EditorAttributes;
 using Networking;
 using Networking.API;
@@ -58,6 +59,8 @@ namespace UI
 
         private void Start()
         {
+            LocalSave.Instance.OnSaved += OnPuzzleSaved;
+            
             playButton.onClick.AddListener(OnPlay);
             uploadButton.onClick.AddListener(OnUpload);
             saveCopyButton.onClick.AddListener(OnSaveCopy);
@@ -68,6 +71,8 @@ namespace UI
 
         private void OnDestroy()
         {
+            LocalSave.Instance.OnSaved += OnPuzzleSaved;
+            
             playButton.onClick.RemoveListener(OnPlay);
             uploadButton.onClick.RemoveListener(OnUpload);
             saveCopyButton.onClick.RemoveListener(OnSaveCopy);
@@ -124,6 +129,13 @@ namespace UI
             
             leaderboardButton.gameObject.SetActive(true);
             gameObject.SetActive(true);
+        }
+
+        private void OnPuzzleSaved(List<PuzzleSaveData> saveDataList)
+        {
+            var saveData = saveDataList[0];
+
+            DisplayPuzzle(saveData);
         }
         
         [Button("Leaderboard")]
