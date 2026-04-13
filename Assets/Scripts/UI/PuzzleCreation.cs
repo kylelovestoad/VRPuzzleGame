@@ -46,10 +46,10 @@ namespace UI
             if (!valid) return;
             
             var generator = form.Shape.Generator();
-            // var generator = new RectanglePuzzleGenerator();
+            // var generator = new RealPuzzleGenerator();
 
             var generationData = await generator.Generate(
-                puzzleImage, 
+                realImage, 
                 form.Rows, 
                 form.Columns, 
                 PuzzleGameHeight

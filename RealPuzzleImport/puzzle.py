@@ -27,6 +27,7 @@ class Puzzle:
     piece_mask: ndarray
     pieces: list[Piece]
     game_height: float
+    game_width: float
 
     def __init__(self, image, piece_mask, pieces):
         self.image = image
@@ -40,39 +41,31 @@ class Puzzle:
     def piece_count(self):
         return len(self.pieces)
 
-    def width_height_ratio(self):
-        height, width = self.image.shape[:2]
-
-        return width / height
-
-    def game_width_and_height(self):
-        ratio = self.width_height_ratio()
-
-        return self.game_height * ratio, self.game_height
-
     def generate_solved_image(self) -> str:
         rows, cols = self.image.shape[:2]
 
         output = np.zeros((rows, cols, 3), dtype=self.image.dtype)
 
-        min_row = rows
-        min_col = cols
         piece_points = []
-
         for piece in self:
             xy_original, xy_final = piece.transformed_shape(self.image.shape[:2])
             piece_points.append((xy_original, xy_final))
-            x, y = xy_final
 
-            min_row = min(min_row, np.min(y))
-            min_col = min(min_col, np.min(x))
+        min_r, max_r, min_c, max_c = rows, 0, cols, 0
 
         for xy_original, xy_final in piece_points:
             x0, y0 = xy_original
             x, y = xy_final
 
             for x01, y01, x1, y1 in zip(x0, y0, x, y):
-                output[int(y1), int(x1)] = self.image[int(y01), int(x01)]
+                r, c = int(y1), int(x1)
+                output[r, c] = self.image[int(y01), int(x01)]
+                min_r = min(min_r, r)
+                max_r = max(max_r, r)
+                min_c = min(min_c, c)
+                max_c = max(max_c, c)
+
+        output = output[min_r:max_r + 1, min_c:max_c + 1]
 
         output_path = "debug_images/solved.png"
         cv2.imwrite(output_path, output)
