@@ -50,9 +50,7 @@ namespace Networking
             if (request.result != UnityWebRequest.Result.Success)
                 throw new Exception(request.error);
 
-            return JsonUtility.FromJson<JsonListWrapper<LeaderboardEntryDTO>>(request.downloadHandler.text)
-                .list
-                .ToArray();
+            return JsonArray<LeaderboardEntryDTO>.FromJson(request.downloadHandler.text);
         }
     }
 }

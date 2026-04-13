@@ -49,7 +49,7 @@ namespace UI
             // var generator = new RealPuzzleGenerator();
 
             var generationData = await generator.Generate(
-                realImage, 
+                puzzleImage, 
                 form.Rows, 
                 form.Columns, 
                 PuzzleGameHeight

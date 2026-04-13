@@ -31,9 +31,9 @@ namespace Networking.API
             await _api.AddAuthHeaders(request);
             await request.SendWebRequest();
 
-            return request.result != UnityWebRequest.Result.Success 
-                ? throw new HttpRequestException(request.error) 
-                : JsonUtility.FromJson<JsonListWrapper<PuzzleMetadataDTO>>(request.downloadHandler.text).list.ToArray();
+            return request.result != UnityWebRequest.Result.Success
+                ? throw new HttpRequestException(request.error)
+                : JsonArray<PuzzleMetadataDTO>.FromJson(request.downloadHandler.text);
         }
 
         public async Task<PuzzleMetadataDTO> GetPuzzle(string id)
@@ -42,8 +42,8 @@ namespace Networking.API
             await _api.AddAuthHeaders(request);
             await request.SendWebRequest();
 
-            return request.result != UnityWebRequest.Result.Success 
-                ? throw new HttpRequestException(request.error) 
+            return request.result != UnityWebRequest.Result.Success
+                ? throw new HttpRequestException(request.error)
                 : JsonUtility.FromJson<PuzzleMetadataDTO>(request.downloadHandler.text);
         }
 
@@ -54,8 +54,8 @@ namespace Networking.API
             await _api.AddAuthHeaders(request);
             await request.SendWebRequest();
 
-            return request.result != UnityWebRequest.Result.Success 
-                ? throw new HttpRequestException(request.error) 
+            return request.result != UnityWebRequest.Result.Success
+                ? throw new HttpRequestException(request.error)
                 : JsonUtility.FromJson<PuzzleMetadataDTO>(request.downloadHandler.text);
         }
 
@@ -67,8 +67,8 @@ namespace Networking.API
             await _api.AddAuthHeaders(request);
             await request.SendWebRequest();
 
-            return request.result != UnityWebRequest.Result.Success 
-                ? throw new HttpRequestException(request.error) 
+            return request.result != UnityWebRequest.Result.Success
+                ? throw new HttpRequestException(request.error)
                 : JsonUtility.FromJson<PuzzleMetadataDTO>(request.downloadHandler.text);
         }
 
@@ -84,7 +84,7 @@ namespace Networking.API
 
         private static List<IMultipartFormSection> BuildMultipartPuzzleMetadata(string metadataJson, Texture2D image)
         {
-            var sections = new List<IMultipartFormSection>
+            return new List<IMultipartFormSection>
             {
                 new MultipartFormDataSection(
                     "metadata",
@@ -96,8 +96,6 @@ namespace Networking.API
                     "puzzle.png",
                     "image/png")
             };
-
-            return sections;
         }
     }
 }
