@@ -1,5 +1,6 @@
 using System;
 using Networking;
+using Networking.API;
 using Persistence;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -111,7 +112,8 @@ public class PuzzleManager : MonoBehaviour
 
         if (CurrentPuzzle.IsCompleted)
         {
-            // TODO: update leaderboard if completed
+            _ = PuzzleServerApi.Instance.Leaderboards
+                .UpsertLeaderboardEntry(CurrentPuzzle.OnlineID, CurrentPuzzle.ElapsedTime);
         }
 
         if (Application.isPlaying)

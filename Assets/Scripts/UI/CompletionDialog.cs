@@ -29,10 +29,8 @@ namespace UI
             var puzzle = PuzzleManager.Instance.CurrentPuzzle;
             
             var time = puzzle.ElapsedTime;
-            
-            var timeStr = TimeSpan
-                .FromSeconds(time)
-                .ToString(@"m\:ss");
+
+            var timeStr = UIUtils.AsTimeString(time);
             
             finishTime.text = $"Time: {timeStr}";
         }

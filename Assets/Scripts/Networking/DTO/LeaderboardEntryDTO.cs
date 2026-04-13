@@ -8,6 +8,7 @@ namespace Networking.DTO
         public string id;
         public string puzzleId;
         public string userId;
+        public string username;
         public float time;
     }
 }

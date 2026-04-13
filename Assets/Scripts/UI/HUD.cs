@@ -69,9 +69,7 @@ namespace UI
 
         private void OnTimerUpdate(float timeRemaining)
         {
-            var time = TimeSpan
-                .FromSeconds(timeRemaining)
-                .ToString(@"m\:ss");
+            var time = UIUtils.AsTimeString(timeRemaining);
             
             timerField.text = time;
         }

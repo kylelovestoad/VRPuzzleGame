@@ -1,4 +1,5 @@
-﻿using Persistence;
+﻿using System;
+using Persistence;
 using UnityEngine;
 
 namespace UI
@@ -14,6 +15,21 @@ namespace UI
             );
             
             return puzzleImageSprite;
+        }
+
+        
+        public static string AsTimeString(float time)
+        {
+            return TimeSpan
+                .FromSeconds(time)
+                .ToString(@"m\:ss");
+        }
+        
+        public static string AsTimeStringMillis(float time)
+        {
+            return TimeSpan
+                .FromSeconds(time)
+                .ToString(@"m\:ss\.fff");
         }
     }
 }

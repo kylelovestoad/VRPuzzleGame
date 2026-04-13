@@ -52,7 +52,7 @@ namespace UI
 
         private PuzzleSaveData _puzzleSaveData;
         
-        public event Action OnLeaderboardOpened;
+        public event Action<string> OnLeaderboardOpened;
         public event Action<PuzzleMetadata> OnSettingsOpened;
         public event Action OnExited;
 
@@ -117,7 +117,7 @@ namespace UI
         [Button("Leaderboard")]
         private void OnOpenLeaderboard()
         {
-            OnLeaderboardOpened?.Invoke();
+            OnLeaderboardOpened?.Invoke(_puzzleSaveData.onlineID);
         }
         
         [Button("Upload Puzzle")]

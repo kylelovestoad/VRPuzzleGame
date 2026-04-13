@@ -19,12 +19,14 @@ data class LeaderboardEntry(
     val id: ObjectId = ObjectId.get(),
     val puzzleId: ObjectId,
     val userId: String,
+    val username: String,
     val time: Float,
 ) {
     fun toDTO() = LeaderboardEntryDTO(
         id = id.toHexString(),
         puzzleId = puzzleId.toHexString(),
         userId = userId,
+        username = username,
         time = time,
     )
 }

@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Networking.API;
+using Persistence;
 using UnityEngine;
+using UnityEngine.UI;
+using EditorAttributes;
 
 namespace UI
 {
@@ -8,10 +13,40 @@ namespace UI
     {
 
         [SerializeField] private LeaderboardRow rowPrefab;
+        [SerializeField] private GameObject entriesContainer;
+        [SerializeField] private Button exitButton;
+        public event Action OnExit;
 
-        private void Start()
+        private void Awake()
         {
-            // PuzzleServerApi.Instance.Puzzles;
+            exitButton.onClick.AddListener(Exit);
+            OnExit += ClearLeaderboard;
+        }
+
+        public async void FillLeaderboard(string puzzleId)
+        {
+            var entries = await PuzzleServerApi.Instance.Leaderboards.GetLeaderboardEntries(puzzleId);
+
+            for (var i = 0; i < entries.Length; i++)
+            {
+                var entry = entries[i];
+                var row = Instantiate(rowPrefab);
+                row.SetEntry(i + 1, entry.username, entry.time);
+            }
+        }
+
+        private void ClearLeaderboard()
+        {
+            foreach (var row in GetComponentsInChildren<LeaderboardRow>())
+            {
+                Destroy(row.gameObject);
+            }
+        }
+
+        [Button("On Exit")]
+        private void Exit()
+        {
+            OnExit?.Invoke();
         }
     }
 }

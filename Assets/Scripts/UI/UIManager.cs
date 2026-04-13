@@ -31,6 +31,9 @@ namespace UI
         
         [SerializeField]
         private RealPuzzleDetectionReport realPuzzleDetectionReport;
+
+        [SerializeField] 
+        private PuzzleLeaderboard leaderboard;
         
         private void Awake()
         {
@@ -75,6 +78,9 @@ namespace UI
             puzzleInfo.OnExited -= ShowPuzzleGallery;
             puzzleInfo.OnSettingsOpened -= PuzzleSettingsOpen;
             puzzleInfo.OnLeaderboardOpened -= PuzzleLeaderboardOpen;
+
+            
+            leaderboard.OnExit += PuzzleLeaderboardExit;
             
             puzzleSettings.OnExited -= PuzzleSettingsExit;
             
@@ -146,10 +152,17 @@ namespace UI
             puzzleSettings.Initialize(metaData);
         }
         
-        private void PuzzleLeaderboardOpen()
+        private void PuzzleLeaderboardOpen(string puzzleId)
         {
-            // TODO
+            leaderboard.gameObject.SetActive(true);
+            leaderboard.FillLeaderboard(puzzleId);
         }
+        
+        private void PuzzleLeaderboardExit()
+        {
+            leaderboard.gameObject.SetActive(false);
+        }
+
         
         private void PuzzleSettingsExit()
         {
@@ -194,7 +207,7 @@ namespace UI
             gameplayHUD.gameObject.SetActive(true);
             gameplayHUD.ShowOnlineHud();
         }
-
+        
         private void OnRealPuzzleGenerated(
             string puzzleName, 
             PuzzleGenerationData generationData

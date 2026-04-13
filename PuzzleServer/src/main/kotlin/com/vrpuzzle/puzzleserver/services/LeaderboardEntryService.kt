@@ -28,6 +28,7 @@ class LeaderboardEntryService(
                 LeaderboardEntry(
                     puzzleId = puzzleId,
                     userId = principal.userId,
+                    username = principal.metaUser.displayName,
                     time = time
                 )
             ).toDTO()
