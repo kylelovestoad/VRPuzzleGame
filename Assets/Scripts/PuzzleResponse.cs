@@ -9,6 +9,8 @@ public class PuzzleResponse
 {
     public string solvedPuzzleImage;
     public List<PieceResponse> initialPieceCuts;
+    public int rows;
+    public int cols;
     public float puzzleWidth;
     public float puzzleHeight;
     
@@ -30,11 +32,18 @@ public class PuzzleResponse
         var image = PuzzleImageTexture2D();
         
         var pieceCuts = initialPieceCuts.Select(pieceResponse => pieceResponse.ToPieceCut()).ToList();
-        // TODO: fix row and col
-        var layout = new PuzzleLayout(0, 0, puzzleWidth, puzzleHeight, PieceShape.Real, pieceCuts);
+
+        var layout = new PuzzleLayout(
+            rows, 
+            cols, 
+            puzzleWidth, 
+            puzzleHeight, 
+            PieceShape.Real, 
+            pieceCuts
+        );
         
-        var renderData = new PuzzleGenerationData(image, layout);
+        var generationData = new PuzzleGenerationData(image, layout);
         
-        return renderData;
+        return generationData;
     }
 }

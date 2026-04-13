@@ -55,11 +55,11 @@ namespace UI
             var valid = puzzleFormBehaviour.TryGetFormInput(out var form);
             if (!valid) return;
             
-            var generator = form.Shape.Generator();
-            // var generator = new RectanglePuzzleGenerator();
+            // var generator = form.Shape.Generator();
+            var generator = new RealPuzzleGenerator();
 
             var generationData = await generator.Generate(
-                puzzleImage, 
+                realImage, 
                 form.Rows, 
                 form.Columns, 
                 PuzzleGameHeight
@@ -73,7 +73,7 @@ namespace UI
             PuzzleGenerationData generationData
         )
         {
-            if (form.Shape == PieceShape.Real)
+            if (form.Shape == PieceShape.Real || true)
             {
                 Debug.Log("PuzzleCreation: OnRealPuzzleGenerated");
                 OnRealPuzzleGenerated?.Invoke(form.Name, generationData);
