@@ -13,6 +13,7 @@ public class PieceResponse
     
     public PieceCut ToPieceCut()
     {
+        // TODO: fix row and col
         return new PieceCut(pieceIndex, neighborIndices, solutionLocation, borderPoints);
     }
 }

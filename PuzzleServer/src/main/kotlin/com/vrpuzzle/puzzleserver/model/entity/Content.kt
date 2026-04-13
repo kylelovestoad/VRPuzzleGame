@@ -15,7 +15,7 @@ class Content (
 ) {
     fun toDTO(): ContentDTO {
         return ContentDTO (
-            id = id,
+            id = id.toHexString(),
             filename = filename,
             contentType = contentType,
             fileSize = fileSize,

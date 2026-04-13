@@ -20,3 +20,4 @@ vrpuzzle:
 meta:
   app-id: ${META_APP_ID}
   app-secret: ${META_APP_SECRET}
+  app-access-token: "OC|${meta.app-id}|${meta.app-secret}"

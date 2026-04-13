@@ -1,10 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using NUnit.Framework;
 using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class Puzzle: MonoBehaviour
 {
@@ -20,12 +24,12 @@ public class Puzzle: MonoBehaviour
     
     public Texture2D PuzzleImage { get; set; }
     
-    private Chunk[] Chunks => GetComponentsInChildren<Chunk>();
+    public Chunk[] Chunks => GetComponentsInChildren<Chunk>();
     
     public float ElapsedTime { get; private set; }
     private bool _timeRunning;
 
-    public long CurrentConnections => GoalConnections == Chunks.Length ? 0 : GoalConnections - Chunks.Length + 1;
+    public long CurrentConnections { get; private set; }
     public long GoalConnections => Layout.initialPieceCuts.Count;
     public float PercentComplete => (float) CurrentConnections / GoalConnections * 100;
     public bool IsCompleted => CurrentConnections == GoalConnections;
@@ -33,7 +37,8 @@ public class Puzzle: MonoBehaviour
     public bool IsOnline => OnlineID != null;
     
     public event Action<float> UpdateTimer;
-    public event Action OnProgressUpdated;
+    public event Action<Piece[]> OnProgressUpdated;
+    public event Action OnCompleted;
     
     public void InitializePuzzle(PuzzleSaveData saveData)
     {
@@ -47,10 +52,10 @@ public class Puzzle: MonoBehaviour
         InitializeChunks(saveData);
 
         ElapsedTime = saveData.elapsedTime;
-        _timeRunning = true;
+        _timeRunning = !IsCompleted;
     }
     
-    void Update()
+    private void Update()
     {
         if (!_timeRunning) return;
         
@@ -69,30 +74,57 @@ public class Puzzle: MonoBehaviour
         {
             InitializeSavedChunkStates(saveData);
         }
+
+        foreach (var chunk in Chunks)
+        {
+            chunk.OnChunkDropped += OnChunkDropped;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        foreach (var chunk in Chunks)
+        {
+            chunk.OnChunkDropped -= OnChunkDropped;
+        }
     }
 
     private void InitializeSinglePieceChunks(PuzzleSaveData saveData)
     {
-        foreach (var cut in Layout.initialPieceCuts)
-        {
-            Debug.Log(cut.solutionLocation);
-
-            // TODO: randomize placement
-            var offset = new Vector3(cut.solutionLocation.x * 1.5f, cut.solutionLocation.y * 1.5f, 0);
-
-            var chunk = Instantiate(
-                chunkPrefab, 
-                cut.solutionLocation + offset, 
-                Quaternion.identity, 
-                transform
-            );
+        var initialCuts = Layout.initialPieceCuts;
         
-            chunk.InitializeSinglePieceChunk(cut, saveData);
+        var grid = PuzzlePlacement.GetBoundingGrid(Layout);
+        PuzzlePlacement.ShuffleCells(grid.Cells);
+
+        Debug.Log("Grid Count " + grid.Cells.Count);
+        
+        for (var i = 0; i < initialCuts.Count; i++)
+        {
+            PlacePieceInCell(initialCuts[i], grid.Cells[i], grid, saveData);
         }
+    }
+
+    private void PlacePieceInCell(
+        PieceCut cut, 
+        PuzzlePlacement.Cell cell, 
+        PuzzlePlacement.BoundingGrid boundingGrid, 
+        PuzzleSaveData saveData
+    )
+    {
+        var randomRotation = PuzzlePlacement.RandomRotationZ();
+        var chunk = Instantiate(chunkPrefab, Vector3.zero, randomRotation, transform);
+        chunk.InitializeSinglePieceChunk(cut, saveData);
+
+        var piece = chunk.FirstPiece();
+        var position = PuzzlePlacement.RandomPositionInCell(cell, boundingGrid, piece);
+        chunk.transform.position = position;
     }
     
     private void InitializeSavedChunkStates(PuzzleSaveData saveData)
     {
+        Debug.Assert(saveData.chunks != null, 
+            "Puzzle In Progress must have chunk states");
+        
         foreach (var chunkSaveData in saveData.chunks)
         {
             var chunk = Instantiate(
@@ -101,15 +133,100 @@ public class Puzzle: MonoBehaviour
                 chunkSaveData.rotation, 
                 transform
             );
+
+            CurrentConnections += chunkSaveData.pieces.Count - 1;
         
             chunk.InitializeMultiplePieceChunk(chunkSaveData, saveData);
         }
+        
+        Debug.Log($"Fat Current Connections: {CurrentConnections}");
+
+        if (CurrentConnections > 0)
+        {
+            CurrentConnections++;
+        }
     }
-    
-    private void OnTransformChildrenChanged()
+
+    private Piece LookupPiece(int pieceIndex)
     {
-        _timeRunning = _timeRunning && !IsCompleted;
-        OnProgressUpdated?.Invoke();
+        foreach (var chunk in Chunks)
+        {
+            if (chunk.TryLookupPiece(pieceIndex, out var piece))
+                return piece;
+        }
+        
+        return null;
+    }
+
+    public (Piece, Piece) RandomUnconnectedPiecePair()
+    {
+        var randChunkIndex = Random.Range(0, Chunks.Length);
+        var pieces = Chunks[randChunkIndex].MissingConnections();
+        
+        Debug.Log($"Piece Index {pieces.Count}");
+        
+        var piece0MissingConnections = pieces[Random.Range(0, pieces.Count)];
+        var piece0 = piece0MissingConnections.CurrPiece;
+        var unconnectedNeighborIndices = piece0MissingConnections.UnconnectedNeighborIndices;
+
+        var randUnconnectedNeighborIndex = Random.Range(0, unconnectedNeighborIndices.Count);
+        var piece1 = LookupPiece(unconnectedNeighborIndices[randUnconnectedNeighborIndex]);
+
+        return (piece0, piece1);
+    }
+
+    private void OnChunkDropped(Chunk chunk)
+    {
+        foreach (var otherChunk in Chunks)
+        {
+            if (chunk == otherChunk || !chunk.IsCloseEnough(otherChunk)) continue;
+
+            var smallIdChunk = chunk;
+            var bigIdChunk = otherChunk;
+
+            if (otherChunk.GetInstanceID() < chunk.GetInstanceID())
+            {
+                smallIdChunk = otherChunk;
+                bigIdChunk = chunk;
+            }
+
+            if (Interlocked.Exchange(ref smallIdChunk.mergeProcedureRunning, 1) == 1)
+            {
+                continue;
+            }
+            
+            if (Interlocked.Exchange(ref bigIdChunk.mergeProcedureRunning, 1) == 1)
+            {
+                Interlocked.Exchange(ref smallIdChunk.mergeProcedureRunning, 0);
+                continue;
+            }
+            
+            chunk.OnChunkDropped -= OnChunkDropped;
+            
+            otherChunk.Merge(chunk);
+            
+            if (Application.isPlaying)
+            {
+                Destroy(chunk.gameObject);
+            }
+            else
+            {
+                DestroyImmediate(chunk.gameObject);
+            }
+                
+            CurrentConnections = CurrentConnections == 0 ? 2 : CurrentConnections + 1;
+            _timeRunning = _timeRunning && otherChunk.PieceCount != GoalConnections;
+        
+            OnProgressUpdated?.Invoke(otherChunk.Pieces);
+
+            if (IsCompleted)
+            {
+                OnCompleted?.Invoke();
+            }
+            
+            Interlocked.Exchange(ref smallIdChunk.mergeProcedureRunning, 0);
+            Interlocked.Exchange(ref bigIdChunk.mergeProcedureRunning, 0);
+        }
     }
     
     public PuzzleSaveData ToData()

@@ -16,6 +16,9 @@ namespace UI
         
         [SerializeField]
         private PuzzleInfo puzzleInfo;
+        
+        [SerializeField]
+        private PuzzleSettings puzzleSettings;
 
         [SerializeField] 
         private PuzzleGallery puzzleGallery;
@@ -26,6 +29,9 @@ namespace UI
         [SerializeField]
         private CompletionDialog completionDialog;
         
+        [SerializeField]
+        private RealPuzzleDetectionReport realPuzzleDetectionReport;
+        
         private void Awake()
         {
             _instance = this;
@@ -33,65 +39,176 @@ namespace UI
 
         private void Start()
         {
-            PuzzleManager.Instance.OnPuzzleOpened += OnPuzzleOpened;
+            PuzzleManager.Instance.OnLocalPuzzleOpened += OnLocalPuzzleOpened;
             PuzzleManager.Instance.OnPuzzleClosed += OnPuzzleClosed;
+            PuzzleManager.Instance.OnOnlinePuzzleOpened += OnOnlinePuzzleOpened;
+
+            puzzleGallery.OnPuzzleSelected += ShowSelectedPuzzle;
+            puzzleGallery.OnCreateOptionSelected += ShowPuzzleCreation;
             
-            ShowBrowsingScreens();
+            puzzleCreation.OnRealPuzzleGenerated += OnRealPuzzleGenerated;
+            puzzleCreation.OnExited += ShowPuzzleGallery;
+
+            puzzleInfo.OnExited += ShowPuzzleGallery;
+            puzzleInfo.OnSettingsOpened += PuzzleSettingsOpen;
+            puzzleInfo.OnLeaderboardOpened += PuzzleLeaderboardOpen;
+            
+            puzzleSettings.OnExited += PuzzleSettingsExit;
+            
+            realPuzzleDetectionReport.OnExit += OnRealPuzzleDetectionReportExit;
+            
+            ShowPuzzleGallery();
         }
 
         private void OnDestroy()
         {
-            PuzzleManager.Instance.OnPuzzleOpened -= OnPuzzleOpened;
+            PuzzleManager.Instance.OnLocalPuzzleOpened -= OnLocalPuzzleOpened;
             PuzzleManager.Instance.OnPuzzleClosed -= OnPuzzleClosed;
+            PuzzleManager.Instance.OnOnlinePuzzleOpened -= OnOnlinePuzzleOpened;
+            
+            puzzleGallery.OnPuzzleSelected -= ShowSelectedPuzzle;
+            puzzleGallery.OnCreateOptionSelected -= ShowPuzzleCreation;
+            
+            puzzleCreation.OnRealPuzzleGenerated -= OnRealPuzzleGenerated;
+            puzzleCreation.OnExited -= ShowPuzzleGallery;
+            
+            puzzleInfo.OnExited -= ShowPuzzleGallery;
+            puzzleInfo.OnSettingsOpened -= PuzzleSettingsOpen;
+            puzzleInfo.OnLeaderboardOpened -= PuzzleLeaderboardOpen;
+            
+            puzzleSettings.OnExited -= PuzzleSettingsExit;
+            
+            realPuzzleDetectionReport.OnExit -= OnRealPuzzleDetectionReportExit;
         }
 
-        private void OnPuzzleOpened()
+        private void OnLocalPuzzleOpened()
         {
-            Debug.Log("UI Manager: OnPuzzleOpened");
+            Debug.Log("UI Manager: OnLocalPuzzleOpened");
             
-            PuzzleManager.Instance.CurrentPuzzle.OnProgressUpdated += OnProgressUpdated;
+            PuzzleManager.Instance.CurrentPuzzle.OnCompleted += OnPuzzleCompleted;
             
-            ShowGameplayScreens();
+            ShowLocalGameplayHud();
         }
 
         private void OnPuzzleClosed()
         {
-            PuzzleManager.Instance.CurrentPuzzle.OnProgressUpdated -= OnProgressUpdated;
+            PuzzleManager.Instance.CurrentPuzzle.OnCompleted -= OnPuzzleCompleted;
             
-            ShowBrowsingScreens();
+            ShowPuzzleGallery();
+        }
+        
+        private void OnOnlinePuzzleOpened()
+        {
+            Debug.Log("UI Manager: OnLocalPuzzleOpened");
+            
+            PuzzleManager.Instance.CurrentPuzzle.OnCompleted += OnPuzzleCompleted;
+            
+            ShowOnlineGameplayHud();
         }
 
-        private void OnProgressUpdated()
+        private void OnPuzzleCompleted()
         {
-            if (!PuzzleManager.Instance.CurrentPuzzle.IsCompleted) return;
-            
             completionDialog.gameObject.SetActive(true);
             completionDialog.DisplayFields();
         }
 
-        public void ShowSelectedPuzzle(PuzzleSaveData saveData)
+        private void ShowPuzzleCreation()
         {
-            puzzleInfo.DisplayPuzzle(saveData);
-        }
-
-        private void ShowBrowsingScreens()
-        {
-            puzzleCreation.gameObject.SetActive(true);
-            puzzleGallery.gameObject.SetActive(true);
-            
             puzzleInfo.gameObject.SetActive(false);
             gameplayHUD.gameObject.SetActive(false);
             completionDialog.gameObject.SetActive(false);
+            realPuzzleDetectionReport.gameObject.SetActive(false);
+            puzzleGallery.gameObject.SetActive(false);
+            
+            puzzleCreation.gameObject.SetActive(true);
         }
 
-        private void ShowGameplayScreens()
+        private void ShowSelectedPuzzle(PuzzleSaveData saveData)
+        {
+            puzzleGallery.gameObject.SetActive(false);
+            puzzleCreation.gameObject.SetActive(false);
+            completionDialog.gameObject.SetActive(false);
+            realPuzzleDetectionReport.gameObject.SetActive(false);
+            gameplayHUD.gameObject.SetActive(false);
+            
+            puzzleInfo.DisplayLocalPuzzle(saveData);
+        }
+        
+        // TODO HACKY Design needs to make more sense here with PuzzleSaveData and PuzzleMetadata being separate
+        public void ShowSelectedPuzzle(PuzzleMetadata saveData)
+        {
+            puzzleInfo.DisplayOnlinePuzzle(saveData);
+        }
+        
+        private void PuzzleSettingsOpen(PuzzleMetadata metaData)
+        {
+            puzzleSettings.gameObject.SetActive(true);
+            puzzleSettings.Initialize(metaData);
+        }
+        
+        private void PuzzleLeaderboardOpen()
+        {
+            // TODO
+        }
+        
+        private void PuzzleSettingsExit()
+        {
+            puzzleSettings.gameObject.SetActive(false);
+        }
+
+        private void ShowPuzzleGallery()
         {
             puzzleCreation.gameObject.SetActive(false);
             puzzleInfo.gameObject.SetActive(false);
+            puzzleSettings.gameObject.SetActive(false);
+            gameplayHUD.gameObject.SetActive(false);
+            completionDialog.gameObject.SetActive(false);
+            realPuzzleDetectionReport.gameObject.SetActive(false);
+            
+            puzzleGallery.gameObject.SetActive(true);
+
+        }
+
+        private void ShowLocalGameplayHud()
+        {
             puzzleGallery.gameObject.SetActive(false);
+            puzzleCreation.gameObject.SetActive(false);
+            puzzleInfo.gameObject.SetActive(false);
+            puzzleSettings.gameObject.SetActive(false);
+            completionDialog.gameObject.SetActive(false);
+            realPuzzleDetectionReport.gameObject.SetActive(false);
             
             gameplayHUD.gameObject.SetActive(true);
-            gameplayHUD.DisplayFields();
+            gameplayHUD.ShowLocalHud();
+        }
+        
+        private void ShowOnlineGameplayHud()
+        {
+            puzzleGallery.gameObject.SetActive(false);
+            puzzleCreation.gameObject.SetActive(false);
+            puzzleInfo.gameObject.SetActive(false);
+            puzzleSettings.gameObject.SetActive(false);
+            completionDialog.gameObject.SetActive(false);
+            realPuzzleDetectionReport.gameObject.SetActive(false);
+            
+            gameplayHUD.gameObject.SetActive(true);
+            gameplayHUD.ShowOnlineHud();
+        }
+
+        private void OnRealPuzzleGenerated(
+            string puzzleName, 
+            PuzzleGenerationData generationData
+        )
+        {
+            Debug.Log("UI Manager: OnRealPuzzleGenerated");
+            
+            realPuzzleDetectionReport.gameObject.SetActive(true);
+            realPuzzleDetectionReport.Display(puzzleName, generationData);
+        }
+
+        private void OnRealPuzzleDetectionReportExit()
+        {
+            realPuzzleDetectionReport.gameObject.SetActive(false);
         }
     }
 }

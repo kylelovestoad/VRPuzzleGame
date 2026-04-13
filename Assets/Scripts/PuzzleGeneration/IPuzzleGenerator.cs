@@ -8,6 +8,6 @@ namespace PuzzleGeneration
     {
         public const float Thickness = 0.01f;
         
-        public Task<PuzzleRenderData> Generate(Texture2D image, int rows, int cols, float puzzleHeight);
+        public Task<PuzzleGenerationData> Generate(Texture2D image, int rows, int cols, float puzzleHeight);
     }
 }

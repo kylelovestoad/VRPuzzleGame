@@ -29,7 +29,7 @@ namespace Tests
                 null, 
                 name, 
                 "Author", 
-                new PuzzleLayout(2, 2, PieceShape.Rectangle, pieceCuts), 
+                new PuzzleLayout(1, 2, 2, 2, PieceShape.Rectangle, pieceCuts), 
                 null,
                 new Texture2D(2, 2)
             );

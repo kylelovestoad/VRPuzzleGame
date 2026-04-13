@@ -12,14 +12,20 @@ namespace UI
         
         [SerializeField]
         private TMP_Text timerField;
+        
         [SerializeField]
         private TMP_Text progressPercentField;
+        
         [SerializeField]
         private TMP_Text progressConnectionsField;
+        
+        [SerializeField]
+        private Button hintButton;
 
         private void Start()
         {
             exitButton.onClick.AddListener(OnExit);
+            hintButton.onClick.AddListener(OnHint);
         }
 
         private void OnDisable()
@@ -37,17 +43,28 @@ namespace UI
         private void OnDestroy()
         {
             exitButton.onClick.RemoveListener(OnExit);
+            hintButton.onClick.RemoveListener(OnHint);
         }
         
-        public void DisplayFields()
+        public void ShowLocalHud()
         {
             var puzzle = PuzzleManager.Instance.CurrentPuzzle;
             
             puzzle.UpdateTimer += OnTimerUpdate;
             puzzle.OnProgressUpdated += OnProgressUpdated;
+
+            hintButton.gameObject.SetActive(true);
+            OnProgressUpdated(null);
+        }
+        
+        public void ShowOnlineHud()
+        {
+            var puzzle = PuzzleManager.Instance.CurrentPuzzle;
             
-            progressPercentField.text = "0%";
-            progressConnectionsField.text = $"0/{puzzle.GoalConnections}";
+            puzzle.UpdateTimer += OnTimerUpdate;
+            puzzle.OnProgressUpdated += OnProgressUpdated;
+
+            hintButton.gameObject.SetActive(false);
         }
 
         private void OnTimerUpdate(float timeRemaining)
@@ -59,7 +76,7 @@ namespace UI
             timerField.text = time;
         }
         
-        private void OnProgressUpdated()
+        private void OnProgressUpdated(Piece[] _)
         {
             var currentPuzzle =  PuzzleManager.Instance.CurrentPuzzle;
             
@@ -72,9 +89,20 @@ namespace UI
         }
 
         [Button("Exit Puzzle")]
-        public void OnExit()
+        private void OnExit()
         {
-            PuzzleManager.Instance.CloseCurrentPuzzle();
+            var puzzle = PuzzleManager.Instance.CurrentPuzzle;
+            
+            puzzle.UpdateTimer -= OnTimerUpdate;
+            puzzle.OnProgressUpdated -= OnProgressUpdated;
+            
+            PuzzleManager.Instance.ClosePuzzle();
+        }
+        
+        [Button("Get Hint")]
+        private void OnHint()
+        {
+            PuzzleManager.Instance.ShowPuzzleHint();
         }
     }
 }

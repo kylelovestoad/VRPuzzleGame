@@ -12,7 +12,7 @@ namespace PuzzleGeneration.Triangle
         private const int LeftTriangleOffset = 0;
         private const int RightTriangleOffset = 1;
         
-        public async Task<PuzzleRenderData> Generate(
+        public async Task<PuzzleGenerationData> Generate(
             Texture2D image, 
             int rows, 
             int cols, 
@@ -48,14 +48,14 @@ namespace PuzzleGeneration.Triangle
                     var leftIndex = pieceCuts.Count;
                     var rightIndex = leftIndex + 1;
 
-                    AddPieceCut(pieceCuts, leftIndex, rightIndex, solutionLocation, pair.LeftVertices,
+                    AddPieceCut(pieceCuts, leftIndex, r, c * 2, rightIndex, solutionLocation, pair.LeftVertices,
                         prevRowNeighborIndex: GetPrevRowNeighborIndex(prevRowTrianglePairs, c, leftIndex, cols),
                         isPrevRowNeighborCondition: !pair.PositiveSlopingDiagonal,
                         hasPrevCol: c > 0,
                         hasNextCol: false
                     );
 
-                    AddPieceCut(pieceCuts, rightIndex, leftIndex, solutionLocation, pair.RightVertices,
+                    AddPieceCut(pieceCuts, rightIndex, r, c * 2 + 1, leftIndex, solutionLocation, pair.RightVertices,
                         prevRowNeighborIndex: GetPrevRowNeighborIndex(prevRowTrianglePairs, c, leftIndex, cols),
                         isPrevRowNeighborCondition: pair.PositiveSlopingDiagonal,
                         hasPrevCol: false,
@@ -69,8 +69,15 @@ namespace PuzzleGeneration.Triangle
                 prevRowTrianglePairs = currRowTrianglePairs;
             }
         
-            var layout = new PuzzleLayout(puzzleWidth, puzzleHeight, PieceShape.Triangle, pieceCuts);
-            var renderData = new PuzzleRenderData(image, layout);
+            var layout = new PuzzleLayout(
+                rows, 
+                cols * 2,
+                puzzleWidth, 
+                puzzleHeight, 
+                PieceShape.Triangle, 
+                pieceCuts
+            );
+            var renderData = new PuzzleGenerationData(image, layout);
 
             return renderData;
         }
@@ -78,6 +85,8 @@ namespace PuzzleGeneration.Triangle
         private static void AddPieceCut(
             List<PieceCut> pieceCuts,
             int index,
+            int row,
+            int col,
             int siblingIndex,
             Vector3 solutionLocation,
             List<Vector2> vertices,

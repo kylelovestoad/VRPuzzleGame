@@ -16,7 +16,7 @@ data class PuzzleSaveData(
     val elapsedTime: Float
 ) {
     fun toDTO() = PuzzleSaveDataDTO(
-        id = id,
+        id = id.toHexString(),
         metaUserId = metaUserId,
         puzzleId = puzzleId,
         chunks = chunks,

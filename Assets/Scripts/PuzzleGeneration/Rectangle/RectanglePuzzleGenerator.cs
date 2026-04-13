@@ -10,7 +10,7 @@ namespace PuzzleGeneration.Rectangle
     {
         private const float MaxHorizontalShiftRatio = 0.25f;
     
-        public async Task<PuzzleRenderData> Generate(
+        public async Task<PuzzleGenerationData> Generate(
             Texture2D image, 
             int rows, 
             int cols, 
@@ -52,21 +52,20 @@ namespace PuzzleGeneration.Rectangle
 
                     var neighbors = new List<int>();
                     
-                    // TODO, probably dont want this neighborhood due to not all same size
                     if (r > 0) neighbors.Add(pieceIndex - cols);
                     if (r < rows - 1) neighbors.Add(pieceIndex + cols);
                     if (c > 0) neighbors.Add(pieceIndex - 1);
                     if (c < cols - 1) neighbors.Add(pieceIndex + 1);
                     
-                    PieceCut cut = new PieceCut(pieceIndex, neighbors, solutionLocation, borderPoints);
+                    var cut = new PieceCut(pieceIndex, neighbors, solutionLocation, borderPoints);
                     pieceCuts.Add(cut);
                 
                     leftBoundary = rightBoundary;
                 }
             }
         
-            var layout = new PuzzleLayout(puzzleWidth, puzzleHeight, PieceShape.Rectangle, pieceCuts);
-            var renderData = new PuzzleRenderData(image, layout);
+            var layout = new PuzzleLayout(rows, cols, puzzleWidth, puzzleHeight, PieceShape.Rectangle, pieceCuts);
+            var renderData = new PuzzleGenerationData(image, layout);
 
             return renderData;
         }

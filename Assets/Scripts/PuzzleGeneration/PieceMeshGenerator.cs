@@ -8,7 +8,7 @@ namespace PuzzleGeneration
     {
         public static Mesh PieceMesh(List<Vector2> borderPoints)
         {
-            Mesh mesh = new Mesh();
+            var mesh = new Mesh();
             mesh.vertices = Vertices(borderPoints);
             
             var frontTriangles = TriangulateFront(borderPoints);
@@ -19,6 +19,8 @@ namespace PuzzleGeneration
             mesh.SetTriangles(backTriangles, 1);
             
             ConfigureUVMapping(mesh);
+            
+            mesh.RecalculateNormals();
             
             return mesh;
         }

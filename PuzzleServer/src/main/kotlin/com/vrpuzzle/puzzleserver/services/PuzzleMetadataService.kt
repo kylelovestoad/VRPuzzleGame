@@ -8,24 +8,29 @@ import com.vrpuzzle.puzzleserver.repository.PuzzleMetadataRepository
 import com.vrpuzzle.puzzleserver.security.MetaQuestAuthenticationPrincipal
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 
 @Service
 class PuzzleMetadataService(
     private val puzzleMetadataRepository: PuzzleMetadataRepository,
-    private val contentService: ContentService
+    private val contentService: ContentService,
+    private val leaderboardEntryService: LeaderboardEntryService
 ) {
     internal fun createMetadata(metadata: PuzzleMetadata): PuzzleMetadataDTO =
         puzzleMetadataRepository.save(metadata).toDTO()
 
-    fun createPuzzle(metadata: CreatePuzzleRequest, image: MultipartFile): PuzzleMetadataDTO {
+    fun createPuzzle(
+        metadata: CreatePuzzleRequest,
+        image: MultipartFile,
+        principal: MetaQuestAuthenticationPrincipal
+    ): PuzzleMetadataDTO {
 
         val content = contentService.uploadContent(image)
 
         val puzzleMetadata = PuzzleMetadata(
-            // Filename input should be irrelevant
-            name = content.id.toHexString(),
-            author = metadata.author,
+            name = metadata.name,
+            author = principal.userId,
             layout = metadata.layout,
             content = content,
         )
@@ -44,8 +49,7 @@ class PuzzleMetadataService(
 
     fun updatePuzzle(
         id: ObjectId,
-        metadata:
-        UpdatePuzzleMetadataRequest,
+        metadata: UpdatePuzzleMetadataRequest,
         image: MultipartFile?,
         principal: MetaQuestAuthenticationPrincipal
     ): PuzzleMetadataDTO {
@@ -63,14 +67,16 @@ class PuzzleMetadataService(
 
         val updated = existing.copy(
             name = metadata.name ?: existing.name,
-            author = metadata.author ?: existing.author,
+            author = principal.metaUser.displayName,
             layout = metadata.layout ?: existing.layout,
             content = updatedContent,
         )
 
+
         return puzzleMetadataRepository.save(updated).toDTO()
     }
 
+    @Transactional
     fun deletePuzzle(id: ObjectId, principal: MetaQuestAuthenticationPrincipal) {
         val existing = getPuzzleById(id)
         if (existing.author != principal.userId) {
@@ -78,6 +84,7 @@ class PuzzleMetadataService(
         }
 
         puzzleMetadataRepository.deleteById(id)
+        leaderboardEntryService.deleteAllLeaderboardEntriesForPuzzle(id)
         contentService.deleteContent(existing.content.id)
     }
 }

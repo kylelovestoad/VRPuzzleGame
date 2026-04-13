@@ -1,6 +1,8 @@
 using System;
+using Networking;
 using Persistence;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class PuzzleManager : MonoBehaviour
@@ -12,41 +14,131 @@ public class PuzzleManager : MonoBehaviour
     
     [SerializeField] 
     private Puzzle puzzlePrefab;
+    
+    [SerializeField] 
+    private Material hintFrontMaterial;
+    
+    [SerializeField] 
+    private Material hintBackAndSidesMaterial;
 
     public Puzzle CurrentPuzzle { get; private set; }
     
-    public event Action OnPuzzleOpened;
+    private HintManager _hintManager;
+    
+    public event Action OnLocalPuzzleOpened;
     public event Action OnPuzzleClosed;
+    
+    public event Action OnOnlinePuzzleOpened;
+    
 
     private void Awake()
     {
         _instance = this;
+        _hintManager = new HintManager(hintFrontMaterial, hintBackAndSidesMaterial);
     }
 
     public void OpenPuzzle(PuzzleSaveData puzzleSaveData)
     {
+        if (puzzleSaveData.HasOnlineID)
+        {
+            OpenOnlinePuzzle(puzzleSaveData);
+        }
+        else
+        {
+            OpenLocalPuzzle(puzzleSaveData);
+        }
+    }
+
+    private void OpenLocalPuzzle(PuzzleSaveData puzzleSaveData)
+    {
         Debug.Log("Puzzle Manager: PuzzleOpened");
         
         CurrentPuzzle = Instantiate(puzzlePrefab);
-        
         CurrentPuzzle.InitializePuzzle(puzzleSaveData);
+        CurrentPuzzle.OnProgressUpdated += OnChunkMerge;
         
-        OnPuzzleOpened?.Invoke();
+        OnLocalPuzzleOpened?.Invoke();
     }
     
-    public void CloseCurrentPuzzle()
+    private void OpenOnlinePuzzle(PuzzleSaveData puzzleSaveData)
     {
+        Debug.Log("Puzzle Manager: PuzzleOpened");
+        
+        CurrentPuzzle = Instantiate(puzzlePrefab);
+        CurrentPuzzle.InitializePuzzle(puzzleSaveData);
+        
+        OnOnlinePuzzleOpened?.Invoke();
+    }
+
+    public void ClosePuzzle()
+    {
+        Debug.Assert(CurrentPuzzle != null, "Puzzle must be playing to close it");
+        
+        if (CurrentPuzzle.IsOnline)
+        {
+            CloseOnlinePuzzle();
+        }
+        else
+        {
+            CloseLocalPuzzle();
+        }
+    }
+    
+    private void CloseLocalPuzzle()
+    {
+        CurrentPuzzle.OnProgressUpdated -= OnChunkMerge;
+        
         var saveData = CurrentPuzzle.ToData();
         LocalSave.Instance.SaveSkipImage(saveData);
         
         OnPuzzleClosed?.Invoke();
-        
-    #if UNITY_INCLUDE_TESTS
-        DestroyImmediate(CurrentPuzzle.gameObject);
-    #else
-        Destroy(CurrentPuzzle.gameObject);
-    #endif
+
+        if (Application.isPlaying)
+        {
+            Destroy(CurrentPuzzle.gameObject);
+        }
+        else
+        {
+            DestroyImmediate(CurrentPuzzle.gameObject);
+        }
         
         CurrentPuzzle = null;
+    }
+    
+    private void CloseOnlinePuzzle()
+    {
+        OnPuzzleClosed?.Invoke();
+
+        if (CurrentPuzzle.IsCompleted)
+        {
+            // TODO: update leaderboard if completed
+        }
+
+        if (Application.isPlaying)
+        {
+            Destroy(CurrentPuzzle.gameObject);
+        }
+        else
+        {
+            DestroyImmediate(CurrentPuzzle.gameObject);
+        }
+        
+        CurrentPuzzle = null;
+    }
+
+    private void OnChunkMerge(Piece[] updatedPieces)
+    {
+        Debug.Assert(CurrentPuzzle != null, "Puzzle must be playing to merge");
+
+        _hintManager.ClearHintIfConnected(updatedPieces);
+    }
+
+    public void ShowPuzzleHint()
+    {
+        Debug.Assert(CurrentPuzzle != null, "Puzzle must be playing to give hint");
+        
+        var (piece0, piece1) = CurrentPuzzle.RandomUnconnectedPiecePair();
+        
+        _hintManager.ShowHint(piece0, piece1);
     }
 }

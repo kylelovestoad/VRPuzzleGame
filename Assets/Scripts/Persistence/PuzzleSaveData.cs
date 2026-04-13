@@ -24,6 +24,8 @@ namespace Persistence
         
         public bool HasLocalID => localID != null;
         
+        public bool HasOnlineID => onlineID != null;
+        
         public int PieceCount => layout.initialPieceCuts.Count;
 
         public PuzzleSaveData(
@@ -58,6 +60,31 @@ namespace Persistence
         public float PercentComplete()
         {
             return (float) CurrentConnections() / PieceCount * 100;
+        }
+
+        public PuzzleMetadata GetMetaData()
+        {
+            return new PuzzleMetadata(
+                localID, 
+                onlineID, 
+                name, 
+                author, 
+                layout, 
+                PuzzleImage
+            );
+        }
+        
+        public static PuzzleSaveData FromMetaData(PuzzleMetadata metaData)
+        {
+            return new PuzzleSaveData(
+                metaData.localID, 
+                metaData.onlineID, 
+                metaData.name, 
+                metaData.author, 
+                metaData.layout, 
+                null,
+                metaData.PuzzleImage
+            );
         }
     }
 }

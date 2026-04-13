@@ -26,7 +26,7 @@ class ContentService(
         getContentById(id).toDTO()
 
     fun download(content: ContentDTO): ByteArray {
-        val downloadPath = Paths.get(storagePath).resolve(content.filename)
+        val downloadPath = Paths.get(storagePath).resolve(content.id)
         val fileBytes = Files.readAllBytes(downloadPath)
 
         return fileBytes
@@ -37,7 +37,7 @@ class ContentService(
         val existing = getContentById(id)
         contentRepository.deleteById(id)
 
-        val contentPath = Paths.get(storagePath) / existing.filename
+        val contentPath = Paths.get(storagePath) / existing.id.toHexString()
 
         Files.deleteIfExists(contentPath)
     }
@@ -84,7 +84,7 @@ class ContentService(
             )
         )
 
-        val targetPath = uploadPath.resolve(content.filename)
+        val targetPath = uploadPath.resolve(content.id.toHexString())
         Files.copy(file.inputStream, targetPath, StandardCopyOption.REPLACE_EXISTING)
 
         return content

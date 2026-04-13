@@ -7,13 +7,11 @@ namespace Networking.Request
     public class CreatePuzzleRequest
     {
         public string name;
-        public string author;
         public PuzzleLayout layout;
 
-        public CreatePuzzleRequest(string name, string author, PuzzleLayout layout)
+        public CreatePuzzleRequest(string name, PuzzleLayout layout)
         {
             this.name = name;
-            this.author = author;
             this.layout = layout;
         }
     }

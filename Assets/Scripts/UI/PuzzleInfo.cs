@@ -1,4 +1,9 @@
-﻿using EditorAttributes;
+﻿using System;
+using EditorAttributes;
+using Networking;
+using Networking.API;
+using Networking.Request;
+using NUnit.Framework;
 using Persistence;
 using TMPro;
 using UnityEngine;
@@ -29,20 +34,49 @@ namespace UI
         
         [SerializeField] 
         private TMP_Text pieceProgressField;
+        
+        [SerializeField]
+        private Button leaderboardButton;
+        
+        [SerializeField]
+        private Button uploadButton;
+        
+        [SerializeField]
+        private Button saveCopyButton;
+        
+        [SerializeField] 
+        private Button settingsButton;
+
+        [SerializeField] 
+        private Button exitButton;
 
         private PuzzleSaveData _puzzleSaveData;
+        
+        public event Action OnLeaderboardOpened;
+        public event Action<PuzzleMetadata> OnSettingsOpened;
+        public event Action OnExited;
 
         private void Start()
         {
             playButton.onClick.AddListener(OnPlay);
+            uploadButton.onClick.AddListener(OnUpload);
+            saveCopyButton.onClick.AddListener(OnSaveCopy);
+            leaderboardButton.onClick.AddListener(OnOpenLeaderboard);
+            settingsButton.onClick.AddListener(OnOpenSettings);
+            exitButton.onClick.AddListener(OnExit);
         }
 
         private void OnDestroy()
         {
             playButton.onClick.RemoveListener(OnPlay);
+            uploadButton.onClick.RemoveListener(OnUpload);
+            saveCopyButton.onClick.RemoveListener(OnSaveCopy);
+            leaderboardButton.onClick.RemoveListener(OnOpenLeaderboard);
+            settingsButton.onClick.RemoveListener(OnOpenSettings);
+            exitButton.onClick.RemoveListener(OnExit);
         }
         
-        public void DisplayPuzzle(PuzzleSaveData puzzleSaveData)
+        public void DisplayLocalPuzzle(PuzzleSaveData puzzleSaveData)
         {
             pieceCountField.text = $"Piece Count: {puzzleSaveData.PieceCount}";
             pieceShapeField.text = $"Piece Shape: {puzzleSaveData.layout.shape.ToString()}";
@@ -50,11 +84,67 @@ namespace UI
             percentCompleteField.text = $"{puzzleSaveData.PercentComplete():F0}% Complete";
             pieceProgressField.text = $"{puzzleSaveData.CurrentConnections()}/{puzzleSaveData.PieceCount}";
             
-            puzzleImage.sprite = UIUtils.PuzzleImageSprite(puzzleSaveData);
+            puzzleImage.sprite = UIUtils.PuzzleImageSprite(puzzleSaveData.PuzzleImage);
             
             _puzzleSaveData = puzzleSaveData;
             
+            settingsButton.gameObject.SetActive(true);
+            leaderboardButton.gameObject.SetActive(false);
             gameObject.SetActive(true);
+        }
+        
+        // TODO HACKY. Design needs to make more sense here with PuzzleSaveData and PuzzleMetadata being separate
+        public async void DisplayOnlinePuzzle(PuzzleMetadata puzzleMetadata)
+        {
+            var user = await PuzzleServerApi.Instance.Manager.GetUser();
+            // TODO
+            // settingsButton.gameObject.SetActive(user.ID == puzzleMetadata.author);
+            
+            pieceCountField.text = $"Piece Count: {puzzleMetadata.PieceCount}";
+            pieceShapeField.text = $"Piece Shape: {puzzleMetadata.layout.shape.ToString()}";
+            elapsedTimeField.text = "";
+            percentCompleteField.text = "0% Complete";
+            pieceProgressField.text = $"0/{puzzleMetadata.PieceCount}";
+            
+            puzzleImage.sprite = UIUtils.PuzzleImageSprite(puzzleMetadata.PuzzleImage);
+            
+            _puzzleSaveData = PuzzleSaveData.FromMetaData(puzzleMetadata);
+            
+            leaderboardButton.gameObject.SetActive(true);
+            gameObject.SetActive(true);
+        }
+        
+        [Button("Leaderboard")]
+        private void OnOpenLeaderboard()
+        {
+            OnLeaderboardOpened?.Invoke();
+        }
+        
+        [Button("Upload Puzzle")]
+        private async void OnUpload()
+        {
+            var createRequest = new CreatePuzzleRequest(
+                _puzzleSaveData.name,
+                _puzzleSaveData.layout
+            );
+            
+            await PuzzleServerApi.Instance.Puzzles.CreatePuzzle(
+                createRequest, 
+                _puzzleSaveData.PuzzleImage
+            );
+        }
+        
+        [Button("Save Puzzle Copy")]
+        private void OnSaveCopy()
+        {
+            // might need to remove online id
+            LocalSave.Instance.Create(_puzzleSaveData);
+        }
+        
+        [Button("Settings")]
+        private void OnOpenSettings()
+        {
+            OnSettingsOpened?.Invoke(_puzzleSaveData.GetMetaData());
         }
 
         [Button("Play Puzzle")]
@@ -62,5 +152,11 @@ namespace UI
         {
             PuzzleManager.Instance.OpenPuzzle(_puzzleSaveData);
         } 
+        
+        [Button("Exit")]
+        private void OnExit()
+        {
+            OnExited?.Invoke();
+        }
     }
 }

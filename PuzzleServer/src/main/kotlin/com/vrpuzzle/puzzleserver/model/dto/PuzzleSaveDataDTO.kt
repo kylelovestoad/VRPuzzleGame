@@ -5,7 +5,7 @@ import org.bson.types.ObjectId
 import java.time.LocalDateTime
 
 data class PuzzleSaveDataDTO(
-    val id: ObjectId,
+    val id: String,
     val metaUserId: String,
     val puzzleId: ObjectId,
     val chunks: List<ChunkSaveData>?,

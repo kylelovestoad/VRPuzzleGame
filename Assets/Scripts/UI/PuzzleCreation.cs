@@ -1,131 +1,91 @@
 ﻿using System;
 using System.Collections.Generic;
-using Networking;
-using Networking.Request;
-using Oculus.Interaction.Samples;
 using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using EditorAttributes;
-using Void = EditorAttributes.Void;
 
 namespace UI
 {
     public class PuzzleCreationBehaviour : MonoBehaviour
     {
-        private const float PuzzleGameHeight = 0.3f;
+        public const float PuzzleGameHeight = 0.3f;
 
-        [FoldoutGroup("UI",
-            nameof(nameInputField),
-            nameof(rowsInputField),
-            nameof(columnsInputField),
-            nameof(dropdown),
-            nameof(createButton),
-            nameof(uploadButton)
-        )]
-        [SerializeField] private Void groupHolder;
-
-        [SerializeField, HideProperty] public TMP_InputField nameInputField;
-        [SerializeField, HideProperty] public TMP_InputField rowsInputField;
-        [SerializeField, HideProperty] public TMP_InputField columnsInputField;
-        [SerializeField, HideProperty] public DropDownGroup dropdown;
         [SerializeField, HideProperty] public Button createButton;
-        [SerializeField, HideProperty] public Button uploadButton;
+        
+        [SerializeField]
+        private PuzzleFormBehaviour puzzleFormBehaviour;
+        
+        [SerializeField] 
+        private Button exitButton;
 
         public Texture2D puzzleImage;
         public Texture2D realImage;
-
-        private class PuzzleCreationForm
-        {
-            public readonly string Name;
-            public readonly PieceShape Shape;
-            public readonly int Rows;
-            public readonly int Columns;
-
-            public PuzzleCreationForm(string name, PieceShape shape, int rows, int columns)
-            {
-                Name = name;
-                Shape = shape;
-                Rows = rows;
-                Columns = columns;
-            }
-        }
+        
+        public event Action<string, PuzzleGenerationData> OnRealPuzzleGenerated;
+        public event Action OnExited;
 
         public void Start()
         {
             createButton.onClick.AddListener(OnCreate);
-            uploadButton.onClick.AddListener(OnUpload);
+            exitButton.onClick.AddListener(OnExit);
         }
 
         public void OnDestroy()
         {
             createButton.onClick.RemoveListener(OnCreate);
-            uploadButton.onClick.RemoveListener(OnUpload);
-        }
-
-
-        private bool TryGetFormInput(out PuzzleCreationForm input)
-        {
-            input = null;
-
-            if (string.IsNullOrWhiteSpace(nameInputField.text)) return false;
-            if (!Enum.IsDefined(typeof(PieceShape), dropdown.SelectedIndex)) return false;
-            if (!int.TryParse(rowsInputField.text, out var rows)) return false;
-            if (!int.TryParse(columnsInputField.text, out var columns)) return false;
-
-            input = new PuzzleCreationForm(nameInputField.text, (PieceShape)dropdown.SelectedIndex, rows, columns);
-            return true;
+            exitButton.onClick.RemoveListener(OnExit);
+            
         }
 
         [Button("Create Puzzle")]
         private async void OnCreate()
         {
-
-            var valid = TryGetFormInput(out var form);
+            var valid = puzzleFormBehaviour.TryGetFormInput(out var form);
             if (!valid) return;
+            
+            // var generator = form.Shape.Generator();
+            var generator = new RealPuzzleGenerator();
 
-            var generator = form.Shape.Generator();
-
-            var renderData = await generator.Generate(
+            var generationData = await generator.Generate(
                 realImage, 
                 form.Rows, 
                 form.Columns, 
                 PuzzleGameHeight
             );
-                
-            LocalSave.Instance.Create(new PuzzleSaveData(
-                null,
-                null,
-                form.Name,
-                "DK",
-                renderData.Layout,
-                new List<ChunkSaveData>(),
-                renderData.PuzzleImage
-            ));
+            
+            OnGeneration(form, generationData);
         }
 
-        [Button("Upload Puzzle")]
-        public async void OnUpload()
+        private void OnGeneration(
+            PuzzleForm form,
+            PuzzleGenerationData generationData
+        )
         {
-            var valid = TryGetFormInput(out var form);
-            if (!valid) return;
-            
-            var generator = form.Shape.Generator();
+            if (form.Shape == PieceShape.Real || true)
+            {
+                Debug.Log("PuzzleCreation: OnRealPuzzleGenerated");
+                OnRealPuzzleGenerated?.Invoke(form.Name, generationData);
+            }
+            else
+            {
+                LocalSave.Instance.Create(new PuzzleSaveData(
+                    null,
+                    null,
+                    form.Name,
+                    "DK",
+                    generationData.Layout,
+                    new List<ChunkSaveData>(),
+                    generationData.PuzzleImage
+                ));
+            }
+        }
 
-            var renderData = await generator.Generate(
-                puzzleImage, 
-                form.Rows, 
-                form.Columns, 
-                PuzzleGameHeight
-            );
-            
-            var puzzle = await PuzzleServerApi.Instance.CreatePuzzle(new CreatePuzzleRequest(
-                form.Name,
-                PuzzleServerApi.Instance.Manager.User.DisplayName,
-                renderData.Layout
-            ), puzzleImage);
+        [Button("On Exit")]
+        private void OnExit()
+        {
+            OnExited?.Invoke();
         }
     }
 }
