@@ -145,13 +145,6 @@ namespace UI
             puzzleInfo.DisplayLocalPuzzle(saveData);
         }
         
-        // TODO HACKY Design needs to make more sense here with PuzzleSaveData and PuzzleMetadata being separate
-        public void ShowSelectedPuzzle(PuzzleMetadata saveData)
-        {
-            ShowOnly(puzzleInfo);
-            puzzleInfo.DisplayOnlinePuzzle(saveData);
-        }
-        
         private void PuzzleSettingsOpen(PuzzleMetadata metaData)
         {
             puzzleSettings.gameObject.SetActive(true);
