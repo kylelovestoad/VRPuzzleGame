@@ -1,20 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Networking;
-using Networking.Request;
-using Oculus.Interaction.Samples;
 using Persistence;
 using PuzzleGeneration;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using EditorAttributes;
-using PuzzleGeneration.Hexagon;
-using PuzzleGeneration.Jigsaw;
-using PuzzleGeneration.Real;
-using PuzzleGeneration.Rectangle;
-using Void = EditorAttributes.Void;
 
 namespace UI
 {

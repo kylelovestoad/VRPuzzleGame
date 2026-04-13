@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EditorAttributes;
 using Networking;
+using Networking.API;
 using Persistence;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -137,7 +138,7 @@ namespace UI
             {
                 OnUpdateOnline();
                 Debug.Log("Filling Online Puzzles");
-                var metadataDtos = await PuzzleServerApi.Instance.GetAllPuzzles();
+                var metadataDtos = await PuzzleServerApi.Instance.Puzzles.GetAllPuzzles();
                 
                 foreach (var metadataDto in metadataDtos)
                 {
@@ -147,7 +148,7 @@ namespace UI
                         false
                     );
 
-                    var image = await PuzzleServerApi.Instance.DownloadImage(metadataDto.content.id);
+                    var image = await PuzzleServerApi.Instance.Content.DownloadImage(metadataDto.content.id);
 
                     var metadata = new PuzzleMetadata(
                         null,
@@ -196,6 +197,7 @@ namespace UI
         private void OnUpdateOnline()
         {
             var tiles = puzzleOnlineGalleryItemContainer.GetComponentsInChildren<PuzzleOnlineGalleryTile>();
+            
             Debug.Log("Child count " + tiles.Length);
             
             foreach (var tile in tiles)
