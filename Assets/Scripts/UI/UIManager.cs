@@ -34,10 +34,23 @@ namespace UI
 
         [SerializeField] 
         private PuzzleLeaderboard leaderboard;
+
+        private MonoBehaviour[] _allPanels;
         
         private void Awake()
         {
             _instance = this;
+            _allPanels = new MonoBehaviour[]
+            {
+                puzzleCreation,
+                puzzleInfo,
+                puzzleSettings,
+                puzzleGallery,
+                gameplayHUD,
+                realPuzzleDetectionReport,
+                leaderboard,
+                completionDialog
+            };
         }
 
         private void Start()
@@ -57,6 +70,8 @@ namespace UI
             puzzleInfo.OnLeaderboardOpened += PuzzleLeaderboardOpen;
             
             puzzleSettings.OnExited += PuzzleSettingsExit;
+            
+            leaderboard.OnExit += PuzzleLeaderboardExit;
             
             realPuzzleDetectionReport.OnExit += OnRealPuzzleDetectionReportExit;
             
@@ -79,8 +94,7 @@ namespace UI
             puzzleInfo.OnSettingsOpened -= PuzzleSettingsOpen;
             puzzleInfo.OnLeaderboardOpened -= PuzzleLeaderboardOpen;
 
-            
-            leaderboard.OnExit += PuzzleLeaderboardExit;
+            leaderboard.OnExit -= PuzzleLeaderboardExit;
             
             puzzleSettings.OnExited -= PuzzleSettingsExit;
             
@@ -93,7 +107,8 @@ namespace UI
             
             PuzzleManager.Instance.CurrentPuzzle.OnCompleted += OnPuzzleCompleted;
             
-            ShowLocalGameplayHud();
+            ShowOnly(gameplayHUD);
+            gameplayHUD.ShowLocalHud();
         }
 
         private void OnPuzzleClosed()
@@ -105,11 +120,12 @@ namespace UI
         
         private void OnOnlinePuzzleOpened()
         {
-            Debug.Log("UI Manager: OnLocalPuzzleOpened");
+            Debug.Log("UI Manager: OnOnlinePuzzleOpened");
             
             PuzzleManager.Instance.CurrentPuzzle.OnCompleted += OnPuzzleCompleted;
             
-            ShowOnlineGameplayHud();
+            ShowOnly(gameplayHUD);
+            gameplayHUD.ShowOnlineHud();
         }
 
         private void OnPuzzleCompleted()
@@ -120,29 +136,19 @@ namespace UI
 
         private void ShowPuzzleCreation()
         {
-            puzzleInfo.gameObject.SetActive(false);
-            gameplayHUD.gameObject.SetActive(false);
-            completionDialog.gameObject.SetActive(false);
-            realPuzzleDetectionReport.gameObject.SetActive(false);
-            puzzleGallery.gameObject.SetActive(false);
-            
-            puzzleCreation.gameObject.SetActive(true);
+            ShowOnly(puzzleCreation);
         }
 
         private void ShowSelectedPuzzle(PuzzleSaveData saveData)
         {
-            puzzleGallery.gameObject.SetActive(false);
-            puzzleCreation.gameObject.SetActive(false);
-            completionDialog.gameObject.SetActive(false);
-            realPuzzleDetectionReport.gameObject.SetActive(false);
-            gameplayHUD.gameObject.SetActive(false);
-            
+            ShowOnly(puzzleInfo);
             puzzleInfo.DisplayLocalPuzzle(saveData);
         }
         
         // TODO HACKY Design needs to make more sense here with PuzzleSaveData and PuzzleMetadata being separate
         public void ShowSelectedPuzzle(PuzzleMetadata saveData)
         {
+            ShowOnly(puzzleInfo);
             puzzleInfo.DisplayOnlinePuzzle(saveData);
         }
         
@@ -162,7 +168,6 @@ namespace UI
         {
             leaderboard.gameObject.SetActive(false);
         }
-
         
         private void PuzzleSettingsExit()
         {
@@ -171,43 +176,10 @@ namespace UI
 
         private void ShowPuzzleGallery()
         {
-            puzzleCreation.gameObject.SetActive(false);
-            puzzleInfo.gameObject.SetActive(false);
-            puzzleSettings.gameObject.SetActive(false);
-            gameplayHUD.gameObject.SetActive(false);
+            ShowOnly(puzzleGallery);
             completionDialog.gameObject.SetActive(false);
-            realPuzzleDetectionReport.gameObject.SetActive(false);
-            
-            puzzleGallery.gameObject.SetActive(true);
-
         }
 
-        private void ShowLocalGameplayHud()
-        {
-            puzzleGallery.gameObject.SetActive(false);
-            puzzleCreation.gameObject.SetActive(false);
-            puzzleInfo.gameObject.SetActive(false);
-            puzzleSettings.gameObject.SetActive(false);
-            completionDialog.gameObject.SetActive(false);
-            realPuzzleDetectionReport.gameObject.SetActive(false);
-            
-            gameplayHUD.gameObject.SetActive(true);
-            gameplayHUD.ShowLocalHud();
-        }
-        
-        private void ShowOnlineGameplayHud()
-        {
-            puzzleGallery.gameObject.SetActive(false);
-            puzzleCreation.gameObject.SetActive(false);
-            puzzleInfo.gameObject.SetActive(false);
-            puzzleSettings.gameObject.SetActive(false);
-            completionDialog.gameObject.SetActive(false);
-            realPuzzleDetectionReport.gameObject.SetActive(false);
-            
-            gameplayHUD.gameObject.SetActive(true);
-            gameplayHUD.ShowOnlineHud();
-        }
-        
         private void OnRealPuzzleGenerated(
             string puzzleName, 
             PuzzleGenerationData generationData
@@ -222,6 +194,13 @@ namespace UI
         private void OnRealPuzzleDetectionReportExit()
         {
             realPuzzleDetectionReport.gameObject.SetActive(false);
+        }
+
+        private void ShowOnly(MonoBehaviour panel)
+        {
+            foreach (var p in _allPanels)
+                p.gameObject.SetActive(false);
+            panel.gameObject.SetActive(true);
         }
     }
 }
