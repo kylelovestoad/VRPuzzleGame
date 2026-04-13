@@ -205,8 +205,11 @@ def _single_piece_chunks(puzzle):
     return chunks
 
 
-def _get_piece_global_border(piece, param, puzzle_height, scale_factor):
+def _get_piece_global_border(piece, param, puzzle_height, min_x, min_y, scale_factor):
     global_border_points = piece.get_placement(param)
+    global_border_points[0] -= min_x
+    global_border_points[1] -= min_y
+
     print("Global", global_border_points)
 
     global_border_points[1, :] = puzzle_height - 1 - global_border_points[1, :]
@@ -237,14 +240,32 @@ def _offset_border_points(border_points, solution_location):
 
 
 def _move_pieces(puzzle: Puzzle):
-    puzzle_height = puzzle.image.shape[0]
-    scale_factor = puzzle.game_height / puzzle_height
-
     param = np.linspace(0, 1, 256)
 
+    min_x, max_x, min_y, max_y = float("inf"), 0, float("inf"), 0
+
     for piece in puzzle:
-        global_border_points = _get_piece_global_border(piece, param, puzzle_height, scale_factor)
+        global_border_points = piece.get_placement(param)
+
+        min_x = min(min_x, np.min(global_border_points[0]))
+        max_x = max(max_x, np.max(global_border_points[0]))
+        min_y = min(min_y, np.min(global_border_points[1]))
+        max_y = max(max_y, np.max(global_border_points[1]))
+
+    puzzle_height = max_y - min_y + 1
+    puzzle_width = max_x - min_x + 1
+    puzzle.game_width = puzzle_width / puzzle_height * puzzle.game_height
+
+    print(f"Puzzle Height {puzzle_height}")
+
+    scale_factor = puzzle.game_height / puzzle_height
+
+    for piece in puzzle:
+        global_border_points = _get_piece_global_border(piece, param, puzzle_height, min_x, min_y, scale_factor)
         solution_location = _get_solution_location(global_border_points)
+
+        print(f"Soltuon LOcation: {solution_location}")
+
         local_border_points = _offset_border_points(global_border_points, solution_location)
 
         piece.solution_location = solution_location
