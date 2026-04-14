@@ -140,6 +140,8 @@ public class PuzzleManager : MonoBehaviour
     public void ShowPuzzleHint()
     {
         Debug.Assert(CurrentPuzzle != null, "Puzzle must be playing to give hint");
+
+        if (_hintManager.HintActive) return;
         
         var (piece0, piece1) = CurrentPuzzle.RandomUnconnectedPiecePair();
         

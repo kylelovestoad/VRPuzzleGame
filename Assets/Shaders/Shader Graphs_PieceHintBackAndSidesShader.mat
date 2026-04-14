@@ -41,7 +41,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _XRMotionVectorsPass: 1
-    - _outline_scale: 1.5
+    - _outline_scale: 0.1
     m_Colors:
     - _centroid: {r: 0.0754014, g: 0.1, b: 0, a: 0}
     - _outline_color: {r: 1, g: 0.99215686, b: 0.003921569, a: 1}

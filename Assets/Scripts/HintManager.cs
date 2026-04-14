@@ -6,10 +6,11 @@ public class HintManager
 
     private readonly Material _hintFrontMaterial;
     private readonly Material _hintBackAndSidesMaterial;
-    
 
     private PieceHint? _hint0;
     private PieceHint? _hint1;
+    
+    public bool HintActive => _hint0 != null || _hint1 != null;
 
     public HintManager(Material hintFrontMaterial, Material hintBackAndSidesMaterial)
     {
@@ -55,9 +56,6 @@ public class HintManager
         
         var hint0 =  _hint0.Value;
         var hint1 = _hint1.Value;
-        
-        // var material0 = _hint0.Value.BackAndSidesMaterial;
-        // var material1 = _hint1.Value.BackAndSidesMaterial;
 
         var piece0 = _hint0.Value.Piece;
         var piece1 = _hint1.Value.Piece;
