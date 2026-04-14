@@ -41,19 +41,34 @@ namespace UI
             Texture2D puzzleImage
             )
         {
-
-            var user = await PuzzleServerApi.Instance.Manager.GetUser();
-            
-            LocalSave.Instance.Create(new PuzzleSaveData(
-                null,
-                null,
-                puzzleName,
-                user.ID.ToString(),
-                user.DisplayName,
-                layout,
-                new List<ChunkSaveData>(),
-                puzzleImage
-            ));
+            if (Application.isPlaying)
+            {
+                var user = await PuzzleServerApi.Instance.Manager.GetUser();
+                           
+                LocalSave.Instance.Create(new PuzzleSaveData(
+                   null,
+                   null,
+                   puzzleName,
+                   user.ID.ToString(),
+                   user.DisplayName,
+                   layout,
+                   new List<ChunkSaveData>(),
+                   puzzleImage
+                )); 
+            }
+            else
+            {
+                LocalSave.Instance.Create(new PuzzleSaveData(
+                    null,
+                    null,
+                    puzzleName,
+                    "0",
+                    "test",
+                    layout,
+                    new List<ChunkSaveData>(),
+                    puzzleImage
+                )); 
+            }
         }
     }
 }

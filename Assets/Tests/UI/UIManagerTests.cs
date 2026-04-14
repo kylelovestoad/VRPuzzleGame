@@ -51,6 +51,8 @@ namespace Tests.UI
                 .SetValue(_gameplayHUD, new GameObject("ProgressPercentField").AddComponent<TextMeshProUGUI>());
             hudType.GetField("progressConnectionsField", flags)
                 .SetValue(_gameplayHUD, new GameObject("ProgressConnectionsField").AddComponent<TextMeshProUGUI>());
+            hudType.GetField("hintButton", flags)
+                .SetValue(_gameplayHUD, new GameObject("HintButton").AddComponent<Button>());
 
             _puzzleSettings = new GameObject().AddComponent<PuzzleSettings>();
             _realPuzzleDetectionReport = new GameObject().AddComponent<RealPuzzleDetectionReport>();
@@ -129,7 +131,7 @@ namespace Tests.UI
             PuzzleManager.Instance.OpenPuzzle(puzzleSaveData);
             
             var m = typeof(UIManager).GetMethod(
-                "OnProgressUpdated", 
+                "OnPuzzleCompleted", 
                 BindingFlags.Instance | BindingFlags.NonPublic
             );
             
@@ -146,9 +148,9 @@ namespace Tests.UI
             PuzzleManager.Instance.OpenPuzzle(puzzleSaveData);
             PuzzleManager.Instance.ClosePuzzle();
             
-            Assert.IsTrue(_puzzleCreation.gameObject.activeSelf);
             Assert.IsTrue(_puzzleGallery.gameObject.activeSelf);
             
+            Assert.IsFalse(_puzzleCreation.gameObject.activeSelf);
             Assert.IsFalse(_puzzleInfo.gameObject.activeSelf);
             Assert.IsFalse(_gameplayHUD.gameObject.activeSelf);
             Assert.IsFalse(_completionDialog.gameObject.activeSelf);
