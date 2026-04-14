@@ -19,9 +19,9 @@ public class Piece : MonoBehaviour
     [SerializeField] 
     private Shader defaultBackAndSidesShader;
     
-    private MeshRenderer _meshRenderer;
-    private MeshFilter _meshFilter;
-    private Grabbable _grabbable;
+    private MeshRenderer _meshRenderer => GetComponent<MeshRenderer>();
+    private MeshFilter _meshFilter => GetComponent<MeshFilter>();
+    private Grabbable _grabbable => GetComponent<Grabbable>();
     
     private Material[] _normalPuzzleMaterials;
     
@@ -36,9 +36,9 @@ public class Piece : MonoBehaviour
     
     private void Awake()
     {
-        _meshRenderer = GetComponent<MeshRenderer>();
-        _meshFilter = GetComponent<MeshFilter>();
-        _grabbable = GetComponent<Grabbable>();
+        // _meshRenderer = GetComponent<MeshRenderer>();
+        // _meshFilter = GetComponent<MeshFilter>();
+        // _grabbable = GetComponent<Grabbable>();
     }
     
     private void Start()

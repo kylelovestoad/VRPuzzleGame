@@ -91,7 +91,10 @@ namespace UI
         private void Start()
         {
             CurrentTab = Tab.Local;
+            
             LocalSave.Instance.OnSaved += OnPuzzleSaved;
+            LocalSave.Instance.OnDeleted += OnLocalPuzzleDeleted;
+            
             localTab.onValueChanged.AddListener(isOn => { if (isOn) CurrentTab = Tab.Local; });
             onlineTab.onValueChanged.AddListener(isOn => { if (isOn) CurrentTab = Tab.Online; });
 
@@ -101,6 +104,8 @@ namespace UI
         private void OnDestroy()
         {
             LocalSave.Instance.OnSaved -= OnPuzzleSaved;
+            LocalSave.Instance.OnDeleted -= OnLocalPuzzleDeleted;
+            
             localTab.onValueChanged.RemoveAllListeners();
             onlineTab.onValueChanged.RemoveAllListeners();
             
@@ -190,6 +195,12 @@ namespace UI
         }
         
         private void OnPuzzleSaved(List<PuzzleSaveData> _)
+        {
+            ClearLocalPuzzles();
+            FillLocalPuzzles();
+        }
+
+        private void OnLocalPuzzleDeleted()
         {
             ClearLocalPuzzles();
             FillLocalPuzzles();

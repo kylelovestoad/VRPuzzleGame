@@ -17,6 +17,7 @@ namespace Persistence
         private readonly ILiteCollection<BsonDocument> _puzzles;
         
         public event Action<List<PuzzleSaveData>> OnSaved;
+        public event Action OnDeleted;
         
         private static BsonDocument ToDocument(PuzzleSaveData saveData)
         {
@@ -162,6 +163,8 @@ namespace Persistence
         {
             _puzzles.Delete(new ObjectId(localId));
             DeleteImage(localId);
+            
+            OnDeleted?.Invoke();
         }
     }
 }

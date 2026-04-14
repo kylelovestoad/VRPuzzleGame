@@ -42,14 +42,24 @@ namespace UI
             )
         {
 
-            var user = await PuzzleServerApi.Instance.Manager.GetUser();
-            
+            // var user = await PuzzleServerApi.Instance.Manager.GetUser();
+            //
+            // LocalSave.Instance.Create(new PuzzleSaveData(
+            //     null,
+            //     null,
+            //     puzzleName,
+            //     user.ID.ToString(),
+            //     user.DisplayName,
+            //     layout,
+            //     new List<ChunkSaveData>(),
+            //     puzzleImage
+            // ));
             LocalSave.Instance.Create(new PuzzleSaveData(
                 null,
                 null,
                 puzzleName,
-                user.ID.ToString(),
-                user.DisplayName,
+                "0",
+                "abc",
                 layout,
                 new List<ChunkSaveData>(),
                 puzzleImage

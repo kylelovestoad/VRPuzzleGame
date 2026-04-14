@@ -68,7 +68,8 @@ namespace UI
             puzzleInfo.OnExited += ShowPuzzleGallery;
             puzzleInfo.OnSettingsOpened += PuzzleSettingsOpen;
             puzzleInfo.OnLeaderboardOpened += PuzzleLeaderboardOpen;
-            
+
+            puzzleSettings.OnDeleted += PuzzleSettingsDelete;
             puzzleSettings.OnExited += PuzzleSettingsExit;
             
             leaderboard.OnExit += PuzzleLeaderboardExit;
@@ -93,10 +94,11 @@ namespace UI
             puzzleInfo.OnExited -= ShowPuzzleGallery;
             puzzleInfo.OnSettingsOpened -= PuzzleSettingsOpen;
             puzzleInfo.OnLeaderboardOpened -= PuzzleLeaderboardOpen;
-
-            leaderboard.OnExit -= PuzzleLeaderboardExit;
             
+            puzzleSettings.OnDeleted -= PuzzleSettingsDelete;
             puzzleSettings.OnExited -= PuzzleSettingsExit;
+            
+            leaderboard.OnExit -= PuzzleLeaderboardExit;
             
             realPuzzleDetectionReport.OnExit -= OnRealPuzzleDetectionReportExit;
         }
@@ -160,6 +162,11 @@ namespace UI
         private void PuzzleLeaderboardExit()
         {
             leaderboard.gameObject.SetActive(false);
+        }
+
+        private void PuzzleSettingsDelete()
+        {
+            ShowPuzzleGallery();
         }
         
         private void PuzzleSettingsExit()

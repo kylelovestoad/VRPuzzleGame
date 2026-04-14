@@ -24,20 +24,27 @@ namespace UI
         [SerializeField] 
         private Button exitButton;
         
+        [SerializeField] 
+        private Button deleteButton;
+        
         private PuzzleMetadata _puzzleMetaData;
         
         public event Action OnExited;
+        
+        public event Action OnDeleted;
 
         public void Start()
         {
             saveChangesButton.onClick.AddListener(OnSave);
             exitButton.onClick.AddListener(OnExit);
+            deleteButton.onClick.AddListener(OnDelete);
         }
 
         public void OnDestroy()
         {
             saveChangesButton.onClick.RemoveListener(OnSave);
             exitButton.onClick.RemoveListener(OnExit);
+            deleteButton.onClick.RemoveListener(OnDelete);
         }
 
         public void Initialize(PuzzleMetadata metaData)
@@ -81,6 +88,14 @@ namespace UI
                 new List<ChunkSaveData>(),
                 generationData.PuzzleImage
             ));
+        }
+
+        [Button("On Delete")]
+        private void OnDelete()
+        {
+            LocalSave.Instance.Delete(_puzzleMetaData.localID);
+            
+            OnDeleted?.Invoke();
         }
 
         [Button("On Exit")]
