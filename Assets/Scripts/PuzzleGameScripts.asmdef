@@ -6,7 +6,8 @@
 		"Oculus.Interaction",
 		"Oculus.Interaction.Samples",
 		"Oculus.Platform",
-		"EditorAttributes"
+		"EditorAttributes",
+		"SimpleFileBrowser.Runtime"
 	],
 	"includePlatforms": [],
 	"excludePlatforms": [],
