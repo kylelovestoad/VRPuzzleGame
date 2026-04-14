@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using EditorAttributes;
 using Networking;
+using Networking.API;
 using Networking.Request;
 using Persistence;
 using PuzzleGeneration;
@@ -69,15 +70,44 @@ namespace UI
                 form.Columns, 
                 PuzzleCreationBehaviour.PuzzleGameHeight
             );
-            
-            OnGeneration(form, generationData);
+
+            if (_puzzleMetaData.HasOnlineID)
+            {
+                OnOnlinePuzzleSave(form, generationData);
+            }
+            else
+            {
+                OnLocalPuzzleSave(form, generationData);
+            }
         }
 
-        private void OnGeneration(
+        private async void OnOnlinePuzzleSave(
             PuzzleForm form,
             PuzzleGenerationData generationData
         )
         {
+            Debug.Log("Online Puzzle Update");
+            
+            var request = new UpdatePuzzleRequest
+            {
+                name = form.Name,
+                layout = generationData.Layout
+            };
+
+            await PuzzleServerApi.Instance.Puzzles.UpdatePuzzle(
+                _puzzleMetaData.onlineID, 
+                request, 
+                form.PuzzleImage
+            );
+        }
+
+        private void OnLocalPuzzleSave(
+            PuzzleForm form,
+            PuzzleGenerationData generationData
+        )
+        {
+            Debug.Log("Local Puzzle Update");
+            
             LocalSave.Instance.Save(new PuzzleSaveData(
                 _puzzleMetaData.localID,
                 _puzzleMetaData.onlineID,
@@ -91,10 +121,31 @@ namespace UI
         }
 
         [Button("On Delete")]
-        private void OnDelete()
+        private async void OnDelete()
         {
-            LocalSave.Instance.Delete(_puzzleMetaData.localID);
+            if (_puzzleMetaData.HasOnlineID)
+            {
+                OnOnlinePuzzleDelete();
+            }
+            else
+            {
+                OnLocalPuzzleDelete();
+            } 
+        }
+
+        private async void OnOnlinePuzzleDelete()
+        {
+            Debug.Log("Online Puzzle Delete");
             
+            await PuzzleServerApi.Instance.Puzzles.DeletePuzzle(_puzzleMetaData.onlineID);
+            OnDeleted?.Invoke();
+        }
+        
+        private void OnLocalPuzzleDelete()
+        {
+            Debug.Log("Local Puzzle Delete");
+            
+            LocalSave.Instance.Delete(_puzzleMetaData.localID);
             OnDeleted?.Invoke();
         }
 
