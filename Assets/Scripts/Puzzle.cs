@@ -15,15 +15,17 @@ public class Puzzle: MonoBehaviour
     [SerializeField]
     public Chunk chunkPrefab;
     
-    public string LocalID { get; set; }
-    public string OnlineID { get; set; }
-    public string Name { get; set; }
-    public string AuthorId { get; set; }
-    
-    public string Author { get; set; }
-    public PuzzleLayout Layout { get; set; }
-    
-    public Texture2D PuzzleImage { get; set; }
+    // public string LocalID { get; set; }
+    // public string OnlineID { get; set; }
+    // public string Name { get; set; }
+    // public string AuthorId { get; set; }
+    //
+    // public string Author { get; set; }
+    // public PuzzleLayout Layout { get; set; }
+    //
+    // public Texture2D PuzzleImage { get; set; }
+
+    private PuzzleSaveData _saveData;
     
     public Chunk[] Chunks => GetComponentsInChildren<Chunk>();
     
@@ -31,11 +33,13 @@ public class Puzzle: MonoBehaviour
     private bool _timeRunning;
 
     public long CurrentConnections { get; private set; }
-    public long GoalConnections => Layout.initialPieceCuts.Count;
+    public long GoalConnections => _saveData.layout.initialPieceCuts.Count;
     public float PercentComplete => (float) CurrentConnections / GoalConnections * 100;
     public bool IsCompleted => CurrentConnections == GoalConnections;
     
-    public bool IsOnline => OnlineID != null;
+    public bool IsOnline => _saveData.HasOnlineID;
+
+    public string OnlineID => _saveData.onlineID;
     
     public event Action<float> UpdateTimer;
     public event Action<Piece[]> OnProgressUpdated;
@@ -43,13 +47,7 @@ public class Puzzle: MonoBehaviour
     
     public void InitializePuzzle(PuzzleSaveData saveData)
     {
-        LocalID = saveData.localID;
-        OnlineID = saveData.onlineID;
-        Name = saveData.name;
-        AuthorId = saveData.authorId;
-        Author = saveData.author;
-        Layout = saveData.layout;
-        PuzzleImage = saveData.PuzzleImage;
+        _saveData = saveData;
         
         InitializeChunks(saveData);
 
@@ -93,9 +91,10 @@ public class Puzzle: MonoBehaviour
 
     private void InitializeSinglePieceChunks(PuzzleSaveData saveData)
     {
-        var initialCuts = Layout.initialPieceCuts;
+        var layout = _saveData.layout;
+        var initialCuts = layout.initialPieceCuts;
         
-        var grid = PuzzlePlacement.GetBoundingGrid(Layout);
+        var grid = PuzzlePlacement.GetBoundingGrid(layout);
         PuzzlePlacement.ShuffleCells(grid.Cells);
 
         Debug.Log("Grid Count " + grid.Cells.Count);
@@ -234,13 +233,13 @@ public class Puzzle: MonoBehaviour
     public PuzzleSaveData ToData()
     {
         return new PuzzleSaveData(
-            localID: LocalID,
-            onlineID: OnlineID,
-            name: Name,
-            authorId: AuthorId,
-            author: Author,
-            layout: Layout,
-            puzzleImage: PuzzleImage,
+            localID: _saveData.localID,
+            onlineID: _saveData.onlineID,
+            name: _saveData.name,
+            authorId: _saveData.authorId,
+            author: _saveData.author,
+            layout: _saveData.layout,
+            puzzleImage: _saveData.PuzzleImage,
             chunks: Chunks.Select(c => c.ToData()).ToList(),
             elapsedTime: ElapsedTime
         );

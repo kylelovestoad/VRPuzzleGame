@@ -73,6 +73,7 @@ public class PuzzleManager : MonoBehaviour
 
     public void ClosePuzzle()
     {
+        Debug.Log("PuzzleManager: ClosePuzzle");
         Debug.Assert(CurrentPuzzle != null, "Puzzle must be playing to close it");
         
         if (CurrentPuzzle.IsOnline)

@@ -89,6 +89,8 @@ namespace UI
         [Button("Exit Puzzle")]
         private void OnExit()
         {
+            Debug.Log("HUD: Exit Puzzle");
+            
             var puzzle = PuzzleManager.Instance.CurrentPuzzle;
             
             puzzle.UpdateTimer -= OnTimerUpdate;
