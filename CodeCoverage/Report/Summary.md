@@ -1,21 +1,21 @@
 ﻿# Summary
 |||
 |:---|:---|
-| Generated on: | 4/1/2026 - 3:13:40 AM |
+| Generated on: | 4/14/2026 - 1:49:10 PM |
 | Parser: | MultiReportParser (2x OpenCoverParser) |
 | Assemblies: | 4 |
-| Classes: | 87 |
-| Files: | 87 |
-| Covered lines: | 1785 |
-| Uncovered lines: | 2794 |
-| Coverable lines: | 4579 |
-| Total lines: | 10253 |
-| Line coverage: | 38.9% (1785 of 4579) |
+| Classes: | 102 |
+| Files: | 102 |
+| Covered lines: | 1906 |
+| Uncovered lines: | 3350 |
+| Coverable lines: | 5256 |
+| Total lines: | 11811 |
+| Line coverage: | 36.2% (1906 of 5256) |
 | Covered branches: | 0 |
 | Total branches: | 0 |
-| Covered methods: | 246 |
-| Total methods: | 496 |
-| Method coverage: | 49.5% (246 of 496) |
+| Covered methods: | 247 |
+| Total methods: | 584 |
+| Method coverage: | 42.2% (247 of 584) |
 
 |**Name**|**Covered**|**Uncovered**|**Coverable**|**Total**|**Line coverage**|**Covered**|**Total**|**Branch coverage**|**Covered**|**Total**|**Method coverage**|
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -56,57 +56,72 @@
 |TMPro.TMP_TextEventHandler|0|107|107|263|0%|0|0||0|20|0%|
 |**Assembly-CSharp-Editor**|**0**|**140**|**140**|**242**|**0%**|**0**|**0**|****|**0**|**14**|**0%**|
 |ReadmeEditor|0|140|140|242|0%|0|0||0|14|0%|
-|**PuzzleGameScripts**|**951**|**404**|**1355**|**3207**|**70.1%**|**0**|**0**|****|**157**|**228**|**68.8%**|
-|Chunk|69|13|82|156|84.1%|0|0||13|14|92.8%|
-|Networking.DTO.PuzzleMetadataListDTO|0|3|3|18|0%|0|0||0|1|0%|
-|Networking.MetaQuestAuthenticationManager|0|60|60|92|0%|0|0||0|10|0%|
-|Networking.PuzzleServerApi|0|84|84|162|0%|0|0||0|12|0%|
-|Networking.PuzzleServerApiInitializer|0|8|8|22|0%|0|0||0|3|0%|
-|Networking.Request.CreatePuzzleRequest|0|6|6|20|0%|0|0||0|1|0%|
-|Persistence.LocalSave|90|10|100|165|90%|0|0||15|16|93.7%|
+|**PuzzleGameScripts**|**1049**|**962**|**2011**|**4761**|**52.1%**|**0**|**0**|****|**160**|**318**|**50.3%**|
+|Chunk|25|38|63|129|39.6%|0|0||6|11|54.5%|
+|HintManager|6|54|60|110|10%|0|0||2|8|25%|
+|Networking.API.ContentApi|0|11|11|32|0%|0|0||0|2|0%|
+|Networking.API.MetaQuestAuthenticationManager|0|56|56|88|0%|0|0||0|8|0%|
+|Networking.API.PuzzleApi|0|43|43|103|0%|0|0||0|7|0%|
+|Networking.API.PuzzleServerApi|0|21|21|45|0%|0|0||0|5|0%|
+|Networking.DTO.JsonArray[T]|0|5|5|19|0%|0|0||0|2|0%|
+|Networking.LeaderboardApi|0|26|26|56|0%|0|0||0|4|0%|
+|Networking.PuzzleServerApiInitializer|0|8|8|23|0%|0|0||0|3|0%|
+|Networking.Request.CreatePuzzleRequest|0|5|5|18|0%|0|0||0|1|0%|
+|Persistence.LocalSave|92|10|102|170|90.1%|0|0||15|16|93.7%|
 |Persistence.LocalSaveInitializer|0|8|8|20|0%|0|0||0|2|0%|
-|Persistence.PuzzleMetadata|0|12|12|40|0%|0|0||0|4|0%|
-|Persistence.PuzzleSaveData|19|2|21|63|90.4%|0|0||5|5|100%|
-|Piece|60|0|60|131|100%|0|0||9|9|100%|
-|PieceResponse|0|3|3|18|0%|0|0||0|1|0%|
-|Puzzle|41|21|62|128|66.1%|0|0||22|27|81.4%|
-|PuzzleGeneration.Hexagon.HexagonPuzzleGenerator|123|0|123|254|100%|0|0||9|9|100%|
+|Persistence.PuzzleMetadata|0|13|13|44|0%|0|0||0|4|0%|
+|Persistence.PuzzleSaveData|21|8|29|95|72.4%|0|0||6|8|75%|
+|Piece|71|32|103|209|68.9%|0|0||13|23|56.5%|
+|PieceMissingConnections|0|4|4|13|0%|0|0||0|1|0%|
+|PieceResponse|0|3|3|19|0%|0|0||0|1|0%|
+|Puzzle|46|86|132|247|34.8%|0|0||14|21|66.6%|
+|PuzzleGeneration.Hexagon.HexagonPuzzleGenerator|123|0|123|261|100%|0|0||9|9|100%|
 |PuzzleGeneration.Jigsaw.JigsawPieceBorder|7|0|7|18|100%|0|0||7|7|100%|
 |PuzzleGeneration.Jigsaw.JigsawPieceEdgeUtil|24|1|25|82|96%|0|0||7|7|100%|
-|PuzzleGeneration.Jigsaw.JigsawPuzzleGenerator|96|0|96|212|100%|0|0||10|10|100%|
-|PuzzleGeneration.PieceCut|7|0|7|24|100%|0|0||1|1|100%|
-|PuzzleGeneration.PieceMeshGenerator|119|4|123|200|96.7%|0|0||12|12|100%|
+|PuzzleGeneration.Jigsaw.JigsawPuzzleGenerator|96|0|96|219|100%|0|0||10|10|100%|
+|PuzzleGeneration.PieceCut|7|0|7|29|100%|0|0||1|1|100%|
+|PuzzleGeneration.PieceMeshGenerator|120|4|124|202|96.7%|0|0||12|12|100%|
 |PuzzleGeneration.PieceShapeExtensions|4|5|9|35|44.4%|0|0||1|1|100%|
 |PuzzleGeneration.PuzzleGenerationDimensions|7|0|7|21|100%|0|0||1|1|100%|
-|PuzzleGeneration.PuzzleLayout|7|0|7|23|100%|0|0||1|1|100%|
+|PuzzleGeneration.PuzzleLayout|9|0|9|34|100%|0|0||1|1|100%|
 |PuzzleGeneration.Real.RealPuzzleGenerator|0|21|21|57|0%|0|0||0|1|0%|
-|PuzzleGeneration.Rectangle.RectanglePuzzleGenerator|39|0|39|90|100%|0|0||2|2|100%|
+|PuzzleGeneration.Rectangle.RectanglePuzzleGenerator|39|0|39|89|100%|0|0||2|2|100%|
 |PuzzleGeneration.Triangle.TrianglePair|4|0|4|15|100%|0|0||4|4|100%|
-|PuzzleGeneration.Triangle.TrianglePuzzleGenerator|65|0|65|159|100%|0|0||4|4|100%|
+|PuzzleGeneration.Triangle.TrianglePuzzleGenerator|65|0|65|168|100%|0|0||4|4|100%|
 |PuzzleGenerationData|7|0|7|14|100%|0|0||3|3|100%|
-|PuzzleManager|18|0|18|52|100%|0|0||6|6|100%|
-|PuzzleResponse|0|14|14|39|0%|0|0||0|3|0%|
+|PuzzleManager|39|40|79|151|49.3%|0|0||8|12|66.6%|
+|PuzzlePlacement|33|0|33|79|100%|0|0||4|4|100%|
+|PuzzleResponse|0|14|14|49|0%|0|0||0|3|0%|
 |Seeders.PuzzleSeeder|0|5|5|142|0%|0|0||0|1|0%|
-|UI.CompletionDialog|6|9|15|46|40%|0|0||1|4|25%|
-|UI.HUD|13|22|35|80|37.1%|0|0||3|7|42.8%|
-|UI.PuzzleCreationBehaviour|23|15|38|131|60.5%|0|0||3|6|50%|
-|UI.PuzzleGallery|41|43|84|196|48.8%|0|0||6|12|50%|
-|UI.PuzzleGalleryTile|6|3|9|34|66.6%|0|0||1|2|50%|
-|UI.PuzzleInfo|16|12|28|81|57.1%|0|0||3|5|60%|
-|UI.PuzzleOnlineGalleryTile|0|9|9|45|0%|0|0||0|2|0%|
-|UI.UIManager|36|11|47|103|76.5%|0|0||7|11|63.6%|
-|UI.UIUtils|4|0|4|19|100%|0|0||1|1|100%|
-|**PuzzleGameTests**|**834**|**2**|**836**|**1858**|**99.7%**|**0**|**0**|****|**89**|**89**|**100%**|
-|Tests.ChunkTests|77|2|79|217|97.4%|0|0||8|8|100%|
+|UI.CompletionDialog|6|9|15|44|40%|0|0||1|4|25%|
+|UI.FileBrowserTest|0|21|21|101|0%|0|0||0|3|0%|
+|UI.FollowCamera|0|42|42|84|0%|0|0||0|6|0%|
+|UI.HUD|26|24|50|108|52%|0|0||4|9|44.4%|
+|UI.LeaderboardRow|0|5|5|21|0%|0|0||0|1|0%|
+|UI.PuzzleCreationBehaviour|14|15|29|88|48.2%|0|0||2|5|40%|
+|UI.PuzzleForm|8|0|8|23|100%|0|0||1|1|100%|
+|UI.PuzzleFormBehaviour|9|10|19|72|47.3%|0|0||1|2|50%|
+|UI.PuzzleGallery|47|65|112|239|41.9%|0|0||6|15|40%|
+|UI.PuzzleGalleryTile|6|9|15|51|40%|0|0||1|4|25%|
+|UI.PuzzleInfo|31|46|77|191|40.2%|0|0||4|12|33.3%|
+|UI.PuzzleLeaderboard|0|22|22|52|0%|0|0||0|4|0%|
+|UI.PuzzleOnlineGalleryTile|0|9|9|39|0%|0|0||0|2|0%|
+|UI.PuzzleSettings|0|59|59|158|0%|0|0||0|10|0%|
+|UI.RealPuzzleDetectionReport|0|21|21|68|0%|0|0||0|5|0%|
+|UI.UIManager|44|55|99|206|44.4%|0|0||7|19|36.8%|
+|UI.UIUtils|13|7|20|74|65%|0|0||3|4|75%|
+|Util|0|22|22|37|0%|0|0||0|2|0%|
+|**PuzzleGameTests**|**857**|**0**|**857**|**1862**|**100%**|**0**|**0**|****|**87**|**87**|**100%**|
+|Tests.ChunkTests|34|0|34|106|100%|0|0||5|5|100%|
 |Tests.HexagonPuzzleGeneratorTests|58|0|58|118|100%|0|0||7|7|100%|
 |Tests.JigsawPuzzleGeneratorTests|90|0|90|159|100%|0|0||8|8|100%|
-|Tests.LocalSaveTests|52|0|52|115|100%|0|0||9|9|100%|
-|Tests.PieceTests|181|0|181|336|100%|0|0||16|16|100%|
+|Tests.LocalSaveTests|52|0|52|116|100%|0|0||9|9|100%|
+|Tests.PieceTests|195|0|195|364|100%|0|0||17|17|100%|
 |Tests.RectanglePuzzleGeneratorTests|52|0|52|107|100%|0|0||7|7|100%|
-|Tests.TestUtils|15|0|15|60|100%|0|0||2|2|100%|
+|Tests.TestUtils|15|0|15|61|100%|0|0||2|2|100%|
 |Tests.TrianglePuzzleGeneratorTests|52|0|52|108|100%|0|0||7|7|100%|
-|Tests.UI.HUDTests|30|0|30|88|100%|0|0||4|4|100%|
-|Tests.UI.PuzzleCreationBehaviourTests|32|0|32|75|100%|0|0||4|4|100%|
-|Tests.UI.PuzzleGalleryTests|72|0|72|177|100%|0|0||6|6|100%|
-|Tests.UI.PuzzleInfoTests|56|0|56|151|100%|0|0||5|5|100%|
-|Tests.UI.UIManagerTests|67|0|67|147|100%|0|0||6|6|100%|
+|Tests.UI.HUDTests|46|0|46|114|100%|0|0||4|4|100%|
+|Tests.UI.PuzzleCreationBehaviourTests|34|0|34|80|100%|0|0||4|4|100%|
+|Tests.UI.PuzzleGalleryTests|78|0|78|190|100%|0|0||6|6|100%|
+|Tests.UI.PuzzleInfoTests|77|0|77|180|100%|0|0||5|5|100%|
+|Tests.UI.UIManagerTests|74|0|74|159|100%|0|0||6|6|100%|
