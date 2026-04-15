@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using Oculus.Interaction;
 using Persistence;
 using PuzzleGeneration;
 using UnityEditor;
@@ -106,6 +107,29 @@ namespace Tests
             );
             
             puzzleManagerAwakeMethod.Invoke(puzzleManager, null);
+        }
+        
+        public static GameObject CreatePieceObject(string name, PieceCut cut = null, PuzzleSaveData puzzle = null)
+        {
+            var gameObject = new GameObject(name);
+            gameObject.AddComponent<MeshFilter>();
+            gameObject.AddComponent<MeshRenderer>();
+            gameObject.AddComponent<BoxCollider>();
+            gameObject.AddComponent<Grabbable>();
+
+            var piece = gameObject.AddComponent<Piece>();
+
+            var flags = BindingFlags.Instance | BindingFlags.NonPublic;
+            var shader = Shader.Find("Standard");
+            typeof(Piece).GetField("defaultFrontShader", flags).SetValue(piece, shader);
+            typeof(Piece).GetField("defaultBackAndSidesShader", flags).SetValue(piece, shader);
+
+            if (puzzle != null)
+            {
+                piece.InitializePiece(cut, puzzle);
+            }
+            
+            return gameObject;
         }
     }
 }

@@ -1,21 +1,21 @@
 ﻿# Summary
 |||
 |:---|:---|
-| Generated on: | 4/14/2026 - 7:44:29 PM |
+| Generated on: | 4/15/2026 - 2:51:31 AM |
 | Parser: | MultiReportParser (2x OpenCoverParser) |
 | Assemblies: | 4 |
-| Classes: | 103 |
-| Files: | 103 |
-| Covered lines: | 2154 |
-| Uncovered lines: | 3266 |
-| Coverable lines: | 5420 |
-| Total lines: | 12211 |
-| Line coverage: | 39.7% (2154 of 5420) |
+| Classes: | 104 |
+| Files: | 104 |
+| Covered lines: | 2334 |
+| Uncovered lines: | 3153 |
+| Coverable lines: | 5487 |
+| Total lines: | 12333 |
+| Line coverage: | 42.5% (2334 of 5487) |
 | Covered branches: | 0 |
 | Total branches: | 0 |
-| Covered methods: | 279 |
-| Total methods: | 610 |
-| Method coverage: | 45.7% (279 of 610) |
+| Covered methods: | 305 |
+| Total methods: | 619 |
+| Method coverage: | 49.2% (305 of 619) |
 
 |**Name**|**Covered**|**Uncovered**|**Coverable**|**Total**|**Line coverage**|**Covered**|**Total**|**Branch coverage**|**Covered**|**Total**|**Method coverage**|
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -56,9 +56,9 @@
 |TMPro.TMP_TextEventHandler|0|107|107|263|0%|0|0||0|20|0%|
 |**Assembly-CSharp-Editor**|**0**|**140**|**140**|**242**|**0%**|**0**|**0**|****|**0**|**14**|**0%**|
 |ReadmeEditor|0|140|140|242|0%|0|0||0|14|0%|
-|**PuzzleGameScripts**|**1136**|**878**|**2014**|**4767**|**56.4%**|**0**|**0**|****|**166**|**318**|**52.2%**|
+|**PuzzleGameScripts**|**1258**|**765**|**2023**|**4778**|**62.1%**|**0**|**0**|****|**183**|**318**|**57.5%**|
 |Chunk|64|0|64|131|100%|0|0||11|11|100%|
-|HintManager|5|55|60|110|8.3%|0|0||1|8|12.5%|
+|HintManager|63|6|69|121|91.3%|0|0||8|8|100%|
 |Networking.API.ContentApi|0|11|11|32|0%|0|0||0|2|0%|
 |Networking.API.MetaQuestAuthenticationManager|0|56|56|88|0%|0|0||0|8|0%|
 |Networking.API.PuzzleApi|0|43|43|103|0%|0|0||0|7|0%|
@@ -71,13 +71,13 @@
 |Persistence.LocalSaveInitializer|0|8|8|20|0%|0|0||0|2|0%|
 |Persistence.PuzzleMetadata|0|13|13|44|0%|0|0||0|4|0%|
 |Persistence.PuzzleSaveData|21|8|29|95|72.4%|0|0||6|8|75%|
-|Piece|80|23|103|209|77.6%|0|0||16|23|69.5%|
+|Piece|91|12|103|209|88.3%|0|0||18|23|78.2%|
 |PieceMissingConnections|4|0|4|13|100%|0|0||1|1|100%|
 |PieceResponse|0|3|3|19|0%|0|0||0|1|0%|
-|Puzzle|95|39|134|251|70.8%|0|0||16|21|76.1%|
+|Puzzle|113|21|134|251|84.3%|0|0||18|21|85.7%|
 |PuzzleGeneration.Hexagon.HexagonPuzzleGenerator|123|0|123|261|100%|0|0||9|9|100%|
 |PuzzleGeneration.Jigsaw.JigsawPieceBorder|7|0|7|18|100%|0|0||7|7|100%|
-|PuzzleGeneration.Jigsaw.JigsawPieceEdgeUtil|11|14|25|82|44%|0|0||3|7|42.8%|
+|PuzzleGeneration.Jigsaw.JigsawPieceEdgeUtil|24|1|25|82|96%|0|0||7|7|100%|
 |PuzzleGeneration.Jigsaw.JigsawPuzzleGenerator|96|0|96|219|100%|0|0||10|10|100%|
 |PuzzleGeneration.PieceCut|7|0|7|29|100%|0|0||1|1|100%|
 |PuzzleGeneration.PieceMeshGenerator|120|4|124|202|96.7%|0|0||12|12|100%|
@@ -110,16 +110,17 @@
 |UI.RealPuzzleDetectionReport|0|21|21|68|0%|0|0||0|5|0%|
 |UI.UIManager|44|55|99|206|44.4%|0|0||7|19|36.8%|
 |UI.UIUtils|13|7|20|74|65%|0|0||3|4|75%|
-|Util|0|22|22|37|0%|0|0||0|2|0%|
-|**PuzzleGameTests**|**1018**|**0**|**1018**|**2256**|**100%**|**0**|**0**|****|**113**|**113**|**100%**|
+|Util|22|0|22|37|100%|0|0||2|2|100%|
+|**PuzzleGameTests**|**1076**|**0**|**1076**|**2367**|**100%**|**0**|**0**|****|**122**|**122**|**100%**|
 |Tests.ChunkTests|66|0|66|189|100%|0|0||10|10|100%|
 |Tests.HexagonPuzzleGeneratorTests|58|0|58|118|100%|0|0||7|7|100%|
+|Tests.HintManagerTests|57|0|57|117|100%|0|0||9|9|100%|
 |Tests.JigsawPuzzleGeneratorTests|90|0|90|159|100%|0|0||8|8|100%|
 |Tests.LocalSaveTests|52|0|52|116|100%|0|0||9|9|100%|
-|Tests.PieceTests|195|0|195|364|100%|0|0||17|17|100%|
-|Tests.PuzzleTests|118|0|118|261|100%|0|0||20|20|100%|
+|Tests.PieceTests|181|0|181|338|100%|0|0||16|16|100%|
+|Tests.PuzzleTests|116|0|116|257|100%|0|0||20|20|100%|
 |Tests.RectanglePuzzleGeneratorTests|52|0|52|107|100%|0|0||7|7|100%|
-|Tests.TestUtils|26|0|26|111|100%|0|0||3|3|100%|
+|Tests.TestUtils|43|0|43|135|100%|0|0||4|4|100%|
 |Tests.TrianglePuzzleGeneratorTests|52|0|52|108|100%|0|0||7|7|100%|
 |Tests.UI.HUDTests|46|0|46|114|100%|0|0||4|4|100%|
 |Tests.UI.PuzzleCreationBehaviourTests|34|0|34|80|100%|0|0||4|4|100%|

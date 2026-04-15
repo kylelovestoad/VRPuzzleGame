@@ -21,7 +21,7 @@ namespace Tests
         [SetUp]
         public void SetUp()
         {
-            _pieceObject = CreatePieceObject("CurrPiece");
+            _pieceObject = TestUtils.CreatePieceObject("CurrPiece");
             _piece = _pieceObject.GetComponent<Piece>();
         
             _simpleMesh = new Mesh();
@@ -37,32 +37,6 @@ namespace Tests
         public void TearDown()
         {
             Object.DestroyImmediate(_pieceObject);
-        }
-
-        private static GameObject CreatePieceObject(string name)
-        {
-            var go = new GameObject(name);
-            go.AddComponent<MeshFilter>();
-            go.AddComponent<MeshRenderer>();
-            go.AddComponent<Grabbable>();
-            go.AddComponent<BoxCollider>();
-            var piece = go.AddComponent<Piece>();
-
-            typeof(Piece)
-                .GetMethod("Awake", BindingFlags.NonPublic | BindingFlags.Instance)
-                ?.Invoke(piece, null);
-            
-            var defaultFrontShader = Shader.Find("Standard");
-            typeof(Piece)
-                .GetField("defaultFrontShader", BindingFlags.NonPublic | BindingFlags.Instance)
-                .SetValue(piece, defaultFrontShader);
-
-            var defaultBackAndSidesShader = Shader.Find("Standard");
-            typeof(Piece)
-                .GetField("defaultBackAndSidesShader", BindingFlags.NonPublic | BindingFlags.Instance)
-                .SetValue(piece, defaultBackAndSidesShader);
-
-            return go;
         }
 
         #region InitializeVariant Tests
@@ -87,7 +61,7 @@ namespace Tests
         [Test]
         public void ExactSolutionLocation()
         {
-            var otherObject = CreatePieceObject("OtherPiece");
+            var otherObject = TestUtils.CreatePieceObject("OtherPiece");
             var otherPiece = otherObject.GetComponent<Piece>();
         
             _piece.InitializePiece(_pieceCut, _puzzleSaveData);
@@ -106,7 +80,7 @@ namespace Tests
         [Test]
         public void CorrectRelativeSolutionLocationAfterOffset()
         {
-            var otherObject = CreatePieceObject("OtherPiece");
+            var otherObject = TestUtils.CreatePieceObject("OtherPiece");
             var otherPiece = otherObject.GetComponent<Piece>();
             
             var solutionOffset = new Vector3(42, 42, 42);
@@ -127,7 +101,7 @@ namespace Tests
         [Test]
         public void CorrectRelativeSolutionLocationAfterRotation()
         {
-            var otherObject = CreatePieceObject("OtherPiece");
+            var otherObject = TestUtils.CreatePieceObject("OtherPiece");
             var otherPiece = otherObject.GetComponent<Piece>();
 
             var solutionOffset = new Vector3(42, 42, 42);
@@ -148,7 +122,7 @@ namespace Tests
         [Test]
         public void NotRelativeleyClosePieces()
         {
-            var otherObject = CreatePieceObject("OtherPiece");
+            var otherObject = TestUtils.CreatePieceObject("OtherPiece");
             var otherPiece = otherObject.GetComponent<Piece>();
         
             _piece.InitializePiece(_pieceCut, _puzzleSaveData);
@@ -167,7 +141,7 @@ namespace Tests
         [Test]
         public void RelativleyCloseWithinDistanceThreshold()
         {
-            var otherObject = CreatePieceObject("OtherPiece");
+            var otherObject = TestUtils.CreatePieceObject("OtherPiece");
             var otherPiece = otherObject.GetComponent<Piece>();
         
             _piece.InitializePiece(_pieceCut, _puzzleSaveData);
@@ -186,7 +160,7 @@ namespace Tests
         [Test]
         public void JustOutsideDistanceThreshold()
         {
-            var otherObject = CreatePieceObject("OtherPiece");
+            var otherObject = TestUtils.CreatePieceObject("OtherPiece");
             var otherPiece = otherObject.GetComponent<Piece>();
         
             _piece.InitializePiece(_pieceCut, _puzzleSaveData);
@@ -205,7 +179,7 @@ namespace Tests
         [Test]
         public void RelativleyCloseWithinRotationThreshold()
         {
-            var otherObject = CreatePieceObject("OtherPiece");
+            var otherObject = TestUtils.CreatePieceObject("OtherPiece");
             var otherPiece = otherObject.GetComponent<Piece>();
         
             _piece.InitializePiece(_pieceCut, _puzzleSaveData);
@@ -225,7 +199,7 @@ namespace Tests
         [Test]
         public void JustOutsideRotationThreshold()
         {
-            var otherObject = CreatePieceObject("OtherPiece");
+            var otherObject = TestUtils.CreatePieceObject("OtherPiece");
             var otherPiece = otherObject.GetComponent<Piece>();
         
             _piece.InitializePiece(_pieceCut, _puzzleSaveData);
@@ -249,7 +223,7 @@ namespace Tests
         [Test]
         public void SnapIntoPlaceExactSolutionLocation()
         {
-            var otherObject = CreatePieceObject("OtherPiece");
+            var otherObject = TestUtils.CreatePieceObject("OtherPiece");
             var otherPiece = otherObject.GetComponent<Piece>();
         
             _piece.InitializePiece(_pieceCut, _puzzleSaveData);
@@ -268,7 +242,7 @@ namespace Tests
         [Test]
         public void SnapIntoPlaceWithOffset()
         {
-            var otherObject = CreatePieceObject("OtherPiece");
+            var otherObject = TestUtils.CreatePieceObject("OtherPiece");
             var otherPiece = otherObject.GetComponent<Piece>();
         
             _piece.InitializePiece(_pieceCut, _puzzleSaveData);
@@ -289,7 +263,7 @@ namespace Tests
         [Test]
         public void SnapIntoPlaceWithRotation180Degrees()
         {
-            var otherObject = CreatePieceObject("OtherPiece");
+            var otherObject = TestUtils.CreatePieceObject("OtherPiece");
             var otherPiece = otherObject.GetComponent<Piece>();
         
             _piece.InitializePiece(_pieceCut, _puzzleSaveData);
@@ -316,7 +290,7 @@ namespace Tests
         [Test]
         public void SnapIntoPlaceWithRotation()
         {
-            var otherObject = CreatePieceObject("OtherPiece");
+            var otherObject = TestUtils.CreatePieceObject("OtherPiece");
             var otherPiece = otherObject.GetComponent<Piece>();
         
             _piece.InitializePiece(_pieceCut, _puzzleSaveData);
@@ -336,7 +310,7 @@ namespace Tests
         [Test]
         public void SnapIntoPlaceWithOffsetAndRotation()
         {
-            var otherObject = CreatePieceObject("OtherPiece");
+            var otherObject = TestUtils.CreatePieceObject("OtherPiece");
             var otherPiece = otherObject.GetComponent<Piece>();
         
             _piece.InitializePiece(_pieceCut, _puzzleSaveData);
