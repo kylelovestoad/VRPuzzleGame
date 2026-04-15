@@ -109,6 +109,8 @@ public class Chunk : MonoBehaviour
 
     private void OnPieceDropped()
     {
+        Debug.Log("Chunk: Piece dropped");
+        
         OnChunkDropped.Invoke(this);
     }
 

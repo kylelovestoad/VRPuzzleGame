@@ -178,10 +178,14 @@ public class Puzzle: MonoBehaviour
 
     private void OnChunkDropped(Chunk chunk)
     {
+        Debug.Log("Puzzle: Chunk dropped");
+        
         foreach (var otherChunk in Chunks)
         {
             if (chunk == otherChunk || !chunk.IsCloseEnough(otherChunk)) continue;
 
+            Debug.Log("Puzzle: Chunks close enough"); 
+            
             var smallIdChunk = chunk;
             var bigIdChunk = otherChunk;
 
