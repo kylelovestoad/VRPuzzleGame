@@ -63,10 +63,21 @@ public class HintManager
         piece0.ResetMaterials();
         piece1.ResetMaterials();
 
-        Object.Destroy(hint0.FrontMaterial);
-        Object.Destroy(hint0.FrontMaterial);
-        Object.Destroy(hint1.BackAndSidesMaterial);
-        Object.Destroy(hint1.BackAndSidesMaterial);
+        if (Application.isPlaying)
+        {
+            Object.Destroy(hint0.FrontMaterial);
+            Object.Destroy(hint0.BackAndSidesMaterial);
+            Object.Destroy(hint1.FrontMaterial);
+            Object.Destroy(hint1.BackAndSidesMaterial);
+        }
+        else
+        {
+            Object.DestroyImmediate(hint0.FrontMaterial);
+            Object.DestroyImmediate(hint0.BackAndSidesMaterial);
+            Object.DestroyImmediate(hint1.FrontMaterial);
+            Object.DestroyImmediate(hint1.BackAndSidesMaterial);
+        }
+        
 
         _hint0 = null;
         _hint1 = null;
