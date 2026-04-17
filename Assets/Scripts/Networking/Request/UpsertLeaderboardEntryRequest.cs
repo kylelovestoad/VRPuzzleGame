@@ -6,5 +6,10 @@ namespace Networking.Request
     public class UpsertLeaderboardEntryRequest
     {
         public float time;
+
+        public UpsertLeaderboardEntryRequest(float time)
+        {
+            this.time = time;
+        }
     }
 }

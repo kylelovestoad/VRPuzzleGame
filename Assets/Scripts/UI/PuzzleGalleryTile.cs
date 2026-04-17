@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    [Obsolete("Use ImageGalleryTile instead")]
     public class PuzzleGalleryTile : MonoBehaviour
     {
         [SerializeField]

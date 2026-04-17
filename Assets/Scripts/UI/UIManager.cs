@@ -34,6 +34,9 @@ namespace UI
 
         [SerializeField] 
         private PuzzleLeaderboard leaderboard;
+        
+        [SerializeField] 
+        private QuestPhotoGallery photoGallery;
 
         private MonoBehaviour[] _allPanels;
         
@@ -49,6 +52,7 @@ namespace UI
                 gameplayHUD,
                 realPuzzleDetectionReport,
                 leaderboard,
+                photoGallery,
                 completionDialog
             };
         }
@@ -62,8 +66,11 @@ namespace UI
             puzzleGallery.OnPuzzleSelected += ShowSelectedPuzzle;
             puzzleGallery.OnCreateOptionSelected += ShowPuzzleCreation;
             
+            puzzleCreation.OnPuzzleGenerated += ShowPuzzleGallery;
             puzzleCreation.OnRealPuzzleGenerated += OnRealPuzzleGenerated;
             puzzleCreation.OnExited += ShowPuzzleGallery;
+            
+            puzzleCreation.puzzleFormBehaviour.OnImagePickerOpen += QuestPhotoGalleryOpen;
 
             puzzleInfo.OnExited += ShowPuzzleGallery;
             puzzleInfo.OnSettingsOpened += PuzzleSettingsOpen;
@@ -71,14 +78,17 @@ namespace UI
 
             puzzleSettings.OnDeleted += PuzzleSettingsDelete;
             puzzleSettings.OnExited += PuzzleSettingsExit;
+            puzzleSettings.puzzleFormBehaviour.OnImagePickerOpen += QuestPhotoGalleryOpen;
             
             leaderboard.OnExit += PuzzleLeaderboardExit;
             
             realPuzzleDetectionReport.OnExit += OnRealPuzzleDetectionReportExit;
+
+            photoGallery.OnExit += QuestPhotoGalleryClose;
             
             ShowPuzzleGallery();
         }
-
+        
         private void OnDestroy()
         {
             PuzzleManager.Instance.OnLocalPuzzleOpened -= OnLocalPuzzleOpened;
@@ -87,9 +97,11 @@ namespace UI
             
             puzzleGallery.OnPuzzleSelected -= ShowSelectedPuzzle;
             puzzleGallery.OnCreateOptionSelected -= ShowPuzzleCreation;
-            
+
+            puzzleCreation.OnPuzzleGenerated -= ShowPuzzleGallery;
             puzzleCreation.OnRealPuzzleGenerated -= OnRealPuzzleGenerated;
             puzzleCreation.OnExited -= ShowPuzzleGallery;
+            puzzleCreation.puzzleFormBehaviour.OnImagePickerOpen -= QuestPhotoGalleryOpen;
             
             puzzleInfo.OnExited -= ShowPuzzleGallery;
             puzzleInfo.OnSettingsOpened -= PuzzleSettingsOpen;
@@ -97,10 +109,13 @@ namespace UI
             
             puzzleSettings.OnDeleted -= PuzzleSettingsDelete;
             puzzleSettings.OnExited -= PuzzleSettingsExit;
+            puzzleSettings.puzzleFormBehaviour.OnImagePickerOpen -= QuestPhotoGalleryOpen;
             
             leaderboard.OnExit -= PuzzleLeaderboardExit;
             
             realPuzzleDetectionReport.OnExit -= OnRealPuzzleDetectionReportExit;
+            
+            photoGallery.OnExit -= QuestPhotoGalleryClose;
         }
 
         private void OnLocalPuzzleOpened()
@@ -143,6 +158,8 @@ namespace UI
 
         private void ShowSelectedPuzzle(PuzzleSaveData saveData)
         {
+            Debug.LogError("UI Manager: Show puzzle Info");
+            
             ShowOnly(puzzleInfo);
             puzzleInfo.DisplayPuzzle(saveData);
         }
@@ -162,6 +179,18 @@ namespace UI
         private void PuzzleLeaderboardExit()
         {
             leaderboard.gameObject.SetActive(false);
+        }
+
+        private void QuestPhotoGalleryOpen(Action<Texture2D> callback)
+        {
+            photoGallery.OnSelectPhoto += callback;
+            photoGallery.gameObject.SetActive(true);
+            photoGallery.FillPhotos();
+        }
+        
+        private void QuestPhotoGalleryClose()
+        {
+            photoGallery.gameObject.SetActive(false);
         }
 
         private void PuzzleSettingsDelete()

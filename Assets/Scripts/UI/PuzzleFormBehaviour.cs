@@ -6,6 +6,7 @@ using EditorAttributes;
 using Oculus.Interaction.Samples;
 using Persistence;
 using PuzzleGeneration;
+using UnityEngine.Serialization;
 using Void = EditorAttributes.Void;
 
 namespace UI
@@ -37,8 +38,31 @@ namespace UI
         [SerializeField, HideProperty] 
         public GameObject dropdownList;
         
-        public Texture2D puzzleImage;
+        public Button imageButton;
         
+        public Image image;
+        
+        [SerializeField]
+        private Texture2D imageTexture;
+        
+        public event Action<Action<Texture2D>> OnImagePickerOpen;
+
+        private void Start()
+        {
+            imageButton.onClick.AddListener(OnImageButtonClicked);
+        }
+
+        private void OnImageButtonClicked()
+        {
+            OnImagePickerOpen?.Invoke(OnImageSet);
+        }
+
+        private void OnImageSet(Texture2D texture)
+        {
+            image.sprite = UIUtils.PuzzleImageSprite(texture);
+            imageTexture = texture;
+        }
+
         public bool TryGetFormInput(out PuzzleForm input)
         {
             input = null;
@@ -48,7 +72,7 @@ namespace UI
             if (!int.TryParse(rowsInputField.text, out var rows)) return false;
             if (!int.TryParse(columnsInputField.text, out var columns)) return false;
 
-            input = new PuzzleForm(nameInputField.text, (PieceShape)dropdown.SelectedIndex, rows, columns, puzzleImage);
+            input = new PuzzleForm(nameInputField.text, (PieceShape)dropdown.SelectedIndex, rows, columns, imageTexture);
             return true;
         }
         
@@ -66,7 +90,7 @@ namespace UI
             
             dropdownList.GetComponentsInChildren<Toggle>()[(int) metadata.layout.shape].isOn = true;
             
-            puzzleImage = metadata.PuzzleImage;
+            OnImageSet(metadata.PuzzleImage);
         }
     }
 }

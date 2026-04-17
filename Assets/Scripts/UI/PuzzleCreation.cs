@@ -16,14 +16,14 @@ namespace UI
         public Button createButton;
         
         [SerializeField]
-        private PuzzleFormBehaviour puzzleFormBehaviour;
+        public PuzzleFormBehaviour puzzleFormBehaviour;
         
         [SerializeField] 
         private Button exitButton;
-
-        public Texture2D puzzleImage;
-        public Texture2D realImage;
         
+        private Texture2D _puzzleImage;
+
+        public event Action OnPuzzleGenerated;
         public event Action<string, PuzzleGenerationData> OnRealPuzzleGenerated;
         public event Action OnExited;
 
@@ -49,7 +49,7 @@ namespace UI
             var generator = form.Shape.Generator();
 
             var generationData = await generator.Generate(
-                puzzleImage, 
+                form.PuzzleImage, 
                 form.Rows, 
                 form.Columns, 
                 PuzzleGameHeight
@@ -76,6 +76,7 @@ namespace UI
                     generationData.PuzzleImage
                 );
                 Debug.Log("Creating Local Puzzle");
+                OnPuzzleGenerated?.Invoke();
             }
         }
 

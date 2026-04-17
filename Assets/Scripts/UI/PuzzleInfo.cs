@@ -111,7 +111,6 @@ namespace UI
             
             settingsButton.gameObject.SetActive(true);
             leaderboardButton.gameObject.SetActive(false);
-            gameObject.SetActive(true);
         }
         
         // TODO HACKY. Design needs to make more sense here with PuzzleSaveData and PuzzleMetadata being separate
@@ -133,7 +132,6 @@ namespace UI
             _puzzleSaveData = PuzzleSaveData.FromMetaData(puzzleMetadata);
             
             leaderboardButton.gameObject.SetActive(true);
-            gameObject.SetActive(true);
         }
 
         private void OnPuzzleSaved(List<PuzzleSaveData> saveDataList)

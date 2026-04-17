@@ -65,6 +65,7 @@ namespace UI
             puzzle.OnProgressUpdated += OnProgressUpdated;
 
             hintButton.gameObject.SetActive(false);
+            OnProgressUpdated(null);
         }
 
         private void OnTimerUpdate(float timeRemaining)

@@ -30,8 +30,13 @@ namespace UI
             for (var i = 0; i < entries.Length; i++)
             {
                 var entry = entries[i];
-                var row = Instantiate(rowPrefab);
+                var row = Instantiate(
+                    rowPrefab,
+                    entriesContainer.transform,
+                    false
+                );
                 row.SetEntry(i + 1, entry.username, entry.time);
+                row.gameObject.SetActive(true);
             }
         }
 

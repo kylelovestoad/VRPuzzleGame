@@ -17,7 +17,7 @@ namespace UI
         public Button saveChangesButton;
         
         [SerializeField]
-        private PuzzleFormBehaviour puzzleFormBehaviour;
+        public PuzzleFormBehaviour puzzleFormBehaviour;
         
         [SerializeField]
         private Image puzzleImage; 
@@ -27,6 +27,7 @@ namespace UI
         
         [SerializeField] 
         private Button deleteButton;
+        
         
         private PuzzleMetadata _puzzleMetaData;
         

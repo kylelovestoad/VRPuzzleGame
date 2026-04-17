@@ -15,10 +15,7 @@ namespace UI
     public class PuzzleGallery : MonoBehaviour
     {
         [SerializeField]
-        private PuzzleGalleryTile puzzleGalleryItemPrefab;
-        
-        [SerializeField]
-        private PuzzleOnlineGalleryTile puzzleOnlineGalleryItemPrefab;
+        private ImageGalleryTile galleryTilePrefab; 
         
         [FormerlySerializedAs("puzzleGalleryItemContainer")] [SerializeField]
         private GameObject puzzleLocalGalleryItemContainer;
@@ -54,7 +51,6 @@ namespace UI
                 OnTabChanged(value);
             }
         }
-
 
         private void OnTabChanged(Tab value)
         {
@@ -115,23 +111,17 @@ namespace UI
         private void FillLocalPuzzles()
         {
             var localSave = LocalSave.Instance;
+            var puzzles = localSave.LoadAll().ToList();
 
-            var puzzles = localSave.LoadAll();
-
-            var p = puzzles.ToList();
-            Debug.Log("Filling Puzzles " + p.Count);
-
-            foreach (var puzzleSaveData in p)
+            foreach (var puzzleSaveData in puzzles)
             {
-                var galleryTile = Instantiate(
-                    puzzleGalleryItemPrefab,
-                    puzzleLocalGalleryItemContainer.transform, 
-                    false
+                var galleryTile = Instantiate(galleryTilePrefab, puzzleLocalGalleryItemContainer.transform, false);
+
+                galleryTile.DisplayImage(
+                    puzzleSaveData.name,
+                    puzzleSaveData.PuzzleImage,
+                    () => Select(puzzleSaveData) 
                 );
-
-                galleryTile.OnTileClicked += Select;
-
-                galleryTile.DisplayPuzzle(puzzleSaveData);
             }
         }
         
@@ -140,32 +130,29 @@ namespace UI
             try
             {
                 OnUpdateOnline();
-                Debug.Log("Filling Online Puzzles");
                 var metadataDtos = await PuzzleServerApi.Instance.Puzzles.GetAllPuzzles();
                 
                 foreach (var metadataDto in metadataDtos)
                 {
-                    var galleryTile = Instantiate(
-                        puzzleOnlineGalleryItemPrefab, 
-                        puzzleOnlineGalleryItemContainer.transform, 
-                        false
-                    );
+                    var galleryTile = Instantiate(galleryTilePrefab, puzzleOnlineGalleryItemContainer.transform, false);
 
                     var image = await PuzzleServerApi.Instance.Content.DownloadImage(metadataDto.content.id);
                     
                     var metadata = new PuzzleMetadata(
-                        null,
-                        metadataDto.onlineID,
+                        null, 
+                        metadataDto.onlineID, 
                         metadataDto.name,
-                        metadataDto.authorId,
+                        metadataDto.authorId, 
                         metadataDto.author,
-                        metadataDto.layout,
+                        metadataDto.layout, 
                         image
                     );
 
-                    galleryTile.OnTileClicked += Select;
-                    
-                    galleryTile.DisplayPuzzle(metadata);
+                    galleryTile.DisplayImage(
+                        metadata.name,
+                        metadata.PuzzleImage,
+                        () => Select(PuzzleSaveData.FromMetaData(metadata))
+                    );
                 }
             }
             catch (Exception e)
@@ -174,24 +161,14 @@ namespace UI
             }
         }
 
-
         private void ClearLocalPuzzles()
         {
-            var tiles = puzzleLocalGalleryItemContainer.GetComponentsInChildren<PuzzleGalleryTile>();
-            Debug.Log("Child count " + tiles.Length);
-            
+            var tiles = puzzleLocalGalleryItemContainer.GetComponentsInChildren<ImageGalleryTile>();
             foreach (var tile in tiles)
             {
-                if (Application.isPlaying)
-                {
-                    Destroy(tile.gameObject);
-                }
-                else
-                {
-                    DestroyImmediate(tile.gameObject);
-                }
+                if (Application.isPlaying) Destroy(tile.gameObject);
+                else DestroyImmediate(tile.gameObject);
             }
-
         }
         
         private void OnPuzzleSaved(List<PuzzleSaveData> _)
@@ -205,28 +182,21 @@ namespace UI
             ClearLocalPuzzles();
             FillLocalPuzzles();
         }
-        
+
         private void OnUpdateOnline()
         {
-            var tiles = puzzleOnlineGalleryItemContainer.GetComponentsInChildren<PuzzleOnlineGalleryTile>();
-            
-            Debug.Log("Child count " + tiles.Length);
-            
+            var tiles = puzzleOnlineGalleryItemContainer.GetComponentsInChildren<ImageGalleryTile>();
             foreach (var tile in tiles)
             {
-                if (Application.isPlaying)
-                {
-                    Destroy(tile.gameObject);
-                }
-                else
-                {
-                    DestroyImmediate(tile.gameObject);
-                }
+                if (Application.isPlaying) Destroy(tile.gameObject);
+                else DestroyImmediate(tile.gameObject);
             }
         }
 
         private void Select(PuzzleSaveData puzzleSaveData)
         {
+            Debug.LogError("Puzzle Slected From Gallery");
+            
             OnPuzzleSelected?.Invoke(puzzleSaveData);
         }
 

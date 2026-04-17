@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Networking.API;
 using Networking.DTO;
 using Networking.Request;
+using Oculus.Platform.Models;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -27,7 +28,8 @@ namespace Networking
 
         public async Task<LeaderboardEntryDTO> UpsertLeaderboardEntry(string puzzleId, float time)
         {
-            var body = JsonUtility.ToJson(time);
+            
+            var body = JsonUtility.ToJson(new UpsertLeaderboardEntryRequest(time));
             using var request = new UnityWebRequest(LeaderboardEndpointFor(puzzleId), "POST");
             request.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body));
             request.downloadHandler = new DownloadHandlerBuffer();
