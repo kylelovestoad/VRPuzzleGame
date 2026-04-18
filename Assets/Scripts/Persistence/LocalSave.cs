@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using LiteDB;
 using UnityEngine;
 
@@ -103,13 +104,23 @@ namespace Persistence
             _instance = null;
         }
         
-        public void Create(PuzzleSaveData saveData)
+        public async Task Create(PuzzleSaveData saveData)
+        {
+            await Task.Run(() => {
+                var id = _puzzles.Insert(ToDocument(saveData));
+                saveData.localID = id.AsObjectId.ToString();
+                SaveImage(saveData);
+            });
+            
+            OnSaved?.Invoke(new List<PuzzleSaveData> { saveData });
+            
+        }
+        
+        public string InsertOnly(PuzzleSaveData saveData)
         {
             var id = _puzzles.Insert(ToDocument(saveData));
             saveData.localID = id.AsObjectId.ToString();
-            SaveImage(saveData);
-            OnSaved?.Invoke(new List<PuzzleSaveData> { saveData });
-            
+            return saveData.localID;
         }
 
         public void Save(PuzzleSaveData saveData)

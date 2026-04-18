@@ -47,13 +47,9 @@ namespace UI
             {
                 sprite = UIUtils.PuzzleImageSprite(texture);
                 Debug.Log($"[Quest] sprite rect={sprite.rect} | texture={texture.width}x{texture.height} | previewImage null={previewImage == null}");
-                Debug.Log($"[Quest] previewImage.sprite after set = {previewImage.sprite?.name ?? "null"}");
             }
 
             DisplayImage(title, sprite, onClickAction);
-    
-            // Check after the private overload runs
-            Debug.Log($"[Quest] Final previewImage.sprite={previewImage.sprite?.name ?? "null"} | color={previewImage.color} | enabled={previewImage.enabled} | go active={gameObject.activeSelf}");
         }
 
         private void OnClick()

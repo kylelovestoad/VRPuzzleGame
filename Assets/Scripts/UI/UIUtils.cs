@@ -41,7 +41,7 @@ namespace UI
             Texture2D puzzleImage
             )
         {
-            if (Application.isPlaying)
+            if (Application.isPlaying && false)
             {
                 var user = await PuzzleServerApi.Instance.Manager.GetUser();
                            

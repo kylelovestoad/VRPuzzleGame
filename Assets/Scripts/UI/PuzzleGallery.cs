@@ -93,6 +93,8 @@ namespace UI
             
             localTab.onValueChanged.AddListener(isOn => { if (isOn) CurrentTab = Tab.Local; });
             onlineTab.onValueChanged.AddListener(isOn => { if (isOn) CurrentTab = Tab.Online; });
+            
+            Debug.Log("Adding Listener");
 
             onCreateOption.onClick.AddListener(OnCreateButtonClicked);
         }
@@ -203,6 +205,8 @@ namespace UI
         [Button("Create Puzzle")]
         private void OnCreateButtonClicked()
         {
+            Debug.Log("Puzzle Created");
+            
             OnCreateOptionSelected?.Invoke();
         }
     }
