@@ -26,12 +26,12 @@ namespace UI
         
         private void Start()
         {
-            // exitButton.onClick.AddListener(Exit);;
+            exitButton.onClick.AddListener(Exit);;
         }
 
         private void OnDestroy()
         {
-            // exitButton.onClick.RemoveListener(Exit);
+            exitButton.onClick.RemoveListener(Exit);
         }
 
         private void OnDisable()
@@ -125,7 +125,6 @@ namespace UI
         private void LoadAllPhotos()
         {
             LoadedPhotos.Clear();
-
             var uris = QueryMediaStoreImageUris();
 
             if (uris.Count == 0)
@@ -134,19 +133,20 @@ namespace UI
                 return;
             }
 
-            Debug.Log($"[QuestPhotoLoader] Loading {uris.Count} photo(s)...");
-            StartCoroutine(LoadTexturesSequentially(uris));
+            Debug.Log($"[QuestPhotoLoader] Found {uris.Count} URI(s). First: {uris[0]}");
+            LoadTexturesSequentially(uris);
         }
 
-        private IEnumerator LoadTexturesSequentially(List<string> uris)
+        private void LoadTexturesSequentially(List<string> uris)
         {
             foreach (string uri in uris)
             {
-                yield return null;
+                // yield return null;
                 LoadTextureFromContentUri(uri);
             }
 
             Debug.Log($"[QuestPhotoLoader] Done. {LoadedPhotos.Count} photo(s) loaded.");
+            ClearPhotos();
             FillPhotos(LoadedPhotos);
         }
 
@@ -159,84 +159,71 @@ namespace UI
                 using var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
                 using var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
                 using var resolver = activity.Call<AndroidJavaObject>("getContentResolver");
-
                 using var uriClass = new AndroidJavaClass("android.net.Uri");
                 using var uri = uriClass.CallStatic<AndroidJavaObject>("parse", contentUriString);
-
                 using var inputStream = resolver.Call<AndroidJavaObject>("openInputStream", uri);
+
                 if (inputStream == null)
                 {
-                    Debug.LogError($"[QuestPhotoLoader] openInputStream returned null for {contentUriString}");
+                    Debug.LogError($"[QuestPhotoLoader] openInputStream null for {contentUriString}");
                     return;
                 }
 
-                using var fos = new AndroidJavaObject("java.io.FileOutputStream", tempPath);
+                using var bitmapFactory = new AndroidJavaClass("android.graphics.BitmapFactory");
+                using var bitmap = bitmapFactory.CallStatic<AndroidJavaObject>("decodeStream", inputStream);
 
-                const int chunkSize = 65536;
-                var javaBuffer = AndroidJNI.NewSByteArray(chunkSize);
-
-                try
+                if (bitmap == null)
                 {
-                    var inputStreamClass = AndroidJNI.FindClass("java/io/InputStream");
-                    var readMethodId = AndroidJNI.GetMethodID(inputStreamClass, "read", "([BII)I");
-                    var fosClass = AndroidJNI.FindClass("java/io/FileOutputStream");
-                    var writeMethodId = AndroidJNI.GetMethodID(fosClass, "write", "([BII)V");
-                    var flushMethodId = AndroidJNI.GetMethodID(fosClass, "flush", "()V");
-
-                    var inputObj = inputStream.GetRawObject();
-                    var fosObj = fos.GetRawObject();
-
-                    int bytesRead;
-                    var readArgs = new jvalue[]
-                    {
-                        new() { l = javaBuffer },
-                        new() { i = 0 },
-                        new() { i = chunkSize }
-                    };
-
-                    while ((bytesRead = AndroidJNI.CallIntMethod(inputObj, readMethodId, readArgs)) != -1)
-                    {
-                        var writeArgs = new jvalue[]
-                        {
-                            new() { l = javaBuffer },
-                            new() { i = 0 },
-                            new() { i = bytesRead }
-                        };
-                        AndroidJNI.CallVoidMethod(fosObj, writeMethodId, writeArgs);
-                    }
-
-                    AndroidJNI.CallVoidMethod(fosObj, flushMethodId, Array.Empty<jvalue>());
-                }
-                finally
-                {
-                    AndroidJNI.DeleteLocalRef(javaBuffer);
+                    Debug.LogError($"[QuestPhotoLoader] BitmapFactory returned null - URI may be invalid or missing READ_MEDIA_IMAGES");
                     inputStream.Call("close");
-                    fos.Call("close");
+                    return;
                 }
 
-                Debug.Log($"[QuestPhotoLoader] Wrote temp file: {tempPath} ({new FileInfo(tempPath).Length} bytes)");
+                var bitmapW = bitmap.Call<int>("getWidth");
+                var bitmapH = bitmap.Call<int>("getHeight");
+                Debug.Log($"[QuestPhotoLoader] Bitmap decoded OK: {bitmapW}x{bitmapH}");
+
+                using var fos = new AndroidJavaObject("java.io.FileOutputStream", tempPath);
+                using var formatEnum = new AndroidJavaClass("android.graphics.Bitmap$CompressFormat");
+                using var jpegFormat = formatEnum.GetStatic<AndroidJavaObject>("JPEG");
+                bitmap.Call<bool>("compress", jpegFormat, 95, fos);
+                fos.Call("flush");
+                fos.Call("close");
+                inputStream.Call("close");
+
+                var fileSize = new FileInfo(tempPath).Length;
+                Debug.Log($"[QuestPhotoLoader] Temp file size: {fileSize} bytes");
+                if (fileSize == 0)
+                {
+                    Debug.LogError("[QuestPhotoLoader] Temp file is 0 bytes — compress failed silently");
+                    return;
+                }
             }
             catch (Exception e)
             {
-                Debug.LogError($"[QuestPhotoLoader] Stream → file failed for {contentUriString}: {e.Message}\n{e.StackTrace}");
+                Debug.LogError($"[QuestPhotoLoader] Stream/bitmap failed: {e.Message}\n{e.StackTrace}");
                 return;
             }
 
             try
             {
                 var imageBytes = File.ReadAllBytes(tempPath);
-                Debug.Log($"[QuestPhotoLoader] Read {imageBytes.Length} bytes from temp file.");
-
                 var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+
                 if (texture.LoadImage(imageBytes))
                 {
+                    var sample = texture.GetPixel(0, 0);
+                    Debug.Log($"[QuestPhotoLoader] Pixel(0,0) = {sample} | Size: {texture.width}x{texture.height}");
+
+                    if (sample == Color.white || sample == Color.clear)
+                        Debug.LogWarning("[QuestPhotoLoader] Pixel is white/clear — texture may be blank");
+
                     texture.name = contentUriString;
                     LoadedPhotos.Add(texture);
-                    Debug.Log($"[QuestPhotoLoader] Loaded: {contentUriString} ({texture.width}x{texture.height})");
                 }
                 else
                 {
-                    Debug.LogError($"[QuestPhotoLoader] LoadImage failed for {contentUriString}");
+                    Debug.LogError($"[QuestPhotoLoader] LoadImage returned false for {contentUriString}");
                     Destroy(texture);
                 }
             }
@@ -246,11 +233,9 @@ namespace UI
             }
             finally
             {
-                if (File.Exists(tempPath))
-                    File.Delete(tempPath);
+                if (File.Exists(tempPath)) File.Delete(tempPath);
             }
         }
-        
 
         private void FillPhotos(List<Texture2D> photos)
         {
@@ -258,26 +243,25 @@ namespace UI
 
             foreach (var photo in photos)
             {
-                
+                Debug.Log("[QuestPhotoLoader] Checking photoTile...");
                 if (photoTile == null)
                 {
-                    Debug.LogError("[QuestPhotoLoader] photoTile is null");
-                    return; 
+                    Debug.LogError("[QuestPhotoLoader] photoTile prefab is null");
+                    return;
                 }
-                
-                var tile = Instantiate(
-                    photoTile,
-                    photoContainer.transform,
-                    false
-                );
-                
-                tile.DisplayImage(
-                    null, 
-                    photo,
-                    () => {
-                        OnSelectPhoto?.Invoke(photo);
-                        Exit();
-                    });
+
+                Debug.Log("[QuestPhotoLoader] Instantiating tile...");
+                var tile = Instantiate(photoTile, photoContainer.transform, false);
+        
+                Debug.Log($"[QuestPhotoLoader] Tile instantiated: {tile != null}, tile GO: {tile?.gameObject.name}");
+
+                Debug.Log($"[QuestPhotoLoader] Passing texture to tile: {photo.width}x{photo.height}, name={photo.name}");
+                tile.DisplayImage(null, photo, () => {
+                    OnSelectPhoto?.Invoke(photo);
+                    Exit();
+                });
+        
+                Debug.Log("[QuestPhotoLoader] DisplayImage called on tile.");
             }
         }
         

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Persistence;
 using PuzzleGeneration;
@@ -41,21 +42,34 @@ namespace UI
         }
 
         [Button("Create Puzzle")]
-        private async void OnCreate()
+        private void OnCreate()
+        {
+            StartCoroutine(OnCreateCoroutine());
+        }
+
+        private IEnumerator OnCreateCoroutine()
         {
             var valid = puzzleFormBehaviour.TryGetFormInput(out var form);
-            if (!valid) return;
-            
+            if (!valid) yield break;
+
             var generator = form.Shape.Generator();
 
-            var generationData = await generator.Generate(
-                form.PuzzleImage, 
-                form.Rows, 
-                form.Columns, 
+            var generationTask = generator.Generate(
+                form.PuzzleImage,
+                form.Rows,
+                form.Columns,
                 PuzzleGameHeight
             );
-            
-            OnGeneration(form, generationData);
+
+            yield return new WaitUntil(() => generationTask.IsCompleted);
+
+            if (generationTask.IsFaulted)
+            {
+                Debug.LogError($"PuzzleCreation: Generation failed: {generationTask.Exception}");
+                yield break;
+            }
+
+            OnGeneration(form, generationTask.Result);
         }
 
         private void OnGeneration(

@@ -40,20 +40,20 @@ namespace UI
             gameObject.SetActive(true);
         }
 
-        public void DisplayImage(
-            [CanBeNull] string title, 
-            [CanBeNull] Texture2D texture, 
-            Action onClickAction
-        )
+        public void DisplayImage(string title, Texture2D texture, Action onClickAction)
         {
             Sprite sprite = null;
             if (texture != null)
             {
                 sprite = UIUtils.PuzzleImageSprite(texture);
-                ;
+                Debug.Log($"[Quest] sprite rect={sprite.rect} | texture={texture.width}x{texture.height} | previewImage null={previewImage == null}");
+                Debug.Log($"[Quest] previewImage.sprite after set = {previewImage.sprite?.name ?? "null"}");
             }
-            
+
             DisplayImage(title, sprite, onClickAction);
+    
+            // Check after the private overload runs
+            Debug.Log($"[Quest] Final previewImage.sprite={previewImage.sprite?.name ?? "null"} | color={previewImage.color} | enabled={previewImage.enabled} | go active={gameObject.activeSelf}");
         }
 
         private void OnClick()
